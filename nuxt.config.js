@@ -59,6 +59,11 @@ export default {
 
   // 追加
   vuetify: {
+    // Doc: https://vuetifyjs.com/ja/features/sass-variables/#nuxt-3067306e30a430f330b930c830fc30eb
+    // カスタムCSSのファイルパス
+    customVariables: ['~/assets/sass/variables.scss'],
+    // カスタムCSS有効化フラグ
+    treeShake: true,
     theme: {
       themes: {
         light: {
