@@ -6,7 +6,7 @@ ARG API_URL
 ENV HOME=/${WORKDIR} \
     LANG=C.UTF-8 \
     TZ=Asia/Tokyo \
-	# コンテナのNuxt.jsをブラウザから参照するためにバインド
+    # コンテナのNuxt.jsをブラウザから参照するためにバインド
     HOST=0.0.0.0 \
     API_URL=${API_URL}
 

@@ -16,7 +16,7 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    // Component name "xxx" should always be multi-wordのエラーを回避
-    'vue/multi-word-component-names': 0
+    // Component name "xxx" should always be multi-word
+    'vue/multi-word-component-names': 0,
   }
 }

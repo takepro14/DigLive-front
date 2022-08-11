@@ -1,153 +1,117 @@
-<!--
-  memo
-  - fluid: 横幅いっぱい
-  - dense: テーブル表示をスリムにする
-  -->
-
 <template>
-  <v-container fluid>
-  <v-card
-    flat
-    tile
-    color="transparent"
-  >
-    <!-- ↓↓↓ Usersテーブル情報 ↓↓↓ -->
-    <v-card-title>
-      Usersテーブルの取得
-    </v-card-title>
-    <v-card-text>
-      <v-simple-table dense>
-      <template
-        v-if="users.length"
-        v-slot:default
-      >
-        <thead>
-        <tr>
-          <th
-            v-for="(key, i) in userKeys"
-            :key="`key-${i}`"
-          >
-          {{ key }}
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr
-          v-for="(user, i) in users"
-          :key="`user-${i}`"
+  <v-app id="inspire">
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+    >
+      <!--  -->
+    </v-navigation-drawer>
+
+    <v-app-bar>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Application</v-toolbar-title>
+    </v-app-bar>
+
+    <v-main>
+    <!-- ↓↓↓メインコンテンツ領域↓↓↓ -->
+    <!-- lists -->
+    <v-container>
+      <template>
+        <v-card
+          max-width="450"
+          class="mx-auto"
         >
-          <td>{{ user.id }}</td>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ dateFormat(user.created_at) }}</td>
-        </tr>
-        </tbody>
+          <v-list three-line>
+            <template v-for="user in users">
+              <v-list-item :key="user.id">
+                <v-list-item-avatar>
+                  <v-img :src="`https://cdn.vuetifyjs.com/images/lists/${user.id}.jpg`"></v-img>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title>{{ user.name }}</v-list-item-title>
+                  <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+          </v-list>
+        </v-card>
       </template>
-      <template v-else>
-        ユーザーが存在しません
-      </template>
-      </v-simple-table>
-    </v-card-text>
-    <!-- ↑↑↑ Usersテーブル情報 ↑↑↑ -->
+    </v-container>
 
-    <!-- ↓↓↓ レスポンシブ確認 ↓↓↓ -->
-    <v-card-title>
-      Vuetifyの導入（オリジナルカラーの確認）
-    </v-card-title>
-
-    <v-card-text>
-      <v-btn
-      v-for="(color, i) in colors"
-      :key="`color-${i}`"
-      :color="color"
-      class="mr-2"
-      >
-      {{ color }}
-      </v-btn>
-    </v-card-text>
-
-    <v-card-title>
-      VuetifyカスタムCSSの検証
-    </v-card-title>
-    <v-card-text>
-      ipad（768px）とmobile（426px）で表示・非表示
-    </v-card-text>
-    <v-card-text>
-      <v-card
-        v-for="(cls, i) in customClass"
-        :key="`cls-${i}`"
-        :color="cls.color"
-        :class="cls.name"
-      >
-      <v-card-text>
-        {{ cls.des }}
-      </v-card-text>
-      <!-- ↑↑↑ レスポンシブ確認 ↑↑↑ -->
-
-      <!-- ↓↓↓ i18n確認 ↓↓↓ -->
-      <v-card-title>
-        nuxt-i18nの検証
-      </v-card-title>
-      <v-card-text>
-        <v-simple-table dense>
-          <template v-slot:default>
+      <!-- tables -->
+      <v-container>
+        <v-card-text>
+          <v-simple-table dense>
+          <template
+            v-if="users.length"
+            v-slot:default
+          >
             <thead>
-              <tr>
-                <th>en</th>
-                <th>ja</th>
-              </tr>
+            <tr>
+              <th
+                v-for="(key, i) in userKeys"
+                :key="`key-${i}`"
+              >
+              {{ key }}
+              </th>
+            </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="(path, i) in ['signup', 'login']"
-                :key="`path-${i}`"
-              >
-                <td>{{ path }}</td>
-                <!-- ${path}にはja.jsonのパスが入る -->
-                <td>{{ $t(`title.${path}`) }}</td>
-              </tr>
+            <tr
+              v-for="(user, i) in users"
+              :key="`user-${i}`"
+            >
+              <td>{{ user.id }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <!-- <td>{{ dateFormat(user.created_at) }}</td> -->
+            </tr>
             </tbody>
           </template>
-        </v-simple-table>
-      </v-card-text>
-      <!-- ↑↑↑ i18n確認 ↑↑↑ -->
-      </v-card>
-    </v-card-text>
-  </v-card>
-</v-container>
+          <template v-else>
+            ユーザーが存在しません
+          </template>
+          </v-simple-table>
+        </v-card-text>
+      </v-container>
+    </v-main>
+    <home-bottom-menu />
+    <!-- ↑↑↑メインコンテンツ領域↑↑↑ -->
+  </v-app>
 </template>
 
 <script>
-export default {
+import HomeBottomMenu from '~/components/Home/HomeBottomMenu'
+
+export default ({
+  data: () => ({
+    // ナビゲーションドロワーが開閉する
+    drawer: null
+    // items: [
+    //   { header: 'ユーザー一覧' },
+    //   {
+    //     avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
+    //     title: 'test1',
+    //     subtitle: 'test1 description'
+    //   },
+    //   { divider: true, inset: true },
+    //   {
+    //     avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
+    //     title: 'test1',
+    //     subtitle: 'test1 description'
+    //   },
+    //   { divider: true, inset: true }
+    // ]
+  }),
+  components: {
+    HomeBottomMenu
+  },
   async asyncData ({ $axios }) {
     let users = []
     await $axios.$get('/api/v1/users').then(res => (users = res))
-    const userKeys = Object.keys(users[0] || {}) // 追加
+    const userKeys = Object.keys(users[0] || {}) // id, name, email, created_at
     return { users, userKeys }
-  },
-  // data () 追加
-  data () {
-    return {
-      colors: [
-        'primary', 'info', 'success', 'warning', 'error', 'background'
-      ],
-      customClass: [
-        { name: 'hidden-ipad-and-down', color: 'error', des: 'ipad未満で隠す' },
-        { name: 'hidden-ipad-and-up', color: 'info', des: 'ipad以上で隠す' },
-        { name: 'hidden-mobile-and-down', color: 'success', des: 'mobile未満で隠す' },
-        { name: 'hidden-mobile-and-up', color: 'warning', des: 'mobile以上で隠す' }
-      ]
-    }
-  },
-  computed: {
-    dateFormat () {
-      return (date) => {
-        const dateTimeFormat = new Intl.DateTimeFormat(
-          'ja', { dateStyle: 'medium', timeStyle: 'short' }
-        )
-        return dateTimeFormat.format(new Date(date))
-      }
-    }
   }
-}
+})
 </script>
