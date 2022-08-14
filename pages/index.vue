@@ -1,117 +1,62 @@
 <template>
-  <v-app id="inspire">
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-    >
-      <!--  -->
-    </v-navigation-drawer>
-
-    <v-app-bar>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Application</v-toolbar-title>
-    </v-app-bar>
-
-    <v-main>
-    <!-- ↓↓↓メインコンテンツ領域↓↓↓ -->
-    <!-- lists -->
+  <div>
+    <Header />
+    <!-- posts -->
     <v-container>
-      <template>
-        <v-card
-          max-width="450"
-          class="mx-auto"
-        >
-          <v-list three-line>
-            <template v-for="user in users">
-              <v-list-item :key="user.id">
-                <v-list-item-avatar>
-                  <v-img :src="`https://cdn.vuetifyjs.com/images/lists/${user.id}.jpg`"></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  <v-list-item-title>{{ user.name }}</v-list-item-title>
-                  <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </v-list>
-        </v-card>
-      </template>
-    </v-container>
-
-      <!-- tables -->
-      <v-container>
-        <v-card-text>
-          <v-simple-table dense>
-          <template
-            v-if="users.length"
-            v-slot:default
+      <v-row dense>
+        <v-col cols="12">
+          <v-card
+            elevation="2"
+            v-for="post in posts"
+            :key="post.id"
+            class="pa-2 ma-2"
           >
-            <thead>
-            <tr>
-              <th
-                v-for="(key, i) in userKeys"
-                :key="`key-${i}`"
-              >
-              {{ key }}
-              </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr
-              v-for="(user, i) in users"
-              :key="`user-${i}`"
-            >
-              <td>{{ user.id }}</td>
-              <td>{{ user.name }}</td>
-              <td>{{ user.email }}</td>
-              <!-- <td>{{ dateFormat(user.created_at) }}</td> -->
-            </tr>
-            </tbody>
-          </template>
-          <template v-else>
-            ユーザーが存在しません
-          </template>
-          </v-simple-table>
-        </v-card-text>
-      </v-container>
-    </v-main>
-    <home-bottom-menu />
-    <!-- ↑↑↑メインコンテンツ領域↑↑↑ -->
-  </v-app>
+            <v-card-title>
+              {{ post.user_id }}
+            </v-card-title>
+            <v-card-text>
+              {{ post.content }}
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+    <post-feed />
+    <!-- new-post-button -->
+    <post-dialog />
+    <Footer />
+  </div>
 </template>
 
 <script>
-import HomeBottomMenu from '~/components/Home/HomeBottomMenu'
+import Header from '~/components/Header'
+import Footer from '~/components/Footer'
+import PostDialog from '~/components/PostDialog'
+import PostFeed from '~/components/PostFeed'
+// import UserList from '~/components/UserList'
 
 export default ({
   data: () => ({
-    // ナビゲーションドロワーが開閉する
     drawer: null
-    // items: [
-    //   { header: 'ユーザー一覧' },
-    //   {
-    //     avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-    //     title: 'test1',
-    //     subtitle: 'test1 description'
-    //   },
-    //   { divider: true, inset: true },
-    //   {
-    //     avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-    //     title: 'test1',
-    //     subtitle: 'test1 description'
-    //   },
-    //   { divider: true, inset: true }
-    // ]
   }),
   components: {
-    HomeBottomMenu
+    Header,
+    Footer,
+    PostFeed,
+    PostDialog
+    // UserList
   },
   async asyncData ({ $axios }) {
     let users = []
-    await $axios.$get('/api/v1/users').then(res => (users = res))
-    const userKeys = Object.keys(users[0] || {}) // id, name, email, created_at
-    return { users, userKeys }
+    let posts = []
+    await $axios.$get('/api/v1/users')
+      .then(res => (users = res))
+    await $axios.$get('/api/v1/posts')
+      .then(res => (posts = res))
+    return {
+      users,
+      posts
+    }
   }
 })
 </script>
