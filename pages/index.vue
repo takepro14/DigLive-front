@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Header />
+    <before-login-header />
+    <!-- <after-login-header /> -->
     <!-- posts -->
     <v-container>
       <v-row dense>
@@ -12,7 +13,7 @@
             class="pa-2 ma-2"
           >
             <v-card-title>
-              {{ post.user_id }}
+              {{ post.user.name }}
             </v-card-title>
             <v-card-text>
               {{ post.content }}
@@ -24,39 +25,36 @@
     <post-feed />
     <!-- new-post-button -->
     <post-dialog />
-    <Footer />
+    <before-login-footer />
   </div>
 </template>
 
 <script>
-import Header from '~/components/Header'
-import Footer from '~/components/Footer'
-import PostDialog from '~/components/PostDialog'
-import PostFeed from '~/components/PostFeed'
-// import UserList from '~/components/UserList'
+import BeforeLoginHeader from '~/components/BeforeLogin/BeforeLoginHeader'
+import BeforeLoginFooter from '~/components/BeforeLogin/BeforeLoginFooter'
+// import AfterLoginHeader from '~/components/AfterLogin/AfterLoginHeader'
+import PostDialog from '~/components/Post/PostDialog'
+// import PostFeed from '~/components/Post/PostFeed'
 
-export default ({
+export default {
   data: () => ({
     drawer: null
   }),
   components: {
-    Header,
-    Footer,
-    PostFeed,
+    BeforeLoginHeader,
+    // AfterLoginHeader,
+    BeforeLoginFooter,
     PostDialog
+    // PostFeed,
     // UserList
   },
   async asyncData ({ $axios }) {
-    let users = []
     let posts = []
-    await $axios.$get('/api/v1/users')
-      .then(res => (users = res))
     await $axios.$get('/api/v1/posts')
       .then(res => (posts = res))
     return {
-      users,
       posts
     }
   }
-})
+}
 </script>

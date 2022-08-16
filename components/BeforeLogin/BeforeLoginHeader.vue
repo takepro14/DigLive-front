@@ -18,16 +18,9 @@
         {{ appName }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <nuxt-link
-        to="Signup"
-      >
-        <v-btn
-          outlined
-          text
-        >
-          新規登録
-        </v-btn>
-      </nuxt-link>
+      <app-home-about-button />
+      <before-login-header-signup-button />
+      <before-login-header-login-button />
     </v-app-bar>
   </div>
 </template>

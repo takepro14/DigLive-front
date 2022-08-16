@@ -25,7 +25,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    'plugins/axios'
+    'plugins/axios',
+    'plugins/my-inject'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -64,7 +65,10 @@ export default {
     locales: ['ja', 'en'],
     defaultLocale: 'ja',
     // Doc: https://kazupon.github.io/vue-i18n/api/#properties
+    // no_prefix => ルート名に__jaを追加しない
+    strategy: 'no_prefix',
     vueI18n: {
+      fallbackLocale: 'ja',
       // // i18nの警告を完全に表示しない
       // silentTranslationWarn: true,
       silentFallbackWarn: true,
