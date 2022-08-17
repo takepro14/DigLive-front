@@ -16,6 +16,7 @@ export default {
   components: {
     AfterLoginHeader,
     AfterLoginFooter
-  }
+  },
+  middleware: ['authentication']
 }
 </script>

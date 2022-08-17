@@ -9,7 +9,7 @@
 // import PostFeed from '~/components/Post/PostFeed.vue'
 export default {
   layout: 'after-login',
-  middleware: 'get-post-list',
+  middleware: ['authentication', 'get-post-list'],
   components: {
     // PostFeed
   }
