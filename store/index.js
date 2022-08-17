@@ -45,9 +45,9 @@ export const actions = {
     posts = posts || []
     commit('setPostList', posts)
   },
-  // getCurrentUser ({ commit }, user) {
-  //   commit('setCurrentUser', user)
-  // },
+  getCurrentUser ({ commit }, user) {
+    commit('setCurrentUser', user)
+  },
   getAuthToken ({ commit }, token) {
     commit('setAuthToken', token)
   },

@@ -9,7 +9,7 @@
         :to="homePath"
         class="text-decoration-none"
       >
-        <app-logo />
+        App ロゴ
       </nuxt-link>
       <app-title />
       <v-spacer />
