@@ -50,7 +50,8 @@ export default {
       isValid: false,
       loading: false,
       params: { auth: { email: 'melvin_weimann@crist-medhurst.org', password: 'password' } },
-      homePath: $store.state.AfterLogin.homePath
+      redirectPath: $store.state.AfterLogin.rememberPath,
+      AfterLoginHomePath: $store.state.AfterLogin.homePath
     }
   },
   methods: {
@@ -64,14 +65,11 @@ export default {
       this.loading = false
     },
     authSuccessful (response) {
-      console.log('authSuccessful', response)
       this.$auth.login(response)
-      console.log('token', this.$auth.token)
-      console.log('expires', this.$auth.expires)
-      console.log('payload', this.$auth.payload)
-      console.log('user', this.$auth.user)
       // 記憶ルートにリダイレクト
-      this.$router.push(this.homePath)
+      this.$router.push(this.redirectPath)
+      // 記憶ルートを初期値に戻す
+      this.$routet.dispatch('getRememberPath', this.AfterLoginHomePath)
     },
     authFailure ({ response }) {
       if (response && response.status === 404) {
