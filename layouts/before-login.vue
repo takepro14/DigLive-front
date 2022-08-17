@@ -8,6 +8,7 @@
 
 <script>
 export default {
-  name: 'BeforeLogin'
+  name: 'BeforeLogin',
+  middleware: ['logged-in-redirect']
 }
 </script>

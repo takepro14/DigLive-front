@@ -40,6 +40,7 @@ export default {
   data: () => ({
     drawer: null
   }),
+  middleware: ['logged-in-redirect'],
   components: {
     BeforeLoginHeader,
     // AfterLoginHeader,
