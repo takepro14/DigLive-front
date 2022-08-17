@@ -62,7 +62,6 @@ export default {
           .catch(error => this.authFailure(error))
       }
       this.loading = false
-      this.$router.push(this.homePath)
     },
     authSuccessful (response) {
       console.log('authSuccessful', response)
@@ -77,7 +76,8 @@ export default {
     authFailure ({ response }) {
       if (response && response.status === 404) {
         // トースター出力
-        alert('トースター出力')
+        const msg = 'ユーザが見つかりません'
+        return this.$store.dispatch('getToast', { msg })
       } else {
         // エラー処理
         alert('エラー処理')

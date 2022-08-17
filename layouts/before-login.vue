@@ -1,6 +1,7 @@
 <template>
   <v-app>
     beforeLogin.vue
+    <app-toaster />
     <nuxt />
   </v-app>
 </template>
