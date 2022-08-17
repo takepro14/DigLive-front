@@ -38,6 +38,28 @@ class Authentication {
   login (response) {
     this.setAuth(response)
   }
+
+  // Vuexの値を初期値に戻す
+  resetVuex () {
+    this.setAuth({ token: null, expires: 0, user: null })
+    // this.store.dispatch('getCu')
+    this.store.dispatch('getPostList', [])
+  }
+
+  // axiosのレスポンス401を許容
+  // Doc: https://github.com/axios/axios#request-config
+  resolveUnauthorized (status) {
+    return (status >= 200 && status < 300) || (status === 401)
+  }
+
+  // ログアウト業務
+  async logout () {
+    await this.$axios.$delete(
+      '/api/v1/auth_token',
+      { validateStatus: status => this.resolveUnauthorized(status) }
+    )
+    this.resetVuex()
+  }
 }
 
 export default ({ store, $axios }, inject) => {

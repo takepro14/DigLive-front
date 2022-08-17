@@ -26,9 +26,9 @@ export const mutations = {
   setPostList (state, payload) {
     state.post.list = payload
   },
-  setCurrentUser (state, payload) {
-    state.user.current = payload
-  },
+  // setCurrentUser (state, payload) {
+  //   state.user.current = payload
+  // },
   setAuthToken (state, payload) {
     state.auth.token = payload
   },
@@ -45,9 +45,9 @@ export const actions = {
     posts = posts || []
     commit('setPostList', posts)
   },
-  getCurrentUser ({ commit }, user) {
-    commit('setCurrentUser', user)
-  },
+  // getCurrentUser ({ commit }, user) {
+  //   commit('setCurrentUser', user)
+  // },
   getAuthToken ({ commit }, token) {
     commit('setAuthToken', token)
   },

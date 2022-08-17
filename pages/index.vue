@@ -3,7 +3,7 @@
     <before-login-header />
     <!-- <after-login-header /> -->
     <!-- posts -->
-    <v-container>
+    <!-- <v-container>
       <v-row dense>
         <v-col cols="12">
           <v-card
@@ -21,7 +21,7 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
+    </v-container> -->
     <!-- <post-feed /> -->
     <!-- new-post-button -->
     <post-dialog />
@@ -47,14 +47,14 @@ export default {
     // PostDialog
     // PostFeed,
     // UserList
-  },
-  async asyncData ({ $axios }) {
-    let posts = []
-    await $axios.$get('/api/v1/posts')
-      .then(res => (posts = res))
-    return {
-      posts
-    }
   }
+  // async asyncData ({ $axios }) {
+  //   let posts = []
+  //   await $axios.$get('/api/v1/posts')
+  //     .then(res => (posts = res))
+  //   return {
+  //     posts
+  //   }
+  // }
 }
 </script>
