@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    ここからpost-feed.vue
     <v-row dense>
       <v-col cols="12">
         <v-card
@@ -23,13 +22,13 @@
 
 <script>
 export default {
-  async asyncData ({ $axios }) {
-    let posts = []
-    await $axios.$get('/api/v1/posts')
-      .then(res => (posts = res))
-    return {
-      posts
-    }
-  }
+  // async asyncData ({ $axios }) {
+  //   let posts = []
+  //   await $axios.$get('/api/v1/posts')
+  //     .then(res => (posts = res))
+  //   return {
+  //     posts
+  //   }
+  // }
 }
 </script>

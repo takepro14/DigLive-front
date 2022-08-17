@@ -6,7 +6,7 @@
       top
     >
       <nuxt-link
-        :to="redirectPath"
+        :to="homePath"
         class="text-decoration-none"
       >
         <app-logo />
@@ -26,7 +26,7 @@ export default {
   },
   data ({ $store, $config: { appName } }) {
     return {
-      redirectPath: $store.state.AfterLogin.redirectPath,
+      homePath: $store.state.AfterLogin.homePath,
       appName
     }
   }

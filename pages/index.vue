@@ -22,7 +22,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <post-feed />
+    <!-- <post-feed /> -->
     <!-- new-post-button -->
     <post-dialog />
     <before-login-footer />
@@ -33,7 +33,7 @@
 import BeforeLoginHeader from '~/components/BeforeLogin/BeforeLoginHeader'
 import BeforeLoginFooter from '~/components/BeforeLogin/BeforeLoginFooter'
 // import AfterLoginHeader from '~/components/AfterLogin/AfterLoginHeader'
-import PostDialog from '~/components/Post/PostDialog'
+// import PostDialog from '~/components/Post/PostDialog'
 // import PostFeed from '~/components/Post/PostFeed'
 
 export default {
@@ -43,8 +43,8 @@ export default {
   components: {
     BeforeLoginHeader,
     // AfterLoginHeader,
-    BeforeLoginFooter,
-    PostDialog
+    BeforeLoginFooter
+    // PostDialog
     // PostFeed,
     // UserList
   },

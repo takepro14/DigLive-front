@@ -24,7 +24,9 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  // front/plugins配下の.jsが読み込まれる
   plugins: [
+    'plugins/auth',
     'plugins/axios',
     'plugins/my-inject'
   ],
@@ -56,10 +58,12 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    // 環境変数API_URLが優先される
-    baseURL: '/'
+    // 環境変数API_URLでbaseURLは上書きされるので設定しても意味ない
+    // baseURL ... サーバ=>クライアントのURL  browserBaseURL ... クライアント=>サーバのURL
+    // baseURL: '/',
+    // クロスドメインで認証情報を共有する
+    credentials: true
   },
-
 
   i18n: {
     locales: ['ja', 'en'],

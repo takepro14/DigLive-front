@@ -8,10 +8,10 @@
         v-model="isValid"
       >
         <user-form-email
-          :email.sync="params.user.email"
+          :email.sync="params.auth.email"
         />
         <user-form-password
-          :password.sync="params.user.password"
+          :password.sync="params.auth.password"
         />
         <v-card-actions>
           <nuxt-link
@@ -49,14 +49,40 @@ export default {
     return {
       isValid: false,
       loading: false,
-      params: { user: { email: '', password: '' } },
-      redirectPath: $store.state.AfterLogin.redirectPath
+      params: { auth: { email: 'melvin_weimann@crist-medhurst.org', password: 'password' } },
+      homePath: $store.state.AfterLogin.homePath
     }
   },
   methods: {
-    login () {
+    async login () {
       this.loading = true
-      this.$router.push(this.redirectPath)
+      if (this.isValid) {
+        await this.$axios.$post('/api/v1/auth_token', this.params, { withCredentials: true })
+          .then(response => this.authSuccessful(response))
+          .catch(error => this.authFailure(error))
+      }
+      this.loading = false
+      this.$router.push(this.homePath)
+    },
+    authSuccessful (response) {
+      console.log('authSuccessful', response)
+      this.$auth.login(response)
+      console.log('token', this.$auth.token)
+      console.log('expires', this.$auth.expires)
+      console.log('payload', this.$auth.payload)
+      console.log('user', this.$auth.user)
+      // 記憶ルートにリダイレクト
+      this.$router.push(this.homePath)
+    },
+    authFailure ({ response }) {
+      if (response && response.status === 404) {
+        // トースター出力
+        alert('トースター出力')
+      } else {
+        // エラー処理
+        alert('エラー処理')
+        console.log(response)
+      }
     }
   }
 }
