@@ -37,21 +37,21 @@
             v-model="content"
             placeholder="僕はこんなことをして垢抜けました。・・・"
             :rules="rules"
-            counter="100"
+            counter="300"
           >
           </v-textarea>
         </div>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
             <v-btn
               @click="postMessage"
             >
               投稿する
             </v-btn>
-          <v-spacer></v-spacer>
+          <v-spacer />
         </v-card-actions>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
             color="primary"
             text
@@ -67,18 +67,19 @@
 
 <script>
 export default {
-  data () {
+  data ({ $store }) {
     return {
       dialog: false,
       content: '',
-      rules: [v => v.length <= 100 || '100文字以内で入力してください']
+      rules: [v => v.length <= 300 || '300文字以内で入力してください'],
+      user_id: $store.state.user.current.id
     }
   },
   methods: {
     postMessage () {
       const url = '/api/v1/posts'
       const post = {
-        user_id: 1, // 後から動的にする
+        user_id: this.user_id,
         content: this.content
       }
       this.$axios.post(url, { post })

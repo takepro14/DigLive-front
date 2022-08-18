@@ -1,6 +1,11 @@
 <template>
   <v-toolbar-title>
-    {{ appName }}
+    <nuxt-link
+      :to="homePath"
+      class="text-decoration-none"
+    >
+      {{ appName }}
+    </nuxt-link>
   </v-toolbar-title>
 </template>
 
@@ -8,6 +13,7 @@
 export default {
   data ({ $config: { appName } }) {
     return {
+      homePath: '/',
       appName
     }
   }

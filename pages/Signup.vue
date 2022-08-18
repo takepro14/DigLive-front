@@ -29,14 +29,13 @@
           登録する
         </v-btn>
       </v-form>
-      {{ params }}
     </template>
   </user-form-card>
 </template>
 
 <script>
 export default {
-  layout: 'before-login',
+  layout: 'not-logged-in',
   data () {
     return {
       isValid: false,

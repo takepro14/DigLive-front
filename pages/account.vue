@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  layout: 'after-login',
+  layout: 'logged-in',
   // /account => This page could not be found
   validate ({ route }) {
     return route.name !== 'account'

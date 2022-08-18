@@ -37,21 +37,20 @@
           </v-btn>
         </v-card-text>
       </v-form>
-      {{ params }}
     </template>
   </user-form-card>
 </template>
 
 <script>
 export default {
-  layout: 'before-login',
+  layout: 'not-logged-in',
   data ({ $store }) {
     return {
       isValid: false,
       loading: false,
       params: { auth: { email: 'melvin_weimann@crist-medhurst.org', password: 'password' } },
-      redirectPath: $store.state.AfterLogin.rememberPath,
-      AfterLoginHomePath: $store.state.AfterLogin.homePath
+      redirectPath: $store.state.LoggedIn.rememberPath,
+      LoggedInHomePath: $store.state.LoggedIn.homePath
     }
   },
   methods: {
@@ -69,17 +68,13 @@ export default {
       // 記憶ルートにリダイレクト
       this.$router.push(this.redirectPath)
       // 記憶ルートを初期値に戻す
-      this.$routet.dispatch('getRememberPath', this.AfterLoginHomePath)
+      this.$routet.dispatch('getRememberPath', this.LoggedInHomePath)
     },
     authFailure ({ response }) {
       if (response && response.status === 404) {
         // トースター出力
         const msg = 'ユーザが見つかりません'
         return this.$store.dispatch('getToast', { msg })
-      } else {
-        // エラー処理
-        alert('エラー処理')
-        console.log(response)
       }
     }
   }

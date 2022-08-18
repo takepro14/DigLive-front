@@ -4,10 +4,7 @@
     style="height: 500px"
   >
     <h1>
-      {{ $my.pageTitle('title.about') }}
+      サイトについて
     </h1>
   </div>
 </template>
-
-<script>
-</script>

@@ -1,7 +1,7 @@
 const homePath = 'posts'
 
 export const state = () => ({
-  AfterLogin: {
+  LoggedIn: {
     homePath: {
       name: homePath
     },
@@ -57,7 +57,7 @@ export const mutations = {
     state.toast = payload
   },
   setRememberPath (state, payload) {
-    state.AfterLogin.rememberPath = payload
+    state.LoggedIn.rememberPath = payload
   }
 }
 
@@ -87,9 +87,9 @@ export const actions = {
   },
   // ログイン前ユーザがアクセスしたルートを記憶する
   getRememberPath ({ state, commit }, { name, params }) {
-    // ログイン前パスが渡された場合はAfterLogin.homePathに書き換える
-    if (state.AfterLogin.redirectPaths.includes(name)) {
-      name = state.AfterLogin.homePath.name
+    // ログイン前パスが渡された場合はLoggedIn.homePathに書き換える
+    if (state.LoggedIn.redirectPaths.includes(name)) {
+      name = state.LoggedIn.homePath.name
     }
     params = params || {}
     commit('setRememberPath', { name, params })

@@ -54,8 +54,8 @@ export default {
     // ログイン前後でリダイレクトパスを切り替える
     redirectPath () {
       const loggedInHomePath = this.$store.state.loggedIn.homePath
-      const beforeLoginHomePath = { name: 'index' }
-      return this.$auth.loggedIn() ? loggedInHomePath : beforeLoginHomePath
+      const notLoggedInHomePath = { name: 'index' }
+      return this.$auth.loggedIn() ? loggedInHomePath : notLoggedInHomePath
     },
     // axiosエラーの場合はstatusTextを参照する
     responsedMessage () {
