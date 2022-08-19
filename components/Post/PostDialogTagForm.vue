@@ -1,15 +1,13 @@
 <template>
   <div>
     <!-- http://www.vue-tags-input.com/#/ -->
-    <!-- before) :tags="tags" -->
     <vue-tags-input
       v-model="tag"
-      :tags="tags"
+      :tags="initTags"
       @tags-changed="newTags => tags = newTags"
       :autocomplete-items="filteredItems"
       placeholder="タグを追加: (ex. 服, 髪型, 筋トレ, ...)"
     />
-    子tags：{{ tags }}
   </div>
 </template>
 
@@ -20,12 +18,17 @@ export default {
   components: {
     VueTagsInput
   },
+  props: {
+    initTags: {
+      type: Array
+    }
+  },
   data () {
     return {
       // input中のテキスト
       tag: '',
       // 確定したタグの配列: [{ "text": "タグ", "tiClasses": [ "ti-valid" ] }, {...}]
-      tags: [],
+      tags: this.initTags,
       // DBからmiddlewareで取得 => vuexに保存する?
       autocompleteItems: [{ text: '服' }, { text: '髪型' }, { text: '筋トレ' }]
     }
@@ -43,10 +46,5 @@ export default {
       this.$emit('changed-tags', newValue)
     }
   }
-  // methods: {
-  //   sendTags () {
-  //     this.$emit('send-tags', this.tags)
-  //   }
-  // }
 }
 </script>

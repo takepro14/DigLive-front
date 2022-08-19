@@ -20,6 +20,9 @@ export const state = () => ({
     current: null,
     list: []
   },
+  tag: {
+    list: []
+  },
   user: {
     current: null
   },
@@ -40,6 +43,9 @@ export const getters = {}
 export const mutations = {
   setPostList (state, payload) {
     state.post.list = payload
+  },
+  setTagList (state, payload) {
+    state.tag.list = payload
   },
   setCurrentUser (state, payload) {
     state.user.current = payload
@@ -65,6 +71,10 @@ export const actions = {
   getPostList ({ commit }, posts) {
     posts = posts || []
     commit('setPostList', posts)
+  },
+  getTagList ({ commit }, tags) {
+    tags = tags || []
+    commit('setTagList', tags)
   },
   getCurrentUser ({ commit }, user) {
     commit('setCurrentUser', user)

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NotLoggedInHomeTopImage>
-    <NotLoggedInHomeTopAbout>
+    <NotLoggedInHomeTopImage />
+    <NotLoggedInHomeTopAbout />
   </div>
 </template>

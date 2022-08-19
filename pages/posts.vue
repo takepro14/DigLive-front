@@ -1,8 +1,26 @@
 <template>
   <div>
+    <!-- タグ一覧 -->
+    <div
+      class="px-4"
+    >
+      <v-chip-group
+        active-class="primary--text"
+        column
+      >
+        <v-chip
+          v-for="tag in getTag"
+          :key="tag"
+          link
+        >
+          # {{ tag.tag_name }}
+        </v-chip>
+      </v-chip-group>
+    </div>
+    <!-- 投稿一覧 -->
     <v-card
-      v-for="(post, index) in getPostAndTag"
-      :key="index"
+      v-for="post in getPost"
+      :key="post"
       class="mx-auto my-4"
       min-width="300"
       max-width="600"
@@ -12,12 +30,22 @@
       >
         {{ post.content }}
       </v-card-text>
-      <v-btn
-        v-for="tag in post.tags"
-        :key="tag"
+      <div
+        class="px-4"
       >
-        {{ tag.tag_name }}
-      </v-btn>
+        <v-chip-group
+          active-class="primary--text"
+          column
+        >
+          <v-chip
+            v-for="tag in post.tags"
+            :key="tag"
+            link
+          >
+            # {{ tag.tag_name }}
+          </v-chip>
+        </v-chip-group>
+      </div>
       <v-card-actions>
         <v-list-item
           class="grow"
@@ -73,11 +101,15 @@ export default {
   layout: 'logged-in',
   middleware: [
     'authentication',
-    'get-post-list'
+    'get-post-list',
+    'get-tag-list'
   ],
   computed: {
-    getPostAndTag () {
+    getPost () {
       return this.$store.state.post.list
+    },
+    getTag () {
+      return this.$store.state.tag.list
     }
     // getTag () {
     //   return this.$store.state.post.tags

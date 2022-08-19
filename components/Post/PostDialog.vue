@@ -41,16 +41,16 @@
           />
           <PostDialogTagForm
             @changed-tags="tags = $event"
+            :initTags="tags"
           />
         </div>
         <v-card-actions>
           <v-spacer />
             <v-btn
-              @click="postMessage"
+              @click="createPost"
             >
               投稿する
             </v-btn>
-              親tags：{{ tags }}
           <v-spacer />
         </v-card-actions>
         <v-card-actions>
@@ -73,21 +73,27 @@ export default {
   data ({ $store }) {
     return {
       dialog: false,
-      content: '',
+      content: 'テスト投稿',
       tags: [],
       rules: [v => v.length <= 300 || '300文字以内で入力してください'],
       user_id: $store.state.user.current.id
     }
   },
   methods: {
-    postMessage () {
+    createPost () {
       const url = '/api/v1/posts'
-      const post = {
-        user_id: this.user_id,
-        content: this.content,
-        tag_name: this.tag_name
+      const data = new FormData()
+      if (this.tags.length !== 0) {
+        this.tags.forEach((tag) => {
+          data.append('post[tags][]', tag.text)
+        })
       }
-      this.$axios.post(url, { post })
+      data.append('post[user_id]', this.user_id)
+      data.append('post[content]', this.content)
+      // デバッガ
+      console.log(...data.entries())
+      // post[xx]のparmは一括でpost(不都合なparmはStrong Parametersで無視)
+      this.$axios.post(url, data)
         .then(res => console.log(res.status))
         .catch(error => console.log(error))
       this.content = ''

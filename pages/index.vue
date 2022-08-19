@@ -1,7 +1,7 @@
 <template>
   <div>
     <NotLoggedInHeader />
-    <NotLoggedInHomeTop>
+    <NotLoggedInHomeTop />
     <NotLoggedInFooter />
   </div>
 </template>
