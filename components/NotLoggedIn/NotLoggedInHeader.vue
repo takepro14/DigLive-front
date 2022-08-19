@@ -7,11 +7,11 @@
       fab
       top
     >
-      <app-title />
+      <AppTitle />
       <v-spacer></v-spacer>
       <app-home-about-button />
-      <not-logged-in-header-signup-button />
-      <not-logged-in-header-login-button />
+      <NotLoggedInHeaderSignupButton />
+      <NotLoggedInHeaderLoginButton />
     </v-app-bar>
   </div>
 </template>

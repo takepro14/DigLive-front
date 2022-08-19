@@ -1,10 +1,11 @@
 <template>
   <v-app>
-    <not-logged-in-header />
-    <app-toaster />
+    <NotLoggedInHeader />
+    <AppToaster />
     <nuxt
       color="cyan lighten-5"
     />
+    <NotLoggedInFooter />
   </v-app>
 </template>
 

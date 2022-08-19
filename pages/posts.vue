@@ -64,7 +64,7 @@
         </v-list-item>
       </v-card-actions>
     </v-card>
-    <post-dialog />
+    <PostDialog />
   </div>
 </template>
 

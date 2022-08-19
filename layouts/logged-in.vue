@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <logged-in-header />
+    <LoggedInHeader />
     <v-main>
       <nuxt />
     </v-main>
-    <logged-in-footer />
+    <LoggedInFooter />
   </v-app>
 </template>
 

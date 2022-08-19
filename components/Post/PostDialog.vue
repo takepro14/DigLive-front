@@ -39,7 +39,7 @@
             placeholder="僕はこんなことをして垢抜けました。・・・"
             outlined
           />
-          <post-dialog-tag-form
+          <PostDialogTagForm
             @changed-tags="tags = $event"
           />
         </div>

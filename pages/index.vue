@@ -1,8 +1,8 @@
 <template>
   <div>
-    <not-logged-in-header />
-    <not-logged-in-home-top />
-    <not-logged-in-footer />
+    <NotLoggedInHeader />
+    <NotLoggedInHomeTop>
+    <NotLoggedInFooter />
   </div>
 </template>
 
