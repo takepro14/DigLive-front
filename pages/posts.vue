@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card
-      v-for="(post, index) in getPost"
+      v-for="(post, index) in getPostAndTag"
       :key="index"
       class="mx-auto my-4"
       min-width="300"
@@ -12,6 +12,12 @@
       >
         {{ post.content }}
       </v-card-text>
+      <v-btn
+        v-for="tag in post.tags"
+        :key="tag"
+      >
+        {{ tag.tag_name }}
+      </v-btn>
       <v-card-actions>
         <v-list-item
           class="grow"
@@ -70,9 +76,12 @@ export default {
     'get-post-list'
   ],
   computed: {
-    getPost () {
+    getPostAndTag () {
       return this.$store.state.post.list
     }
+    // getTag () {
+    //   return this.$store.state.post.tags
+    // }
   }
 }
 </script>

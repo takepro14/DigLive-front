@@ -31,15 +31,17 @@
           class="ma-4"
         >
           <v-textarea
-            outlined
-            name="input-7-4"
-            label="入力フォーム"
             v-model="content"
-            placeholder="僕はこんなことをして垢抜けました。・・・"
             :rules="rules"
             counter="300"
-          >
-          </v-textarea>
+            name="input-7-4"
+            label="入力フォーム"
+            placeholder="僕はこんなことをして垢抜けました。・・・"
+            outlined
+          />
+          <post-dialog-tag-form
+            @changed-tags="tags = $event"
+          />
         </div>
         <v-card-actions>
           <v-spacer />
@@ -48,6 +50,7 @@
             >
               投稿する
             </v-btn>
+              親tags：{{ tags }}
           <v-spacer />
         </v-card-actions>
         <v-card-actions>
@@ -71,6 +74,7 @@ export default {
     return {
       dialog: false,
       content: '',
+      tags: [],
       rules: [v => v.length <= 300 || '300文字以内で入力してください'],
       user_id: $store.state.user.current.id
     }
@@ -80,7 +84,8 @@ export default {
       const url = '/api/v1/posts'
       const post = {
         user_id: this.user_id,
-        content: this.content
+        content: this.content,
+        tag_name: this.tag_name
       }
       this.$axios.post(url, { post })
         .then(res => console.log(res.status))
@@ -90,17 +95,4 @@ export default {
     }
   }
 }
-//   async postData ({ $axios }) {
-//     // 投稿のロジックを書く
-//     const params = {
-//       user_id: 1, // 後から動的にする
-//       content: this.content
-//     }
-//     await $axios.$post(
-//       '/api/v1/posts', params
-//     )
-//       .then((res) => {
-//         alert(res)
-//       })
-//   }
 </script>

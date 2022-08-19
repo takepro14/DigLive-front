@@ -24,7 +24,7 @@
         <v-card-text
           class="px-0"
         >
-          <!-- 初期状態orローディング中はdisableにする -->
+          <!-- 初期状態orローディング中はボタン押下不可(disable) -->
           <v-btn
             :disabled="!isValid || loading"
             :loading="loading"
@@ -48,7 +48,7 @@ export default {
     return {
       isValid: false,
       loading: false,
-      params: { auth: { email: 'melvin_weimann@crist-medhurst.org', password: 'password' } },
+      params: { auth: { email: 'test-user1@example.com', password: 'password' } },
       redirectPath: $store.state.LoggedIn.rememberPath,
       LoggedInHomePath: $store.state.LoggedIn.homePath
     }
@@ -68,7 +68,7 @@ export default {
       // 記憶ルートにリダイレクト
       this.$router.push(this.redirectPath)
       // 記憶ルートを初期値に戻す
-      this.$routet.dispatch('getRememberPath', this.LoggedInHomePath)
+      this.$router.dispatch('getRememberPath', this.LoggedInHomePath)
     },
     authFailure ({ response }) {
       if (response && response.status === 404) {

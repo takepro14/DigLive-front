@@ -12,6 +12,7 @@
     "lintfix": "yarn lint:js --fix"
   },
   "dependencies": {
+    "@johmun/vue-tags-input": "^2.1.0",
     "@nuxtjs/axios": "^5.13.6",
     "core-js": "^3.19.3",
     "jwt-decode": "^3.1.2",
