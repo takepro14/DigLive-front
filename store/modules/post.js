@@ -1,6 +1,9 @@
 export const state = {
   posts: [],
-  post: {}
+  post: {},
+  filterQuery: {
+    content: ''
+  }
 }
 
 export const getters = {
@@ -9,6 +12,12 @@ export const getters = {
   },
   post (state) {
     return state.post
+  },
+  filteredPosts (state) {
+    const posts = state.posts
+    if (state.filterQuery.content !== '') {
+      return posts.filter(post => post.content.includes(state.filterQuery.content))
+    }
   }
 }
 
@@ -21,6 +30,9 @@ export const mutations = {
   },
   setPostClear (state) {
     state.post = {}
+  },
+  setFilterQuery (state, payload) {
+    state.filterQuery.content = payload
   }
 }
 
@@ -42,5 +54,8 @@ export const actions = {
           commit('setPost', post)
         })
     }
+  },
+  emitFilterQuery ({ commit }, params) {
+    commit('setFilterQuery', params)
   }
 }

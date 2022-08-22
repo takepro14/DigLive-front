@@ -4,9 +4,10 @@
       v-model="dialog"
       width="500"
     >
-      <template v-slot:activator="{ on, attrs }">
+      <template
+        #activator="{ on, attrs }"
+      >
         <v-btn
-          class="mx-2"
           fixed
           fab
           bottom
@@ -14,6 +15,7 @@
           dark
           color="indigo"
           v-bind="attrs"
+          style="bottom: 65px"
           v-on="on"
         >
           <v-icon dark>
@@ -40,17 +42,17 @@
             outlined
           />
           <PostDialogTagForm
+            :init-tags="tags"
             @changed-tags="tags = $event"
-            :initTags="tags"
           />
         </div>
         <v-card-actions>
           <v-spacer />
-            <v-btn
-              @click="createPost"
-            >
-              投稿する
-            </v-btn>
+          <v-btn
+            @click="createPost"
+          >
+            投稿する
+          </v-btn>
           <v-spacer />
         </v-card-actions>
         <v-card-actions>
@@ -60,7 +62,7 @@
             text
             @click="dialog = false"
           >
-          閉じる
+            閉じる
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -91,11 +93,11 @@ export default {
       data.append('post[user_id]', this.user_id)
       data.append('post[content]', this.content)
       // デバッガ
-      console.log(...data.entries())
+      // console.log(...data.entries())
       // post[xx]のparmは一括でpost(不都合なparmはStrong Parametersで無視)
       this.$axios.post(url, data)
-        .then(res => console.log(res.status))
-        .catch(error => console.log(error))
+      // .then(res => console.log(res.status))
+      // .catch(error => console.log(error))
       this.content = ''
       this.dialog = false
     }
