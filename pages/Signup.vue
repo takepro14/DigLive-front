@@ -16,7 +16,7 @@
         />
         <UserFormCardPassword
           :password.sync="params.user.password"
-          setValidation
+          set-validation
         />
         <v-btn
           :disabled="!isValid || loading"
