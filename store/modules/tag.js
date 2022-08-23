@@ -1,5 +1,6 @@
 export const state = {
-  tags: []
+  tags: [],
+  checkedTag: ''
 }
 
 export const getters = {
@@ -11,6 +12,12 @@ export const getters = {
 export const mutations = {
   setTags (state, payload) {
     state.tags = payload
+  },
+  setTagTrue (state, payload) {
+    state.checkedTag = payload
+  },
+  setTagFalse (state) {
+    state.checkedTag = ''
   }
 }
 
@@ -22,5 +29,11 @@ export const actions = {
           commit('setTags', tags)
         })
     }
+  },
+  emitSetTagTrue ({ commit }, param) {
+    commit('setTagTrue', param)
+  },
+  emitSetTagFalse ({ commit }) {
+    commit('setTagFalse')
   }
 }

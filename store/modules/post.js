@@ -1,9 +1,8 @@
 export const state = {
   posts: [],
   post: {},
-  filterQuery: {
-    content: ''
-  }
+  filterQueryKeyword: '',
+  filterQueryTag: ''
 }
 
 export const getters = {
@@ -15,8 +14,14 @@ export const getters = {
   },
   filteredPosts (state) {
     const posts = state.posts
-    if (state.filterQuery.content !== '') {
-      return posts.filter(post => post.content.includes(state.filterQuery.content))
+    // キーワードサーチ
+    if (state.filterQueryKeyword) {
+      return posts.filter(post => post.content.includes(state.filterQueryKeyword))
+    // タグサーチ
+    } else if (state.filterQueryTag) {
+      return posts.filter(post => post.tags.map(tag => tag.tag_name).includes(state.filterQueryTag))
+    } else {
+      // 何も表示しない
     }
   }
 }
@@ -31,8 +36,17 @@ export const mutations = {
   setPostClear (state) {
     state.post = {}
   },
-  setFilterQuery (state, payload) {
-    state.filterQuery.content = payload
+  setFilterQueryKeyword (state, payload) {
+    state.filterQueryKeyword = payload
+  },
+  setFilterQueryTag (state, payload) {
+    state.filterQueryTag = payload
+  },
+  setFilterQueryKeywordBlank (state) {
+    state.filterQueryKeyword = ''
+  },
+  setFilterQueryTagBlank (state) {
+    state.filterQueryTag = ''
   }
 }
 
@@ -55,7 +69,18 @@ export const actions = {
         })
     }
   },
-  emitFilterQuery ({ commit }, params) {
-    commit('setFilterQuery', params)
+  emitSetFilterQueryKeyword ({ commit }, param) {
+    commit('setFilterQueryKeyword', param)
+  },
+  // tag.jsからチェックしたタグのリストを取得
+  emitSetFilterQueryTag ({ rootState, commit }) {
+    const checkedTag = rootState.modules.tag.checkedTag
+    commit('setFilterQueryTag', checkedTag)
+  },
+  emitSetFilterQueryKeywordBlank ({ commit }) {
+    commit('setFilterQueryKeywordBlank')
+  },
+  emitSetFilterQueryTagBlank ({ commit }) {
+    commit('setFilterQueryTagBlank')
   }
 }

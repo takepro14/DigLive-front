@@ -1,35 +1,34 @@
 <template>
-  <div>
-    <Post
-      v-for="post in posts"
-      :key="post.id"
-      :post="post"
-    />
-    <PostCreateDialog />
+  <div
+    class="px-4"
+  >
+    <v-chip-group
+      active-class="primary--text"
+      column
+    >
+      <Tag
+        v-for="tag in tags"
+        :key="tag.id"
+        :tag="tag"
+      />
+    </v-chip-group>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  layout: 'logged-in',
-  middleware: [
-    'authentication'
-  ],
   computed: {
     ...mapGetters({
-      posts: 'modules/post/posts',
       tags: 'modules/tag/tags'
     })
   },
   methods: {
     ...mapActions({
-      getPosts: 'modules/post/getPosts',
       getTags: 'modules/tag/getTags'
     })
   },
-  created () {
-    this.getPosts()
+  mounted () {
     this.getTags()
   }
 }

@@ -41,7 +41,7 @@
             placeholder="僕はこんなことをして垢抜けました。・・・"
             outlined
           />
-          <PostDialogTagForm
+          <PostCreateDialogTagForm
             :init-tags="tags"
             @changed-tags="tags = $event"
           />

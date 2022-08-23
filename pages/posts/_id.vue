@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- _id.vueのパスに基づいて表示される：{{ $route.params.id }} -->
-    <PostFeed
+    <Post
       :post="post"
     />
   </div>
