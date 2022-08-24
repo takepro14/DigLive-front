@@ -36,13 +36,13 @@
           <v-img
             class="elevation-6"
             alt=""
-            src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+            src="https://i.pravatar.cc/10"
           ></v-img>
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title>
+            <!-- {{ post.user }} -->
             {{ post.user }}
-            <!-- {{ post.user.name }} -->
           </v-list-item-title>
         </v-list-item-content>
         <v-row
@@ -67,7 +67,7 @@
           <span
             class="subheading"
           >
-            45
+          {{ commentLength }}
           </span>
         </v-row>
       </v-list-item>
@@ -80,6 +80,11 @@ export default {
   props: {
     post: {
       type: Object
+    }
+  },
+  computed: {
+    commentLength () {
+      return !this.post.comments ? 0 : this.post.comments.length
     }
   }
 }

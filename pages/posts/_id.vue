@@ -1,10 +1,15 @@
 <template>
-  <div>
-    <!-- _id.vueのパスに基づいて表示される：{{ $route.params.id }} -->
+  <v-container>
     <Post
       :post="post"
     />
-  </div>
+    <CommentCreateDialog
+      :post="post"
+    />
+    <Comment
+      :post="post"
+    />
+  </v-container>
 </template>
 
 <script>
