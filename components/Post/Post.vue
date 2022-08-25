@@ -49,20 +49,20 @@
           align="center"
           justify="end"
         >
-          <!-- FIXME: 呼び出されるとリロードが走ってしまう -->
           <PostDestroyDialog
             :post="post"
             class="mr-3"
           />
           <v-icon
             class="mr-1"
+            @click="likePost(post)"
           >
             mdi-heart
           </v-icon>
           <span
             class="subheading mr-2"
           >
-            256
+            {{ likeLength }}
           </span>
           <v-icon
             class="ml-3 mr-1"
@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   props: {
     post: {
@@ -90,7 +91,15 @@ export default {
   computed: {
     commentLength () {
       return !this.post.comments ? 0 : this.post.comments.length
+    },
+    likeLength () {
+      return !this.post.likes ? 0 : this.post.likes.length
     }
+  },
+  methods: {
+    ...mapActions({
+      likePost: 'modules/post/likePost'
+    })
   }
 }
 </script>

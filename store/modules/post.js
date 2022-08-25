@@ -47,6 +47,9 @@ export const mutations = {
   },
   setFilterQueryTagBlank (state) {
     state.filterQueryTag = ''
+  },
+  setLikePost (state, payload) {
+    state.post.likes.push(payload)
   }
 }
 
@@ -82,5 +85,17 @@ export const actions = {
   },
   emitSetFilterQueryTagBlank ({ commit }) {
     commit('setFilterQueryTagBlank')
+  },
+  async likePost ({ rootState, commit }, param) {
+    // console.log(currentUserId)
+    await this.$axios.$post('/api/v1/likes', {
+      like: {
+        user_id: rootState.user.current.id,
+        post_id: param.id
+      }
+    })
+      .then((res) => {
+        commit('setLikePost', res)
+      })
   }
 }
