@@ -37,7 +37,7 @@
             class="elevation-6"
             alt=""
             src="https://i.pravatar.cc/10"
-          ></v-img>
+          />
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title>
@@ -49,6 +49,11 @@
           align="center"
           justify="end"
         >
+          <!-- FIXME: 呼び出されるとリロードが走ってしまう -->
+          <PostDestroyDialog
+            :post="post"
+            class="mr-3"
+          />
           <v-icon
             class="mr-1"
           >
@@ -67,7 +72,7 @@
           <span
             class="subheading"
           >
-          {{ commentLength }}
+            {{ commentLength }}
           </span>
         </v-row>
       </v-list-item>

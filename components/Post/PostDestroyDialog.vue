@@ -14,20 +14,20 @@
           <v-icon>
             mdi-comment-remove-outline
           </v-icon>
-          コメントを削除
+          投稿を削除
         </v-btn>
       </template>
       <v-card>
         <v-card-title
           class="headline grey lighten-2"
         >
-          コメントを削除する
+          投稿を削除する
         </v-card-title>
         <v-row
           class="text-center pt-6 pb-2"
         >
           <v-card-text>
-            以下のコメントを削除しますか？
+            以下の投稿を削除しますか？
           </v-card-text>
         </v-row>
         <v-row
@@ -36,14 +36,14 @@
           <v-card-text
             class="font-weight-bold"
           >
-            "{{ comment.comment }}"
+            <!-- "{{ post.content }}" -->
           </v-card-text>
         </v-row>
         <v-card-actions>
           <v-spacer />
           <v-btn
-            @click="destroyComment(comment.id)"
             color="red lighten-2"
+            @click="destroyPost(post.id)"
           >
             削除する
           </v-btn>
@@ -66,19 +66,19 @@
 
 <script>
 export default {
+  props: {
+    post: {
+      type: Object
+    }
+  },
   data () {
     return {
       dialog: false
     }
   },
-  props: {
-    comment: {
-      type: Object
-    }
-  },
   methods: {
-    destroyComment (id) {
-      const url = `/api/v1/comments/${id}`
+    destroyPost (id) {
+      const url = `/api/v1/posts/${id}`
       // axios.deleteの場合は第2引数data or paramsで渡す, {id}は{id:id}の省略形
       this.$axios.delete(url, { data: { id } })
         .then(() => {

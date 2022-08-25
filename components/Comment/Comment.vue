@@ -10,7 +10,7 @@
       :key="comment.id"
       large
     >
-      <template v-slot:icon>
+      <template #icon>
         <v-avatar>
           <img src="https://i.pravatar.cc/64">
         </v-avatar>
