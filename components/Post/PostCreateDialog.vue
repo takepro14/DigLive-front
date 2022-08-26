@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data ({ $store }) {
     return {
@@ -82,22 +83,25 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      getPostForPosts: 'modules/post/getPostForPosts'
+    }),
     createPost () {
       const url = '/api/v1/posts'
-      const data = new FormData()
+      const postData = new FormData()
       if (this.tags.length !== 0) {
         this.tags.forEach((tag) => {
-          data.append('post[tags][]', tag.text)
+          postData.append('post[tags][]', tag.text)
         })
       }
-      data.append('post[user_id]', this.user_id)
-      data.append('post[content]', this.content)
-      // デバッガ
-      // console.log(...data.entries())
-      // post[xx]のparmは一括でpost(不都合なparmはStrong Parametersで無視)
-      this.$axios.post(url, data)
-      // .then(res => console.log(res.status))
-      // .catch(error => console.log(error))
+      postData.append('post[user_id]', this.user_id)
+      postData.append('post[content]', this.content)
+      this.$axios.post(url, postData)
+        .then((res) => {
+          // console.log('data: ' + JSON.stringify(data))
+          // console.log(res.data.id)
+          this.getPostForPosts(res.data.id)
+        })
       this.content = ''
       this.dialog = false
     }

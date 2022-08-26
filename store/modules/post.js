@@ -33,6 +33,10 @@ export const mutations = {
   setPost (state, payload) {
     state.post = payload
   },
+  // 一時的な妥協案
+  setPostForPosts (state, payload) {
+    state.posts.unshift(payload)
+  },
   setPostClear (state) {
     state.post = {}
   },
@@ -51,7 +55,6 @@ export const mutations = {
   // 即時反映用処理
   reloadPostByLikePost (state, payload) {
     state.post.isLiked = true
-    console.log(state.post.likes)
     state.post.likes.push(payload)
   },
   reloadPostByUnLikePost (state, payload) {
@@ -99,14 +102,22 @@ export const actions = {
         commit('setPost', post)
       })
   },
-  // judgeIsLiked ({ rootState }, post) {
-  //   // let isLiked = false
-  //   let likedUserIds = []
-  //   likedUserIds = post.likes.map((like) => {
-  //     return like.user_id
-  //   })
-  //   return likedUserIds.includes(rootState.user.current.id)
-  // },
+  // 一時的な妥協案
+  async getPostForPosts ({ commit, rootState }, postId) {
+    await this.$axios.$get(`/api/v1/posts/${postId}`)
+      // postへの追加処理: いいね済の場合にtrueを立てる
+      .then((post) => {
+        let likedUserIds = []
+        likedUserIds = post.likes.map((like) => {
+          return like.user_id
+        })
+        post.isLiked = likedUserIds.includes(rootState.user.current.id)
+        return post
+      })
+      .then((post) => {
+        commit('setPostForPosts', post)
+      })
+  },
   emitSetFilterQueryKeyword ({ commit }, param) {
     commit('setFilterQueryKeyword', param)
   },

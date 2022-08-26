@@ -45,6 +45,9 @@
             <!-- {{ post.user }} -->
             {{ post.user }}
           </v-list-item-title>
+          <v-list-item-content>
+            {{ post.created_at }}
+          </v-list-item-content>
         </v-list-item-content>
         <v-row
           align="center"
