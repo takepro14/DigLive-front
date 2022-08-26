@@ -7,6 +7,7 @@
   >
     <v-card-text
       class="font-weight-bold"
+      @click.prevent
     >
       {{ post.content }}
     </v-card-text>
@@ -54,10 +55,18 @@
             class="mr-3"
           />
           <v-icon
+            v-if="post.isLiked"
+            class="mr-1"
+            @click="unLikePost(post)"
+          >
+            mdi-heart
+          </v-icon>
+          <v-icon
+            v-else
             class="mr-1"
             @click="likePost(post)"
           >
-            mdi-heart
+            mdi-heart-outline
           </v-icon>
           <span
             class="subheading mr-2"
@@ -98,7 +107,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      likePost: 'modules/post/likePost'
+      likePost: 'modules/post/likePost',
+      unLikePost: 'modules/post/unLikePost'
     })
   }
 }

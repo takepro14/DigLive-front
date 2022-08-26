@@ -36,7 +36,7 @@
           <v-card-text
             class="font-weight-bold"
           >
-            <!-- "{{ post.content }}" -->
+            "{{ post.content }}"
           </v-card-text>
         </v-row>
         <v-card-actions>
