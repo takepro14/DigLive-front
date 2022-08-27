@@ -3,6 +3,7 @@
     class="mx-auto my-4"
     min-width="300"
     max-width="600"
+    @click="movePostPage"
   >
     <v-card-text
       class="font-weight-bold"
@@ -58,14 +59,14 @@
           <v-icon
             v-if="post.isLiked"
             class="mr-1"
-            @click="unLikePost(post)"
+            @click.stop="unLikePost(post)"
           >
             mdi-heart
           </v-icon>
           <v-icon
             v-else
             class="mr-1"
-            @click="likePost(post)"
+            @click.stop="likePost(post)"
           >
             mdi-heart-outline
           </v-icon>
@@ -87,8 +88,8 @@
         </v-row>
       </v-list-item>
     </v-card-actions>
-    コンポーネントのpost: {{ post }}
-    stateのpost: {{ statePost }}
+    <!-- コンポーネントのpost: {{ post }}
+    stateのpost: {{ statePost }} -->
   </v-card>
 </template>
 
@@ -115,7 +116,10 @@ export default {
     ...mapActions({
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost'
-    })
+    }),
+    movePostPage () {
+      this.$router.push(`/posts/${this.post.id}`)
+    }
   }
 }
 </script>
