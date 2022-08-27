@@ -79,7 +79,6 @@ export default {
   methods: {
     destroyPost (id) {
       const url = `/api/v1/posts/${id}`
-      // axios.deleteの場合は第2引数data or paramsで渡す, {id}は{id:id}の省略形
       this.$axios.delete(url, { data: { id } })
         .then(() => {
           this.dialog = false
