@@ -1,4 +1,3 @@
-// アプリ全体で利用する共通メソッドをVueインスタンスに挿入する
 class MyInject {
   constructor (ctx) {
     this.app = ctx.app

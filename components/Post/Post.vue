@@ -32,6 +32,7 @@
       >
         <v-list-item-avatar
           color="grey darken-3"
+          @click="moveUserPage"
         >
           <v-img
             class="elevation-6"
@@ -45,7 +46,8 @@
             {{ post.user }}
           </v-list-item-title>
           <v-list-item-content>
-            {{ post.created_at }}
+            <!-- {{ $my.format(post.created_at) }} -->
+            <!-- {{ post.created_at }} -->
           </v-list-item-content>
         </v-list-item-content>
         <v-row
@@ -119,6 +121,9 @@ export default {
     }),
     movePostPage () {
       this.$router.push(`/posts/${this.post.id}`)
+    },
+    moveUserPage () {
+      this.$router.push(`/users/${this.post.user_id}`)
     }
   }
 }

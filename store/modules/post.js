@@ -1,6 +1,3 @@
-//////////////////////////////////////////////////
-// state
-//////////////////////////////////////////////////
 export const state = {
   posts: [],
   post: {},
@@ -8,9 +5,6 @@ export const state = {
   filterQueryTag: ''
 }
 
-//////////////////////////////////////////////////
-// getters
-//////////////////////////////////////////////////
 export const getters = {
   posts (state) {
     return state.posts
@@ -32,9 +26,6 @@ export const getters = {
   }
 }
 
-//////////////////////////////////////////////////
-// mutations
-//////////////////////////////////////////////////
 export const mutations = {
   setPosts (state, payload) {
     state.posts = payload
@@ -98,11 +89,8 @@ export const mutations = {
   }
 }
 
-//////////////////////////////////////////////////
-// actions
-//////////////////////////////////////////////////
 export const actions = {
-  async getPosts ({ state, commit, rootState }) {
+  async getPosts ({ state, commit, rootState, dispatch }) {
     // 一覧に戻った時、post(vuex)のオブジェクトをクリアする
     commit('setPostClear')
     if (!state.posts.length) {

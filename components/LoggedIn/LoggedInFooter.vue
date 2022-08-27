@@ -7,7 +7,7 @@
       <!----- Home ----->
       <v-spacer />
       <nuxt-link
-        to="posts"
+        to="/posts"
         class="text-decoration-none d-flex align-center"
       >
         <v-btn
