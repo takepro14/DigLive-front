@@ -3,11 +3,9 @@
     class="mx-auto my-4"
     min-width="300"
     max-width="600"
-    :to="`/posts/${post.id}`"
   >
     <v-card-text
       class="font-weight-bold"
-      @click.prevent
     >
       {{ post.content }}
     </v-card-text>
@@ -89,11 +87,13 @@
         </v-row>
       </v-list-item>
     </v-card-actions>
+    コンポーネントのpost: {{ post }}
+    stateのpost: {{ statePost }}
   </v-card>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   props: {
     post: {
@@ -101,6 +101,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      statePost: 'modules/post/post'
+    }),
     commentLength () {
       return !this.post.comments ? 0 : this.post.comments.length
     },

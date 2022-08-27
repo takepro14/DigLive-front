@@ -52,17 +52,40 @@ export const mutations = {
   setFilterQueryTagBlank (state) {
     state.filterQueryTag = ''
   },
-  // 即時反映用処理
   reloadPostByLikePost (state, payload) {
-    state.post.isLiked = true
-    state.post.likes.push(payload)
+    // 投稿一覧からいいねした場合
+    if (Object.keys(state.post).length === 0) {
+      const targetPost = state.posts.filter(post =>
+        post.id === payload.reqPost.id
+      )
+      targetPost[0].isLiked = true
+      targetPost[0].likes.push(payload.resLike)
+    // 投稿詳細からいいねした場合
+    } else {
+      state.post.isLiked = true
+      state.post.likes.push(payload.resLike)
+    }
   },
   reloadPostByUnLikePost (state, payload) {
-    state.post.isLiked = false
-    const otherUsersLikes = state.post.likes.filter(like =>
-      like.user_id !== payload.user_id && like.post_id !== payload.post_id
-    )
-    state.post.likes = otherUsersLikes
+    // 投稿一覧からいいね解除した場合
+    if (Object.keys(state.post).length === 0) {
+      const targetPost = state.posts.filter(post =>
+        post.id === payload.reqPost.id
+      )
+      targetPost[0].isLiked = false
+      // console.log('targetPost[0]: ' + JSON.stringify(targetPost[0].likes))
+      const otherUsersLikes = targetPost[0].likes.filter(like =>
+        like.user_id !== payload.resLike.user_id
+      )
+      targetPost[0].likes = otherUsersLikes
+    // 投稿詳細からいいねした場合
+    } else {
+      state.post.isLiked = false
+      const otherUsersLikes = state.post.likes.filter(like =>
+        like.user_id !== payload.resLike.user_id
+      )
+      state.post.likes = otherUsersLikes
+    }
   }
 }
 
@@ -140,7 +163,10 @@ export const actions = {
       }
     })
       .then((like) => {
-        commit('reloadPostByLikePost', like)
+        commit('reloadPostByLikePost', {
+          resLike: like,
+          reqPost: post
+        })
       })
   },
   async unLikePost ({ rootState, commit }, post) {
@@ -152,7 +178,10 @@ export const actions = {
       params: { id: likeId }
     })
       .then((like) => {
-        commit('reloadPostByUnLikePost', like)
+        commit('reloadPostByUnLikePost', {
+          resLike: like,
+          reqPost: post
+        })
       })
   }
 }
