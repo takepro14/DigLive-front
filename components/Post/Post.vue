@@ -32,7 +32,7 @@
       >
         <v-list-item-avatar
           color="grey darken-3"
-          @click="moveUserPage"
+          @click.stop="moveUserPage"
         >
           <v-img
             class="elevation-6"
@@ -42,12 +42,12 @@
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title>
-            <!-- {{ post.user }} -->
             {{ post.user }}
+            <!-- {{ post.user.name }} -->
           </v-list-item-title>
           <v-list-item-content>
             <!-- {{ $my.format(post.created_at) }} -->
-            <!-- {{ post.created_at }} -->
+            {{ post.created_at }}
           </v-list-item-content>
         </v-list-item-content>
         <v-row

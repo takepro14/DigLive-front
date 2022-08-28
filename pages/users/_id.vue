@@ -27,9 +27,20 @@
               <v-spacer />
               <v-col>
                 <v-btn
+                  v-if="user.isFollowed === true"
                   outlined
                   rounded
                   text
+                  @click="unfollow(user.id)"
+                >
+                  フォロー中
+                </v-btn>
+                <v-btn
+                  v-else
+                  outlined
+                  rounded
+                  @click="follow(user.id)"
+                  color="blue"
                 >
                   フォローする
                 </v-btn>
@@ -47,10 +58,10 @@
         </v-list-item>
         <v-card-actions>
           <v-card-text>
-            20 フォロー
+            {{ followingLength }} フォロー
           </v-card-text>
           <v-card-text>
-            10 フォロワー
+            {{ followerLength }} フォロワー
           </v-card-text>
         </v-card-actions>
       </v-card>
@@ -66,7 +77,9 @@
       </v-col>
     </v-row>
     <v-row>
-      <div>
+      <div
+        class="mx-auto"
+      >
         <Post
           v-for="post in user.posts"
           :key="post.id"
@@ -89,12 +102,20 @@ export default {
   computed: {
     ...mapGetters({
       user: 'modules/user/user'
-    })
+    }),
+    followerLength () {
+      return !this.user.passive_relationships ? 0 : this.user.passive_relationships.length
+    },
+    followingLength () {
+      return !this.user.active_relationships ? 0 : this.user.active_relationships.length
+    }
   },
   methods: {
     ...mapActions({
       getUser: 'modules/user/getUser',
-      emitSetUserClear: 'modules/user/emitSetUserClear'
+      emitSetUserClear: 'modules/user/emitSetUserClear',
+      follow: 'modules/user/follow',
+      unfollow: 'modules/user/unfollow'
     })
   },
   created () {
