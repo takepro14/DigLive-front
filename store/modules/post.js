@@ -78,7 +78,7 @@ export const mutations = {
         like.user_id !== payload.resLike.user_id
       )
       targetPost[0].likes = otherUsersLikes
-    // 投稿詳細からいいねした場合
+    // 投稿詳細からいいね解除した場合
     } else {
       state.post.isLiked = false
       const otherUsersLikes = state.post.likes.filter(like =>
