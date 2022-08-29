@@ -22,15 +22,16 @@ export const mutations = {
   setUserClear (state) {
     state.user = {}
   },
-  reloadUserByFollow (state, res) {
+  reloadUserByFollow (state, payload) {
     state.user.isFollowed = true
-    state.user.passive_relationships.push(res)
+    state.user.passive_relationships.push(payload)
   },
-  reloadUserByUnfollow (state, res) {
+  reloadUserByUnfollow (state, currentId) {
     state.user.isFollowed = false
     const otherFollowers = state.user.passive_relationships.filter((passiveRelationship) => {
-      return passiveRelationship.follower_id !== res.follower_id
+      return passiveRelationship.follower_id !== currentId
     })
+    console.log(otherFollowers)
     state.user.passive_relationships = otherFollowers
   }
 }
@@ -64,14 +65,14 @@ export const actions = {
         commit('reloadUserByFollow', res)
       })
   },
-  async unfollow ({ commit }, userId) {
+  async unfollow ({ commit, rootState }, userId) {
     await this.$axios.$delete(`/api/v1/relationships/${userId}`, {
       params: {
         user_id: userId
       }
     })
-      .then((res) => {
-        commit('reloadUserByUnfollow', res)
+      .then(() => {
+        commit('reloadUserByUnfollow', rootState.user.current.id)
       })
   }
 }
