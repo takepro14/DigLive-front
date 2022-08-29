@@ -4,11 +4,51 @@
     min-width="300"
     max-width="600"
     @click="movePostPage"
+    shaped
   >
+  <v-container>
+    <v-row>
+      <v-list-item
+        class="grow"
+        @click.stop="moveUserPage"
+      >
+        <v-list-item-avatar
+          color="grey darken-3"
+        >
+          <v-img
+            class="elevation-6"
+            alt=""
+            src="https://i.pravatar.cc/10"
+          />
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <!-- 投稿一覧ページでの表示 -->
+          <v-list-item-title
+            v-if="$route.fullPath === '/posts'"
+          >
+            {{ post.user.name }}・{{ post.created_at | moment }}
+          </v-list-item-title>
+          <!-- 投稿詳細ページでの表示 -->
+          <v-list-item-title
+            v-else
+          >
+            {{ post.user.name }}
+          </v-list-item-title>
+        </v-list-item-content>
+        <v-spacer />
+      <v-btn icon>
+        <v-icon>mdi-dots-vertical</v-icon>
+      </v-btn>
+      </v-list-item>
+    </v-row>
     <v-card-text
-      class="font-weight-bold"
+      class="text-h5 py-8"
     >
-      {{ post.content }}
+      <div
+        class="text--primary"
+      >
+        {{ post.content }}
+      </div>
     </v-card-text>
     <div
       class="px-4"
@@ -27,39 +67,26 @@
       </v-chip-group>
     </div>
     <v-card-actions>
-      <v-list-item
-        class="grow"
-      >
-        <v-list-item-avatar
-          color="grey darken-3"
-          @click.stop="moveUserPage"
-        >
-          <v-img
-            class="elevation-6"
-            alt=""
-            src="https://i.pravatar.cc/10"
-          />
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ post.user.name }}
-          </v-list-item-title>
-          <v-list-item-content>
-            {{ $my.format(post.created_at) }}
-          </v-list-item-content>
-        </v-list-item-content>
         <v-row
           align="center"
           justify="end"
         >
-          <PostDestroyDialog
+        <!-- TODO: 管理者モードにて表示する -->
+          <!-- <PostDestroyDialog
             :post="post"
             class="mr-3"
-          />
+          /> -->
+          <v-card-content
+            v-if="$route.fullPath !== '/posts'"
+            class="mr-3"
+          >
+            {{ $my.format(post.created_at) }}
+          </v-card-content>
           <v-icon
             v-if="post.isLiked"
             class="mr-1"
             @click.stop="unLikePost(post)"
+            large
           >
             mdi-heart
           </v-icon>
@@ -67,16 +94,19 @@
             v-else
             class="mr-1"
             @click.stop="likePost(post)"
+            large
           >
             mdi-heart-outline
           </v-icon>
           <span
             class="subheading mr-2"
+            large
           >
             {{ likeLength }}
           </span>
           <v-icon
             class="ml-3 mr-1"
+            large
           >
             mdi-comment-processing-outline
           </v-icon>
@@ -86,15 +116,17 @@
             {{ commentLength }}
           </span>
         </v-row>
-      </v-list-item>
     </v-card-actions>
     <!-- コンポーネントのpost: {{ post }}
     stateのpost: {{ statePost }} -->
+    </v-container>
   </v-card>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import moment from 'moment'
+
 export default {
   props: {
     post: {
@@ -122,6 +154,12 @@ export default {
     },
     moveUserPage () {
       this.$router.push(`/users/${this.post.user_id}`)
+    }
+  },
+  filters: {
+    moment (date) {
+      moment.locale('ja')
+      return moment(date).fromNow()
     }
   }
 }
