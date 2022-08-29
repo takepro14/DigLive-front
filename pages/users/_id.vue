@@ -14,7 +14,16 @@
             <div
               class="text-overline mb-4"
             >
-              PROFILE
+              <span
+                v-if="user.id === current_id"
+              >
+                MY PAGE
+              </span>
+              <span
+                v-else
+              >
+                PROFILE
+              </span>
             </div>
             <v-row>
               <v-col>
@@ -27,7 +36,15 @@
               <v-spacer />
               <v-col>
                 <v-btn
-                  v-if="user.isFollowed === true"
+                  v-if="user.id === current_id"
+                  outlined
+                  rounded
+                  text
+                >
+                  Settings
+                </v-btn>
+                <v-btn
+                  v-else-if="user.isFollowed === true"
                   outlined
                   rounded
                   text
@@ -36,7 +53,7 @@
                   フォロー中
                 </v-btn>
                 <v-btn
-                  v-else
+                  v-else-if="user.isFollowed === false"
                   outlined
                   rounded
                   @click="follow(user.id)"
@@ -94,9 +111,10 @@
 import { mapGetters, mapActions } from 'vuex'
 export default {
   layout: 'logged-in',
-  data ({ $route }) {
+  data ({ $route, $store }) {
     return {
-      user_id: $route.params.id
+      user_id: $route.params.id,
+      current_id: $store.state.user.current.id
     }
   },
   computed: {
