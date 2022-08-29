@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   layout: 'logged-in',
   data ({ $route }) {
@@ -26,13 +26,16 @@ export default {
       post: 'modules/post/post'
     })
   },
-  methods: {
-    ...mapActions({
-      getPost: 'modules/post/getPost'
-    })
-  },
-  created () {
-    this.getPost(this.post_id)
+  // methods: {
+  //   ...mapActions({
+  //     emitSetPost: 'modules/post/emitSetPost'
+  //   })
+  // },
+  async fetch ({ $axios, params, store }) {
+    await $axios.$get(`/api/v1/posts/${params.id}`)
+      .then((post) => {
+        store.dispatch('modules/post/emitSetPost', post)
+      })
   }
 }
 </script>

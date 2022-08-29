@@ -110,21 +110,30 @@ export const actions = {
         })
     }
   },
-  async getPost ({ commit, rootState }, postId) {
-    await this.$axios.$get(`/api/v1/posts/${postId}`)
-      // postへの追加処理: いいね済の場合にtrueを立てる
-      .then((post) => {
-        let likedUserIds = []
-        likedUserIds = post.likes.map((like) => {
-          return like.user_id
-        })
-        post.isLiked = likedUserIds.includes(rootState.user.current.id)
-        return post
-      })
-      .then((post) => {
-        commit('setPost', post)
-      })
+  emitSetPost ({ rootState, commit }, post) {
+    // postへの追加処理: いいね済の場合にtrueを立てる
+    let likedUserIds = []
+    likedUserIds = post.likes.map((like) => {
+      return like.user_id
+    })
+    post.isLiked = likedUserIds.includes(rootState.user.current.id)
+    commit('setPost', post)
   },
+  // async getPost ({ commit, rootState }, postId) {
+  //   await this.$axios.$get(`/api/v1/posts/${postId}`)
+  //     // postへの追加処理: いいね済の場合にtrueを立てる
+  //     .then((post) => {
+  //       let likedUserIds = []
+  //       likedUserIds = post.likes.map((like) => {
+  //         return like.user_id
+  //       })
+  //       post.isLiked = likedUserIds.includes(rootState.user.current.id)
+  //       return post
+  //     })
+  //     .then((post) => {
+  //       commit('setPost', post)
+  //     })
+  // },
   // 一時的な妥協案
   async getPostForPosts ({ commit, rootState }, postId) {
     await this.$axios.$get(`/api/v1/posts/${postId}`)
