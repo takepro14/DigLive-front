@@ -86,7 +86,10 @@ export default {
       data.append('comment[post_id]', this.post.id)
       data.append('comment[comment]', this.comment)
       this.$axios.post(url, data)
-      this.dialog = false
+        .then((comment) => {
+          this.$emit('reloadComments', comment)
+          this.dialog = false
+        })
     }
   }
 }

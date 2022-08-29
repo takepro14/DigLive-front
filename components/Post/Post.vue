@@ -42,12 +42,10 @@
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title>
-            <!-- {{ post.user }} -->
             {{ post.user.name }}
           </v-list-item-title>
           <v-list-item-content>
-            <!-- {{ $my.format(post.created_at) }} -->
-            {{ post.created_at }}
+            {{ $my.format(post.created_at) }}
           </v-list-item-content>
         </v-list-item-content>
         <v-row

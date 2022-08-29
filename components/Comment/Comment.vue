@@ -30,7 +30,7 @@
             class="text-center"
           >
             <v-card-text>
-              {{ comment.user.name }}
+              <!-- {{ comment.user.name }} -->
             </v-card-text>
           </v-col>
           <v-col
@@ -53,5 +53,15 @@ export default {
       type: Object
     }
   }
+  // computed: {
+  //   postComments (value) {
+  //     return this.post.comments = value
+  //   }
+  // },
+  // methods: {
+  //   emit (value) {
+  //     this.$emit('reloadCommentFromComment', value)
+  //   }
+  // }
 }
 </script>

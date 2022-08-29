@@ -5,6 +5,7 @@
     />
     <CommentCreateDialog
       :post="post"
+      @reloadComments="emitEvent"
     />
     <Comment
       :post="post"
@@ -26,11 +27,11 @@ export default {
       post: 'modules/post/post'
     })
   },
-  // methods: {
-  //   ...mapActions({
-  //     emitSetPost: 'modules/post/emitSetPost'
-  //   })
-  // },
+  methods: {
+    emitEvent (value) {
+      this.$store.dispatch('modules/post/reloadComment', value)
+    }
+  },
   async fetch ({ $axios, params, store }) {
     await $axios.$get(`/api/v1/posts/${params.id}`)
       .then((post) => {
