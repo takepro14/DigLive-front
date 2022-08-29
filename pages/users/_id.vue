@@ -112,14 +112,18 @@ export default {
   },
   methods: {
     ...mapActions({
-      getUser: 'modules/user/getUser',
+      // getUser: 'modules/user/getUser',
       emitSetUserClear: 'modules/user/emitSetUserClear',
       follow: 'modules/user/follow',
       unfollow: 'modules/user/unfollow'
     })
   },
-  created () {
-    this.getUser(this.user_id)
+  async fetch ({ $axios, params, store }) {
+    await $axios.$get(`/api/v1/users/${params.id}`)
+      .then((user) => {
+        // console.log(JSON.stringify(user))
+        store.dispatch('modules/user/emitSetUser', user)
+      })
   },
   destroyed () {
     this.emitSetUserClear(this.user_id)

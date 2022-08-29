@@ -112,8 +112,8 @@ export const actions = {
   },
   emitSetPost ({ rootState, commit }, post) {
     // postへの追加処理: いいね済の場合にtrueを立てる
-    let likedUserIds = []
-    likedUserIds = post.likes.map((like) => {
+    // let likedUserIds = []
+    const likedUserIds = post.likes.map((like) => {
       return like.user_id
     })
     post.isLiked = likedUserIds.includes(rootState.user.current.id)

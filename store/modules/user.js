@@ -37,22 +37,36 @@ export const mutations = {
 }
 
 export const actions = {
-  async getUser ({ commit, rootState }, userId) {
-    await this.$axios.$get(`/api/v1/users/${userId}`)
-      .then((user) => {
-        // console.log('userは: ' + JSON.stringify(user))
-        // -- フォロー済みユーザかのチェック --
-        // 当ユーザのフォロワーを配列で取得
-        const followersId = user.passive_relationships.map((passiveRelationship) => {
-          return passiveRelationship.follower_id
-        })
-        user.isFollowed = followersId.includes(rootState.user.current.id)
-        return user
-      })
-      .then((user) => {
-        commit('setUser', user)
-      })
+  emitSetUser ({ commit, rootState }, userObj) {
+    // ユーザ詳細で当該ユーザをフォローしているかのフラグ追加
+    // console.log(JSON.stringify(userObj))
+    const followersIds = userObj.passive_relationships.map((passiveRelationship) => {
+      return passiveRelationship.follower_id
+    })
+    // console.log('followersIds: ' + followersIds)
+    // console.log('followersIdsは配列？: ' + Array.isArray(followersIds))
+    userObj.isFollowed = followersIds.includes(rootState.user.current.id)
+    // console.log(userObj.isFollowed)
+    // commit('setUser', userObj)
+    console.log('userObjは: ' + JSON.stringify(userObj))
+    commit('setUser', userObj)
   },
+  // async getUser ({ commit, rootState }, userId) {
+  //   await this.$axios.$get(`/api/v1/users/${userId}`)
+  //     .then((user) => {
+  //       // console.log('userは: ' + JSON.stringify(user))
+  //       // -- フォロー済みユーザかのチェック --
+  //       // 当ユーザのフォロワーを配列で取得
+  //       const followersId = user.passive_relationships.map((passiveRelationship) => {
+  //         return passiveRelationship.follower_id
+  //       })
+  //       user.isFollowed = followersId.includes(rootState.user.current.id)
+  //       return user
+  //     })
+  //     .then((user) => {
+  //       commit('setUser', user)
+  //     })
+  // },
   emitSetUserClear ({ commit }) {
     commit('setUserClear')
   },
