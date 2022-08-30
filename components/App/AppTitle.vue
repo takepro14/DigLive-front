@@ -1,10 +1,25 @@
 <template>
-  <v-toolbar-title>
+  <v-toolbar-title
+    d-flex
+  >
     <nuxt-link
       :to="homePath"
       class="text-decoration-none"
     >
-      {{ appName }}
+      <v-row>
+        <v-col>
+          <v-img
+            src="favicon.ico"
+            height="30px"
+            width="30px"
+          />
+        </v-col>
+        <v-col>
+          <span>
+            {{ appName }}
+          </span>
+        </v-col>
+      </v-row>
     </nuxt-link>
   </v-toolbar-title>
 </template>

@@ -9,9 +9,25 @@
     >
       <AppTitle />
       <v-spacer></v-spacer>
-      <app-home-about-button />
-      <NotLoggedInHeaderSignupButton />
-      <NotLoggedInHeaderLoginButton />
+        <!-- 新規登録ボタン -->
+        <v-btn
+          outlined
+          dark
+          color="blue lighten-2"
+          class="ml-2 font-weight-bold"
+          to="/signup"
+        >
+          {{ $my.pageTitle('signup') }}
+        </v-btn>
+        <!-- ログインボタン -->
+        <v-btn
+          text
+          class="ml-2 font-weight-bold"
+          to="/login"
+        >
+          {{ $my.pageTitle('login') }}
+        </v-btn>
+
     </v-app-bar>
   </div>
 </template>
