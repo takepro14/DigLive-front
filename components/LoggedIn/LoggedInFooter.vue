@@ -22,7 +22,7 @@
       <!----- Search ----->
       <v-spacer />
       <nuxt-link
-        to="search"
+        to="/search"
         class="text-decoration-none d-flex align-center"
       >
         <v-btn
