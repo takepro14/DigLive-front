@@ -1,7 +1,5 @@
 <template>
-  <v-toolbar-title
-    d-flex
-  >
+  <v-toolbar-title>
     <nuxt-link
       :to="homePath"
       class="text-decoration-none"

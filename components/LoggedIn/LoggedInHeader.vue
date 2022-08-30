@@ -6,6 +6,7 @@
       fixed
       fab
       top
+      color="blue-grey lighten-5"
     >
       <nuxt-link
         :to="homePath"

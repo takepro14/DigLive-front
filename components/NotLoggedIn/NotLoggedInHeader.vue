@@ -6,6 +6,7 @@
       fixed
       fab
       top
+      color="blue-grey lighten-5"
     >
       <AppTitle />
       <v-spacer></v-spacer>
@@ -27,7 +28,6 @@
         >
           {{ $my.pageTitle('login') }}
         </v-btn>
-
     </v-app-bar>
   </div>
 </template>
