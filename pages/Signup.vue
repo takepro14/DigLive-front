@@ -40,15 +40,40 @@ export default {
     return {
       isValid: false,
       loading: false,
-      params: { user: { name: '', email: '', password: '' } }
+      // TODO: activatedはメール認証にする
+      params: { user: { name: 'たけ', email: 'test-user999@example.com', password: 'password', activated: true } }
+    }
+  },
+  computed: {
+    // 新規登録後のログインリクエストパラメータ
+    loginParams () {
+      const params = { auth: { email: this.params.user.email, password: this.params.user.password } }
+      return params
     }
   },
   methods: {
-    signup () {
+    async signup () {
       this.loading = true
-      setTimeout(() => (
-        this.loading = false
-      ), 1500)
+      if (this.isValid) {
+        await this.$axios.$post('/api/v1/users', this.params, { withCredentials: true })
+          .then((response) => {
+            console.log('新規ユーザpost後のresponse: ' + JSON.stringify(response))
+            // ログイン認証
+            this.$axios.$post('/api/v1/auth_token', this.loginParams, { withCredentials: true })
+              .then((response) => {
+                console.log('認証post後のresponse: ' + JSON.stringify(response))
+                this.createSuccessful(response)
+              })
+              .catch(error => console.log(error))
+          })
+          // .catch(error => this.createFailure(error))
+      }
+      this.loading = false
+    },
+    // 成功した時、ログイン処理に移行
+    createSuccessful (response) {
+      this.$auth.login(response)
+      this.$router.push('/posts')
     }
   }
 }
