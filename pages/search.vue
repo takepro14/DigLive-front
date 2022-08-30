@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <PostSearchFormKeyword />
-    <PostSearchFormTag />
+    <SearchFormKeyword />
+    <SearchFormTag />
     <Post
       v-for="post in filteredPosts"
       :key="post.id"

@@ -1,5 +1,5 @@
 <template>
-  <UserFormCard>
+  <InputForm>
     <template
       #user-form-card-content
     >
@@ -7,14 +7,14 @@
         ref="form"
         v-model="isValid"
       >
-        <UserFormCardName
+        <InputFormName
           :name.sync="params.user.name"
         />
-        <UserFormCardEmail
+        <InputFormEmail
           :email.sync="params.user.email"
           placeholder
         />
-        <UserFormCardPassword
+        <InputFormPassword
           :password.sync="params.user.password"
           set-validation
         />
@@ -30,7 +30,7 @@
         </v-btn>
       </v-form>
     </template>
-  </UserFormCard>
+  </InputForm>
 </template>
 
 <script>

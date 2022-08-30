@@ -1,3 +1,6 @@
+<!--
+  ユーザ新規登録・ログイン時のパスワード入力フォーム
+-->
 <template>
   <v-text-field
     v-model="setPassword"

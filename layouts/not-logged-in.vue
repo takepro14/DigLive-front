@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <NotLoggedInHeader />
-    <AppToaster />
+    <Toaster />
     <nuxt
       color="cyan lighten-5"
     />

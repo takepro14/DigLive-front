@@ -4,32 +4,38 @@
       v-model="dialog"
       width="500"
     >
+      <!-- ダイアログクローズ -->
       <template
         #activator="{ on, attrs }"
       >
-        <v-card
-          color="blue lighten-4"
+        <v-btn
+          fixed
+          fab
+          bottom
+          right
+          dark
+          color="indigo"
           v-bind="attrs"
-          style="max-width: 600px"
-          class="mx-auto text-center"
+          style="bottom: 65px"
           v-on="on"
         >
-          <v-card-text>
-            コメントする
-          </v-card-text>
-        </v-card>
+          <v-icon dark>
+            mdi-plus
+          </v-icon>
+        </v-btn>
       </template>
+      <!-- ダイアログオープン -->
       <v-card>
         <v-card-title
           class="headline grey lighten-2"
         >
-          投稿にコメントする
+          つぶやきを投稿する
         </v-card-title>
         <div
           class="ma-4"
         >
           <v-textarea
-            v-model="comment"
+            v-model="content"
             :rules="rules"
             counter="300"
             name="input-7-4"
@@ -37,11 +43,15 @@
             placeholder="僕はこんなことをして垢抜けました。・・・"
             outlined
           />
+          <InputFormTag
+            :init-tags="tags"
+            @changed-tags="tags = $event"
+          />
         </div>
         <v-card-actions>
           <v-spacer />
           <v-btn
-            @click="createComment"
+            @click="createPost"
           >
             投稿する
           </v-btn>
@@ -63,33 +73,39 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data ({ $store }) {
     return {
       dialog: false,
-      comment: 'テストコメント投稿',
+      content: 'テスト投稿',
       tags: [],
       rules: [v => v.length <= 300 || '300文字以内で入力してください'],
       user_id: $store.state.user.current.id
     }
   },
-  props: {
-    post: {
-      type: Object
-    }
-  },
   methods: {
-    createComment () {
-      const url = '/api/v1/comments'
-      const data = new FormData()
-      data.append('comment[user_id]', this.user_id)
-      data.append('comment[post_id]', this.post.id)
-      data.append('comment[comment]', this.comment)
-      this.$axios.post(url, data)
-        .then((comment) => {
-          this.$emit('reloadComments', comment)
-          this.dialog = false
+    ...mapActions({
+      getPostForPosts: 'modules/post/getPostForPosts'
+    }),
+    createPost () {
+      const url = '/api/v1/posts'
+      const postData = new FormData()
+      if (this.tags.length !== 0) {
+        this.tags.forEach((tag) => {
+          postData.append('post[tags][]', tag.text)
         })
+      }
+      postData.append('post[user_id]', this.user_id)
+      postData.append('post[content]', this.content)
+      this.$axios.post(url, postData)
+        .then((res) => {
+          // console.log('data: ' + JSON.stringify(data))
+          // console.log(res.data.id)
+          this.getPostForPosts(res.data.id)
+        })
+      this.content = ''
+      this.dialog = false
     }
   }
 }

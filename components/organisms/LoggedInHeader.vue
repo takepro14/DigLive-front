@@ -13,10 +13,10 @@
         class="text-decoration-none"
       >
       </nuxt-link>
-      <AppTitle />
+      <Title />
       <v-spacer />
       <LoggedInHeaderNavDrawer />
-      <LoggedInHeaderAccountMenu />
+      <AccountMenu />
     </v-app-bar>
   </div>
 </template>

@@ -8,7 +8,7 @@
       top
       color="blue-grey lighten-5"
     >
-      <AppTitle />
+      <Title />
       <v-spacer></v-spacer>
         <!-- 新規登録ボタン -->
         <v-btn

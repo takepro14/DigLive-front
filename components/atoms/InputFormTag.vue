@@ -1,3 +1,6 @@
+<!--
+  新規投稿時のタグフォーム
+-->
 <template>
   <div>
     <!-- http://www.vue-tags-input.com/#/ -->
