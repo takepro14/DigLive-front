@@ -32,6 +32,9 @@ export const mutations = {
       return passiveRelationship.follower_id !== currentId
     })
     state.user.passive_relationships = otherFollowers
+  },
+  reloadUserBySetAvatar (state, payload) {
+    state.user.avatar = payload
   }
 }
 
@@ -64,5 +67,8 @@ export const actions = {
       .then(() => {
         commit('reloadUserByUnfollow', rootState.user.current.id)
       })
+  },
+  setAvatar ({ commit }, userObj) {
+    commit('reloadUserBySetAvatar', userObj)
   }
 }

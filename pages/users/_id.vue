@@ -35,14 +35,12 @@
               </v-col>
               <v-spacer />
               <v-col>
-                <v-btn
+                <UserEditDialog
                   v-if="user.id === current_id"
-                  outlined
-                  rounded
-                  text
+                  @submit="addImage"
                 >
-                  Settings
-                </v-btn>
+                  プロフィール設定
+                </UserEditDialog>
                 <v-btn
                   v-else-if="user.isFollowed === true"
                   outlined
@@ -70,8 +68,11 @@
           <v-list-item-avatar
             tile
             size="120"
-            color="grey"
-          ></v-list-item-avatar>
+          >
+            <v-img
+              :src="'http://localhost:3000' + user.avatar.url"
+            />
+          </v-list-item-avatar>
         </v-list-item>
         <v-card-actions>
           <v-card-text>
@@ -126,6 +127,9 @@ export default {
     },
     followingLength () {
       return !this.user.active_relationships ? 0 : this.user.active_relationships.length
+    },
+    avatarUrl () {
+      return require(this.user.avatar.url)
     }
   },
   methods: {
@@ -133,8 +137,20 @@ export default {
       // getUser: 'modules/user/getUser',
       emitSetUserClear: 'modules/user/emitSetUserClear',
       follow: 'modules/user/follow',
-      unfollow: 'modules/user/unfollow'
-    })
+      unfollow: 'modules/user/unfollow',
+      setAvatar: 'modules/user/setAvatar'
+    }),
+    // 画像アップロード
+    async addImage (formData, config) {
+      await this.$axios.$put(`/api/v1/users/${this.current_id}`, formData, config)
+        // .then((user) => {
+        //   console.log(JSON.stringify(user))
+        //   return user
+        // })
+        .then((user) => {
+          this.setAvatar(user)
+        })
+    }
   },
   async fetch ({ $axios, params, store }) {
     await $axios.$get(`/api/v1/users/${params.id}`)
