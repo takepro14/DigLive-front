@@ -1,24 +1,18 @@
-<!--
-  タグ検索時のタグボタン
--->
 <template>
-  <div>
-    <v-chip
-      link
-      filter
-      @click="toggleTag"
-    >
-      # {{ tag.tag_name }}
-    </v-chip>
-  </div>
+  <v-chip
+    link
+    filter
+    @click="toggleTag"
+  >
+    # {{ tag.tag_name }}
+  </v-chip>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 export default {
   data () {
     return {
-      tagCheckFlg: false
+      isChecked: false
     }
   },
   props: {
@@ -27,22 +21,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      emitSetTagTrue: 'modules/tag/emitSetTagTrue',
-      emitSetTagFalse: 'modules/tag/emitSetTagFalse',
-      emitSetFilterQueryTag: 'modules/post/emitSetFilterQueryTag',
-      emitSetFilterQueryKeywordBlank: 'modules/post/emitSetFilterQueryKeywordBlank',
-      emitSetFilterQueryTagBlank: 'modules/post/emitSetFilterQueryTagBlank'
-    }),
     toggleTag () {
-      this.tagCheckFlg = !this.tagCheckFlg
-      if (this.tagCheckFlg) {
-        this.emitSetTagTrue(this.tag.tag_name)
-        this.emitSetFilterQueryKeywordBlank()
-        this.emitSetFilterQueryTag()
+      this.isChecked = !this.isChecked
+      if (this.isChecked === true) {
+        this.$emit('formTagCheckedEvent', this.tag.tag_name)
       } else {
-        this.emitSetTagFalse()
-        this.emitSetFilterQueryTagBlank()
+        this.$emit('formTagUncheckedEvent')
       }
     }
   }

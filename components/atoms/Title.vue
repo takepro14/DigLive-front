@@ -1,6 +1,3 @@
-<!--
-  ヘッダーのタイトル・ロゴ
--->
 <template>
   <v-toolbar-title>
     <nuxt-link

@@ -10,26 +10,37 @@
         v-for="tag in tags"
         :key="tag.id"
         :tag="tag"
+        v-model="setTags"
+        @formTagCheckedEvent="formTagChecked"
+        @formTagUncheckedEvent="formTagUnchecked"
       />
     </v-chip-group>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 export default {
+  props: {
+    tags: {
+      type: Array
+    },
+    tag: {
+      type: String
+    }
+  },
   computed: {
-    ...mapGetters({
-      tags: 'modules/tag/tags'
-    })
+    setTag: {
+      get () { return this.tag },
+      set (newVal) { return this.$emit('update:tag', newVal) }
+    }
   },
   methods: {
-    ...mapActions({
-      getTags: 'modules/tag/getTags'
-    })
-  },
-  mounted () {
-    this.getTags()
+    formTagChecked (value) {
+      this.$emit('formTagCheckedEvent', value)
+    },
+    formTagUnchecked () {
+      this.$emit('formTagUncheckedEvent')
+    }
   }
 }
 </script>

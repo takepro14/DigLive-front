@@ -1,8 +1,6 @@
 export const state = {
   posts: [],
-  post: {},
-  filterQueryKeyword: '',
-  filterQueryTag: ''
+  post: {}
 }
 
 export const getters = {
@@ -11,18 +9,6 @@ export const getters = {
   },
   post (state) {
     return state.post
-  },
-  filteredPosts (state) {
-    const posts = state.posts
-    // キーワードサーチ
-    if (state.filterQueryKeyword) {
-      return posts.filter(post => post.content.includes(state.filterQueryKeyword))
-    // タグサーチ
-    } else if (state.filterQueryTag) {
-      return posts.filter(post => post.tags.map(tag => tag.tag_name).includes(state.filterQueryTag))
-    } else {
-      // 何も表示しない
-    }
   }
 }
 
@@ -39,18 +25,6 @@ export const mutations = {
   },
   setPostClear (state) {
     state.post = {}
-  },
-  setFilterQueryKeyword (state, payload) {
-    state.filterQueryKeyword = payload
-  },
-  setFilterQueryTag (state, payload) {
-    state.filterQueryTag = payload
-  },
-  setFilterQueryKeywordBlank (state) {
-    state.filterQueryKeyword = ''
-  },
-  setFilterQueryTagBlank (state) {
-    state.filterQueryTag = ''
   },
   reloadPostByLikePost (state, payload) {
     // 投稿一覧からいいねした場合
@@ -159,17 +133,6 @@ export const actions = {
   },
   emitSetFilterQueryKeyword ({ commit }, param) {
     commit('setFilterQueryKeyword', param)
-  },
-  // tag.jsからチェックしたタグのリストを取得
-  emitSetFilterQueryTag ({ rootState, commit }) {
-    const checkedTag = rootState.modules.tag.checkedTag
-    commit('setFilterQueryTag', checkedTag)
-  },
-  emitSetFilterQueryKeywordBlank ({ commit }) {
-    commit('setFilterQueryKeywordBlank')
-  },
-  emitSetFilterQueryTagBlank ({ commit }) {
-    commit('setFilterQueryTagBlank')
   },
   async likePost ({ rootState, commit }, post) {
     await this.$axios.$post('/api/v1/likes', {

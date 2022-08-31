@@ -6,31 +6,33 @@
       filled
       rounded
       dense
-      v-model="keyword"
-      @focus="emitSetFilterQueryTagBlank"
-      @blur="setupFormKeywordWhenBlur"
-      @input="emitSetFilterQueryKeyword(keyword)"
+      v-model="setKeyword"
+      @blur="formKeywordClear"
+      @focus="formKeywordFocus"
     />
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 export default {
-  data () {
-    return {
-      keyword: ''
+  props: {
+    keyword: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    setKeyword: {
+      get () { return this.keyword },
+      set (newVal) { return this.$emit('update:keyword', newVal) }
     }
   },
   methods: {
-    ...mapActions({
-      emitSetFilterQueryKeyword: 'modules/post/emitSetFilterQueryKeyword',
-      emitSetFilterQueryTagBlank: 'modules/post/emitSetFilterQueryTagBlank',
-      emitSetFilterQueryKeywordBlank: 'modules/post/emitSetFilterQueryKeywordBlank'
-    }),
-    setupFormKeywordWhenBlur () {
-      this.keyword = ''
-      this.emitSetFilterQueryKeywordBlank()
+    formKeywordClear () {
+      this.$emit('formKeywordClearEvent')
+    },
+    formKeywordFocus () {
+      this.$emit('formKeywordFocusEvent')
     }
   }
 }

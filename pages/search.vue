@@ -1,7 +1,16 @@
 <template>
   <v-container>
-    <SearchFormKeyword />
-    <SearchFormTag />
+    <SearchFormKeyword
+      :keyword.sync="keyword"
+      @formKeywordClearEvent="formKeywordClear"
+      @formKeywordFocusEvent="formKeywordFocus"
+    />
+    <SearchFormTag
+      :tag.sync="tag"
+      :tags="tags"
+      @formTagCheckedEvent="formTagChecked"
+      @formTagUncheckedEvent="formTagUnchecked"
+    />
     <Post
       v-for="post in filteredPosts"
       :key="post.id"
@@ -17,20 +26,56 @@ export default {
   middleware: [
     'authentication'
   ],
+  data () {
+    return {
+      keyword: '',
+      tag: ''
+    }
+  },
   computed: {
     ...mapGetters({
       posts: 'modules/post/posts',
-      // 検索結果のpostオブジェクトの配列
-      filteredPosts: 'modules/post/filteredPosts'
-    })
+      tags: 'modules/tag/tags'
+    }),
+    filteredPosts () {
+      if (this.keyword !== '') {
+        return this.posts.filter((post) => {
+          return post.content.includes(this.keyword)
+        })
+      } else if (this.tags !== '') {
+        return this.posts.filter((post) => {
+          return post.tags.map(tag => tag.tag_name).includes(this.tag)
+        })
+      } else {
+        return []
+      }
+    }
   },
   methods: {
     ...mapActions({
-      getPosts: 'modules/post/getPosts'
-    })
+      getPosts: 'modules/post/getPosts',
+      getTags: 'modules/tag/getTags'
+    }),
+    formKeywordClear () {
+      this.keyword = ''
+    },
+    formTagClear () {
+      this.tag = ''
+    },
+    formKeywordFocus () {
+      this.formTagClear()
+    },
+    formTagChecked (value) {
+      this.tag = value
+      this.formKeywordClear()
+    },
+    formTagUnchecked () {
+      this.tag = ''
+    }
   },
   mounted () {
     this.getPosts()
+    this.getTags()
   }
 }
 </script>

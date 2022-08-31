@@ -1,6 +1,3 @@
-<!--
-  ユーザ新規登録・ログイン時のメールアドレス入力フォーム
--->
 <template>
   <v-text-field
     v-model="setEmail"

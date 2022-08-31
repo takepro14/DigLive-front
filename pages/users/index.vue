@@ -30,7 +30,7 @@ export default {
   async fetch ({ $axios, store }) {
     await $axios.$get('/api/v1/users')
       .then((users) => {
-        store.dispatch('modules/user/setUsers', users)
+        store.dispatch('modules/user/getUsers', users)
       })
   }
 }

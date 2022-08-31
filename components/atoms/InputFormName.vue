@@ -1,6 +1,3 @@
-<!--
-  ユーザ新規登録・ログイン時の名前入力フォーム
--->
 <template>
   <v-text-field
     v-model="setName"
