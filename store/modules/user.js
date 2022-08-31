@@ -47,6 +47,9 @@ export const actions = {
     userObj.isFollowed = followersIds.includes(rootState.user.current.id)
     commit('setUser', userObj)
   },
+  getUsers ({ commit }, users) {
+    commit('setUsers', users)
+  },
   emitSetUserClear ({ commit }) {
     commit('setUserClear')
   },
