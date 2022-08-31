@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   layout: 'logged-in',
   // data ({ $route }) {
@@ -22,16 +22,13 @@ export default {
       users: 'modules/user/users'
     })
   },
-  // methods: {
-  //   emitEvent (value) {
-  //     this.$store.dispatch('modules/post/reloadComment', value)
-  //   }
-  // },
-  async fetch ({ $axios, store }) {
-    await $axios.$get('/api/v1/users')
-      .then((users) => {
-        store.dispatch('modules/user/getUsers', users)
-      })
+  methods: {
+    ...mapActions({
+      getUsers: 'modules/user/getUsers'
+    })
+  },
+  async fetch () {
+    await this.getUsers()
   }
 }
 </script>

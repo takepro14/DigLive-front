@@ -1,21 +1,45 @@
 <template>
   <v-container>
-    <SearchFormKeyword
-      :keyword.sync="keyword"
-      @formKeywordClearEvent="formKeywordClear"
-      @formKeywordFocusEvent="formKeywordFocus"
-    />
-    <SearchFormTag
-      :tag.sync="tag"
-      :tags="tags"
-      @formTagCheckedEvent="formTagChecked"
-      @formTagUncheckedEvent="formTagUnchecked"
-    />
-    <Post
-      v-for="post in filteredPosts"
-      :key="post.id"
-      :post="post"
-    />
+    <v-row>
+      <SearchMenu
+        @chooseMenuEvent="chooseMenu"
+      />
+      <v-container
+        v-if="menu === 'postSearchTab'"
+      >
+        <SearchFormKeyword
+          :keyword.sync="keyword"
+          @formKeywordClearEvent="formKeywordClear"
+          @formKeywordFocusEvent="formKeywordFocus"
+        />
+        <SearchFormTag
+          :tag.sync="tag"
+          :tags="tags"
+          @formTagCheckedEvent="formTagChecked"
+          @formTagUncheckedEvent="formTagUnchecked"
+        />
+        <Post
+          v-for="post in filteredPosts"
+          :key="post.id"
+          :post="post"
+        />
+      </v-container>
+      <v-container
+        v-if="menu === 'userSearchTab'"
+      >
+        <SearchFormKeyword
+          :keyword.sync="keyword"
+          @formKeywordClearEvent="formKeywordClear"
+          @formKeywordFocusEvent="formKeywordFocus"
+        />
+        <User
+          v-for="user in filteredUsers"
+          :key="user.id"
+          :user="user"
+        />
+      </v-container>
+
+    </v-row>
   </v-container>
 </template>
 
@@ -29,13 +53,15 @@ export default {
   data () {
     return {
       keyword: '',
-      tag: ''
+      tag: '',
+      menu: 'postSearchTab'
     }
   },
   computed: {
     ...mapGetters({
       posts: 'modules/post/posts',
-      tags: 'modules/tag/tags'
+      tags: 'modules/tag/tags',
+      users: 'modules/user/users'
     }),
     filteredPosts () {
       if (this.keyword !== '') {
@@ -49,11 +75,21 @@ export default {
       } else {
         return []
       }
+    },
+    filteredUsers () {
+      if (this.keyword !== '') {
+        return this.users.filter((user) => {
+          return user.name.includes(this.keyword)
+        })
+      } else {
+        return []
+      }
     }
   },
   methods: {
     ...mapActions({
       getPosts: 'modules/post/getPosts',
+      getUsers: 'modules/post/getUsers',
       getTags: 'modules/tag/getTags'
     }),
     formKeywordClear () {
@@ -71,10 +107,14 @@ export default {
     },
     formTagUnchecked () {
       this.tag = ''
+    },
+    chooseMenu (value) {
+      this.menu = value
     }
   },
   mounted () {
     this.getPosts()
+    this.getUsers()
     this.getTags()
   }
 }
