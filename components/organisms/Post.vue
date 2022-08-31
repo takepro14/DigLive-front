@@ -13,12 +13,11 @@
         @click.stop="moveUserPage"
       >
         <v-list-item-avatar
-          color="grey darken-3"
         >
           <v-img
             class="elevation-6"
             alt=""
-            src="https://i.pravatar.cc/10"
+            :src="'http://localhost:3000' + post.user.avatar.url"
           />
         </v-list-item-avatar>
         <v-list-item-content>
