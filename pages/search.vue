@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <v-row>
-      <SearchMenu
-        @chooseMenuEvent="chooseMenu"
+      <SideMenu
+        @menuClickEvent="menuClick"
       />
       <v-container
-        v-if="menu === 'postSearchTab'"
+        v-if="menu === 'postsTab'"
       >
         <SearchFormKeyword
           :keyword.sync="keyword"
@@ -25,7 +25,7 @@
         />
       </v-container>
       <v-container
-        v-if="menu === 'userSearchTab'"
+        v-if="menu === 'usersTab'"
       >
         <SearchFormKeyword
           :keyword.sync="keyword"
@@ -54,7 +54,7 @@ export default {
     return {
       keyword: '',
       tag: '',
-      menu: 'postSearchTab'
+      menu: 'postsTab'
     }
   },
   computed: {
@@ -108,7 +108,7 @@ export default {
     formTagUnchecked () {
       this.tag = ''
     },
-    chooseMenu (value) {
+    menuClick (value) {
       this.menu = value
     }
   },

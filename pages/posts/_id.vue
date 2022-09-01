@@ -5,7 +5,7 @@
     />
     <CommentCreateDialog
       :post="post"
-      @reloadComments="emitEvent"
+      @addCommentEvent="addComment"
     />
     <Comment
       :post="post"
@@ -28,8 +28,8 @@ export default {
     })
   },
   methods: {
-    emitEvent (value) {
-      this.$store.dispatch('modules/post/reloadComment', value)
+    addComment () {
+      this.$store.dispatch('modules/post/emitReloadComments', this.post_id)
     }
   },
   async fetch ({ $axios, params, store }) {

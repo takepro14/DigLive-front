@@ -14,9 +14,14 @@
           style="max-width: 600px"
           class="mx-auto text-center"
           v-on="on"
+          hover
+          rounded
         >
           <v-card-text>
-            コメントする
+            <v-icon>
+              mdi-plus
+            </v-icon>
+              コメントする
           </v-card-text>
         </v-card>
       </template>
@@ -66,6 +71,11 @@
 
 <script>
 export default {
+  props: {
+    post: {
+      type: Object
+    }
+  },
   data ({ $store }) {
     return {
       dialog: false,
@@ -75,21 +85,15 @@ export default {
       user_id: $store.state.user.current.id
     }
   },
-  props: {
-    post: {
-      type: Object
-    }
-  },
   methods: {
     createComment () {
-      const url = '/api/v1/comments'
       const data = new FormData()
       data.append('comment[user_id]', this.user_id)
       data.append('comment[post_id]', this.post.id)
       data.append('comment[comment]', this.comment)
-      this.$axios.post(url, data)
-        .then((comment) => {
-          this.$emit('reloadComments', comment)
+      this.$axios.post('/api/v1/comments', data)
+        .then(() => {
+          this.$emit('addCommentEvent')
           this.dialog = false
         })
     }

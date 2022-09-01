@@ -1,14 +1,23 @@
 <template>
   <v-card
+    width="600"
     class="mx-auto"
     min-width="300"
     tile
   >
-    <v-list
+    <v-toolbar
+      color="blue darken-1"
+      dark
+      flat
     >
-      <v-subheader>
-        検索カテゴリー
-      </v-subheader>
+      <v-toolbar-title>
+        <v-icon class="mr-3">
+          mdi-menu
+        </v-icon>
+        Menu
+      </v-toolbar-title>
+    </v-toolbar>
+    <v-list>
       <v-list-item-group
         v-model="selectedItem"
         color="primary"
@@ -16,7 +25,7 @@
         <v-list-item
           v-for="menu in menus"
           :key="menu.id"
-          @click="chooseMenu(menu)"
+          @click="menuClick(menu)"
         >
           <v-list-item-icon>
             <v-icon>
@@ -40,27 +49,26 @@ export default {
     return {
       menus: [
         {
-          title: '投稿',
-          name: 'postSearchTab',
-          icon: 'mdi-message'
+          title: 'つぶやき',
+          name: 'postsTab',
+          icon: 'mdi-comment-text-outline'
         },
         {
           title: 'ユーザ',
-          name: 'userSearchTab',
+          name: 'usersTab',
           icon: 'mdi-account'
         },
         {
           title: '掲示板',
-          name: 'boardSearchTab',
+          name: 'boardsTab',
           icon: 'mdi-bulletin-board'
         }
       ]
     }
   },
   methods: {
-    chooseMenu (menu) {
-      this.$emit('chooseMenuEvent', menu.name)
-      console.log('emit発火')
+    menuClick (menu) {
+      this.$emit('menuClickEvent', menu.name)
     }
   }
 }

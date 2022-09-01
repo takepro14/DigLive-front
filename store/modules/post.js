@@ -61,8 +61,7 @@ export const mutations = {
       state.post.likes = otherUsersLikes
     }
   },
-  reloadComment (state, payload) {
-    console.log('mutation reloadComment: ' + JSON.stringify(payload))
+  reloadComments (state, payload) {
     state.post.comments.push(payload)
   }
   // reloadPostByComment (state, payload) {
@@ -163,11 +162,10 @@ export const actions = {
         })
       })
   },
-  reloadComment ({ commit }, payload) {
-    console.log('actions reloadComment: ' + JSON.stringify(payload))
-    commit('reloadComment', payload)
+  async emitReloadComments ({ commit }, postId) {
+    await this.$axios.$get(`/api/v1/posts/${postId}`)
+      .then((post) => {
+        commit('setPost', post)
+      })
   }
-  // emitReloadPostByComment ({ commit }, commentObj) {
-  //   commit('reloadPostByComment', commentObj)
-  // }
 }

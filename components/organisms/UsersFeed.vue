@@ -11,12 +11,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  layout: 'logged-in',
-  // data ({ $route }) {
-  //   return {
-  //     post_id: $route.params.id
-  //   }
-  // },
   computed: {
     ...mapGetters({
       users: 'modules/user/users'

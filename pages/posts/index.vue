@@ -1,36 +1,35 @@
 <template>
-  <div>
-    <Post
-      v-for="post in posts"
-      :key="post.id"
-      :post="post"
-    />
-    <PostCreateDialog />
-  </div>
+  <v-container>
+    <v-row>
+      <v-col>
+        <SideMenu
+          @menuClickEvent="menuClick"
+        />
+        <PostsFeed
+          v-if="menu === 'postsTab'"
+        />
+        <UsersFeed
+          v-if="menu === 'usersTab'"
+        />
+        <BoardsFeed
+          v-if="menu === 'boardsTab'"
+        />
+        <PostCreateDialog />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 export default {
   layout: 'logged-in',
   middleware: [
     'authentication'
   ],
-  computed: {
-    ...mapGetters({
-      posts: 'modules/post/posts',
-      tags: 'modules/tag/tags'
-    })
-  },
-  methods: {
-    ...mapActions({
-      getPosts: 'modules/post/getPosts',
-      getTags: 'modules/tag/getTags'
-    })
-  },
-  created () {
-    this.getPosts()
-    this.getTags()
+  data () {
+    return {
+      menu: 'postsTab'
+    }
   }
 }
 </script>
