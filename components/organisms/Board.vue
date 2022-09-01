@@ -1,42 +1,61 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="boards"
-    class="elevation-1"
-  >
-    <template
-      #body="{ items }"
-    >
-      <tbody>
-        <tr
-          v-for="item in items"
-          :key="item.id"
+  <v-list-item>
+    <v-list-item-avatar>
+      <v-img
+        :src="avatarUrl"
+      />
+    </v-list-item-avatar>
+    <v-container>
+      <v-row>
+        <v-col
+          cols="8"
         >
-          <td>{{ item.title }}</td>
-          <td>{{ item.description }}</td>
-          <td>{{ item.user.name }}</td>
-          <td>{{ $my.format(item.updated_at) }}</td>
-        </tr>
-      </tbody>
-    </template>
-  </v-data-table>
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ board.title }}
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              {{ board.description }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-col>
+        <v-col
+          cols="2"
+        >
+          <v-btn
+            @click="moveBoardPage"
+          >
+            詳細を表示
+          </v-btn>
+        </v-col>
+        <v-col
+          cols="2"
+        >
+          <span>
+            {{ $my.format(board.updated_at) }}
+          </span>
+        </v-col>
+      </v-row>
+    <v-divider />
+    </v-container>
+  </v-list-item>
 </template>
 
 <script>
 export default {
   props: {
-    boards: {
-      type: Array
+    board: {
+      type: Object
     }
   },
   data () {
     return {
-      headers: [
-        { text: 'タイトル', align: 'start', sortable: false },
-        { text: '説明', align: 'start', sortable: false },
-        { text: 'スレ主', align: 'start', sortable: false },
-        { text: '最終更新日', align: 'start', sortable: false }
-      ]
+      avatarUrl: 'http://localhost:3000' + this.board.user.avatar.url
+    }
+  },
+  methods: {
+    moveBoardPage () {
+      this.$router.push(`/boards/${this.board.id}`)
     }
   }
 }
