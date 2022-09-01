@@ -1,5 +1,7 @@
 <template>
-  <v-list-item>
+  <v-list-item
+    @click="moveBoardPage"
+  >
     <v-list-item-avatar>
       <v-img
         :src="avatarUrl"
@@ -20,16 +22,7 @@
           </v-list-item-content>
         </v-col>
         <v-col
-          cols="2"
-        >
-          <v-btn
-            @click="moveBoardPage"
-          >
-            詳細を表示
-          </v-btn>
-        </v-col>
-        <v-col
-          cols="2"
+          cols="4"
         >
           <span>
             {{ $my.format(board.updated_at) }}

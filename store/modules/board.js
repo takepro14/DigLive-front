@@ -18,7 +18,7 @@ export const mutations = {
   },
   setBoard (state, payload) {
     state.board = payload
-  },
+  }
 }
 
 export const actions = {
@@ -29,5 +29,8 @@ export const actions = {
           commit('setBoards', boards)
         })
     }
+  },
+  emitSetBoard ({ commit }, board) {
+    commit('setBoard', board)
   }
 }

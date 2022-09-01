@@ -12,7 +12,9 @@
               dark
             >
               <v-toolbar-title>
-                掲示板一覧
+                <span>
+                  掲示板一覧
+                </span>
               </v-toolbar-title>
             </v-toolbar>
             <v-list
