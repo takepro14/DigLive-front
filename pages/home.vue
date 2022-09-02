@@ -30,6 +30,11 @@ export default {
     return {
       menu: 'postsTab'
     }
+  },
+  methods: {
+    menuClick (value) {
+      this.menu = value
+    }
   }
 }
 </script>

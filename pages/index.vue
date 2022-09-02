@@ -1,16 +1,22 @@
 <template>
-  <div>
-    <NotLoggedInHeader />
-    <NotLoggedInHomeTop />
-    <NotLoggedInFooter />
-  </div>
+  <v-container
+    class="my-16"
+  >
+    <v-row>
+      <v-col>
+        <NotLoggedInHeader />
+        <NotLoggedInHome />
+        <NotLoggedInFooter />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 export default {
+  layout: 'not-logged-in',
   data: () => ({
     drawer: null
-  }),
-  middleware: ['logged-in-redirect']
+  })
 }
 </script>

@@ -1,4 +1,4 @@
-const homePath = 'posts'
+const homePath = 'home'
 
 export const state = () => ({
   LoggedIn: {

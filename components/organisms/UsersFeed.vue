@@ -1,11 +1,13 @@
 <template>
-  <v-container>
+  <div
+    class="mx-auto"
+  >
     <User
       v-for="user in users"
       :key="user.id"
       :user="user"
     />
-  </v-container>
+  </div>
 </template>
 
 <script>

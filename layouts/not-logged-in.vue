@@ -12,6 +12,8 @@
 <script>
 export default {
   name: 'NotLoggedIn',
-  middleware: ['logged-in-redirect']
+  middleware: [
+    'logged-in-redirect'
+  ]
 }
 </script>

@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    class="mx-auto"
+  >
     <Post
       v-for="post in posts"
       :key="post.id"
@@ -22,6 +24,11 @@ export default {
       getPosts: 'modules/post/getPosts',
       getTags: 'modules/tag/getTags'
     })
+  },
+  inject: {
+    theme: {
+      default: { isDark: false }
+    }
   },
   created () {
     this.getPosts()
