@@ -149,6 +149,7 @@ export const actions = {
   },
   async unLikePost ({ rootState, commit }, post) {
     // user_id, post_idが同じレコードは1つしか存在しないので[0]
+    console.log(post)
     const likeId = post.likes.filter((like) => {
       return like.user_id === rootState.user.current.id && like.post_id === post.id
     })[0].id

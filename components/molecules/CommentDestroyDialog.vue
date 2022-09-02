@@ -8,13 +8,15 @@
         #activator="{ on, attrs }"
       >
         <v-btn
+          icon
           v-bind="attrs"
           v-on="on"
         >
-          <v-icon>
-            mdi-comment-remove-outline
+          <v-icon
+            class="text-right"
+          >
+            mdi-dots-vertical
           </v-icon>
-          コメントを削除
         </v-btn>
       </template>
       <v-card>

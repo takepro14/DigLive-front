@@ -1,8 +1,9 @@
 <template>
   <v-card
-    class="mx-auto"
+    class="mx-auto my-4"
+    min-width="300"
     max-width="600"
-    outlined
+    @click="moveUserPage"
   >
     <v-list-item
       three-line
@@ -85,9 +86,9 @@ export default {
       type: Object
     }
   },
-  data ({ $route, $store }) {
+  data ({ $store }) {
     return {
-      user_id: $route.params.id,
+      user_id: this.user.id,
       current_id: $store.state.user.current.id
     }
   },
@@ -112,6 +113,9 @@ export default {
     }
   },
   methods: {
+    moveUserPage () {
+      this.$router.push(`/users/${this.user_id}`)
+    },
     async setAvatar (formData, config) {
       await this.$axios.$put(`/api/v1/users/${this.current_id}`, formData, config)
         .then((user) => {

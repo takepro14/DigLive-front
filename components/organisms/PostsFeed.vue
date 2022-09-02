@@ -6,6 +6,8 @@
       v-for="post in posts"
       :key="post.id"
       :post="post"
+      @likePostEvent="likePost"
+      @unLikePostEvent="unLikePost"
     />
   </div>
 </template>
@@ -22,7 +24,9 @@ export default {
   methods: {
     ...mapActions({
       getPosts: 'modules/post/getPosts',
-      getTags: 'modules/tag/getTags'
+      getTags: 'modules/tag/getTags',
+      likePost: 'modules/post/likePost',
+      unLikePost: 'modules/post/unLikePost'
     })
   },
   inject: {

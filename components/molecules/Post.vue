@@ -4,7 +4,6 @@
     min-width="300"
     max-width="600"
     @click="movePostPage"
-    shaped
   >
   <v-container>
     <v-row>
@@ -23,7 +22,7 @@
         <v-list-item-content>
           <!-- 投稿一覧ページでの表示 -->
           <v-list-item-title
-            v-if="$route.fullPath === '/posts'"
+            v-if="$route.fullPath === '/home'"
           >
             {{ post.user.name }}・{{ post.created_at | moment }}
           </v-list-item-title>
@@ -116,14 +115,11 @@
           </span>
         </v-row>
     </v-card-actions>
-    <!-- コンポーネントのpost: {{ post }}
-    stateのpost: {{ statePost }} -->
     </v-container>
   </v-card>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 
 export default {
@@ -133,9 +129,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      statePost: 'modules/post/post'
-    }),
     commentLength () {
       return !this.post.comments ? 0 : this.post.comments.length
     },
@@ -144,10 +137,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      likePost: 'modules/post/likePost',
-      unLikePost: 'modules/post/unLikePost'
-    }),
+    likePost (postObj) {
+      this.$emit('likePostEvent', postObj)
+    },
+    unLikePost (postObj) {
+      this.$emit('unLikePostEvent', postObj)
+    },
     movePostPage () {
       this.$router.push(`/posts/${this.post.id}`)
     },

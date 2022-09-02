@@ -19,7 +19,7 @@
         >
           <v-card-text>
             <v-icon>
-              mdi-plus
+              mdi-comment-multiple-outline
             </v-icon>
               コメントする
           </v-card-text>

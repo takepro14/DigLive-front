@@ -7,8 +7,9 @@
       :post="post"
       @addCommentEvent="addComment"
     />
-    <Comment
+    <CommentsFeed
       :post="post"
+      :currentUserId="currentUserId"
     />
   </v-container>
 </template>
@@ -17,8 +18,9 @@
 import { mapGetters } from 'vuex'
 export default {
   layout: 'logged-in',
-  data ({ $route }) {
+  data ({ $store, $route }) {
     return {
+      currentUserId: $store.state.user.current.id,
       post_id: $route.params.id
     }
   },
