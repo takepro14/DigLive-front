@@ -2,6 +2,9 @@
   <div
     class="mx-auto"
   >
+    <Loader
+      v-if="isLoading === true"
+    />
     <Post
       v-for="post in posts"
       :key="post.id"
@@ -15,6 +18,11 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  data () {
+    return {
+      isLoading: true
+    }
+  },
   computed: {
     ...mapGetters({
       posts: 'modules/post/posts',
@@ -27,16 +35,24 @@ export default {
       getTags: 'modules/tag/getTags',
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost'
-    })
+    }),
+    stopLoading () {
+      this.isLoading = false
+    }
   },
   inject: {
     theme: {
       default: { isDark: false }
     }
   },
-  created () {
-    this.getPosts()
-    this.getTags()
+  async fetch () {
+    await this.getPosts()
+      .then(() => {
+        this.getTags()
+      })
+      .then(() => {
+        this.stopLoading()
+      })
   }
 }
 </script>
