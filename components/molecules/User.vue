@@ -75,6 +75,32 @@
         {{ followerLength }} フォロワー
       </v-card-text>
     </v-card-actions>
+    <!-- グラフ -->
+    <v-container>
+      <v-row>
+        <v-col>
+        <v-card-text>
+          <span>
+            今月泳いだ距離
+          </span>
+          <v-divider />
+        </v-card-text>
+        <v-sheet
+          class="v-sheet--offset mx-auto"
+          color="cyan lighten-2"
+          max-width="calc(100% - 32px)"
+        >
+          <v-sparkline
+            :labels="labels"
+            :value="value"
+            color="white"
+            line-width="2"
+            padding="16"
+          />
+        </v-sheet>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-card>
 </template>
 
@@ -89,7 +115,27 @@ export default {
   data ({ $store }) {
     return {
       user_id: this.user.id,
-      current_id: $store.state.user.current.id
+      current_id: $store.state.user.current.id,
+      labels: [
+        '12am',
+        '3am',
+        '6am',
+        '9am',
+        '12pm',
+        '3pm',
+        '6pm',
+        '9pm'
+      ],
+      value: [
+        200,
+        675,
+        410,
+        390,
+        310,
+        460,
+        250,
+        240
+      ]
     }
   },
   computed: {

@@ -34,9 +34,11 @@
           </v-list-item-title>
         </v-list-item-content>
         <v-spacer />
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+      <PostDestroyDialog
+        v-if="isMyPost"
+        :post="post"
+        @destroyPostEvent="destroyPost(post.id)"
+      />
       </v-list-item>
     </v-row>
     <v-card-text
@@ -126,6 +128,9 @@ export default {
   props: {
     post: {
       type: Object
+    },
+    currentUserId: {
+      type: Number
     }
   },
   computed: {
@@ -134,9 +139,15 @@ export default {
     },
     likeLength () {
       return !this.post.likes ? 0 : this.post.likes.length
+    },
+    isMyPost () {
+      return this.post.user_id === this.currentUserId
     }
   },
   methods: {
+    destroyPost (postId) {
+      this.$emit('destroyPostEvent', postId)
+    },
     likePost (postObj) {
       this.$emit('likePostEvent', postObj)
     },

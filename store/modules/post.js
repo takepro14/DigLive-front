@@ -63,6 +63,12 @@ export const mutations = {
   },
   reloadComments (state, payload) {
     state.post.comments.push(payload)
+  },
+  reloadPostsByDestroyPost (state, payload) {
+    state.posts = state.posts.filter(post => post.id !== payload)
+  },
+  reloadCommentsByDestroyComment (state, payload) {
+    state.post.comments = state.post.comments.filter(comment => comment.id !== payload)
   }
   // reloadPostByComment (state, payload) {
   //   state.post.comments.push(payload)
@@ -168,5 +174,19 @@ export const actions = {
       .then((post) => {
         commit('setPost', post)
       })
+  },
+  async destroyPost ({ commit }, postId) {
+    await this.$axios.delete(`/api/v1/posts/${postId}`, { data: { id: postId } })
+      .then(() => {
+        commit('reloadPostsByDestroyPost', postId)
+      })
+  },
+  async destroyComment ({ commit }, commentId) {
+    await this.$axios.delete(`/api/v1/comments/${commentId}`, { data: { id: commentId } })
+      .then(() => {
+        console.log('コメントの削除成功!!')
+        commit('reloadCommentsByDestroyComment', commentId)
+      })
   }
+
 }

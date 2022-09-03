@@ -14,7 +14,6 @@
         <BoardsFeed
           v-if="menu === 'boardsTab'"
         />
-        <PostCreateDialog />
       </v-col>
     </v-row>
   </v-container>

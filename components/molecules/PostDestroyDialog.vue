@@ -8,15 +8,17 @@
         #activator="{ on, attrs }"
       >
         <v-btn
+          icon
           v-bind="attrs"
           v-on="on"
         >
-          <v-icon>
-            mdi-comment-remove-outline
+          <v-icon
+            class="text-right"
+          >
+            mdi-dots-vertical
           </v-icon>
-          投稿を削除
         </v-btn>
-      </template>
+    </template>
       <v-card>
         <v-card-title
           class="headline grey lighten-2"
@@ -77,12 +79,9 @@ export default {
     }
   },
   methods: {
-    destroyPost (id) {
-      const url = `/api/v1/posts/${id}`
-      this.$axios.delete(url, { data: { id } })
-        .then(() => {
-          this.dialog = false
-        })
+    destroyPost (postId) {
+      this.$emit('destroyPostEvent', postId)
+      this.dialog = false
     }
   }
 }

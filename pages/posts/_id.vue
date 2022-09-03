@@ -8,6 +8,7 @@
       @addCommentEvent="addComment"
     />
     <CommentsFeed
+      v-if="isCommented"
       :post="post"
       :currentUserId="currentUserId"
     />
@@ -27,7 +28,10 @@ export default {
   computed: {
     ...mapGetters({
       post: 'modules/post/post'
-    })
+    }),
+    isCommented () {
+      return this.post.comments.length !== 0
+    }
   },
   methods: {
     addComment () {

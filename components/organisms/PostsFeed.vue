@@ -9,17 +9,21 @@
       v-for="post in posts"
       :key="post.id"
       :post="post"
+      :currentUserId="currentUserId"
       @likePostEvent="likePost"
       @unLikePostEvent="unLikePost"
+      @destroyPostEvent="destroyPost"
     />
+    <PostCreateDialog />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  data () {
+  data ({ $store }) {
     return {
+      currentUserId: $store.state.user.current.id,
       isLoading: true
     }
   },
@@ -34,7 +38,8 @@ export default {
       getPosts: 'modules/post/getPosts',
       getTags: 'modules/tag/getTags',
       likePost: 'modules/post/likePost',
-      unLikePost: 'modules/post/unLikePost'
+      unLikePost: 'modules/post/unLikePost',
+      destroyPost: 'modules/post/destroyPost'
     }),
     stopLoading () {
       this.isLoading = false

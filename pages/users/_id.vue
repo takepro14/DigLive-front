@@ -1,13 +1,22 @@
 <template>
   <v-container>
-    <!-- ユーザプロフィール -->
+    <!--
+      ユーザプロフィール
+    -->
     <User
       :user="user"
       @followEvent="follow"
       @unfollowEvent="unfollow"
       @setAvatarEvent="setAvatar"
     />
-    <!-- ユーザの投稿一覧 -->
+    <!--
+      サイドメニュー
+    -->
+    <SideMenu
+    />
+    <!--
+      ユーザの投稿一覧
+    -->
     <v-row
       class="text-center"
     >
