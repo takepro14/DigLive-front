@@ -5,15 +5,22 @@
     <Loader
       v-if="isLoading === true"
     />
-    <Post
-      v-for="post in posts"
-      :key="post.id"
-      :post="post"
-      :currentUserId="currentUserId"
-      @likePostEvent="likePost"
-      @unLikePostEvent="unLikePost"
-      @destroyPostEvent="destroyPost"
-    />
+    <!--
+      最新の投稿を表示する(フォロー関係なく)
+    -->
+    <div
+      v-if="dispNewPosts"
+    >
+      <Post
+        v-for="post in posts"
+        :key="post.id"
+        :post="post"
+        :currentUserId="currentUserId"
+        @likePostEvent="likePost"
+        @unLikePostEvent="unLikePost"
+        @destroyPostEvent="destroyPost"
+      />
+    </div>
     <PostCreateDialog />
   </div>
 </template>
@@ -21,6 +28,11 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  props: {
+    tab: {
+      type: String
+    }
+  },
   data ({ $store }) {
     return {
       currentUserId: $store.state.user.current.id,
@@ -31,7 +43,13 @@ export default {
     ...mapGetters({
       posts: 'modules/post/posts',
       tags: 'modules/tag/tags'
-    })
+    }),
+    dispNewPosts () {
+      return this.tab === 'New'
+    }
+    // postsByFollowedUser () {
+    //   return this.posts.filter(post => post.user_id === currentUserId)
+    // }
   },
   methods: {
     ...mapActions({

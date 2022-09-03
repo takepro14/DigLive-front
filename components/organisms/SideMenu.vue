@@ -1,8 +1,6 @@
 <template>
   <v-card
-    width="600"
     class="mx-auto"
-    min-width="300"
     tile
   >
     <v-toolbar

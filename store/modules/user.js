@@ -34,7 +34,7 @@ export const mutations = {
     state.user.passive_relationships = otherFollowers
   },
   reloadUserBySetAvatar (state, payload) {
-    state.user.avatar = payload
+    state.user.avatar.url = payload
   }
 }
 
@@ -74,7 +74,10 @@ export const actions = {
         commit('reloadUserByUnfollow', rootState.user.current.id)
       })
   },
-  setAvatar ({ commit }, userObj) {
-    commit('reloadUserBySetAvatar', userObj)
+  async changeAvatar ({ commit, rootState }, { formData, config }) {
+    await this.$axios.$put(`/api/v1/users/${rootState.user.current.id}`, formData, config)
+      .then((userObj) => {
+        commit('reloadUserBySetAvatar', userObj.avatar.url)
+      })
   }
 }

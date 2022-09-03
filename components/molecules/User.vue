@@ -30,7 +30,7 @@
           <v-col>
             <UserEditDialog
               v-if="isCurrentUser"
-              @submit="setAvatar"
+              @changeAvatarEvent="changeAvatar"
             >
               プロフィール設定
             </UserEditDialog>
@@ -162,11 +162,8 @@ export default {
     moveUserPage () {
       this.$router.push(`/users/${this.user_id}`)
     },
-    async setAvatar (formData, config) {
-      await this.$axios.$put(`/api/v1/users/${this.current_id}`, formData, config)
-        .then((user) => {
-          this.$emit('setAvatarEvent', user)
-        })
+    changeAvatar ({ formData, config }) {
+      this.$emit('changeAvatarEvent', { formData, config })
     },
     follow () {
       this.$emit('followEvent', this.user.id)

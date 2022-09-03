@@ -7,13 +7,13 @@
       :user="user"
       @followEvent="follow"
       @unfollowEvent="unfollow"
-      @setAvatarEvent="setAvatar"
+      @changeAvatarEvent="changeAvatar"
     />
     <!--
       サイドメニュー
     -->
-    <SideMenu
-    />
+    <!-- <SideMenu
+    /> -->
     <!--
       ユーザの投稿一覧
     -->
@@ -53,7 +53,7 @@ export default {
       emitSetUserClear: 'modules/user/emitSetUserClear',
       follow: 'modules/user/follow',
       unfollow: 'modules/user/unfollow',
-      setAvatar: 'modules/user/setAvatar'
+      changeAvatar: 'modules/user/changeAvatar'
     })
   },
   async fetch ({ $axios, params, store }) {

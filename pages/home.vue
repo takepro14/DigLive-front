@@ -1,12 +1,18 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>
+      <v-col cols="4">
         <SideMenu
           @menuClickEvent="menuClick"
         />
+      </v-col>
+      <v-col cols="8">
+        <SubMenu
+          @tabClickEvent="tabClick"
+        />
         <PostsFeed
           v-if="menu === 'postsTab'"
+          :tab="tab"
         />
         <UsersFeed
           v-if="menu === 'usersTab'"
@@ -27,12 +33,16 @@ export default {
   ],
   data () {
     return {
-      menu: 'postsTab'
+      menu: 'postsTab',
+      tab: 'New'
     }
   },
   methods: {
     menuClick (value) {
       this.menu = value
+    },
+    tabClick (value) {
+      this.tab = value
     }
   }
 }

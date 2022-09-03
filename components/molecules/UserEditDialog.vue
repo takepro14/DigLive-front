@@ -7,7 +7,9 @@
       v-model="dialog"
       width="500"
     >
-      <!-- Dialog close -->
+      <!--
+        ダイアログクローズ
+      -->
       <template
         #activator="{ on, attrs }"
       >
@@ -21,28 +23,28 @@
           プロフィール編集
         </v-btn>
       </template>
-      <!-- Dialog open -->
+      <!--
+        ダイアログオープン
+      -->
       <v-card>
         <v-card-title
           class="headline grey lighten-2"
         >
           プロフィールを編集する
         </v-card-title>
-        <!-- プロフィール内容 -->
           <div>
             <v-file-input
-              label="image"
+              label="画像を選択"
               accept="image/*"
               v-model="addImage"
               prepend-icon="mdi-camera"
             />
           </div>
-        <!-- プロフィール内容 -->
         <v-card-actions>
           <v-spacer />
           <v-btn
             color="red lighten-2"
-            @click="handleSubmit"
+            @click="changeAvatar"
           >
             画像を変更する
           </v-btn>
@@ -77,7 +79,7 @@ export default {
     }
   },
   methods: {
-    handleSubmit () {
+    changeAvatar () {
       const formData = new FormData()
       formData.append('avatar', this.addImage)
       const config = {
@@ -85,7 +87,8 @@ export default {
           'content-type': 'multipart/form-data'
         }
       }
-      this.$emit('submit', formData, config)
+      this.$emit('changeAvatarEvent', { formData, config })
+      this.dialog = false
     }
   }
 }
