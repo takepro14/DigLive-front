@@ -2,6 +2,8 @@
   <v-container>
     <Post
       :post="post"
+      @likePostEvent="likePost"
+      @unLikePostEvent="unLikePost"
     />
     <CommentCreateDialog
       :post="post"
@@ -16,7 +18,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   layout: 'logged-in',
   data ({ $store, $route }) {
@@ -34,6 +36,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      likePost: 'modules/post/likePost',
+      unLikePost: 'modules/post/unLikePost'
+    }),
     addComment () {
       this.$store.dispatch('modules/post/emitReloadComments', this.post_id)
     }
