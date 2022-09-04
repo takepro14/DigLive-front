@@ -5,11 +5,13 @@
         <SideMenu
           @menuClickEvent="menuClick"
         />
+        <!-- <YouTube /> -->
       </v-col>
       <v-col cols="8">
         <SubMenu
           @tabClickEvent="tabClick"
         />
+          <!-- <YouTube /> -->
         <PostsFeed
           v-if="menu === 'postsTab'"
           :tab="tab"

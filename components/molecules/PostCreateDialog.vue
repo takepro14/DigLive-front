@@ -34,6 +34,12 @@
         <div
           class="ma-4"
         >
+          <v-text-field
+            v-model="youtube_url"
+            label="YouTube URL"
+            placeholder="該当動画のURLをペーストしてください"
+            outlined
+          />
           <v-textarea
             v-model="content"
             :rules="rules"
@@ -78,6 +84,7 @@ export default {
   data ({ $store }) {
     return {
       dialog: false,
+      youtube_url: 'https://www.youtube.com/watch?v=_P9zR5KaPsc',
       content: 'テスト投稿',
       tags: [],
       rules: [v => v.length <= 300 || '300文字以内で入力してください'],
@@ -97,6 +104,7 @@ export default {
         })
       }
       postData.append('post[user_id]', this.user_id)
+      postData.append('post[youtube_url]', this.youtube_url)
       postData.append('post[content]', this.content)
       this.$axios.post(url, postData)
         .then((res) => {

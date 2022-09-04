@@ -5,118 +5,127 @@
     max-width="600"
     @click="movePostPage"
   >
-  <v-container>
-    <v-row>
-      <v-list-item
-        class="grow"
-        @click.stop="moveUserPage"
-      >
-        <v-list-item-avatar
+    <v-container>
+      <v-row>
+        <v-list-item
+          class="grow"
+          @click.stop="moveUserPage"
         >
-          <v-img
-            class="elevation-6"
-            alt=""
-            :src="'http://localhost:3000' + post.user.avatar.url"
+          <v-list-item-avatar
+          >
+            <v-img
+              class="elevation-6"
+              alt=""
+              :src="'http://localhost:3000' + post.user.avatar.url"
+            />
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <!-- 投稿一覧ページでの表示 -->
+            <v-list-item-title
+              v-if="$route.fullPath === '/home'"
+            >
+              {{ post.user.name }}・{{ post.created_at | moment }}
+            </v-list-item-title>
+            <!-- 投稿詳細ページでの表示 -->
+            <v-list-item-title
+              v-else
+            >
+              {{ post.user.name }}
+            </v-list-item-title>
+          </v-list-item-content>
+          <v-spacer />
+        <PostDestroyDialog
+          v-if="isMyPost"
+          :post="post"
+          @destroyPostEvent="destroyPost(post.id)"
+        />
+        </v-list-item>
+      </v-row>
+      <v-row
+        v-if="hasYoutubeUrl"
+      >
+        <v-col>
+          <YouTube
+            :youtube_url="post.youtube_url"
           />
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <!-- 投稿一覧ページでの表示 -->
-          <v-list-item-title
-            v-if="$route.fullPath === '/home'"
-          >
-            {{ post.user.name }}・{{ post.created_at | moment }}
-          </v-list-item-title>
-          <!-- 投稿詳細ページでの表示 -->
-          <v-list-item-title
-            v-else
-          >
-            {{ post.user.name }}
-          </v-list-item-title>
-        </v-list-item-content>
-        <v-spacer />
-      <PostDestroyDialog
-        v-if="isMyPost"
-        :post="post"
-        @destroyPostEvent="destroyPost(post.id)"
-      />
-      </v-list-item>
-    </v-row>
-    <v-card-text
-      class="text-h5 py-8"
-    >
+        </v-col>
+      </v-row>
+      <v-card-text
+        class="text-h5 py-8"
+      >
+        <div
+          class="text--primary"
+        >
+          {{ post.content }}
+        </div>
+      </v-card-text>
       <div
-        class="text--primary"
+        class="px-4"
       >
-        {{ post.content }}
+        <v-chip-group
+          active-class="primary--text"
+          column
+        >
+          <v-chip
+            v-for="tag in post.tags"
+            :key="tag.id"
+            link
+          >
+            # {{ tag.tag_name }}
+          </v-chip>
+        </v-chip-group>
       </div>
-    </v-card-text>
-    <div
-      class="px-4"
-    >
-      <v-chip-group
-        active-class="primary--text"
-        column
-      >
-        <v-chip
-          v-for="tag in post.tags"
-          :key="tag.id"
-          link
-        >
-          # {{ tag.tag_name }}
-        </v-chip>
-      </v-chip-group>
-    </div>
-    <v-card-actions>
-        <v-row
-          align="center"
-          justify="end"
-        >
-        <!-- TODO: 管理者モードにて表示する -->
-          <!-- <PostDestroyDialog
-            :post="post"
-            class="mr-3"
-          /> -->
-          <v-card-content
-            v-if="$route.fullPath !== '/posts'"
-            class="mr-3"
+      <v-card-actions>
+          <v-row
+            align="center"
+            justify="end"
           >
-            {{ $my.format(post.created_at) }}
-          </v-card-content>
-          <v-icon
-            v-if="post.isLiked"
-            class="mr-1"
-            @click.stop="unLikePost(post)"
-            large
-          >
-            mdi-heart
-          </v-icon>
-          <v-icon
-            v-else
-            class="mr-1"
-            @click.stop="likePost(post)"
-            large
-          >
-            mdi-heart-outline
-          </v-icon>
-          <span
-            class="subheading mr-2"
-            large
-          >
-            {{ likeLength }}
-          </span>
-          <v-icon
-            class="ml-3 mr-1"
-            large
-          >
-            mdi-comment-processing-outline
-          </v-icon>
-          <span
-            class="subheading"
-          >
-            {{ commentLength }}
-          </span>
-        </v-row>
-    </v-card-actions>
+          <!-- TODO: 管理者モードにて表示する -->
+            <!-- <PostDestroyDialog
+              :post="post"
+              class="mr-3"
+            /> -->
+            <v-card-content
+              v-if="$route.fullPath !== '/posts'"
+              class="mr-3"
+            >
+              {{ $my.format(post.created_at) }}
+            </v-card-content>
+            <v-icon
+              v-if="post.isLiked"
+              class="mr-1"
+              @click.stop="unLikePost(post)"
+              large
+            >
+              mdi-heart
+            </v-icon>
+            <v-icon
+              v-else
+              class="mr-1"
+              @click.stop="likePost(post)"
+              large
+            >
+              mdi-heart-outline
+            </v-icon>
+            <span
+              class="subheading mr-2"
+              large
+            >
+              {{ likeLength }}
+            </span>
+            <v-icon
+              class="ml-3 mr-1"
+              large
+            >
+              mdi-comment-processing-outline
+            </v-icon>
+            <span
+              class="subheading"
+            >
+              {{ commentLength }}
+            </span>
+          </v-row>
+      </v-card-actions>
     </v-container>
   </v-card>
 </template>
@@ -142,6 +151,9 @@ export default {
     },
     isMyPost () {
       return this.post.user_id === this.currentUserId
+    },
+    hasYoutubeUrl () {
+      return this.post.youtube_url !== null
     }
   },
   methods: {
