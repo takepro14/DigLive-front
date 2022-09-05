@@ -5,14 +5,24 @@
         <SideMenu
           @menuClickEvent="menuClick"
         />
+        <SideContent
+          :posts="posts"
+          :tags="tags"
+          @filteredPostsChangedEvent="filteredPostsChanged"
+        />
       </v-col>
       <v-col cols="12" sm="12" md="8" lg="8" xl="8">
         <TabMenu
           @tabClickEvent="tabClick"
         />
+        <Loader
+          v-if="isLoading === true"
+        />
         <PostsFeed
           v-if="menu === 'postsTab'"
           :tab="tab"
+          :posts="posts"
+          :filteredPosts="filteredPosts"
         />
         <UsersFeed
           v-if="menu === 'usersTab'"
@@ -26,6 +36,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   layout: 'logged-in',
   middleware: [
@@ -33,17 +44,44 @@ export default {
   ],
   data () {
     return {
+      isLoading: true,
       menu: 'postsTab',
-      tab: 'New'
+      tab: 'New',
+      filteredPosts: []
     }
   },
+  computed: {
+    ...mapGetters({
+      posts: 'modules/post/posts',
+      tags: 'modules/tag/tags'
+    })
+  },
   methods: {
+    ...mapActions({
+      getPosts: 'modules/post/getPosts',
+      getTags: 'modules/tag/getTags'
+    }),
     menuClick (value) {
       this.menu = value
     },
     tabClick (value) {
       this.tab = value
+    },
+    stopLoading () {
+      this.isLoading = false
+    },
+    filteredPostsChanged (value) {
+      this.filteredPosts = value
     }
+  },
+  async fetch () {
+    await this.getPosts()
+      .then(() => {
+        this.getTags()
+      })
+      .then(() => {
+        this.stopLoading()
+      })
   }
 }
 </script>
