@@ -1,9 +1,8 @@
 <template>
   <v-card
-    class="mx-auto my-4"
-    min-width="300"
-    max-width="600"
+    class="mx-auto my-2"
     @click="movePostPage"
+    width="100%"
   >
     <v-container>
       <v-row>
@@ -41,10 +40,15 @@
         />
         </v-list-item>
       </v-row>
+
+      <!-- YouTube -->
       <v-row
         v-if="hasYoutubeUrl"
+        justify="center"
       >
-        <v-col>
+        <v-col
+          cols="10"
+        >
           <YouTube
             :youtube_url="post.youtube_url"
           />

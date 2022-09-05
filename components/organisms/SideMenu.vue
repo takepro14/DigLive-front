@@ -51,11 +51,11 @@ export default {
           name: 'postsTab',
           icon: 'mdi-microphone-variant'
         },
-        {
-          title: 'プレイリスト',
-          name: 'postsListTab',
-          icon: 'mdi-music-circle'
-        },
+        // {
+        //   title: 'プレイリスト',
+        //   name: 'postsListTab',
+        //   icon: 'mdi-music-circle'
+        // },
         {
           title: 'ユーザー',
           name: 'usersTab',

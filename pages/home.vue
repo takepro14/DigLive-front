@@ -1,17 +1,15 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="4">
+      <v-col cols="12" sm="12" md="3" lg="3" xl="3">
         <SideMenu
           @menuClickEvent="menuClick"
         />
-        <!-- <YouTube /> -->
       </v-col>
-      <v-col cols="8">
+      <v-col cols="12" sm="12" md="9" lg="9" xl="9">
         <TabMenu
           @tabClickEvent="tabClick"
         />
-          <!-- <YouTube /> -->
         <PostsFeed
           v-if="menu === 'postsTab'"
           :tab="tab"

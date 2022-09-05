@@ -1,16 +1,15 @@
 <template>
-  <div>
-    <youtube
-      ref="youtube"
-      :video-id="getVideoId"
-      @playing="playing"
-      @paused="paused"
-      @ended="ended"
-      fit-parent
-      :start="start"
-    />
-    {{ getVideoId }}
-  </div>
+  <youtube
+    ref="youtube"
+    :video-id="getVideoId"
+    @playing="playing"
+    @paused="paused"
+    @ended="ended"
+    fit-parent
+    resize
+    :start="start"
+  />
+  <!-- {{ getVideoId }} -->
 </template>
 
 <script>

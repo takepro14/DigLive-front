@@ -11,15 +11,21 @@
     <div
       v-if="dispNewPosts"
     >
-      <Post
-        v-for="post in posts"
-        :key="post.id"
-        :post="post"
-        :currentUserId="currentUserId"
-        @likePostEvent="likePost"
-        @unLikePostEvent="unLikePost"
-        @destroyPostEvent="destroyPost"
-      />
+      <v-container>
+        <v-row>
+          <v-col>
+            <Post
+              v-for="post in posts"
+              :key="post.id"
+              :post="post"
+              :currentUserId="currentUserId"
+              @likePostEvent="likePost"
+              @unLikePostEvent="unLikePost"
+              @destroyPostEvent="destroyPost"
+            />
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
     <PostCreateDialog />
   </div>

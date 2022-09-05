@@ -1,7 +1,7 @@
 <template>
   <v-card
     class="mx-auto"
-    width="600"
+    width="100%"
   >
     <v-toolbar
       color="subheader"

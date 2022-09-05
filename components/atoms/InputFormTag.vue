@@ -6,7 +6,7 @@
       :tags="initTags"
       @tags-changed="newTags => tags = newTags"
       :autocomplete-items="filteredItems"
-      placeholder="タグを追加: (ex. 服, 髪型, 筋トレ, ...)"
+      placeholder="自由にタグを追加："
     />
   </div>
 </template>
