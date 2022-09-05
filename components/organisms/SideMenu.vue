@@ -4,7 +4,7 @@
     tile
   >
     <v-toolbar
-      color="blue darken-1"
+      color="subheader"
       dark
       flat
     >
@@ -47,19 +47,24 @@ export default {
     return {
       menus: [
         {
-          title: 'つぶやき',
+          title: 'ライブ映像',
           name: 'postsTab',
-          icon: 'mdi-comment-text-outline'
+          icon: 'mdi-microphone-variant'
         },
         {
-          title: 'ユーザ',
+          title: 'プレイリスト',
+          name: 'postsListTab',
+          icon: 'mdi-music-circle'
+        },
+        {
+          title: 'ユーザー',
           name: 'usersTab',
-          icon: 'mdi-account'
+          icon: 'mdi-account-multiple'
         },
         {
-          title: '掲示板',
+          title: 'チャットルーム',
           name: 'boardsTab',
-          icon: 'mdi-bulletin-board'
+          icon: 'mdi-wechat'
         }
       ]
     }

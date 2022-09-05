@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'MENs UP',
+    title: 'Live Addict',
     htmlAttrs: {
       lang: 'en'
     },
@@ -110,13 +110,16 @@ export default {
     theme: {
       themes: {
         light: {
+          // ref: https://colorhunt.co/
+          header: "#4D4C7D",
+          background: "#E9D5DA",
+          subheader: "#827397",
+          button: "#363062",
           primary: '4080BE',
           info: '4FC1E9',
           success: '44D69E',
           warning: 'FEB65E',
           error: 'FB8678',
-          background: 'cyan lighten-5'
-          // background: 'f6f6f4'
         }
       }
     }

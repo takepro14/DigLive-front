@@ -8,7 +8,7 @@
         <!-- <YouTube /> -->
       </v-col>
       <v-col cols="8">
-        <SubMenu
+        <TabMenu
           @tabClickEvent="tabClick"
         />
           <!-- <YouTube /> -->

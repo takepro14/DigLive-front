@@ -14,7 +14,7 @@
           bottom
           right
           dark
-          color="indigo"
+          color="button"
           v-bind="attrs"
           style="bottom: 65px"
           v-on="on"

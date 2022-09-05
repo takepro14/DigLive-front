@@ -4,7 +4,7 @@
     width="600"
   >
     <v-toolbar
-      color="blue darken-1"
+      color="subheader"
       dark
       flat
     >

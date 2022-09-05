@@ -153,7 +153,7 @@ export default {
       return this.post.user_id === this.currentUserId
     },
     hasYoutubeUrl () {
-      return this.post.youtube_url !== null
+      return !!this.post.youtube_url
     }
   },
   methods: {
