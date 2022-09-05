@@ -27,9 +27,9 @@
       <!-- ダイアログオープン -->
       <v-card>
         <v-card-title
-          class="headline grey lighten-2"
+          class="headline subheader"
         >
-          つぶやきを投稿する
+          ライブ映像をシェアする
         </v-card-title>
         <div
           class="ma-4"
@@ -45,8 +45,8 @@
             :rules="rules"
             counter="300"
             name="input-7-4"
-            label="入力フォーム"
-            placeholder="僕はこんなことをして垢抜けました。・・・"
+            label="コメント"
+            placeholder="Cメロのギターソロが最高！"
             outlined
           />
           <InputFormTag
@@ -57,6 +57,8 @@
         <v-card-actions>
           <v-spacer />
           <v-btn
+            color="button"
+            dark
             @click="createPost"
           >
             投稿する
@@ -84,8 +86,8 @@ export default {
   data ({ $store }) {
     return {
       dialog: false,
-      youtube_url: 'https://www.youtube.com/watch?v=_P9zR5KaPsc',
-      content: 'テスト投稿',
+      youtube_url: '',
+      content: '',
       tags: [],
       rules: [v => v.length <= 300 || '300文字以内で入力してください'],
       user_id: $store.state.user.current.id

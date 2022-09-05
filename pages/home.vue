@@ -1,12 +1,12 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm="12" md="3" lg="3" xl="3">
+      <v-col cols="12" sm="12" md="4" lg="4" xl="4">
         <SideMenu
           @menuClickEvent="menuClick"
         />
       </v-col>
-      <v-col cols="12" sm="12" md="9" lg="9" xl="9">
+      <v-col cols="12" sm="12" md="8" lg="8" xl="8">
         <TabMenu
           @tabClickEvent="tabClick"
         />
