@@ -8,15 +8,6 @@
       three-line
     >
       <v-list-item-content>
-        <div
-          class="text-overline mb-4"
-        >
-          <span
-            v-if="isCurrentUser"
-          >
-            マイページ
-          </span>
-        </div>
         <v-row>
           <v-col>
             <v-list-item-title

@@ -12,8 +12,8 @@
         :to="homePath"
         class="text-decoration-none"
       >
+        <Title />
       </nuxt-link>
-      <Title />
       <v-spacer />
       <LoggedInHeaderNavDrawer />
       <AccountMenu />

@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-row>
+      <!-- 投稿タブ時の検索フォーム -->
       <v-container
         v-if="menu === 'postsTab'"
       >
@@ -16,6 +17,7 @@
           @formTagUncheckedEvent="formTagUnchecked"
         />
       </v-container>
+      <!-- ユーザータブ時の検索フォーム -->
       <v-container
         v-if="menu === 'usersTab'"
       >
@@ -24,19 +26,12 @@
           @formKeywordClearEvent="formKeywordClear"
           @formKeywordFocusEvent="formKeywordFocus"
         />
-        <User
-          v-for="user in filteredUsers"
-          :key="user.id"
-          :user="user"
-        />
       </v-container>
-
     </v-row>
   </v-container>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 export default {
   layout: 'logged-in',
   middleware: [
@@ -48,6 +43,9 @@ export default {
     },
     tags: {
       type: Array
+    },
+    users: {
+      type: Array
     }
   },
   data () {
@@ -58,9 +56,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      users: 'modules/user/users'
-    }),
     filteredPosts () {
       if (this.keyword !== '') {
         return this.posts.filter((post) => {
@@ -77,7 +72,7 @@ export default {
     filteredUsers () {
       if (this.keyword !== '') {
         return this.users.filter((user) => {
-          return user.name.includes(this.keyword)
+          return (user.name.includes(this.keyword) || user.profile.includes(this.keyword))
         })
       } else {
         return []
@@ -85,9 +80,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      getUsers: 'modules/post/getUsers'
-    }),
     formKeywordClear () {
       this.keyword = ''
     },
@@ -111,10 +103,10 @@ export default {
   watch: {
     filteredPosts () {
       this.$emit('filteredPostsChangedEvent', this.filteredPosts, this.keyword, this.tag)
+    },
+    filteredUsers () {
+      this.$emit('filteredUsersChangedEvent', this.filteredUsers, this.keyword)
     }
-  },
-  mounted () {
-    this.getUsers()
   }
 }
 </script>

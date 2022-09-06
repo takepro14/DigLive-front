@@ -6,7 +6,7 @@
       fixed
       fab
       top
-      color="blue-grey lighten-5"
+      color="header"
     >
       <Title />
       <v-spacer></v-spacer>

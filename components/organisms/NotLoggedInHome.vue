@@ -1,10 +1,8 @@
 <template>
   <div>
-    <!-- top -->
     <v-img
       dark
-      src="https://picsum.photos/id/17/1920/1080?blur=5"
-      gradient="to top right, rgba(19,84,122,.6), rgba(128,208,199,.9)"
+      src="top.jpg"
       :height="imgHeight"
     >
       <v-row
@@ -16,27 +14,18 @@
           cols="12"
           class="text-center"
         >
-          <h1 class="display-1 mb-4">
-            男を上げよう
-          </h1>
+          <!-- <h1 class="display-1 mb-4">
+            ライブ映像でアーティストを“布教”しよう
+          </h1> -->
           <h4
             class="subheading"
             :style="{ letterSpacing: '5px' }"
           >
-            垢抜けたい男子のためのコミュニティアプリ
+            ライブ映像でアーティストを“布教”しよう
           </h4>
         </v-col>
       </v-row>
     </v-img>
-    <!-- about -->
-    <div
-      class="text-center"
-      style="height: 500px"
-    >
-      <h1>
-        サイトについて
-      </h1>
-    </div>
   </div>
 </template>
 

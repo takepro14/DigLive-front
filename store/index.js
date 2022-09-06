@@ -1,12 +1,10 @@
-const homePath = 'home'
-
 export const state = () => ({
   LoggedIn: {
     homePath: {
-      name: homePath
+      name: 'home'
     },
     rememberPath: {
-      name: homePath,
+      name: 'home',
       params: {}
     },
     // ログイン後アクセス不可ルート

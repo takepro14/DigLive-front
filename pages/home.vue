@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-row>
+      <!-- 左カラム -->
       <v-col cols="12" sm="12" md="4" lg="4" xl="4">
         <SideMenu
           @menuClickEvent="menuClick"
@@ -8,10 +9,13 @@
         <SideContent
           :posts="posts"
           :tags="tags"
+          :users="users"
           @filteredPostsChangedEvent="filteredPostsChanged"
+          @filteredUsersChangedEvent="filteredUsersChanged"
           class="my-4"
         />
       </v-col>
+      <!-- 右カラム -->
       <v-col cols="12" sm="12" md="8" lg="8" xl="8">
         <TabMenu
           @tabClickEvent="tabClick"
@@ -21,14 +25,18 @@
         />
         <PostsFeed
           v-if="menu === 'postsTab'"
-          :tab="tab"
           :posts="posts"
+          :tab="tab"
           :filteredPosts="filteredPosts"
           :keyword="keyword"
           :tag="tag"
         />
         <UsersFeed
           v-if="menu === 'usersTab'"
+          :users="users"
+          :tab="tab"
+          :filteredUsers="filteredUsers"
+          :keyword="keyword"
         />
         <BoardsFeed
           v-if="menu === 'boardsTab'"
@@ -48,9 +56,11 @@ export default {
   data () {
     return {
       isLoading: true,
+      isLoadingUsers: true,
       menu: 'postsTab',
       tab: 'New',
       filteredPosts: [],
+      filteredUsers: [],
       keyword: '',
       tag: ''
     }
@@ -58,13 +68,15 @@ export default {
   computed: {
     ...mapGetters({
       posts: 'modules/post/posts',
-      tags: 'modules/tag/tags'
+      tags: 'modules/tag/tags',
+      users: 'modules/user/users'
     })
   },
   methods: {
     ...mapActions({
       getPosts: 'modules/post/getPosts',
-      getTags: 'modules/tag/getTags'
+      getTags: 'modules/tag/getTags',
+      getUsers: 'modules/user/getUsers'
     }),
     menuClick (value) {
       this.menu = value
@@ -75,11 +87,19 @@ export default {
     stopLoading () {
       this.isLoading = false
     },
+    stopLoadingUsers () {
+      this.isLoadingUsers = false
+    },
     filteredPostsChanged (...args) {
       const [filteredPosts, keyword, tag] = args
       this.filteredPosts = filteredPosts
       this.keyword = keyword
       this.tag = tag
+    },
+    filteredUsersChanged (...args) {
+      const [filteredUsers, keyword] = args
+      this.filteredUsers = filteredUsers
+      this.keyword = keyword
     }
   },
   // PostFeed.vue, SideContent.vueとやりとりするのでhome.vueでGET
@@ -90,6 +110,12 @@ export default {
       })
       .then(() => {
         this.stopLoading()
+      })
+      .then(() => {
+        this.getUsers()
+      })
+      .then(() => {
+        this.stopLoadingUsers()
       })
   }
 }

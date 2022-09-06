@@ -10,7 +10,7 @@
     >
       <v-container>
         <v-row>
-          <!-- 0件想定 -->
+          <!-- 検索結果: 0件 -->
           <v-col
             v-if="(keyword !== '' || tag !== '') && !filteredPosts.length"
           >
@@ -18,7 +18,7 @@
               {{ keyword || tag }} の検索結果: {{ filteredPosts.length }}件
             </h3>
           </v-col>
-          <!-- 1件以上想定 -->
+          <!-- 検索結果: 1件以上 -->
           <v-col
             v-else-if="(keyword !== '' || tag !== '') && filteredPosts.length"
           >
@@ -35,7 +35,7 @@
               @destroyPostEvent="destroyPost"
             />
           </v-col>
-          <!-- フィード -->
+          <!-- 初期表示(フィード) -->
           <v-col
             v-else
           >
