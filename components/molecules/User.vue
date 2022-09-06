@@ -1,8 +1,7 @@
 <template>
   <v-card
     class="mx-auto my-4"
-    min-width="300"
-    max-width="600"
+    width="100%"
     @click="moveUserPage"
   >
     <v-list-item
@@ -55,7 +54,7 @@
           </v-col>
         </v-row>
         <v-list-item-subtitle>
-          美容師の経験を活かして、メンズ美容について色々発信していきます！
+          {{ user.profile }}
         </v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-avatar

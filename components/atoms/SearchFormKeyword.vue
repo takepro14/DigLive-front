@@ -1,8 +1,7 @@
 <template>
   <div>
     <v-text-field
-      label="フリーワード検索"
-      placeholder="知りたいことを検索"
+      label="キーワード検索"
       filled
       rounded
       dense

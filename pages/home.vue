@@ -9,6 +9,7 @@
           :posts="posts"
           :tags="tags"
           @filteredPostsChangedEvent="filteredPostsChanged"
+          class="my-4"
         />
       </v-col>
       <v-col cols="12" sm="12" md="8" lg="8" xl="8">
