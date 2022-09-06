@@ -27,15 +27,45 @@
           dark
           flat
         >
-          <v-toolbar-title>
-            {{ user.name }} さんの投稿
+          <v-toolbar-title
+            class="mx-auto"
+          >
+            {{ user.name }} さんのアクティビティ
           </v-toolbar-title>
+          <template v-slot:extension>
+            <v-tabs
+              centered
+              slider-color="yellow"
+              grow
+            >
+              <v-tab
+                v-for="tab in tabs"
+                :key="tab.id"
+                @click="tabClick(tab.name)"
+              >
+                {{ tab.title }}
+              </v-tab>
+            </v-tabs>
+          </template>
         </v-toolbar>
-        <Post
-          v-for="post in user.posts"
-          :key="post.id"
-          :post="post"
-        />
+        <div
+          v-if="menu === 'postsTab'"
+        >
+          <Post
+            v-for="post in user.posts"
+            :key="post.id"
+            :post="post"
+          />
+        </div>
+        <div
+          v-if="menu === 'likesTab'"
+        >
+          <Post
+            v-for="post in likedPosts"
+            :key="post.id"
+            :post="post"
+          />
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -45,10 +75,30 @@
 import { mapGetters, mapActions } from 'vuex'
 export default {
   layout: 'logged-in',
+  data () {
+    return {
+      menu: 'postsTab',
+      tabs: [
+        {
+          title: '投稿',
+          name: 'postsTab'
+        },
+        {
+          title: 'いいね',
+          name: 'likesTab'
+        }
+      ]
+    }
+  },
   computed: {
     ...mapGetters({
       user: 'modules/user/user'
-    })
+    }),
+    likedPosts () {
+      return this.user.likes.map((like) => {
+        return like.post
+      })
+    }
   },
   methods: {
     ...mapActions({
@@ -60,6 +110,9 @@ export default {
     }),
     historyBack () {
       this.$router.go(-1)
+    },
+    tabClick (tabName) {
+      this.menu = tabName
     }
   },
   async fetch ({ $axios, params, store }) {

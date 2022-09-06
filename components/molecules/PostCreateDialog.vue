@@ -16,8 +16,9 @@
           dark
           color="button"
           v-bind="attrs"
-          style="bottom: 65px"
+          style="bottom:65px;right:65px"
           v-on="on"
+          x-large
         >
           <v-icon dark>
             mdi-plus

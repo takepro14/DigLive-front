@@ -20,7 +20,7 @@
         </v-btn>
       </nuxt-link>
       <!----- Search ----->
-      <v-spacer />
+      <!-- <v-spacer />
       <nuxt-link
         to="/search"
         class="text-decoration-none d-flex align-center"
@@ -33,7 +33,7 @@
             mdi-magnify
           </v-icon>
         </v-btn>
-      </nuxt-link>
+      </nuxt-link> -->
       <!----- Notice ----->
       <v-spacer />
       <nuxt-link
