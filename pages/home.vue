@@ -23,6 +23,7 @@
           :tab="tab"
           :posts="posts"
           :filteredPosts="filteredPosts"
+          :keyword="keyword"
         />
         <UsersFeed
           v-if="menu === 'usersTab'"
@@ -47,7 +48,8 @@ export default {
       isLoading: true,
       menu: 'postsTab',
       tab: 'New',
-      filteredPosts: []
+      filteredPosts: [],
+      keyword: ''
     }
   },
   computed: {
@@ -70,10 +72,13 @@ export default {
     stopLoading () {
       this.isLoading = false
     },
-    filteredPostsChanged (value) {
-      this.filteredPosts = value
+    filteredPostsChanged (...args) {
+      const [filteredPosts, keyword] = args
+      this.filteredPosts = filteredPosts
+      this.keyword = keyword
     }
   },
+  // PostFeed.vue, SideContent.vueとやりとりするのでhome.vueでGET
   async fetch () {
     await this.getPosts()
       .then(() => {

@@ -11,7 +11,12 @@
       <v-container>
         <v-row>
           <v-col
-            v-if="Object.keys(filteredPosts).length !== 0"
+            v-if="!filteredPosts.length && keyword !== ''"
+          >
+          検索結果は {{ filteredPosts.length }}件 です
+          </v-col>
+          <v-col
+            v-else-if="filteredPosts.length || keyword !== ''"
           >
             <Post
               v-for="post in filteredPosts"
@@ -55,6 +60,9 @@ export default {
     },
     filteredPosts: {
       type: Array
+    },
+    keyword: {
+      type: String
     }
   },
   data ({ $store }) {
