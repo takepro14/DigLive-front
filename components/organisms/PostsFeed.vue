@@ -10,14 +10,21 @@
     >
       <v-container>
         <v-row>
+          <!-- 0件想定 -->
           <v-col
-            v-if="!filteredPosts.length && keyword !== ''"
+            v-if="(keyword !== '' || tag !== '') && !filteredPosts.length"
           >
-          検索結果は {{ filteredPosts.length }}件 です
+            <h3>
+              {{ keyword || tag }}： {{ filteredPosts.length }}件 の検索結果
+            </h3>
           </v-col>
+          <!-- 1件以上想定 -->
           <v-col
-            v-else-if="filteredPosts.length || keyword !== ''"
+            v-else-if="(keyword !== '' || tag !== '') && filteredPosts.length"
           >
+            <h3>
+              {{ keyword || tag }}： {{ filteredPosts.length }}件 の検索結果
+            </h3>
             <Post
               v-for="post in filteredPosts"
               :key="post.id"
@@ -28,6 +35,7 @@
               @destroyPostEvent="destroyPost"
             />
           </v-col>
+          <!-- フィード -->
           <v-col
             v-else
           >
@@ -62,6 +70,9 @@ export default {
       type: Array
     },
     keyword: {
+      type: String
+    },
+    tag: {
       type: String
     }
   },

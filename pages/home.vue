@@ -24,6 +24,7 @@
           :posts="posts"
           :filteredPosts="filteredPosts"
           :keyword="keyword"
+          :tag="tag"
         />
         <UsersFeed
           v-if="menu === 'usersTab'"
@@ -49,7 +50,8 @@ export default {
       menu: 'postsTab',
       tab: 'New',
       filteredPosts: [],
-      keyword: ''
+      keyword: '',
+      tag: ''
     }
   },
   computed: {
@@ -73,9 +75,10 @@ export default {
       this.isLoading = false
     },
     filteredPostsChanged (...args) {
-      const [filteredPosts, keyword] = args
+      const [filteredPosts, keyword, tag] = args
       this.filteredPosts = filteredPosts
       this.keyword = keyword
+      this.tag = tag
     }
   },
   // PostFeed.vue, SideContent.vueとやりとりするのでhome.vueでGET

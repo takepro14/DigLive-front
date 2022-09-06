@@ -8,7 +8,7 @@
     >
       <Tag
         v-for="tag in tags"
-        :key="tag.id"
+        :key="tag.name"
         :tag="tag"
         v-model="setTags"
         @formTagCheckedEvent="formTagChecked"

@@ -110,7 +110,7 @@ export default {
   },
   watch: {
     filteredPosts () {
-      this.$emit('filteredPostsChangedEvent', this.filteredPosts, this.keyword)
+      this.$emit('filteredPostsChangedEvent', this.filteredPosts, this.keyword, this.tag)
     }
   },
   mounted () {
