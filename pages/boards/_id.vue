@@ -1,9 +1,19 @@
 <template>
-  <div>
-    <Board
-      :board="board"
-    />
-  </div>
+  <v-container>
+    <v-icon
+      x-large
+      @click="historyBack"
+    >
+      mdi-keyboard-backspace
+    </v-icon>
+    <v-row>
+      <v-col>
+      <Board
+        :board="board"
+      />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -21,7 +31,10 @@ export default {
   methods: {
     ...mapActions({
       getBoard: 'modules/board/getBoard'
-    })
+    }),
+    historyBack () {
+      this.$router.go(-1)
+    }
   },
   async fetch ({ $axios, params, store }) {
     await $axios.$get(`/api/v1/boards/${params.id}`)

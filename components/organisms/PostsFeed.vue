@@ -15,7 +15,7 @@
             v-if="(keyword !== '' || tag !== '') && !filteredPosts.length"
           >
             <h3>
-              {{ keyword || tag }}： {{ filteredPosts.length }}件 の検索結果
+              {{ keyword || tag }} の検索結果: {{ filteredPosts.length }}件
             </h3>
           </v-col>
           <!-- 1件以上想定 -->
@@ -23,7 +23,7 @@
             v-else-if="(keyword !== '' || tag !== '') && filteredPosts.length"
           >
             <h3>
-              {{ keyword || tag }}： {{ filteredPosts.length }}件 の検索結果
+              {{ keyword || tag }} の検索結果: {{ filteredPosts.length }}件
             </h3>
             <Post
               v-for="post in filteredPosts"

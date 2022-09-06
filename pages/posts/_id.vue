@@ -1,5 +1,11 @@
 <template>
   <v-container>
+    <v-icon
+      x-large
+      @click="historyBack"
+    >
+      mdi-keyboard-backspace
+    </v-icon>
     <Post
       :post="post"
       @likePostEvent="likePost"
@@ -42,6 +48,9 @@ export default {
     }),
     addComment () {
       this.$store.dispatch('modules/post/emitReloadComments', this.post_id)
+    },
+    historyBack () {
+      this.$router.go(-1)
     }
   },
   async fetch ({ $axios, params, store }) {
