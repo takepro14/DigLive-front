@@ -83,14 +83,6 @@ export default {
       this.$emit('destroyCommentEvent', commentId)
       this.dialog = false
     }
-    // destroyComment (id) {
-    //   const url = `/api/v1/comments/${id}`
-    //   // axios.deleteの場合は第2引数data or paramsで渡す, {id}は{id:id}の省略形
-    //   this.$axios.delete(url, { data: { id } })
-    //     .then(() => {
-    //       this.dialog = false
-    //     })
-    // }
   }
 }
 </script>

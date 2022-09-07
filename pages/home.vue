@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <Toaster />
     <v-row>
       <!-- 左カラム -->
       <v-col cols="12" sm="12" md="4" lg="4" xl="4">

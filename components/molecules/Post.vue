@@ -4,6 +4,7 @@
     @click="movePostPage"
     width="100%"
   >
+  <!-- {{ 'post: ' + JSON.stringify(post) }} -->
     <v-container>
       <v-row>
         <v-list-item
@@ -29,7 +30,7 @@
             <v-list-item-title
               v-else
             >
-              {{ post.user.name }}
+              <!-- {{ post.user.name }} -->
             </v-list-item-title>
           </v-list-item-content>
           <v-spacer />
@@ -93,7 +94,7 @@
               v-if="$route.fullPath !== '/posts'"
               class="mr-3"
             >
-              {{ $my.format(post.created_at) }}
+              <!-- {{ $my.format(post.created_at) }} -->
             </v-card-content>
             <v-icon
               v-if="post.isLiked"
@@ -135,7 +136,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+// import moment from 'moment'
 
 export default {
   props: {
@@ -176,12 +177,12 @@ export default {
     moveUserPage () {
       this.$router.push(`/users/${this.post.user_id}`)
     }
-  },
-  filters: {
-    moment (date) {
-      moment.locale('ja')
-      return moment(date).fromNow()
-    }
   }
+  // filters: {
+  //   moment (date) {
+  //     moment.locale('ja')
+  //     return moment(date).fromNow()
+  //   }
+  // }
 }
 </script>

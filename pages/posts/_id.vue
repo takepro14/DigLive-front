@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <Toaster />
     <v-icon
       x-large
       @click="historyBack"
@@ -11,9 +12,11 @@
       @likePostEvent="likePost"
       @unLikePostEvent="unLikePost"
     />
+    <!-- {{ post }} -->
     <CommentCreateDialog
       :post="post"
       @addCommentEvent="addComment"
+      @createCommentEvent="createComment"
     />
     <CommentsFeed
       v-if="isCommented"
@@ -38,13 +41,15 @@ export default {
       post: 'modules/post/post'
     }),
     isCommented () {
-      return this.post.comments.length !== 0
+      return !!this.post.comments
     }
   },
   methods: {
     ...mapActions({
       likePost: 'modules/post/likePost',
-      unLikePost: 'modules/post/unLikePost'
+      unLikePost: 'modules/post/unLikePost',
+      createComment: 'modules/post/createComment',
+      getPost: 'modules/post/getPost'
     }),
     addComment () {
       this.$store.dispatch('modules/post/emitReloadComments', this.post_id)
@@ -52,12 +57,28 @@ export default {
     historyBack () {
       this.$router.go(-1)
     }
+    // createComment (...args) {
+    //   const [userId, postId, comment] = args
+    //   const data = new FormData()
+    //   data.append('comment[user_id]', userId)
+    //   data.append('comment[post_id]', postId)
+    //   data.append('comment[comment]', comment)
+    //   this.$axios.post('/api/v1/comments', data)
+    //     .then(() => {
+    //       this.$store.dispatch('getToast', {
+    //         msg: '投稿にコメントしました'
+    //       })
+    //     })
+    // }
   },
-  async fetch ({ $axios, params, store }) {
-    await $axios.$get(`/api/v1/posts/${params.id}`)
-      .then((post) => {
-        store.dispatch('modules/post/emitSetPost', post)
-      })
+  created () {
+    this.getPost(this.post_id)
   }
+  // async fetch ({ $axios, params, store }) {
+  //   await $axios.$get(`/api/v1/posts/${params.id}`)
+  //     .then((post) => {
+  //       store.dispatch('modules/post/emitSetPost', post)
+  //     })
+  // }
 }
 </script>

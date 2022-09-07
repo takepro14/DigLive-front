@@ -2,9 +2,6 @@
   <div
     class="mx-auto"
   >
-    <!--
-      最新の投稿を表示する(フォロー関係なく)
-    -->
     <v-container>
       <v-row>
         <!-- 最新タブ -->
@@ -67,7 +64,9 @@
         </div>
       </v-row>
     </v-container>
-    <PostCreateDialog />
+    <PostCreateDialog
+      @createPostEvent="createPost"
+    />
   </div>
 </template>
 
@@ -111,6 +110,7 @@ export default {
     ...mapActions({
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost',
+      createPost: 'modules/post/createPost',
       destroyPost: 'modules/post/destroyPost'
     })
   },

@@ -40,8 +40,8 @@
             :rules="rules"
             counter="300"
             name="input-7-4"
-            label="入力フォーム"
-            placeholder="僕はこんなことをして垢抜けました。・・・"
+            label="コメントフォーム"
+            placeholder="素晴らしいパフォーマンス！"
             outlined
           />
         </div>
@@ -87,15 +87,12 @@ export default {
   },
   methods: {
     createComment () {
-      const data = new FormData()
-      data.append('comment[user_id]', this.user_id)
-      data.append('comment[post_id]', this.post.id)
-      data.append('comment[comment]', this.comment)
-      this.$axios.post('/api/v1/comments', data)
-        .then(() => {
-          this.$emit('addCommentEvent')
-          this.dialog = false
-        })
+      this.$emit('createCommentEvent', {
+        userId: this.user_id,
+        postId: this.post.id,
+        comment: this.comment
+      })
+      this.dialog = false
     }
   }
 }

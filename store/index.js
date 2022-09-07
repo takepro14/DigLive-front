@@ -24,8 +24,8 @@ export const state = () => ({
   },
   toast: {
     msg: null,
-    color: 'error',
-    timeout: 4000
+    color: '',
+    timeout: 3000
   }
 })
 
@@ -71,7 +71,7 @@ export const actions = {
     commit('setAuthPayload', jwtPayload)
   },
   getToast ({ commit }, { msg, color, timeout }) {
-    color = color || 'error'
+    color = color || 'info'
     timeout = timeout || 4000
     commit('setToast', { msg, color, timeout })
   },

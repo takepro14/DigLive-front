@@ -1,8 +1,14 @@
+//////////////////////////////////////////////////
+// state
+//////////////////////////////////////////////////
 export const state = {
   posts: [],
   post: {}
 }
 
+//////////////////////////////////////////////////
+// getters
+//////////////////////////////////////////////////
 export const getters = {
   posts (state) {
     return state.posts
@@ -12,51 +18,55 @@ export const getters = {
   }
 }
 
+//////////////////////////////////////////////////
+// mutation
+//////////////////////////////////////////////////
 export const mutations = {
   setPosts (state, payload) {
     state.posts = payload
   },
   setPost (state, payload) {
     state.post = payload
+    console.log('payload: ' + JSON.stringify(payload))
+  },
+  setPostClear (state) {
+    state.post = {}
   },
   // 一時的な妥協案
   setPostForPosts (state, payload) {
     state.posts.unshift(payload)
   },
-  setPostClear (state) {
-    state.post = {}
-  },
   reloadPostByLikePost (state, payload) {
     // 投稿一覧からいいねした場合
     if (Object.keys(state.post).length === 0) {
       const targetPost = state.posts.filter(post =>
-        post.id === payload.reqPost.id
+        post.id === payload.postObj.id
       )
       targetPost[0].isLiked = true
-      targetPost[0].likes.push(payload.resLike)
+      targetPost[0].likes.push(payload.likeObj)
     // 投稿詳細からいいねした場合
     } else {
       state.post.isLiked = true
-      state.post.likes.push(payload.resLike)
+      state.post.likes.push(payload.likeObj)
     }
   },
   reloadPostByUnLikePost (state, payload) {
     // 投稿一覧からいいね解除した場合
     if (Object.keys(state.post).length === 0) {
       const targetPost = state.posts.filter(post =>
-        post.id === payload.reqPost.id
+        post.id === payload.postObj.id
       )
       targetPost[0].isLiked = false
       // console.log('targetPost[0]: ' + JSON.stringify(targetPost[0].likes))
       const otherUsersLikes = targetPost[0].likes.filter(like =>
-        like.user_id !== payload.resLike.user_id
+        like.user_id !== payload.likeObj.user_id
       )
       targetPost[0].likes = otherUsersLikes
     // 投稿詳細からいいね解除した場合
     } else {
       state.post.isLiked = false
       const otherUsersLikes = state.post.likes.filter(like =>
-        like.user_id !== payload.resLike.user_id
+        like.user_id !== payload.likeObj.user_id
       )
       state.post.likes = otherUsersLikes
     }
@@ -64,8 +74,14 @@ export const mutations = {
   reloadComments (state, payload) {
     state.post.comments.push(payload)
   },
+  // reloadPostsByCreatePost (state, payload) {
+  //   state.posts.push(payload)
+  // },
   reloadPostsByDestroyPost (state, payload) {
     state.posts = state.posts.filter(post => post.id !== payload)
+  },
+  reloadCommentsByCreateComment (state, payload) {
+    state.post.comments.push(payload)
   },
   reloadCommentsByDestroyComment (state, payload) {
     state.post.comments = state.post.comments.filter(comment => comment.id !== payload)
@@ -75,8 +91,11 @@ export const mutations = {
   // }
 }
 
+//////////////////////////////////////////////////
+// actions
+//////////////////////////////////////////////////
 export const actions = {
-  async getPosts ({ state, commit, rootState, dispatch }) {
+  async getPosts ({ state, commit, rootState }) {
     // 一覧に戻った時、post(vuex)のオブジェクトをクリアする
     commit('setPostClear')
     if (!state.posts.length) {
@@ -96,14 +115,32 @@ export const actions = {
         })
     }
   },
-  emitSetPost ({ rootState, commit }, post) {
-    // postへの追加処理: いいね済の場合にtrueを立てる
-    // let likedUserIds = []
-    const likedUserIds = post.likes.map((like) => {
-      return like.user_id
-    })
-    post.isLiked = likedUserIds.includes(rootState.user.current.id)
-    commit('setPost', post)
+  // emitSetPost ({ rootState, commit }, post) {
+  // postへの追加処理: いいね済の場合にtrueを立てる
+  // let likedUserIds = []
+  //   const likedUserIds = post.likes.map((like) => {
+  //     return like.user_id
+  //   })
+  //   post.isLiked = likedUserIds.includes(rootState.user.current.id)
+  //   commit('setPost', post)
+  // },
+  async getPost ({ rootState, commit }, postId) {
+    await this.$axios.$get(`/api/v1/posts/${postId}`)
+      .then((post) => {
+        console.log('1: ' + JSON.stringify(post))
+        // console.log(JSON.stringify(post))
+        // postにいいねしたuserIdの集合を取る
+        const likedUserIds = post.likes.map((like) => {
+          return like.user_id
+        })
+        // 集合の中にcurrentUserIdがある(いいね済の)場合にtrueのフラグを立てる
+        post.isLiked = likedUserIds.includes(rootState.user.current.id)
+        return post
+      })
+      .then((post) => {
+        commit('setPost', post)
+        console.log('2: ' + JSON.stringify(post))
+      })
   },
   // async getPost ({ commit, rootState }, postId) {
   //   await this.$axios.$get(`/api/v1/posts/${postId}`)
@@ -139,33 +176,42 @@ export const actions = {
   emitSetFilterQueryKeyword ({ commit }, param) {
     commit('setFilterQueryKeyword', param)
   },
-  async likePost ({ rootState, commit }, post) {
+  async likePost ({ rootState, commit }, postObj) {
     await this.$axios.$post('/api/v1/likes', {
       like: {
         user_id: rootState.user.current.id,
-        post_id: post.id
+        post_id: postObj.id
       }
     })
-      .then((like) => {
+      .then((likeObj) => {
         commit('reloadPostByLikePost', {
-          resLike: like,
-          reqPost: post
+          likeObj,
+          postObj
+        })
+      })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: 'いいね！しました'
         })
       })
   },
-  async unLikePost ({ rootState, commit }, post) {
-    // user_id, post_idが同じレコードは1つしか存在しないので[0]
-    console.log(post)
-    const likeId = post.likes.filter((like) => {
-      return like.user_id === rootState.user.current.id && like.post_id === post.id
+  async unLikePost ({ rootState, commit }, postObj) {
+    const likeId = postObj.likes.filter((like) => {
+      return (like.user_id === rootState.user.current.id) && (like.post_id === postObj.id)
     })[0].id
     await this.$axios.$delete(`/api/v1/likes/${likeId}`, {
       params: { id: likeId }
     })
-      .then((like) => {
+      .then((likeObj) => {
         commit('reloadPostByUnLikePost', {
-          resLike: like,
-          reqPost: post
+          likeObj,
+          postObj
+        })
+      })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: 'いいね！を解除しました',
+          color: 'prymary'
         })
       })
   },
@@ -175,18 +221,63 @@ export const actions = {
         commit('setPost', post)
       })
   },
+  async createPost ({ commit }, params) {
+    const data = new FormData()
+    if (params.tags.length !== 0) {
+      params.tags.forEach((tag) => {
+        data.append('post[tags][]', tag.text)
+      })
+    }
+    data.append('post[user_id]', params.userId)
+    data.append('post[youtube_url]', params.youtubeUrl)
+    data.append('post[content]', params.content)
+    await this.$axios.post('/api/v1/posts', data)
+      .then((postObj) => {
+        this.dispatch('getPostForPosts', postObj.data.id)
+      })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: '投稿しました'
+        })
+      })
+  },
   async destroyPost ({ commit }, postId) {
     await this.$axios.delete(`/api/v1/posts/${postId}`, { data: { id: postId } })
       .then(() => {
         commit('reloadPostsByDestroyPost', postId)
       })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: '投稿を削除しました',
+          color: 'prymary'
+        })
+      })
+  },
+  async createComment ({ commit }, params) {
+    const data = new FormData()
+    data.append('comment[user_id]', params.userId)
+    data.append('comment[post_id]', params.postId)
+    data.append('comment[comment]', params.comment)
+    await this.$axios.post('/api/v1/comments', data)
+      .then((commentObj) => {
+        commit('reloadCommentsByCreateComment', commentObj)
+      })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: '投稿にコメントしました'
+        })
+      })
   },
   async destroyComment ({ commit }, commentId) {
     await this.$axios.delete(`/api/v1/comments/${commentId}`, { data: { id: commentId } })
       .then(() => {
-        console.log('コメントの削除成功!!')
         commit('reloadCommentsByDestroyComment', commentId)
       })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: 'コメントを削除しました',
+          color: 'prymary'
+        })
+      })
   }
-
 }
