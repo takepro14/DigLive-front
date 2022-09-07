@@ -28,6 +28,7 @@
           :posts="posts"
           :tab="tab"
           :filteredPosts="filteredPosts"
+          :followedUsersPosts="followedUsersPosts"
           :keyword="keyword"
           :tag="tag"
         />
@@ -53,8 +54,9 @@ export default {
   middleware: [
     'authentication'
   ],
-  data () {
+  data ({ $store }) {
     return {
+      currentUserId: $store.state.user.current.id,
       isLoading: true,
       isLoadingUsers: true,
       menu: 'postsTab',
@@ -70,7 +72,12 @@ export default {
       posts: 'modules/post/posts',
       tags: 'modules/tag/tags',
       users: 'modules/user/users'
-    })
+    }),
+    followedUsersPosts () {
+      return this.posts.filter((post) => {
+        return post.user.passive_relationships.map(rel => rel.follower_id).includes(this.currentUserId)
+      })
+    }
   },
   methods: {
     ...mapActions({

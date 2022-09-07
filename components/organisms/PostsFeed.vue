@@ -5,11 +5,12 @@
     <!--
       最新の投稿を表示する(フォロー関係なく)
     -->
-    <div
-      v-if="dispNewPosts"
-    >
-      <v-container>
-        <v-row>
+    <v-container>
+      <v-row>
+        <!-- 最新タブ -->
+        <div
+          v-if="newPostsTab"
+        >
           <!-- 検索結果: 0件 -->
           <v-col
             v-if="(keyword !== '' || tag !== '') && !filteredPosts.length"
@@ -49,9 +50,23 @@
               @destroyPostEvent="destroyPost"
             />
           </v-col>
-        </v-row>
-      </v-container>
-    </div>
+        </div>
+        <!-- フォロータブ -->
+        <div
+          v-else-if="followedPostsTab"
+        >
+          <Post
+            v-for="post in followedUsersPosts"
+            :key="post.id"
+            :post="post"
+            :currentUserId="currentUserId"
+            @likePostEvent="likePost"
+            @unLikePostEvent="unLikePost"
+            @destroyPostEvent="destroyPost"
+          />
+        </div>
+      </v-row>
+    </v-container>
     <PostCreateDialog />
   </div>
 </template>
@@ -74,6 +89,9 @@ export default {
     },
     tag: {
       type: String
+    },
+    followedUsersPosts: {
+      type: Array
     }
   },
   data ({ $store }) {
@@ -82,8 +100,11 @@ export default {
     }
   },
   computed: {
-    dispNewPosts () {
+    newPostsTab () {
       return this.tab === 'New'
+    },
+    followedPostsTab () {
+      return this.tab === 'Follow'
     }
   },
   methods: {
