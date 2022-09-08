@@ -1,6 +1,7 @@
 export const state = {
   users: [],
-  user: {}
+  user: {},
+  currentUser: {}
 }
 
 export const getters = {
@@ -9,12 +10,18 @@ export const getters = {
   },
   user (state) {
     return state.user
+  },
+  currentUser (state) {
+    return state.currentUser
   }
 }
 
 export const mutations = {
   setUsers (state, payload) {
     state.users = payload
+  },
+  setCurrentUser (state, payload) {
+    state.currentUser = payload
   },
   setUser (state, payload) {
     state.user = payload
@@ -26,15 +33,17 @@ export const mutations = {
     state.user.isFollowed = true
     state.user.passive_relationships.push(payload)
   },
-  reloadUserByUnfollow (state, currentId) {
+  reloadUserByUnfollow (state, payload) {
     state.user.isFollowed = false
     const otherFollowers = state.user.passive_relationships.filter((passiveRelationship) => {
-      return passiveRelationship.follower_id !== currentId
+      return passiveRelationship.follower_id !== payload
     })
     state.user.passive_relationships = otherFollowers
   },
-  reloadUserBySetAvatar (state, payload) {
-    state.user.avatar.url = payload
+  reloadUserBySetProfile (state, payload) {
+    state.currentUser.name = payload.name
+    state.currentUser.email = payload.email
+    state.currentUser.avatar = payload.avatar
   }
 }
 
@@ -46,6 +55,12 @@ export const actions = {
     })
     userObj.isFollowed = followersIds.includes(rootState.user.current.id)
     commit('setUser', userObj)
+  },
+  async getCurrentUser ({ commit, rootState }) {
+    await this.$axios.$get(`/api/v1/users/${rootState.user.current.id}`)
+      .then((userObj) => {
+        commit('setCurrentUser', userObj)
+      })
   },
   async getUsers ({ commit }) {
     await this.$axios.$get('/api/v1/users')
@@ -63,6 +78,12 @@ export const actions = {
       .then((res) => {
         commit('reloadUserByFollow', res)
       })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: 'ユーザをフォローしました',
+          color: 'info'
+        })
+      })
   },
   async unfollow ({ commit, rootState }, userId) {
     await this.$axios.$delete(`/api/v1/relationships/${userId}`, {
@@ -73,11 +94,23 @@ export const actions = {
       .then(() => {
         commit('reloadUserByUnfollow', rootState.user.current.id)
       })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: 'ユーザのフォローを解除しました',
+          color: 'prymary'
+        })
+      })
   },
-  async changeAvatar ({ commit, rootState }, { formData, config }) {
+  async changeProfile ({ commit, rootState }, { formData, config }) {
     await this.$axios.$put(`/api/v1/users/${rootState.user.current.id}`, formData, config)
-      .then((userObj) => {
-        commit('reloadUserBySetAvatar', userObj.avatar.url)
+      .then((currentUserObj) => {
+        commit('reloadUserBySetProfile', currentUserObj)
+      })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: 'プロフィールを変更しました',
+          color: 'info'
+        })
       })
   }
 }

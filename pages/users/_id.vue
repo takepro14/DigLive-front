@@ -1,8 +1,5 @@
 <template>
   <v-container>
-    <!--
-      ユーザプロフィール
-    -->
     <v-icon
       x-large
       @click="historyBack"
@@ -13,9 +10,10 @@
       <v-col>
         <User
           :user="user"
+          :currentUser="currentUser"
           @followEvent="follow"
           @unfollowEvent="unfollow"
-          @changeAvatarEvent="changeAvatar"
+          @changeProfileEvent="changeProfile"
         />
       </v-col>
     </v-row>
@@ -92,7 +90,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'modules/user/user'
+      user: 'modules/user/user',
+      currentUser: 'modules/user/currentUser'
     }),
     likedPosts () {
       return this.user.likes.map((like) => {
@@ -102,11 +101,10 @@ export default {
   },
   methods: {
     ...mapActions({
-      getUser: 'modules/user/getUser',
       emitSetUserClear: 'modules/user/emitSetUserClear',
       follow: 'modules/user/follow',
       unfollow: 'modules/user/unfollow',
-      changeAvatar: 'modules/user/changeAvatar'
+      changeProfile: 'modules/user/changeProfile'
     }),
     historyBack () {
       this.$router.go(-1)
@@ -119,6 +117,9 @@ export default {
     await $axios.$get(`/api/v1/users/${params.id}`)
       .then((user) => {
         store.dispatch('modules/user/emitSetUser', user)
+      })
+      .then(() => {
+        store.dispatch('modules/user/getCurrentUser')
       })
   },
   destroyed () {

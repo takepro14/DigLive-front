@@ -4,6 +4,7 @@
     width="100%"
     @click="moveUserPage"
   >
+    <Toaster />
     <v-list-item
       three-line
     >
@@ -18,12 +19,15 @@
           </v-col>
           <v-spacer />
           <v-col>
+            <!-- カレントユーザの表示 -->
             <UserEditDialog
               v-if="isCurrentUser"
-              @changeAvatarEvent="changeAvatar"
+              @changeProfileEvent="changeProfile"
+              :currentUser="currentUser"
             >
               プロフィール設定
             </UserEditDialog>
+            <!-- 他ユーザの表示 -->
             <v-btn
               v-else-if="isFollowedTrue"
               outlined
@@ -74,17 +78,14 @@ export default {
   props: {
     user: {
       type: Object
-    }
-  },
-  data ({ $store }) {
-    return {
-      user_id: this.user.id,
-      current_id: $store.state.user.current.id
+    },
+    currentUser: {
+      type: Object
     }
   },
   computed: {
     isCurrentUser () {
-      return this.user.id === this.current_id
+      return this.user.id === this.currentUser.id
     },
     isFollowedTrue () {
       return this.user.isFollowed === true
@@ -104,10 +105,10 @@ export default {
   },
   methods: {
     moveUserPage () {
-      this.$router.push(`/users/${this.user_id}`)
+      this.$router.push(`/users/${this.user.id}`)
     },
-    changeAvatar ({ formData, config }) {
-      this.$emit('changeAvatarEvent', { formData, config })
+    changeProfile ({ formData, config }) {
+      this.$emit('changeProfileEvent', { formData, config })
     },
     follow () {
       this.$emit('followEvent', this.user.id)

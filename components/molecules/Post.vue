@@ -83,11 +83,6 @@
           align="center"
           justify="end"
         >
-          <!-- TODO: 管理者モードにて表示する -->
-          <!-- <PostDestroyDialog
-            :post="post"
-            class="mr-3"
-          /> -->
           <v-card-text
             v-if="$route.fullPath !== '/home'"
             class="mr-3"

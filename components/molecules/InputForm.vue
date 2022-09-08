@@ -2,6 +2,7 @@
   <v-container
     fluid
   >
+    <!-- 共通フォーマット -->
     <v-row
       align="center"
       justify="center"
@@ -23,6 +24,7 @@
         max-width="320"
         color="transparent"
       >
+        <!-- 入力フォーム -->
         <slot
           name="user-form-card-content"
         />

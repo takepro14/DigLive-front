@@ -36,6 +36,7 @@
         <UsersFeed
           v-if="menu === 'usersTab'"
           :users="users"
+          :currentUser="currentUser"
           :tab="tab"
           :filteredUsers="filteredUsers"
           :keyword="keyword"
@@ -72,7 +73,8 @@ export default {
     ...mapGetters({
       posts: 'modules/post/posts',
       tags: 'modules/tag/tags',
-      users: 'modules/user/users'
+      users: 'modules/user/users',
+      currentUser: 'modules/user/currentUser'
     }),
     followedUsersPosts () {
       return this.posts.filter((post) => {
@@ -84,7 +86,8 @@ export default {
     ...mapActions({
       getPosts: 'modules/post/getPosts',
       getTags: 'modules/tag/getTags',
-      getUsers: 'modules/user/getUsers'
+      getUsers: 'modules/user/getUsers',
+      getCurrentUser: 'modules/user/getCurrentUser'
     }),
     menuClick (value) {
       this.menu = value
@@ -124,6 +127,9 @@ export default {
       })
       .then(() => {
         this.stopLoadingUsers()
+      })
+      .then(() => {
+        this.getCurrentUser()
       })
   }
 }

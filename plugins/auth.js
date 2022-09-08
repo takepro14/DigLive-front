@@ -43,7 +43,6 @@ class Authentication {
   resetVuex () {
     this.setAuth({ token: null, expires: 0, user: null })
     this.store.dispatch('getCurrentUser', [])
-    this.store.dispatch('getPostList', [])
   }
 
   // axiosのレスポンス401を許容
