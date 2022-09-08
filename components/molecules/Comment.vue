@@ -11,8 +11,7 @@
     </template>
     <v-card
       class="elevation-2"
-      min-width="300"
-      max-width="600"
+      width="100%"
     >
       <v-card-text>
         <v-row>

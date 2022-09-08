@@ -17,7 +17,6 @@
     </v-toolbar>
     <v-list>
       <v-list-item-group
-        v-model="selectedItem"
         color="primary"
       >
         <v-list-item
@@ -51,11 +50,6 @@ export default {
           name: 'postsTab',
           icon: 'mdi-microphone-variant'
         },
-        // {
-        //   title: 'プレイリスト',
-        //   name: 'postsListTab',
-        //   icon: 'mdi-music-circle'
-        // },
         {
           title: 'ユーザー',
           name: 'usersTab',

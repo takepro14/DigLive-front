@@ -22,6 +22,9 @@ export const getters = {
 // mutation
 //////////////////////////////////////////////////
 export const mutations = {
+  // ----------------------------------------
+  // 初期ロード
+  // ----------------------------------------
   setPosts (state, payload) {
     state.posts = payload
   },
@@ -35,6 +38,15 @@ export const mutations = {
   // 一時的な妥協案
   setPostForPosts (state, payload) {
     state.posts.unshift(payload)
+  },
+  // ----------------------------------------
+  // 各種イベントによるリロード
+  // ----------------------------------------
+  // reloadPostsByCreatePost (state, payload) {
+  //   state.posts.push(payload)
+  // },
+  reloadPostsByDestroyPost (state, payload) {
+    state.posts = state.posts.filter(post => post.id !== payload)
   },
   reloadPostByLikePost (state, payload) {
     // 投稿一覧からいいねした場合
@@ -57,7 +69,6 @@ export const mutations = {
         post.id === payload.postObj.id
       )
       targetPost[0].isLiked = false
-      // console.log('targetPost[0]: ' + JSON.stringify(targetPost[0].likes))
       const otherUsersLikes = targetPost[0].likes.filter(like =>
         like.user_id !== payload.likeObj.user_id
       )
@@ -71,24 +82,12 @@ export const mutations = {
       state.post.likes = otherUsersLikes
     }
   },
-  reloadComments (state, payload) {
-    state.post.comments.push(payload)
-  },
-  // reloadPostsByCreatePost (state, payload) {
-  //   state.posts.push(payload)
-  // },
-  reloadPostsByDestroyPost (state, payload) {
-    state.posts = state.posts.filter(post => post.id !== payload)
-  },
   reloadCommentsByCreateComment (state, payload) {
     state.post.comments.push(payload)
   },
   reloadCommentsByDestroyComment (state, payload) {
     state.post.comments = state.post.comments.filter(comment => comment.id !== payload)
   }
-  // reloadPostByComment (state, payload) {
-  //   state.post.comments.push(payload)
-  // }
 }
 
 //////////////////////////////////////////////////
@@ -115,48 +114,15 @@ export const actions = {
         })
     }
   },
-  // emitSetPost ({ rootState, commit }, post) {
-  // postへの追加処理: いいね済の場合にtrueを立てる
-  // let likedUserIds = []
-  //   const likedUserIds = post.likes.map((like) => {
-  //     return like.user_id
-  //   })
-  //   post.isLiked = likedUserIds.includes(rootState.user.current.id)
-  //   commit('setPost', post)
-  // },
-  async getPost ({ rootState, commit }, postId) {
-    await this.$axios.$get(`/api/v1/posts/${postId}`)
-      .then((post) => {
-        console.log('1: ' + JSON.stringify(post))
-        // console.log(JSON.stringify(post))
-        // postにいいねしたuserIdの集合を取る
-        const likedUserIds = post.likes.map((like) => {
-          return like.user_id
-        })
-        // 集合の中にcurrentUserIdがある(いいね済の)場合にtrueのフラグを立てる
-        post.isLiked = likedUserIds.includes(rootState.user.current.id)
-        return post
-      })
-      .then((post) => {
-        commit('setPost', post)
-        console.log('2: ' + JSON.stringify(post))
-      })
+  getPost ({ rootState, commit }, postObj) {
+    // postにいいねしたuserIdの集合を取る
+    const likedUserIds = postObj.likes.map((like) => {
+      return like.user_id
+    })
+    // 集合の中にcurrentUserIdがある(いいね済の)場合にtrueのフラグを立てる
+    postObj.isLiked = likedUserIds.includes(rootState.user.current.id)
+    commit('setPost', postObj)
   },
-  // async getPost ({ commit, rootState }, postId) {
-  //   await this.$axios.$get(`/api/v1/posts/${postId}`)
-  //     // postへの追加処理: いいね済の場合にtrueを立てる
-  //     .then((post) => {
-  //       let likedUserIds = []
-  //       likedUserIds = post.likes.map((like) => {
-  //         return like.user_id
-  //       })
-  //       post.isLiked = likedUserIds.includes(rootState.user.current.id)
-  //       return post
-  //     })
-  //     .then((post) => {
-  //       commit('setPost', post)
-  //     })
-  // },
   // 一時的な妥協案
   async getPostForPosts ({ commit, rootState }, postId) {
     await this.$axios.$get(`/api/v1/posts/${postId}`)
@@ -173,8 +139,37 @@ export const actions = {
         commit('setPostForPosts', post)
       })
   },
-  emitSetFilterQueryKeyword ({ commit }, param) {
-    commit('setFilterQueryKeyword', param)
+  async createPost ({ commit }, params) {
+    const data = new FormData()
+    if (params.tags.length !== 0) {
+      params.tags.forEach((tag) => {
+        data.append('post[tags][]', tag.text)
+      })
+    }
+    data.append('post[user_id]', params.userId)
+    data.append('post[youtube_url]', params.youtubeUrl)
+    data.append('post[content]', params.content)
+    await this.$axios.post('/api/v1/posts', data)
+      .then((postObj) => {
+        this.dispatch('getPostForPosts', postObj.data.id)
+      })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: '投稿しました'
+        })
+      })
+  },
+  async destroyPost ({ commit }, postId) {
+    await this.$axios.delete(`/api/v1/posts/${postId}`, { data: { id: postId } })
+      .then(() => {
+        commit('reloadPostsByDestroyPost', postId)
+      })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: '投稿を削除しました',
+          color: 'prymary'
+        })
+      })
   },
   async likePost ({ rootState, commit }, postObj) {
     await this.$axios.$post('/api/v1/likes', {
@@ -215,44 +210,6 @@ export const actions = {
         })
       })
   },
-  async emitReloadComments ({ commit }, postId) {
-    await this.$axios.$get(`/api/v1/posts/${postId}`)
-      .then((post) => {
-        commit('setPost', post)
-      })
-  },
-  async createPost ({ commit }, params) {
-    const data = new FormData()
-    if (params.tags.length !== 0) {
-      params.tags.forEach((tag) => {
-        data.append('post[tags][]', tag.text)
-      })
-    }
-    data.append('post[user_id]', params.userId)
-    data.append('post[youtube_url]', params.youtubeUrl)
-    data.append('post[content]', params.content)
-    await this.$axios.post('/api/v1/posts', data)
-      .then((postObj) => {
-        this.dispatch('getPostForPosts', postObj.data.id)
-      })
-      .then(() => {
-        this.dispatch('getToast', {
-          msg: '投稿しました'
-        })
-      })
-  },
-  async destroyPost ({ commit }, postId) {
-    await this.$axios.delete(`/api/v1/posts/${postId}`, { data: { id: postId } })
-      .then(() => {
-        commit('reloadPostsByDestroyPost', postId)
-      })
-      .then(() => {
-        this.dispatch('getToast', {
-          msg: '投稿を削除しました',
-          color: 'prymary'
-        })
-      })
-  },
   async createComment ({ commit }, params) {
     const data = new FormData()
     data.append('comment[user_id]', params.userId)
@@ -260,7 +217,7 @@ export const actions = {
     data.append('comment[comment]', params.comment)
     await this.$axios.post('/api/v1/comments', data)
       .then((commentObj) => {
-        commit('reloadCommentsByCreateComment', commentObj)
+        commit('reloadCommentsByCreateComment', commentObj.data)
       })
       .then(() => {
         this.dispatch('getToast', {
@@ -278,6 +235,12 @@ export const actions = {
           msg: 'コメントを削除しました',
           color: 'prymary'
         })
+      })
+  },
+  async emitReloadComments ({ commit }, postId) {
+    await this.$axios.$get(`/api/v1/posts/${postId}`)
+      .then((post) => {
+        commit('setPost', post)
       })
   }
 }

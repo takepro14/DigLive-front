@@ -13,15 +13,15 @@
           v-bind="attrs"
           style="max-width: 600px"
           class="mx-auto text-center"
-          v-on="on"
           hover
           rounded
+          v-on="on"
         >
           <v-card-text>
             <v-icon>
               mdi-comment-multiple-outline
             </v-icon>
-              コメントする
+            コメントする
           </v-card-text>
         </v-card>
       </template>

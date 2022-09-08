@@ -8,8 +8,8 @@
     fit-parent
     resize
     :start="start"
+    :playerVars="vars"
   />
-  <!-- {{ getVideoId }} -->
 </template>
 
 <script>
@@ -26,7 +26,10 @@ export default {
   },
   data () {
     return {
-      start: ''
+      start: '',
+      vars: {
+        origin: 'http://localhost:8080'
+      }
     }
   },
   computed: {

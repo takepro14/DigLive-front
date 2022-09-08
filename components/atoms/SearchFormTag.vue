@@ -10,7 +10,6 @@
         v-for="tag in tags"
         :key="tag.name"
         :tag="tag"
-        v-model="setTags"
         @formTagCheckedEvent="formTagChecked"
         @formTagUncheckedEvent="formTagUnchecked"
       />

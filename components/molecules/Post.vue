@@ -1,18 +1,16 @@
 <template>
   <v-card
     class="mx-auto my-2"
-    @click="movePostPage"
     width="100%"
+    @click="movePostPage"
   >
-  <!-- {{ 'post: ' + JSON.stringify(post) }} -->
     <v-container>
       <v-row>
         <v-list-item
           class="grow"
           @click.stop="moveUserPage"
         >
-          <v-list-item-avatar
-          >
+          <v-list-item-avatar>
             <v-img
               class="elevation-6"
               alt=""
@@ -34,11 +32,11 @@
             </v-list-item-title>
           </v-list-item-content>
           <v-spacer />
-        <PostDestroyDialog
-          v-if="isMyPost"
-          :post="post"
-          @destroyPostEvent="destroyPost(post.id)"
-        />
+          <PostDestroyDialog
+            v-if="isMyPost"
+            :post="post"
+            @destroyPostEvent="destroyPost(post.id)"
+          />
         </v-list-item>
       </v-row>
 
@@ -50,9 +48,9 @@
         <v-col
           cols="10"
         >
-          <YouTube
+          <!-- <YouTube
             :youtube_url="post.youtube_url"
-          />
+          /> -->
         </v-col>
       </v-row>
       <v-card-text
@@ -81,64 +79,71 @@
         </v-chip-group>
       </div>
       <v-card-actions>
-          <v-row
-            align="center"
-            justify="end"
-          >
+        <v-row
+          align="center"
+          justify="end"
+        >
           <!-- TODO: 管理者モードにて表示する -->
-            <!-- <PostDestroyDialog
-              :post="post"
-              class="mr-3"
-            /> -->
-            <v-card-content
-              v-if="$route.fullPath !== '/posts'"
-              class="mr-3"
-            >
-              <!-- {{ $my.format(post.created_at) }} -->
-            </v-card-content>
-            <v-icon
-              v-if="post.isLiked"
-              class="mr-1"
-              @click.stop="unLikePost(post)"
-              large
-            >
-              mdi-heart
-            </v-icon>
-            <v-icon
-              v-else
-              class="mr-1"
-              @click.stop="likePost(post)"
-              large
-            >
-              mdi-heart-outline
-            </v-icon>
-            <span
-              class="subheading mr-2"
-              large
-            >
-              {{ likeLength }}
-            </span>
-            <v-icon
-              class="ml-3 mr-1"
-              large
-            >
-              mdi-comment-processing-outline
-            </v-icon>
-            <span
-              class="subheading"
-            >
-              {{ commentLength }}
-            </span>
-          </v-row>
+          <!-- <PostDestroyDialog
+            :post="post"
+            class="mr-3"
+          /> -->
+          <v-card-text
+            v-if="$route.fullPath !== '/home'"
+            class="mr-3"
+          >
+            {{ $my.format(post.created_at) }}
+          </v-card-text>
+          <v-icon
+            v-if="post.isLiked"
+            class="mr-1"
+            large
+            @click.stop="unLikePost(post)"
+          >
+            mdi-heart
+          </v-icon>
+          <v-icon
+            v-else
+            class="mr-1"
+            large
+            @click.stop="likePost(post)"
+          >
+            mdi-heart-outline
+          </v-icon>
+          <span
+            class="subheading mr-2"
+            large
+          >
+            {{ likeLength }}
+          </span>
+          <v-icon
+            class="ml-3 mr-1"
+            large
+          >
+            mdi-comment-processing-outline
+          </v-icon>
+          <span
+            class="subheading"
+          >
+            {{ commentLength }}
+          </span>
+        </v-row>
       </v-card-actions>
     </v-container>
   </v-card>
 </template>
 
 <script>
-// import moment from 'moment'
+import moment from 'moment'
 
 export default {
+  name: 'Post',
+  filters: {
+    moment (date) {
+      moment.locale('ja')
+      return moment(date).fromNow()
+    }
+  },
   props: {
     post: {
       type: Object
@@ -178,11 +183,5 @@ export default {
       this.$router.push(`/users/${this.post.user_id}`)
     }
   }
-  // filters: {
-  //   moment (date) {
-  //     moment.locale('ja')
-  //     return moment(date).fromNow()
-  //   }
-  // }
 }
 </script>

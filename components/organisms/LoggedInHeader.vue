@@ -15,7 +15,6 @@
         <Title />
       </nuxt-link>
       <v-spacer />
-      <LoggedInHeaderNavDrawer />
       <AccountMenu />
     </v-app-bar>
   </div>
