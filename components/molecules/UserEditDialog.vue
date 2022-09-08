@@ -103,7 +103,7 @@ export default {
         user: {
           name: this.currentUser.name,
           email: this.currentUser.email,
-          avatar: this.currentUser.avatar,
+          avatar: '',
           // password: '',
           activated: true
         }

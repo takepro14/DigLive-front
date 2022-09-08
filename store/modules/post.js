@@ -1,14 +1,8 @@
-//////////////////////////////////////////////////
-// state
-//////////////////////////////////////////////////
 export const state = {
   posts: [],
   post: {}
 }
 
-//////////////////////////////////////////////////
-// getters
-//////////////////////////////////////////////////
 export const getters = {
   posts (state) {
     return state.posts
@@ -18,13 +12,7 @@ export const getters = {
   }
 }
 
-//////////////////////////////////////////////////
-// mutation
-//////////////////////////////////////////////////
 export const mutations = {
-  // ----------------------------------------
-  // 初期ロード
-  // ----------------------------------------
   setPosts (state, payload) {
     state.posts = payload
   },
@@ -39,9 +27,6 @@ export const mutations = {
   setPostForPosts (state, payload) {
     state.posts.unshift(payload)
   },
-  // ----------------------------------------
-  // 各種イベントによるリロード
-  // ----------------------------------------
   // reloadPostsByCreatePost (state, payload) {
   //   state.posts.push(payload)
   // },
@@ -90,9 +75,6 @@ export const mutations = {
   }
 }
 
-//////////////////////////////////////////////////
-// actions
-//////////////////////////////////////////////////
 export const actions = {
   async getPosts ({ state, commit, rootState }) {
     // 一覧に戻った時、post(vuex)のオブジェクトをクリアする
@@ -151,7 +133,7 @@ export const actions = {
     data.append('post[content]', params.content)
     await this.$axios.post('/api/v1/posts', data)
       .then((postObj) => {
-        this.dispatch('getPostForPosts', postObj.data.id)
+        this.dispatch('modules/post/getPostForPosts', postObj.data.id)
       })
       .then(() => {
         this.dispatch('getToast', {

@@ -28,7 +28,7 @@
             <v-list-item-title
               v-else
             >
-              <!-- {{ post.user.name }} -->
+              {{ post.user.name }}
             </v-list-item-title>
           </v-list-item-content>
           <v-spacer />

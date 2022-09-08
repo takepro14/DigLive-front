@@ -107,6 +107,7 @@ export default {
       })
       this.content = ''
       this.dialog = false
+      this.$vuetify.goTo(0)
     }
     // createPost () {
     //   const url = '/api/v1/posts'

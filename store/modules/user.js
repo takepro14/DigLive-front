@@ -43,7 +43,7 @@ export const mutations = {
   reloadUserBySetProfile (state, payload) {
     state.currentUser.name = payload.name
     state.currentUser.email = payload.email
-    state.currentUser.avatar = payload.avatar
+    state.currentUser.avatar.url = payload.avatar.url
   }
 }
 
