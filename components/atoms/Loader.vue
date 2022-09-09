@@ -6,7 +6,7 @@
     <v-skeleton-loader
       v-for="n in 5"
       :key="n.id"
-      class="mx-auto my-4"
+      class="mx-auto my-6"
       min-width="300"
       max-width="600"
       type="card"
