@@ -47,17 +47,17 @@ export default {
       menus: [
         {
           title: 'ライブ映像',
-          name: 'postsTab',
+          name: 'postsMenu',
           icon: 'mdi-microphone-variant'
         },
         {
           title: 'ユーザー',
-          name: 'usersTab',
+          name: 'usersMenu',
           icon: 'mdi-account-multiple'
         },
         {
           title: 'チャットルーム',
-          name: 'boardsTab',
+          name: 'boardsMenu',
           icon: 'mdi-wechat'
         }
       ]

@@ -2,47 +2,63 @@
   <div
     class="mx-auto"
   >
-    <v-container>
-      <v-row>
-        <!-- 検索結果: 0件 -->
-        <v-col
-          v-if="(keyword !== '') && !filteredUsers.length"
+    <!-- 最新タブ -->
+    <div
+      v-if="newUsersTab"
+    >
+      <!-- 検索結果: 0件 -->
+      <div
+        v-if="(keyword !== '') && !filteredUsers.length"
+      >
+        <h3>
+          {{ keyword }} の検索結果: {{ filteredUsers.length }}人のユーザー
+        </h3>
+      </div>
+      <!-- 検索結果: 1件以上 -->
+      <div
+        v-else-if="(keyword !== '') && filteredUsers.length"
+      >
+        <h3>
+          {{ keyword }} の検索結果: {{ filteredUsers.length }}人のユーザー
+        </h3>
+        <User
+          v-for="user in filteredUsers"
+          :key="user.id"
+          :user="user"
+          :currentUser="currentUser"
+        />
+      </div>
+      <!-- 初期表示(フィード) -->
+      <div
+        v-else
+      >
+        <div
+          v-for="user in users"
+          :key="user.id"
         >
-          <h3>
-            {{ keyword }} の検索結果: {{ filteredUsers.length }}人のユーザー
-          </h3>
-        </v-col>
-        <!-- 検索結果: 1件以上 -->
-        <v-col
-          v-else-if="(keyword !== '') && filteredUsers.length"
-        >
-          <h3>
-            {{ keyword }} の検索結果: {{ filteredUsers.length }}人のユーザー
-          </h3>
           <User
-            v-for="user in filteredUsers"
-            :key="user.id"
+            v-if="user.id !== currentUser.id"
             :user="user"
             :currentUser="currentUser"
           />
-        </v-col>
-        <!-- 初期表示(フィード) -->
-        <v-col
-          v-else
-        >
-          <div
-            v-for="user in users"
-            :key="user.id"
-          >
-            <User
-              v-if="user.id !== currentUser.id"
-              :user="user"
-              :currentUser="currentUser"
-            />
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
+        </div>
+      </div>
+    </div>
+    <!-- フォロータブ -->
+    <div
+      v-else-if="followedUsersTab"
+    >
+      <div
+        v-for="user in followedUsers"
+        :key="user.id"
+      >
+        <User
+          v-if="user.id !== currentUser.id"
+          :user="user"
+          :currentUser="currentUser"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -60,6 +76,20 @@ export default {
     },
     currentUser: {
       type: Object
+    },
+    tab: {
+      type: String
+    },
+    followedUsers: {
+      type: Array
+    }
+  },
+  computed: {
+    newUsersTab () {
+      return this.tab === 'New'
+    },
+    followedUsersTab () {
+      return this.tab === 'Follow'
     }
   }
 }

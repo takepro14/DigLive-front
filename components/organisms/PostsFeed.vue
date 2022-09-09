@@ -2,68 +2,66 @@
   <div
     class="mx-auto"
   >
-    <v-container>
-      <v-row>
-        <!-- 最新タブ -->
-        <div
-          v-if="newPostsTab"
-        >
-          <!-- 検索結果: 0件 -->
-          <v-col
-            v-if="(keyword !== '' || tag !== '') && !filteredPosts.length"
-          >
-            <h3>
-              {{ keyword || tag }} の検索結果: {{ filteredPosts.length }}件
-            </h3>
-          </v-col>
-          <!-- 検索結果: 1件以上 -->
-          <v-col
-            v-else-if="(keyword !== '' || tag !== '') && filteredPosts.length"
-          >
-            <h3>
-              {{ keyword || tag }} の検索結果: {{ filteredPosts.length }}件
-            </h3>
-            <Post
-              v-for="post in filteredPosts"
-              :key="post.id"
-              :post="post"
-              :currentUserId="currentUserId"
-              @likePostEvent="likePost"
-              @unLikePostEvent="unLikePost"
-              @destroyPostEvent="destroyPost"
-            />
-          </v-col>
-          <!-- 初期表示(フィード) -->
-          <v-col
-            v-else
-          >
-            <Post
-              v-for="post in posts"
-              :key="post.id"
-              :post="post"
-              :currentUserId="currentUserId"
-              @likePostEvent="likePost"
-              @unLikePostEvent="unLikePost"
-              @destroyPostEvent="destroyPost"
-            />
-          </v-col>
-        </div>
-        <!-- フォロータブ -->
-        <div
-          v-else-if="followedPostsTab"
-        >
-          <Post
-            v-for="post in followedUsersPosts"
-            :key="post.id"
-            :post="post"
-            :currentUserId="currentUserId"
-            @likePostEvent="likePost"
-            @unLikePostEvent="unLikePost"
-            @destroyPostEvent="destroyPost"
-          />
-        </div>
-      </v-row>
-    </v-container>
+    <!-- 最新タブ -->
+    <div
+      v-if="newPostsTab"
+    >
+      <!-- 検索結果: 0件 -->
+      <div
+        v-if="(keyword !== '' || tag !== '') && !filteredPosts.length"
+      >
+        <h3>
+          {{ keyword || tag }} の検索結果: {{ filteredPosts.length }}件
+        </h3>
+      </div>
+      <!-- 検索結果: 1件以上 -->
+      <div
+        v-else-if="(keyword !== '' || tag !== '') && filteredPosts.length"
+      >
+        <h3>
+          {{ keyword || tag }} の検索結果: {{ filteredPosts.length }}件
+        </h3>
+        <Post
+          v-for="post in filteredPosts"
+          :key="post.id"
+          :post="post"
+          :currentUserId="currentUserId"
+          @likePostEvent="likePost"
+          @unLikePostEvent="unLikePost"
+          @destroyPostEvent="destroyPost"
+        />
+      </div>
+      <!-- 初期表示(フィード) -->
+      <div
+        v-else
+      >
+        <Post
+          v-for="post in posts"
+          :key="post.id"
+          :post="post"
+          :currentUserId="currentUserId"
+          @likePostEvent="likePost"
+          @unLikePostEvent="unLikePost"
+          @destroyPostEvent="destroyPost"
+        />
+      </div>
+    </div>
+    <!-- フォロータブ -->
+    <div
+      v-else-if="followedPostsTab"
+    >
+      <div>
+        <Post
+          v-for="post in followedUsersPosts"
+          :key="post.id"
+          :post="post"
+          :currentUserId="currentUserId"
+          @likePostEvent="likePost"
+          @unLikePostEvent="unLikePost"
+          @destroyPostEvent="destroyPost"
+        />
+      </div>
+    </div>
     <PostCreateDialog
       @createPostEvent="createPost"
     />

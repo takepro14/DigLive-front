@@ -1,7 +1,8 @@
 <template>
   <v-card
-    class="mx-auto my-2"
+    class="mx-auto my-4"
     width="100%"
+    hover
     @click="movePostPage"
   >
     <v-container>

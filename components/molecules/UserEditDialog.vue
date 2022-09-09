@@ -11,10 +11,10 @@
       >
         <v-btn
           v-bind="attrs"
-          v-on="on"
           outlined
           rounded
           text
+          v-on="on"
         >
           プロフィール編集
         </v-btn>
@@ -49,8 +49,8 @@
                 <v-file-input
                   label="プロフィール画像を選択"
                   accept="image/*"
-                  v-model="params.user.avatar"
                   prepend-icon="mdi-camera"
+                  v-model="params.user.avatar"
                 />
               </v-form>
               <v-card-actions>

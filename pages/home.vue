@@ -25,7 +25,7 @@
           v-if="isLoading === true"
         />
         <PostsFeed
-          v-if="menu === 'postsTab'"
+          v-if="menu === 'postsMenu'"
           :posts="posts"
           :tab="tab"
           :filteredPosts="filteredPosts"
@@ -34,15 +34,16 @@
           :tag="tag"
         />
         <UsersFeed
-          v-if="menu === 'usersTab'"
+          v-if="menu === 'usersMenu'"
           :users="users"
           :currentUser="currentUser"
           :tab="tab"
           :filteredUsers="filteredUsers"
+          :followedUsers="followedUsers"
           :keyword="keyword"
         />
         <BoardsFeed
-          v-if="menu === 'boardsTab'"
+          v-if="menu === 'boardsMenu'"
         />
       </v-col>
     </v-row>
@@ -61,7 +62,7 @@ export default {
       currentUserId: $store.state.user.current.id,
       isLoading: true,
       isLoadingUsers: true,
-      menu: 'postsTab',
+      menu: 'postsMenu',
       tab: 'New',
       filteredPosts: [],
       filteredUsers: [],
@@ -79,6 +80,11 @@ export default {
     followedUsersPosts () {
       return this.posts.filter((post) => {
         return post.user.passive_relationships.map(rel => rel.follower_id).includes(this.currentUserId)
+      })
+    },
+    followedUsers () {
+      return this.users.filter((user) => {
+        return this.currentUser.active_relationships.map(rel => rel.followed_id).includes(user.id)
       })
     }
   },

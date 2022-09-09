@@ -8,7 +8,7 @@
       dark
       flat
     >
-      <template v-slot:extension>
+      <template #extension>
         <v-tabs
           centered
           slider-color="yellow"

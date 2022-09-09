@@ -18,7 +18,6 @@ export const mutations = {
   },
   setPost (state, payload) {
     state.post = payload
-    console.log('payload: ' + JSON.stringify(payload))
   },
   setPostClear (state) {
     state.post = {}
