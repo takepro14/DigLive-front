@@ -43,6 +43,9 @@
                 <InputFormEmail
                   :email.sync="params.user.email"
                 />
+                <EditFormProfile
+                  :profile.sync="params.user.profile"
+                />
                 <!-- <InputFormPassword
                   :password.sync="params.user.password"
                 /> -->
@@ -104,6 +107,7 @@ export default {
           name: this.currentUser.name,
           email: this.currentUser.email,
           avatar: '',
+          profile: this.currentUser.profile,
           // password: '',
           activated: true
         }
@@ -116,6 +120,7 @@ export default {
       const formData = new FormData()
       formData.append('user[name]', this.params.user.name)
       formData.append('user[email]', this.params.user.email)
+      formData.append('user[profile]', this.params.user.profile)
       formData.append('user[avatar]', this.params.user.avatar)
       const config = {
         headders: {
