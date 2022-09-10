@@ -115,6 +115,7 @@ export default {
       this.content = ''
       this.dialog = false
       this.$vuetify.goTo(0)
+      this.checkedGenres = []
     }
   }
 }

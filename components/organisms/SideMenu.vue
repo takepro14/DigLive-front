@@ -12,7 +12,7 @@
         <v-icon class="mr-3">
           mdi-menu
         </v-icon>
-        Menu
+        MENU
       </v-toolbar-title>
     </v-toolbar>
     <v-list>
@@ -46,9 +46,9 @@ export default {
     return {
       menus: [
         {
-          title: 'ライブ映像',
+          title: '投稿',
           name: 'postsMenu',
-          icon: 'mdi-microphone-variant'
+          icon: 'mdi-comment-processing'
         },
         {
           title: 'ユーザー',

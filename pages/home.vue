@@ -11,6 +11,7 @@
           :users="users"
           :genres="genres"
           :tags="tags"
+          :menu="menu"
           @filteredPostsChangedEvent="filteredPostsChanged"
           @filteredUsersChangedEvent="filteredUsersChanged"
           class="my-4"
@@ -32,6 +33,8 @@
           :keyword="keyword"
           :tag="tag"
           :genres="genres"
+          :tags="tags"
+          :genre="genre"
         />
         <UsersFeed
           v-if="menu === 'usersMenu'"
@@ -111,10 +114,11 @@ export default {
       this.isLoadingUsers = false
     },
     filteredPostsChanged (...args) {
-      const [filteredPosts, keyword, tag] = args
+      const [filteredPosts, keyword, tag, genre] = args
       this.filteredPosts = filteredPosts
       this.keyword = keyword
       this.tag = tag
+      this.genre = genre
     },
     filteredUsersChanged (...args) {
       const [filteredUsers, keyword] = args

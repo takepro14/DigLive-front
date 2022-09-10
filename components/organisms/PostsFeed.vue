@@ -2,38 +2,11 @@
   <div
     class="mx-auto"
   >
-    <!-- 最新タブ -->
     <div
       v-if="newPostsTab"
     >
-      <!-- 検索結果: 0件 -->
       <div
-        v-if="(keyword !== '' || tag !== '') && !filteredPosts.length"
-      >
-        <h3>
-          {{ keyword || tag }} の検索結果: {{ filteredPosts.length }}件
-        </h3>
-      </div>
-      <!-- 検索結果: 1件以上 -->
-      <div
-        v-else-if="(keyword !== '' || tag !== '') && filteredPosts.length"
-      >
-        <h3>
-          {{ keyword || tag }} の検索結果: {{ filteredPosts.length }}件
-        </h3>
-        <Post
-          v-for="post in filteredPosts"
-          :key="post.id"
-          :post="post"
-          :currentUserId="currentUserId"
-          @likePostEvent="likePost"
-          @unLikePostEvent="unLikePost"
-          @destroyPostEvent="destroyPost"
-        />
-      </div>
-      <!-- 初期表示(フィード) -->
-      <div
-        v-else
+        v-if="!isSearching"
       >
         <Post
           v-for="post in posts"
@@ -45,14 +18,32 @@
           @destroyPostEvent="destroyPost"
         />
       </div>
-    </div>
-    <!-- フォロータブ -->
-    <div
-      v-else-if="followedPostsTab"
-    >
-      <div>
+      <div
+        v-else-if="isSearching"
+      >
+        <div
+          v-if="keyword !== ''"
+        >
+          <h3>
+            {{ keyword }} の検索結果 ({{ filteredPosts.length }})
+          </h3>
+        </div>
+        <div
+          v-else-if="tag !== ''"
+        >
+          <h3>
+            {{ tag }} の検索結果 ({{ filteredPosts.length }})
+          </h3>
+        </div>
+        <div
+          v-else-if="genre !== ''"
+        >
+          <h3>
+            {{ genre }} の検索結果 ({{ filteredPosts.length }})
+          </h3>
+        </div>
         <Post
-          v-for="post in followedUsersPosts"
+          v-for="post in filteredPosts"
           :key="post.id"
           :post="post"
           :currentUserId="currentUserId"
@@ -61,6 +52,23 @@
           @destroyPostEvent="destroyPost"
         />
       </div>
+    </div>
+    <div
+      v-else-if="followedPostsTab"
+    >
+      <Post
+        v-for="post in followedUsersPosts"
+        :key="post.id"
+        :post="post"
+        :currentUserId="currentUserId"
+        @likePostEvent="likePost"
+        @unLikePostEvent="unLikePost"
+        @destroyPostEvent="destroyPost"
+      />
+    </div>
+    <div
+      v-else-if="searchPostsTab"
+    >
     </div>
     <PostCreateDialog
       @createPostEvent="createPost"
@@ -85,6 +93,9 @@ export default {
     keyword: {
       type: String
     },
+    genre: {
+      type: String
+    },
     tag: {
       type: String
     },
@@ -92,6 +103,9 @@ export default {
       type: Array
     },
     genres: {
+      type: Array
+    },
+    tags: {
       type: Array
     }
   },
@@ -106,6 +120,9 @@ export default {
     },
     followedPostsTab () {
       return this.tab === 'Follow'
+    },
+    isSearching () {
+      return (!!this.keyword) || (!!this.tag) || (!!this.genre)
     }
   },
   methods: {

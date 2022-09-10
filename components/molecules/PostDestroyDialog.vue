@@ -15,7 +15,7 @@
           <v-icon
             class="text-right"
           >
-            mdi-dots-vertical
+            mdi-delete
           </v-icon>
         </v-btn>
     </template>

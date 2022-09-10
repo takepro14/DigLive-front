@@ -2,9 +2,10 @@
   <v-chip
     link
     filter
+    color="orange lighten-5"
     @click="toggleTag"
   >
-    # {{ tag.tag_name }}
+    {{ tag.tag_name }}
   </v-chip>
 </template>
 

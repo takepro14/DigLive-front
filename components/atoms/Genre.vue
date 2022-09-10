@@ -2,9 +2,11 @@
   <v-chip
     link
     filter
+    label
     @click="toggleGenre"
+    color="purple lighten-5"
   >
-    # {{ genre.genre_name }}
+  {{ genre.genre_name }}
   </v-chip>
 </template>
 

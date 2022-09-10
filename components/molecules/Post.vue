@@ -73,16 +73,19 @@
           <v-chip
             v-for="genre in post.genres"
             :key="genre.id"
+            label
             link
+            color="purple lighten-5"
           >
-            # {{ genre.genre_name }}
+            {{ genre.genre_name }}
           </v-chip>
           <v-chip
             v-for="tag in post.tags"
             :key="tag.id"
             link
+            color="orange lighten-5"
           >
-            # {{ tag.tag_name }}
+            {{ tag.tag_name }}
           </v-chip>
         </v-chip-group>
       </div>

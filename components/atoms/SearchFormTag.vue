@@ -1,9 +1,6 @@
 <template>
-  <div
-    class="px-4"
-  >
+  <div>
     <v-chip-group
-      active-class="primary--text"
       column
     >
       <v-card-text>

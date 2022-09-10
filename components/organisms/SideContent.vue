@@ -1,22 +1,22 @@
 <template>
   <div>
-    <v-card
-      v-if="menu === 'postsTab'"
+    <v-toolbar
+      color="subheader"
+      dark
+      flat
     >
-      <v-toolbar
-        color="subheader"
-        dark
-        flat
+      <v-toolbar-title>
+        <v-icon class="mr-3">
+          mdi-magnify
+        </v-icon>
+        検索
+      </v-toolbar-title>
+    </v-toolbar>
+    <v-list>
+      <div
+        class="px-4 py-2"
       >
-        <v-toolbar-title>
-          <v-icon class="mr-3">
-            mdi-magnify
-          </v-icon>
-          検索
-        </v-toolbar-title>
-      </v-toolbar>
-      <v-list>
-        <v-card>
+        <div v-if="menu === 'postsMenu'">
           <SearchFormKeyword
             :keyword.sync="keyword"
             @formKeywordClearEvent="formKeywordClear"
@@ -34,18 +34,24 @@
             @formTagCheckedEvent="formTagChecked"
             @formTagUncheckedEvent="formTagUnchecked"
           />
-        </v-card>
-      </v-list>
-    </v-card>
-    <v-card
-      v-if="menu === 'usersTab'"
-    >
-      <SearchFormKeyword
-        :keyword.sync="keyword"
-        @formKeywordClearEvent="formKeywordClear"
-        @formKeywordFocusEvent="formKeywordFocus"
-      />
-    </v-card>
+        </div>
+        <div
+          v-if="menu === 'usersMenu'"
+        >
+          <SearchFormKeyword
+            :keyword.sync="keyword"
+            @formKeywordClearEvent="formKeywordClear"
+            @formKeywordFocusEvent="formKeywordFocus"
+          />
+          <SearchFormGenre
+            :genre.sync="genre"
+            :genres="genres"
+            @formGenreCheckedEvent="formGenreChecked"
+            @formGenreUncheckedEvent="formGenreUnchecked"
+          />
+        </div>
+      </div>
+    </v-list>
   </div>
 </template>
 
@@ -67,14 +73,16 @@ export default {
     },
     tags: {
       type: Array
+    },
+    menu: {
+      type: String
     }
   },
   data () {
     return {
       keyword: '',
       tag: '',
-      genre: '',
-      menu: 'postsTab'
+      genre: ''
     }
   },
   computed: {
@@ -83,9 +91,13 @@ export default {
         return this.posts.filter((post) => {
           return post.content.includes(this.keyword)
         })
-      } else if (this.tags !== '') {
+      } else if (this.tag !== '') {
         return this.posts.filter((post) => {
           return post.tags.map(tag => tag.tag_name).includes(this.tag)
+        })
+      } else if (this.genre !== '') {
+        return this.posts.filter((post) => {
+          return post.genres.map(genre => genre.genre_name).includes(this.genre)
         })
       } else {
         return []
@@ -108,23 +120,33 @@ export default {
     formTagClear () {
       this.tag = ''
     },
+    formGenreClear () {
+      this.genre = ''
+    },
     formKeywordFocus () {
       this.formTagClear()
+      this.formGenreClear()
     },
     formTagChecked (value) {
       this.tag = value
       this.formKeywordClear()
+      this.formGenreClear()
     },
     formTagUnchecked () {
       this.tag = ''
     },
-    menuClick (value) {
-      this.menu = value
+    formGenreChecked (value) {
+      this.genre = value
+      this.formKeywordClear()
+      this.formTagClear()
+    },
+    formGenreUnchecked () {
+      this.genre = ''
     }
   },
   watch: {
     filteredPosts () {
-      this.$emit('filteredPostsChangedEvent', this.filteredPosts, this.keyword, this.tag)
+      this.$emit('filteredPostsChangedEvent', this.filteredPosts, this.keyword, this.tag, this.genre)
     },
     filteredUsers () {
       this.$emit('filteredUsersChangedEvent', this.filteredUsers, this.keyword)
