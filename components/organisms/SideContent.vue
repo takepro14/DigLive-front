@@ -108,6 +108,10 @@ export default {
         return this.users.filter((user) => {
           return (user.name.includes(this.keyword) || user.profile.includes(this.keyword))
         })
+      } else if (this.genre !== '') {
+        return this.users.filter((user) => {
+          return user.genres.map(genre => genre.genre_name).includes(this.genre)
+        })
       } else {
         return []
       }
@@ -149,7 +153,7 @@ export default {
       this.$emit('filteredPostsChangedEvent', this.filteredPosts, this.keyword, this.tag, this.genre)
     },
     filteredUsers () {
-      this.$emit('filteredUsersChangedEvent', this.filteredUsers, this.keyword)
+      this.$emit('filteredUsersChangedEvent', this.filteredUsers, this.keyword, this.genre)
     }
   }
 }

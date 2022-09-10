@@ -44,6 +44,7 @@
           :filteredUsers="filteredUsers"
           :followedUsers="followedUsers"
           :keyword="keyword"
+          :genre="genre"
         />
         <BoardsFeed
           v-if="menu === 'boardsMenu'"
@@ -121,9 +122,10 @@ export default {
       this.genre = genre
     },
     filteredUsersChanged (...args) {
-      const [filteredUsers, keyword] = args
+      const [filteredUsers, keyword, genre] = args
       this.filteredUsers = filteredUsers
       this.keyword = keyword
+      this.genre = genre
     }
   },
   // PostFeed.vue, SideContent.vueとやりとりするのでhome.vueでGET
