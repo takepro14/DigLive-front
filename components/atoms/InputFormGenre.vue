@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-chip-group
-      color="primary--text"
       column
       multiple
       class="my-4"

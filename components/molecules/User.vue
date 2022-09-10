@@ -1,74 +1,99 @@
 <template>
   <v-card
-    class="mx-auto my-4"
+    class="mx-auto px-10"
     width="100%"
     @click="moveUserPage"
   >
     <Toaster />
-    <v-list-item
-      three-line
+    <v-row
+      align="center"
+      class="py-2"
     >
-      <v-list-item-content>
-        <v-row>
-          <v-col>
-            <v-list-item-title
-              class="text-h5 mb-1"
-            >
-              {{ user.name }}
-            </v-list-item-title>
-          </v-col>
-          <v-spacer />
-          <v-col>
-            <!-- カレントユーザの表示 -->
-            <UserEditDialog
-              v-if="isCurrentUser"
-              @changeProfileEvent="changeProfile"
-              :currentUser="currentUser"
-            >
-              プロフィール設定
-            </UserEditDialog>
-            <!-- 他ユーザの表示 -->
-            <v-btn
-              v-else-if="isFollowedTrue"
-              outlined
-              rounded
-              text
-              @click="unfollow"
-            >
-              フォロー中
-            </v-btn>
-            <v-btn
-              v-else-if="isFollowedFalse"
-              outlined
-              rounded
-              @click="follow"
-              color="blue"
-            >
-              フォローする
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-list-item-subtitle>
-          {{ user.profile }}
-        </v-list-item-subtitle>
-      </v-list-item-content>
-      <v-list-item-avatar
-        tile
-        size="120"
+      <v-col
+        class="text-center"
       >
-        <v-img
-          :src="avatarUrl"
-        />
-      </v-list-item-avatar>
-    </v-list-item>
-    <v-card-actions>
-      <v-card-text>
-        {{ followingLength }} フォロー
-      </v-card-text>
-      <v-card-text>
-        {{ followerLength }} フォロワー
-      </v-card-text>
-    </v-card-actions>
+        <v-list-item-title
+          class="text-h5"
+        >
+          {{ user.name }}
+        </v-list-item-title>
+      </v-col>
+      <v-spacer />
+      <v-spacer />
+      <v-col class="text-center">
+        <v-avatar
+          size="100"
+          tile
+        >
+          <v-img
+            :src="avatarUrl"
+          />
+        </v-avatar>
+      </v-col>
+    </v-row>
+    <v-row
+      class="py-2"
+    >
+      <v-spacer />
+      <!-- カレントユーザの表示 -->
+      <UserEditDialog
+        v-if="isCurrentUser"
+        @changeProfileEvent="changeProfile"
+        :currentUser="currentUser"
+        :genres="genres"
+      />
+      <!-- 他ユーザの表示 -->
+      <v-btn
+        v-else-if="isFollowedTrue"
+        outlined
+        rounded
+        text
+        @click="unfollow"
+      >
+        フォロー中
+      </v-btn>
+      <v-btn
+        v-else-if="isFollowedFalse"
+        outlined
+        rounded
+        @click="follow"
+        color="blue"
+      >
+        フォローする
+      </v-btn>
+    </v-row>
+    <v-row
+      class="py-2"
+    >
+      <v-list-item-subtitle>
+        {{ user.profile }}
+      </v-list-item-subtitle>
+      <v-list-item-subtitle>
+        <v-chip-group
+          column
+          multiple
+          class="my-4"
+        >
+          <Genre
+            v-for="genre in user.genres"
+            :key="genre.genre_name"
+            :genre="genre"
+          />
+        </v-chip-group>
+      </v-list-item-subtitle>
+    </v-row>
+    <v-row
+      class="py-2"
+    >
+    <v-spacer />
+    <v-spacer />
+      <v-col>
+          {{ followingLength }} フォロー
+      </v-col>
+      <v-col>
+          {{ followerLength }} フォロワー
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 
@@ -81,6 +106,9 @@ export default {
     },
     currentUser: {
       type: Object
+    },
+    genres: {
+      type: Array
     }
   },
   computed: {

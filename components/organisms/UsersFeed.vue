@@ -40,6 +40,7 @@
             v-if="user.id !== currentUser.id"
             :user="user"
             :currentUser="currentUser"
+            class="my-6"
           />
         </div>
       </div>
@@ -56,6 +57,7 @@
           v-if="user.id !== currentUser.id"
           :user="user"
           :currentUser="currentUser"
+          class="my-6"
         />
       </div>
     </div>

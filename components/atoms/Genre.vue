@@ -5,6 +5,7 @@
     label
     @click="toggleGenre"
     color="purple lighten-5"
+    isActive="true"
   >
   {{ genre.genre_name }}
   </v-chip>

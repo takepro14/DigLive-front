@@ -14,6 +14,7 @@
           @followEvent="follow"
           @unfollowEvent="unfollow"
           @changeProfileEvent="changeProfile"
+          :genres="genres"
         />
       </v-col>
     </v-row>
@@ -91,7 +92,8 @@ export default {
   computed: {
     ...mapGetters({
       user: 'modules/user/user',
-      currentUser: 'modules/user/currentUser'
+      currentUser: 'modules/user/currentUser',
+      genres: 'modules/genre/genres'
     }),
     likedPosts () {
       return this.user.likes.map((like) => {
@@ -104,7 +106,8 @@ export default {
       emitSetUserClear: 'modules/user/emitSetUserClear',
       follow: 'modules/user/follow',
       unfollow: 'modules/user/unfollow',
-      changeProfile: 'modules/user/changeProfile'
+      changeProfile: 'modules/user/changeProfile',
+      getGenres: 'modules/genre/getGenres'
     }),
     historyBack () {
       this.$router.go(-1)
@@ -121,6 +124,9 @@ export default {
       .then(() => {
         store.dispatch('modules/user/getCurrentUser')
       })
+  },
+  created () {
+    this.getGenres()
   },
   destroyed () {
     this.emitSetUserClear(this.user_id)

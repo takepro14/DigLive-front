@@ -15,8 +15,12 @@
           rounded
           text
           v-on="on"
+          color="grey"
         >
-          プロフィール編集
+          <v-icon>
+            mdi-cog
+          </v-icon>
+          Settings
         </v-btn>
       </template>
       <!-- ダイアログオープン -->
@@ -43,7 +47,7 @@
                 <InputFormEmail
                   :email.sync="params.user.email"
                 />
-                <EditFormProfile
+                <InputFormProfile
                   :profile.sync="params.user.profile"
                 />
                 <!-- <InputFormPassword
@@ -55,6 +59,13 @@
                   prepend-icon="mdi-camera"
                   v-model="params.user.avatar"
                 />
+                <v-card-text>
+                  好きな音楽ジャンル(複数選択可)
+                  <InputFormGenre
+                    :genres="genres"
+                    @checkedGenresEvent="params.user.checkedGenres = $event"
+                  />
+                </v-card-text>
               </v-form>
               <v-card-actions>
                 <v-spacer />
@@ -96,6 +107,9 @@ export default {
     },
     currentUser: {
       type: Object
+    },
+    genres: {
+      type: Array
     }
   },
   data () {
@@ -106,10 +120,11 @@ export default {
         user: {
           name: this.currentUser.name,
           email: this.currentUser.email,
-          avatar: '',
+          avatar: this.currentUser.avatar.url,
           profile: this.currentUser.profile,
           // password: '',
-          activated: true
+          activated: true,
+          checkedGenres: []
         }
       },
       dialog: false
@@ -122,6 +137,11 @@ export default {
       formData.append('user[email]', this.params.user.email)
       formData.append('user[profile]', this.params.user.profile)
       formData.append('user[avatar]', this.params.user.avatar)
+      if (this.params.user.checkedGenres.length !== 0) {
+        this.params.user.checkedGenres.forEach((genre) => {
+          formData.append('user[genres][]', genre)
+        })
+      }
       const config = {
         headders: {
           'content-type': 'multipart/form-data'
