@@ -121,10 +121,17 @@ export const actions = {
       })
   },
   async createPost ({ commit }, params) {
+    console.log('params: ' + JSON.stringify(params))
     const data = new FormData()
     if (params.tags.length !== 0) {
       params.tags.forEach((tag) => {
         data.append('post[tags][]', tag.text)
+      })
+    }
+    if (params.genres.length !== 0) {
+      params.genres.forEach((genre) => {
+        data.append('post[genres][]', genre)
+        console.log(data)
       })
     }
     data.append('post[user_id]', params.userId)

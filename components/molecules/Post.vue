@@ -71,6 +71,13 @@
           column
         >
           <v-chip
+            v-for="genre in post.genres"
+            :key="genre.id"
+            link
+          >
+            # {{ genre.genre_name }}
+          </v-chip>
+          <v-chip
             v-for="tag in post.tags"
             :key="tag.id"
             link

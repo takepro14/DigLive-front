@@ -2,21 +2,20 @@
   <v-container>
     <Toaster />
     <v-row>
-      <!-- 左カラム -->
       <v-col cols="12" sm="12" md="4" lg="4" xl="4">
         <SideMenu
           @menuClickEvent="menuClick"
         />
         <SideContent
           :posts="posts"
-          :tags="tags"
           :users="users"
+          :genres="genres"
+          :tags="tags"
           @filteredPostsChangedEvent="filteredPostsChanged"
           @filteredUsersChangedEvent="filteredUsersChanged"
           class="my-4"
         />
       </v-col>
-      <!-- 右カラム -->
       <v-col cols="12" sm="12" md="8" lg="8" xl="8">
         <TabMenu
           @tabClickEvent="tabClick"
@@ -32,6 +31,7 @@
           :followedUsersPosts="followedUsersPosts"
           :keyword="keyword"
           :tag="tag"
+          :genres="genres"
         />
         <UsersFeed
           v-if="menu === 'usersMenu'"
@@ -67,14 +67,16 @@ export default {
       filteredPosts: [],
       filteredUsers: [],
       keyword: '',
-      tag: ''
+      tag: '',
+      genre: ''
     }
   },
   computed: {
     ...mapGetters({
       posts: 'modules/post/posts',
-      tags: 'modules/tag/tags',
       users: 'modules/user/users',
+      genres: 'modules/genre/genres',
+      tags: 'modules/tag/tags',
       currentUser: 'modules/user/currentUser'
     }),
     followedUsersPosts () {
@@ -92,6 +94,7 @@ export default {
     ...mapActions({
       getPosts: 'modules/post/getPosts',
       getTags: 'modules/tag/getTags',
+      getGenres: 'modules/genre/getGenres',
       getUsers: 'modules/user/getUsers',
       getCurrentUser: 'modules/user/getCurrentUser'
     }),
@@ -122,6 +125,9 @@ export default {
   // PostFeed.vue, SideContent.vueとやりとりするのでhome.vueでGET
   async fetch () {
     await this.getPosts()
+      .then(() => {
+        this.getGenres()
+      })
       .then(() => {
         this.getTags()
       })

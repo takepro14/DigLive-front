@@ -64,6 +64,7 @@
     </div>
     <PostCreateDialog
       @createPostEvent="createPost"
+      :genres="genres"
     />
   </div>
 </template>
@@ -88,6 +89,9 @@ export default {
       type: String
     },
     followedUsersPosts: {
+      type: Array
+    },
+    genres: {
       type: Array
     }
   },

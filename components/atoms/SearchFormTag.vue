@@ -6,9 +6,16 @@
       active-class="primary--text"
       column
     >
+      <v-card-text>
+        <h2
+          class="text-h6 text-center font-weight-bold"
+        >
+          シーンで検索
+        </h2>
+      </v-card-text>
       <Tag
         v-for="tag in tags"
-        :key="tag.name"
+        :key="tag.tag_name"
         :tag="tag"
         @formTagCheckedEvent="formTagChecked"
         @formTagUncheckedEvent="formTagUnchecked"

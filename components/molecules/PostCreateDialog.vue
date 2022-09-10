@@ -50,6 +50,10 @@
             placeholder="Cメロのギターソロが最高！"
             outlined
           />
+          <InputFormGenre
+            :genres="genres"
+            @checkedGenresEvent="checkedGenres = $event"
+          />
           <InputFormTag
             :init-tags="tags"
             @changed-tags="tags = $event"
@@ -82,8 +86,12 @@
 </template>
 
 <script>
-// import { mapActions } from 'vuex'
 export default {
+  props: {
+    genres: {
+      type: Array
+    }
+  },
   data ({ $store }) {
     return {
       dialog: false,
@@ -91,47 +99,23 @@ export default {
       content: 'テスト',
       tags: [],
       rules: [v => v.length <= 300 || '300文字以内で入力してください'],
-      user_id: $store.state.user.current.id
+      user_id: $store.state.user.current.id,
+      checkedGenres: []
     }
   },
   methods: {
-    // ...mapActions({
-    //   getPostForPosts: 'modules/post/getPostForPosts',
-    // }),
     createPost () {
       this.$emit('createPostEvent', {
         tags: this.tags,
         userId: this.user_id,
         youtubeUrl: this.youtube_url,
-        content: this.content
+        content: this.content,
+        genres: this.checkedGenres
       })
       this.content = ''
       this.dialog = false
       this.$vuetify.goTo(0)
     }
-    // createPost () {
-    //   const url = '/api/v1/posts'
-    //   const postData = new FormData()
-    //   if (this.tags.length !== 0) {
-    //     this.tags.forEach((tag) => {
-    //       postData.append('post[tags][]', tag.text)
-    //     })
-    //   }
-    //   postData.append('post[user_id]', this.user_id)
-    //   postData.append('post[youtube_url]', this.youtube_url)
-    //   postData.append('post[content]', this.content)
-    //   this.$axios.post(url, postData)
-    //     .then((res) => {
-    //       this.getPostForPosts(res.data.id)
-    //     })
-    //     .then(() => {
-    //       this.$store.dispatch('getToast', {
-    //         msg: '投稿しました'
-    //       })
-    //     })
-    //   this.content = ''
-    //   this.dialog = false
-    // }
   }
 }
 </script>

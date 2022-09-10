@@ -1,34 +1,52 @@
 <template>
-  <v-container>
-    <v-row>
-      <!-- 投稿タブ時の検索フォーム -->
-      <v-container
-        v-if="menu === 'postsTab'"
+  <div>
+    <v-card
+      v-if="menu === 'postsTab'"
+    >
+      <v-toolbar
+        color="subheader"
+        dark
+        flat
       >
-        <SearchFormKeyword
-          :keyword.sync="keyword"
-          @formKeywordClearEvent="formKeywordClear"
-          @formKeywordFocusEvent="formKeywordFocus"
-        />
-        <SearchFormTag
-          :tag.sync="tag"
-          :tags="tags"
-          @formTagCheckedEvent="formTagChecked"
-          @formTagUncheckedEvent="formTagUnchecked"
-        />
-      </v-container>
-      <!-- ユーザータブ時の検索フォーム -->
-      <v-container
-        v-if="menu === 'usersTab'"
-      >
-        <SearchFormKeyword
-          :keyword.sync="keyword"
-          @formKeywordClearEvent="formKeywordClear"
-          @formKeywordFocusEvent="formKeywordFocus"
-        />
-      </v-container>
-    </v-row>
-  </v-container>
+        <v-toolbar-title>
+          <v-icon class="mr-3">
+            mdi-magnify
+          </v-icon>
+          検索
+        </v-toolbar-title>
+      </v-toolbar>
+      <v-list>
+        <v-card>
+          <SearchFormKeyword
+            :keyword.sync="keyword"
+            @formKeywordClearEvent="formKeywordClear"
+            @formKeywordFocusEvent="formKeywordFocus"
+          />
+          <SearchFormGenre
+            :genre.sync="genre"
+            :genres="genres"
+            @formGenreCheckedEvent="formGenreChecked"
+            @formGenreUncheckedEvent="formGenreUnchecked"
+          />
+          <SearchFormTag
+            :tag.sync="tag"
+            :tags="tags"
+            @formTagCheckedEvent="formTagChecked"
+            @formTagUncheckedEvent="formTagUnchecked"
+          />
+        </v-card>
+      </v-list>
+    </v-card>
+    <v-card
+      v-if="menu === 'usersTab'"
+    >
+      <SearchFormKeyword
+        :keyword.sync="keyword"
+        @formKeywordClearEvent="formKeywordClear"
+        @formKeywordFocusEvent="formKeywordFocus"
+      />
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -41,10 +59,13 @@ export default {
     posts: {
       type: Array
     },
-    tags: {
+    users: {
       type: Array
     },
-    users: {
+    genres: {
+      type: Array
+    },
+    tags: {
       type: Array
     }
   },
@@ -52,6 +73,7 @@ export default {
     return {
       keyword: '',
       tag: '',
+      genre: '',
       menu: 'postsTab'
     }
   },
