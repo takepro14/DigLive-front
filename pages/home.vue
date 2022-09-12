@@ -46,9 +46,6 @@
           :keyword="keyword"
           :genre="genre"
         />
-        <BoardsFeed
-          v-if="menu === 'boardsMenu'"
-        />
       </v-col>
     </v-row>
   </v-container>

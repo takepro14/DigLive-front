@@ -54,11 +54,6 @@ export default {
           title: 'ユーザー',
           name: 'usersMenu',
           icon: 'mdi-account-multiple'
-        },
-        {
-          title: 'チャットルーム',
-          name: 'boardsMenu',
-          icon: 'mdi-wechat'
         }
       ]
     }

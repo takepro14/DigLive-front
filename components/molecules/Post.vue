@@ -72,7 +72,7 @@
         >
           <v-chip
             v-for="genre in post.genres"
-            :key="genre.id"
+            :key="genre.genre_name"
             label
             link
             color="purple lighten-5"
@@ -81,7 +81,7 @@
           </v-chip>
           <v-chip
             v-for="tag in post.tags"
-            :key="tag.id"
+            :key="tag.tag_name"
             link
             color="orange lighten-5"
           >
