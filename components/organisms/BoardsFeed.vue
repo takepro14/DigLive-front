@@ -1,44 +1,30 @@
 
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-          <v-card
-            width="1000"
-            min-width="500"
-            class="mx-auto"
+  <div
+    class="mx-auto"
+  >
+    <v-card
+      width="100%"
+    >
+      <v-list
+        three-line
+      >
+        <template>
+          <v-subheader>
+            最終更新順
+          </v-subheader>
+          <div
+            v-for="board in boards"
+            :key="board.id"
           >
-            <v-toolbar
-              color="cyan"
-              dark
-            >
-              <v-toolbar-title>
-                <span>
-                  掲示板一覧
-                </span>
-              </v-toolbar-title>
-            </v-toolbar>
-            <v-list
-              three-line
-            >
-              <template>
-                <v-subheader>
-                  最終更新順
-                </v-subheader>
-                <div
-                  v-for="board in boards"
-                  :key="board.id"
-                >
-                  <Board
-                    :board="board"
-                  />
-                </div>
-              </template>
-            </v-list>
-          </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+            <Board
+              :board="board"
+            />
+          </div>
+        </template>
+      </v-list>
+    </v-card>
+  </div>
 </template>
 
 <script>

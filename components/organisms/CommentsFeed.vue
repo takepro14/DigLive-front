@@ -1,9 +1,12 @@
 <template>
-  <v-timeline
+  <!-- <v-timeline
     align-top
     dense
     style="max-width: 600px"
     class="mx-auto mt-6"
+  > -->
+  <div
+    class="mx-auto my-6"
   >
     <Comment
       v-for="comment in post.comments"
@@ -12,7 +15,8 @@
       :currentUserId="currentUserId"
       @destroyCommentEvent="destroyComment"
     />
-  </v-timeline>
+  </div>
+  <!-- </v-timeline> -->
 </template>
 
 <script>

@@ -1,46 +1,49 @@
 <template>
-  <v-timeline-item
-    large
+  <v-card
+    class="my-6 mx-6"
+    max-width="400"
   >
-    <template #icon>
-      <v-avatar>
-        <img
-          :src="avatarUrl"
+    <v-container>
+      <v-row>
+        <v-list-item
+          class="grow"
+          @click.stop="moveUserPage"
         >
-      </v-avatar>
-    </template>
-    <v-card
-      class="elevation-2"
-      width="100%"
-    >
-      <v-card-text>
-        <v-row>
-          <v-col>
-            {{ comment.user.name }}
-          </v-col>
-          <v-spacer />
-          <v-col>
-            <CommentDestroyDialog
-              v-if="isMyComment"
-              :comment="comment"
-              @destroyCommentEvent="destroyComment(comment.id)"
+          <v-list-item-avatar>
+            <v-img
+              class="elevation-6"
+              alt=""
+              :src="avatarUrl"
             />
-          </v-col>
-        </v-row>
-      </v-card-text>
-      <v-card-title>
-        {{ comment.comment }}
-      </v-card-title>
-      <v-card-actions>
-        <v-row>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>
+                {{ comment.user.name }}
+            </v-list-item-title>
+          </v-list-item-content>
           <v-spacer />
-          <v-col>
-            {{ $my.format(comment.created_at) }}
-          </v-col>
-        </v-row>
-      </v-card-actions>
-    </v-card>
-  </v-timeline-item>
+          <CommentDestroyDialog
+            v-if="isMyComment"
+            :comment="comment"
+            @destroyCommentEvent="destroyComment(comment.id)"
+          />
+        </v-list-item>
+      </v-row>
+      <v-row>
+        <v-card-text
+          class="text-h6"
+        >
+          {{ comment.comment }}
+        </v-card-text>
+      </v-row>
+      <v-row>
+        <v-spacer />
+        <v-col>
+          {{ $my.format(comment.created_at) }}
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
