@@ -1,7 +1,7 @@
 <template>
   <v-card
-    class="my-6 mx-6"
-    max-width="400"
+    class="my-1 mx-1"
+    width="100%"
   >
     <v-container>
       <v-row>

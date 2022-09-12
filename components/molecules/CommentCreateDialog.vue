@@ -1,5 +1,7 @@
 <template>
-  <div class="text-center">
+  <div
+    class="text-center"
+  >
     <v-dialog
       v-model="dialog"
       width="500"
@@ -9,13 +11,13 @@
         #activator="{ on, attrs }"
       >
         <v-card
-          color="blue lighten-4"
+          color="purple lighten-4"
           v-bind="attrs"
-          style="max-width: 600px"
           class="mx-auto text-center"
           hover
           rounded
           v-on="on"
+          width="100%"
         >
           <v-card-text>
             <v-icon>

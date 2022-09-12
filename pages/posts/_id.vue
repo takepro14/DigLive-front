@@ -7,22 +7,42 @@
     >
       mdi-keyboard-backspace
     </v-icon>
-    <Post
-      :post="post"
-      @likePostEvent="likePost"
-      @unLikePostEvent="unLikePost"
-    />
-    <!-- {{ post }} -->
-    <CommentCreateDialog
-      :post="post"
-      @addCommentEvent="addComment"
-      @createCommentEvent="createComment"
-    />
-    <CommentsFeed
-      v-if="isCommented"
-      :post="post"
-      :currentUserId="currentUserId"
-    />
+    <v-row>
+      <v-col>
+        <Post
+          :post="post"
+          @likePostEvent="likePost"
+          @unLikePostEvent="unLikePost"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <CommentCreateDialog
+          :post="post"
+          @addCommentEvent="addComment"
+          @createCommentEvent="createComment"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col
+        v-for="comment in post.comments"
+        :key="comment.id"
+        class="d-flex align-content-end flex-wrap"
+        cols="12"
+        sm="12"
+        md="6"
+        lg="4"
+        xl="3"
+      >
+        <Comment
+          :comment="comment"
+          :currentUserId="currentUserId"
+          @destroyCommentEvent="destroyComment"
+        />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -54,7 +74,8 @@ export default {
     ...mapActions({
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost',
-      createComment: 'modules/post/createComment'
+      createComment: 'modules/post/createComment',
+      destroyComment: 'modules/post/destroyComment'
     }),
     addComment () {
       this.$store.dispatch('modules/post/emitReloadComments', this.post_id)
