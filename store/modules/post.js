@@ -1,6 +1,7 @@
 export const state = {
   posts: [],
-  post: {}
+  post: {},
+  userPosts: []
 }
 
 export const getters = {
@@ -9,6 +10,9 @@ export const getters = {
   },
   post (state) {
     return state.post
+  },
+  userPosts (state) {
+    return state.userPosts
   }
 }
 
@@ -18,6 +22,9 @@ export const mutations = {
   },
   setPost (state, payload) {
     state.post = payload
+  },
+  setUserPosts (state, payload) {
+    state.userPosts = payload
   },
   setPostClear (state) {
     state.post = {}
@@ -33,32 +40,43 @@ export const mutations = {
     state.posts = state.posts.filter(post => post.id !== payload)
   },
   reloadPostByLikePost (state, payload) {
-    // 投稿一覧からいいねした場合
-    if (Object.keys(state.post).length === 0) {
-      const targetPost = state.posts.filter(post =>
-        post.id === payload.postObj.id
-      )
-      targetPost[0].isLiked = true
-      targetPost[0].likes.push(payload.likeObj)
-    // 投稿詳細からいいねした場合
-    } else {
+    if (payload.route.includes('home')) {
+      const idx = state.posts.findIndex((post) => {
+        return post.id === payload.postObj.id
+      })
+      state.posts[idx].isLiked = true
+      state.posts[idx].likes.push(payload.likeObj)
+    } else if (payload.route.includes('user')) {
+      const idx = state.userPosts.findIndex((post) => {
+        return post.id === payload.postObj.id
+      })
+      state.userPosts[idx].isLiked = true
+      state.userPosts[idx].likes.push(payload.likeObj)
+    } else if (payload.route.includes('post')) {
       state.post.isLiked = true
       state.post.likes.push(payload.likeObj)
     }
   },
   reloadPostByUnLikePost (state, payload) {
-    // 投稿一覧からいいね解除した場合
-    if (Object.keys(state.post).length === 0) {
-      const targetPost = state.posts.filter(post =>
-        post.id === payload.postObj.id
-      )
-      targetPost[0].isLiked = false
-      const otherUsersLikes = targetPost[0].likes.filter(like =>
+    if (payload.route.includes('home')) {
+      const idx = state.posts.findIndex((post) => {
+        return post.id === payload.postObj.id
+      })
+      state.posts[idx].isLiked = false
+      const otherUsersLikes = state.posts[idx].likes.filter(like =>
         like.user_id !== payload.likeObj.user_id
       )
-      targetPost[0].likes = otherUsersLikes
-    // 投稿詳細からいいね解除した場合
-    } else {
+      state.posts[idx].likes = otherUsersLikes
+    } else if (payload.route.includes('user')) {
+      const idx = state.userPosts.findIndex((post) => {
+        return post.id === payload.postObj.id
+      })
+      state.userPosts[idx].isLiked = false
+      const otherUsersLikes = state.userPosts[idx].likes.filter(like =>
+        like.user_id !== payload.likeObj.user_id
+      )
+      state.userPosts[idx].likes = otherUsersLikes
+    } else if (payload.route.includes('post')) {
       state.post.isLiked = false
       const otherUsersLikes = state.post.likes.filter(like =>
         like.user_id !== payload.likeObj.user_id
@@ -103,6 +121,9 @@ export const actions = {
     // 集合の中にcurrentUserIdがある(いいね済の)場合にtrueのフラグを立てる
     postObj.isLiked = likedUserIds.includes(rootState.user.current.id)
     commit('setPost', postObj)
+  },
+  getUserPosts ({ commit }, postsArray) {
+    commit('setUserPosts', postsArray)
   },
   // 一時的な妥協案
   async getPostForPosts ({ commit, rootState }, postId) {
@@ -159,17 +180,18 @@ export const actions = {
         })
       })
   },
-  async likePost ({ rootState, commit }, postObj) {
+  async likePost ({ rootState, commit }, postObjAndRoute) {
     await this.$axios.$post('/api/v1/likes', {
       like: {
         user_id: rootState.user.current.id,
-        post_id: postObj.id
+        post_id: postObjAndRoute.post.id
       }
     })
       .then((likeObj) => {
         commit('reloadPostByLikePost', {
           likeObj,
-          postObj
+          postObj: postObjAndRoute.post,
+          route: postObjAndRoute.route
         })
       })
       .then(() => {
@@ -178,9 +200,9 @@ export const actions = {
         })
       })
   },
-  async unLikePost ({ rootState, commit }, postObj) {
-    const likeId = postObj.likes.filter((like) => {
-      return (like.user_id === rootState.user.current.id) && (like.post_id === postObj.id)
+  async unLikePost ({ rootState, commit }, postObjAndRoute) {
+    const likeId = postObjAndRoute.post.likes.filter((like) => {
+      return (like.user_id === rootState.user.current.id) && (like.post_id === postObjAndRoute.post.id)
     })[0].id
     await this.$axios.$delete(`/api/v1/likes/${likeId}`, {
       params: { id: likeId }
@@ -188,7 +210,8 @@ export const actions = {
       .then((likeObj) => {
         commit('reloadPostByUnLikePost', {
           likeObj,
-          postObj
+          postObj: postObjAndRoute.post,
+          route: postObjAndRoute.route
         })
       })
       .then(() => {

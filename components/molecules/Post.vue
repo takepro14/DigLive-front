@@ -104,7 +104,7 @@
             v-if="post.isLiked"
             class="mr-1"
             large
-            @click.stop="unLikePost(post)"
+            @click.stop="unLikePost({ post, route: $route.fullPath })"
           >
             mdi-heart
           </v-icon>
@@ -112,7 +112,7 @@
             v-else
             class="mr-1"
             large
-            @click.stop="likePost(post)"
+            @click.stop="likePost({ post, route: $route.fullPath })"
           >
             mdi-heart-outline
           </v-icon>
@@ -176,11 +176,11 @@ export default {
     destroyPost (postId) {
       this.$emit('destroyPostEvent', postId)
     },
-    likePost (postObj) {
-      this.$emit('likePostEvent', postObj)
+    likePost (postObjAndRoute) {
+      this.$emit('likePostEvent', postObjAndRoute)
     },
-    unLikePost (postObj) {
-      this.$emit('unLikePostEvent', postObj)
+    unLikePost (postObjAndRoute) {
+      this.$emit('unLikePostEvent', postObjAndRoute)
     },
     movePostPage () {
       this.$router.push(`/posts/${this.post.id}`)

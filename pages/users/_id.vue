@@ -54,6 +54,8 @@
             v-for="post in user.posts"
             :key="post.id"
             :post="post"
+            @likePostEvent="likePost"
+            @unLikePostEvent="unLikePost"
           />
         </div>
         <div
@@ -107,7 +109,9 @@ export default {
       follow: 'modules/user/follow',
       unfollow: 'modules/user/unfollow',
       changeProfile: 'modules/user/changeProfile',
-      getGenres: 'modules/genre/getGenres'
+      getGenres: 'modules/genre/getGenres',
+      likePost: 'modules/post/likePost',
+      unLikePost: 'modules/post/unLikePost'
     }),
     historyBack () {
       this.$router.go(-1)
@@ -120,6 +124,10 @@ export default {
     await $axios.$get(`/api/v1/users/${params.id}`)
       .then((user) => {
         store.dispatch('modules/user/emitSetUser', user)
+        return user
+      })
+      .then((user) => {
+        store.dispatch('modules/post/getUserPosts', user.posts)
       })
       .then(() => {
         store.dispatch('modules/user/getCurrentUser')
