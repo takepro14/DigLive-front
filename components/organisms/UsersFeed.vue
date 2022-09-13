@@ -17,6 +17,8 @@
             :user="user"
             :currentUser="currentUser"
             class="my-6"
+            @followEvent="follow"
+            @unfollowEvent="unfollow"
           />
         </div>
       </div>
@@ -46,6 +48,8 @@
             :user="user"
             :currentUser="currentUser"
             class="my-6"
+            @followEvent="follow"
+            @unfollowEvent="unfollow"
           />
         </div>
       </div>
@@ -62,6 +66,8 @@
           :user="user"
           :currentUser="currentUser"
           class="my-6"
+          @followEvent="follow"
+          @unfollowEvent="unfollow"
         />
       </div>
     </div>
@@ -69,6 +75,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   props: {
     users: {
@@ -92,7 +99,12 @@ export default {
     genre: {
       type: String
     }
-
+  },
+  methods: {
+    ...mapActions({
+      follow: 'modules/user/follow',
+      unfollow: 'modules/user/unfollow'
+    })
   },
   computed: {
     newUsersTab () {

@@ -19,10 +19,10 @@
           </v-icon>
         </v-btn>
       </nuxt-link>
-      <!----- Search ----->
-      <!-- <v-spacer />
+      <!-- --- Search ----->
+      <v-spacer />
       <nuxt-link
-        to="/search"
+        :to="currentUserPath"
         class="text-decoration-none d-flex align-center"
       >
         <v-btn
@@ -30,10 +30,10 @@
           text
         >
           <v-icon>
-            mdi-magnify
+            mdi-account-circle
           </v-icon>
         </v-btn>
-      </nuxt-link> -->
+      </nuxt-link>
       <!----- Notice ----->
       <v-spacer />
       <nuxt-link
@@ -77,13 +77,31 @@
     </v-responsive>
   </div>
 </template>
+
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
     scrollTarget: {
       type: String,
       default: ''
     }
+  },
+  computed: {
+    ...mapGetters({
+      currentUser: 'modules/user/currentUser'
+    }),
+    currentUserPath () {
+      return '/users/' + this.currentUser.id
+    }
+  },
+  methods: {
+    ...mapActions({
+      getCurrentUser: 'modules/user/getCurrentUser'
+    })
+  },
+  async fetch () {
+    await this.getCurrentUser()
   }
 }
 </script>

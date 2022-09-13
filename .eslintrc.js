@@ -17,7 +17,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     // //の連続行を許容
-    "spaced-comment": ["error", "always", { "exceptions": ["/"] }],
+    "spaced-comment": ["error", "always", { "exceptions": ["/", "-"] }],
     // Component name "xxx" should always be multi-word
     'vue/multi-word-component-names': 0,
   }

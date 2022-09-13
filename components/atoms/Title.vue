@@ -1,16 +1,18 @@
 <template>
   <v-toolbar-title>
     <v-row>
-      <v-col>
-        <v-img
-          src="favicon.ico"
-          height="30px"
-          width="30px"
-        />
-      </v-col>
-      <v-col>
+      <v-col
+        class="d-flex"
+      >
+        <!-- <v-img
+          src="Logo.png"
+          class="mr-1"
+          height="28px"
+          width="40px"
+          contain
+        /> -->
         <span
-          class="purple--text text--lighten-5 font-weight-bold"
+          class="white--text font-weight-bold"
         >
           {{ appName }}
         </span>

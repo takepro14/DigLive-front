@@ -3,7 +3,7 @@
     <Toaster />
     <v-dialog
       v-model="dialog"
-      width="50%"
+      width="80%"
     >
       <!-- ダイアログクローズ -->
       <template
@@ -17,10 +17,7 @@
           v-on="on"
           color="grey"
         >
-          <v-icon>
-            mdi-cog
-          </v-icon>
-          Settings
+          編集
         </v-btn>
       </template>
       <!-- ダイアログオープン -->
@@ -33,7 +30,7 @@
           プロフィールを編集する
         </v-card-title>
         <v-container
-          class="pa-16"
+          class="pa-2"
         >
           <v-row>
             <v-col>
@@ -63,8 +60,10 @@
                   好きな音楽ジャンル(複数選択可)
                   <InputFormGenre
                     :genres="genres"
+                    :checkedGenres="checkedGenres"
                     @checkedGenresEvent="params.user.checkedGenres = $event"
                   />
+                    <!-- :genres.sync="params.user.checkedGenres" -->
                 </v-card-text>
               </v-form>
               <v-card-actions>
@@ -124,7 +123,8 @@ export default {
           profile: this.currentUser.profile,
           // password: '',
           activated: true,
-          checkedGenres: []
+          // ['ロック', 'J-POP', ...]
+          checkedGenres: this.currentUser.genres.map((g) => { return g.genre_name })
         }
       },
       dialog: false

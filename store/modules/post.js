@@ -93,9 +93,11 @@ export const mutations = {
 }
 
 export const actions = {
+  // ---------- 投稿一覧画面用 ----------
   async getPosts ({ state, commit, rootState }) {
     // 一覧に戻った時、post(vuex)のオブジェクトをクリアする
     commit('setPostClear')
+    // いいね状態のフラグ追加
     if (!state.posts.length) {
       await this.$axios.$get('/api/v1/posts')
         .then((posts) => {
@@ -113,12 +115,12 @@ export const actions = {
         })
     }
   },
+  // ---------- 投稿詳細画面用 ----------
   getPost ({ rootState, commit }, postObj) {
-    // postにいいねしたuserIdの集合を取る
+    // いいね状態のフラグ追加
     const likedUserIds = postObj.likes.map((like) => {
       return like.user_id
     })
-    // 集合の中にcurrentUserIdがある(いいね済の)場合にtrueのフラグを立てる
     postObj.isLiked = likedUserIds.includes(rootState.user.current.id)
     commit('setPost', postObj)
   },

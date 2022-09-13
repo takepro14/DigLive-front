@@ -1,14 +1,16 @@
 <template>
-  <v-chip
-    link
-    filter
-    label
-    @click="toggleGenre"
-    color="purple lighten-5"
-    isActive="true"
-  >
-  {{ genre.genre_name }}
-  </v-chip>
+  <div>
+    <v-chip
+      link
+      filter
+      label
+      @click="toggleGenre"
+      color="purple lighten-5"
+      :input-value="inputValue"
+    >
+    {{ genre.genre_name }}
+    </v-chip>
+  </div>
 </template>
 
 <script>

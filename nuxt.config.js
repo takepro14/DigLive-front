@@ -112,7 +112,8 @@ export default {
         light: {
           // ref: https://colorhunt.co/
           header: "#4D4C7D",
-          background: "#E9D5DA",
+          // background: "#E9D5DA",
+          background: "#EDE7F6",
           subheader: "#827397",
           button: "#363062",
           primary: '4080BE',

@@ -21,7 +21,7 @@
             class="subheading"
             :style="{ letterSpacing: '5px' }"
           >
-            ライブ映像でアーティストを“布教”しよう
+            ライブ映像で最高の音楽を広めよう
           </h4>
         </v-col>
       </v-row>

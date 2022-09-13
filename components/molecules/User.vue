@@ -48,7 +48,7 @@
         outlined
         rounded
         text
-        @click="unfollow"
+        @click.stop="unfollow({ userId: user.id, route: $route.fullPath })"
       >
         フォロー中
       </v-btn>
@@ -56,8 +56,8 @@
         v-else-if="isFollowedFalse"
         outlined
         rounded
-        @click="follow"
         color="blue"
+        @click.stop="follow({ userId: user.id, route: $route.fullPath })"
       >
         フォローする
       </v-btn>
@@ -138,11 +138,11 @@ export default {
     changeProfile ({ formData, config }) {
       this.$emit('changeProfileEvent', { formData, config })
     },
-    follow () {
-      this.$emit('followEvent', this.user.id)
+    follow (userIdAndRoute) {
+      this.$emit('followEvent', userIdAndRoute)
     },
-    unfollow () {
-      this.$emit('unfollowEvent', this.user.id)
+    unfollow (userIdAndRoute) {
+      this.$emit('unfollowEvent', userIdAndRoute)
     }
   }
 }
