@@ -17,6 +17,7 @@ export const getters = {
 }
 
 export const mutations = {
+  // ---------- 初期ロード用 ----------
   setPosts (state, payload) {
     state.posts = payload
   },
@@ -36,6 +37,7 @@ export const mutations = {
   // reloadPostsByCreatePost (state, payload) {
   //   state.posts.push(payload)
   // },
+  // ---------- 即時反映用 ----------
   reloadPostsByDestroyPost (state, payload) {
     state.posts = state.posts.filter(post => post.id !== payload)
   },
@@ -95,11 +97,9 @@ export const mutations = {
 export const actions = {
   // ---------- 投稿一覧画面用 ----------
   async getPosts ({ state, commit, rootState }) {
-    // 一覧に戻った時、post(vuex)のオブジェクトをクリアする
-    commit('setPostClear')
-    // いいね状態のフラグ追加
     if (!state.posts.length) {
       await this.$axios.$get('/api/v1/posts')
+        // いいね状態のフラグ追加
         .then((posts) => {
           posts.forEach((post) => {
             let likedUserIds = []
@@ -114,18 +114,6 @@ export const actions = {
           commit('setPosts', posts)
         })
     }
-  },
-  // ---------- 投稿詳細画面用 ----------
-  getPost ({ rootState, commit }, postObj) {
-    // いいね状態のフラグ追加
-    const likedUserIds = postObj.likes.map((like) => {
-      return like.user_id
-    })
-    postObj.isLiked = likedUserIds.includes(rootState.user.current.id)
-    commit('setPost', postObj)
-  },
-  getUserPosts ({ commit }, postsArray) {
-    commit('setUserPosts', postsArray)
   },
   // 一時的な妥協案
   async getPostForPosts ({ commit, rootState }, postId) {
@@ -144,7 +132,6 @@ export const actions = {
       })
   },
   async createPost ({ commit }, params) {
-    console.log('params: ' + JSON.stringify(params))
     const data = new FormData()
     if (params.tags.length !== 0) {
       params.tags.forEach((tag) => {
@@ -154,7 +141,6 @@ export const actions = {
     if (params.genres.length !== 0) {
       params.genres.forEach((genre) => {
         data.append('post[genres][]', genre)
-        console.log(data)
       })
     }
     data.append('post[user_id]', params.userId)
@@ -170,6 +156,18 @@ export const actions = {
         })
       })
   },
+  // ---------- 投稿詳細画面用 ----------
+  getPost ({ rootState, commit }, postObj) {
+    // いいね状態のフラグ追加
+    const likedUserIds = postObj.likes.map((like) => {
+      return like.user_id
+    })
+    postObj.isLiked = likedUserIds.includes(rootState.user.current.id)
+    commit('setPost', postObj)
+  },
+  getUserPosts ({ commit }, postsArray) {
+    commit('setUserPosts', postsArray)
+  },
   async destroyPost ({ commit }, postId) {
     await this.$axios.delete(`/api/v1/posts/${postId}`, { data: { id: postId } })
       .then(() => {
@@ -182,6 +180,16 @@ export const actions = {
         })
       })
   },
+  async emitReloadComments ({ commit }, postId) {
+    await this.$axios.$get(`/api/v1/posts/${postId}`)
+      .then((post) => {
+        commit('setPost', post)
+      })
+  },
+  emitSetPostClear ({ commit }) {
+    commit('setPostClear')
+  },
+  // ---------- 共通 ----------
   async likePost ({ rootState, commit }, postObjAndRoute) {
     await this.$axios.$post('/api/v1/likes', {
       like: {
@@ -248,12 +256,6 @@ export const actions = {
           msg: 'コメントを削除しました',
           color: 'prymary'
         })
-      })
-  },
-  async emitReloadComments ({ commit }, postId) {
-    await this.$axios.$get(`/api/v1/posts/${postId}`)
-      .then((post) => {
-        commit('setPost', post)
       })
   }
 }

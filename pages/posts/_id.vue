@@ -72,6 +72,7 @@ export default {
   },
   methods: {
     ...mapActions({
+      emitSetPostClear: 'modules/post/emitSetPostClear',
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost',
       createComment: 'modules/post/createComment',
