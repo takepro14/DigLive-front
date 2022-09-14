@@ -1,6 +1,12 @@
 <template>
   <v-container>
     <Toaster />
+    <v-icon
+      x-large
+      @click="historyBack"
+    >
+      mdi-keyboard-backspace
+    </v-icon>
     <v-row>
       <v-col>
       <v-card
@@ -28,34 +34,57 @@
               <div
                 :key="notification.id"
               >
-                <v-list-item>
+                <v-list-item
+                >
                   <v-list-item-avatar>
                     <v-img
                       :src="'http://localhost:3000' + notification.visitor.avatar.url"
+                      @click.stop="moveUserPage(notification.visitor.id)"
                     />
                   </v-list-item-avatar>
 
                   <v-list-item-content>
-                    <div v-if="notification.action === 'follow'">
+                    <div
+                      v-if="notification.action === 'follow'"
+                      @click.stop="moveUserPage(notification.visitor.id)"
+                    >
                       <v-list-item-title>
                         {{ notification.notiVisitor }} {{ notification.notiAction }}
                       </v-list-item-title>
                     </div>
-                    <div v-else-if="notification.action === 'like'">
-                      <v-list-item-title>
+                    <div
+                      v-else-if="notification.action === 'like'"
+                      @click.stop="movePostPage(notification.post.id)"
+                    >
+                      <v-list-item-title
+                        class="py-2"
+                      >
                         {{ notification.notiVisitor }} {{ notification.notiAction }}
                       </v-list-item-title>
-                      <v-list-item-subtitle>
+                      <v-list-item-subtitle
+                        class="py-2"
+                      >
                         {{ notification.post.content }}
                       </v-list-item-subtitle>
                     </div>
-                    <div v-else-if="notification.action === 'comment'">
-                      <v-list-item-title>
+                    <div
+                      v-else-if="notification.action === 'comment'"
+                      @click.stop="movePostPage(notification.post.id)"
+                    >
+                      <v-list-item-title
+                        class="py-2"
+                      >
                         {{ notification.notiVisitor }} {{ notification.notiAction }}
                       </v-list-item-title>
-                      <v-list-item-subtitle>
+                      <v-list-item-subtitle
+                        class="py-2"
+                      >
                         {{ notification.comment.comment }}
-                        {{ notification.post.content }}
+                      </v-list-item-subtitle>
+                      <v-list-item-subtitle
+                        class="py-2"
+                      >
+                        > {{ notification.post.content }}
                       </v-list-item-subtitle>
                     </div>
                   </v-list-item-content>
@@ -90,7 +119,16 @@ export default {
   methods: {
     ...mapActions({
       getCurrentUser: 'modules/user/getCurrentUser'
-    })
+    }),
+    moveUserPage (visitorId) {
+      this.$router.push(`/users/${visitorId}`)
+    },
+    movePostPage (postId) {
+      this.$router.push(`/posts/${postId}`)
+    },
+    historyBack () {
+      this.$router.go(-1)
+    }
   },
   async asyncData ({ $axios, $moment }) {
     return await $axios.$get('api/v1/notifications/')
