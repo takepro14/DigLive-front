@@ -3,6 +3,7 @@
     <v-icon
       x-large
       @click="historyBack"
+      class="py-4"
     >
       mdi-keyboard-backspace
     </v-icon>
@@ -65,6 +66,8 @@
             v-for="post in likedPosts"
             :key="post.id"
             :post="post"
+            @likePostEvent="likePost"
+            @unLikePostEvent="unLikePost"
           />
         </div>
       </v-col>

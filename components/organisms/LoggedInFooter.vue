@@ -4,6 +4,21 @@
       bottom
       fixed
     >
+      <!----- Account ----->
+      <v-spacer />
+      <nuxt-link
+        :to="currentUserPath"
+        class="text-decoration-none d-flex align-center"
+      >
+        <v-btn
+          color="deep-purple accent-4"
+          text
+        >
+          <v-icon>
+            mdi-account-circle
+          </v-icon>
+        </v-btn>
+      </nuxt-link>
       <!----- Home ----->
       <v-spacer />
       <nuxt-link
@@ -19,21 +34,6 @@
           </v-icon>
         </v-btn>
       </nuxt-link>
-      <!-- --- Search ----->
-      <v-spacer />
-      <nuxt-link
-        :to="currentUserPath"
-        class="text-decoration-none d-flex align-center"
-      >
-        <v-btn
-          color="deep-purple accent-4"
-          text
-        >
-          <v-icon>
-            mdi-account-circle
-          </v-icon>
-        </v-btn>
-      </nuxt-link>
       <!----- Notification ----->
       <v-spacer />
       <nuxt-link
@@ -46,21 +46,6 @@
         >
           <v-icon>
             mdi-bell
-          </v-icon>
-        </v-btn>
-      </nuxt-link>
-      <!----- Mail ----->
-      <v-spacer />
-      <nuxt-link
-        to="#"
-        class="text-decoration-none d-flex align-center"
-      >
-        <v-btn
-          color="deep-purple accent-4"
-          text
-        >
-          <v-icon>
-            mdi-email
           </v-icon>
         </v-btn>
       </nuxt-link>

@@ -4,6 +4,7 @@
     <v-icon
       x-large
       @click="historyBack"
+      class="py-4"
     >
       mdi-keyboard-backspace
     </v-icon>
