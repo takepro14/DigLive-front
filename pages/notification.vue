@@ -4,51 +4,64 @@
     <v-row>
       <v-col>
       <v-card
-          max-width="450"
+          width="100%"
           class="mx-auto"
         >
           <v-toolbar
-            color="cyan"
+            color="subheader"
             dark
+            flat
           >
-            <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-            <v-toolbar-title>Inbox</v-toolbar-title>
-
+            <v-toolbar-title>
+              通知一覧
+            </v-toolbar-title>
             <v-spacer></v-spacer>
 
-            <v-btn icon>
-              <v-icon>mdi-magnify</v-icon>
-            </v-btn>
           </v-toolbar>
 
-          <v-list three-line>
-            <template v-for="(item, index) in items">
-              <v-subheader
-                v-if="item.header"
-                :key="item.header"
-                v-text="item.header"
-              ></v-subheader>
-
-              <v-divider
-                v-else-if="item.divider"
-                :key="index"
-                :inset="item.inset"
-              ></v-divider>
-
-              <v-list-item
-                v-else
-                :key="item.title"
+          <v-list
+            three-line
+          >
+            <template
+              v-for="notification in notifications"
+            >
+              <div
+                :key="notification.id"
               >
-                <v-list-item-avatar>
-                  <v-img :src="item.avatar"></v-img>
-                </v-list-item-avatar>
+                <v-list-item>
+                  <v-list-item-avatar>
+                    <v-img
+                      :src="'http://localhost:3000' + notification.visitor.avatar.url"
+                    />
+                  </v-list-item-avatar>
 
-                <v-list-item-content>
-                  <v-list-item-title v-html="item.title"></v-list-item-title>
-                  <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+                  <v-list-item-content>
+                    <div v-if="notification.action === 'follow'">
+                      <v-list-item-title>
+                        {{ notification.notiVisitor }} {{ notification.notiAction }}
+                      </v-list-item-title>
+                    </div>
+                    <div v-else-if="notification.action === 'like'">
+                      <v-list-item-title>
+                        {{ notification.notiVisitor }} {{ notification.notiAction }}
+                      </v-list-item-title>
+                      <v-list-item-subtitle>
+                        {{ notification.post.content }}
+                      </v-list-item-subtitle>
+                    </div>
+                    <div v-else-if="notification.action === 'comment'">
+                      <v-list-item-title>
+                        {{ notification.notiVisitor }} {{ notification.notiAction }}
+                      </v-list-item-title>
+                      <v-list-item-subtitle>
+                        {{ notification.comment.comment }}
+                        {{ notification.post.content }}
+                      </v-list-item-subtitle>
+                    </div>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-divider />
+              </div>
             </template>
           </v-list>
         </v-card>
@@ -82,30 +95,28 @@ export default {
   async asyncData ({ $axios, $moment }) {
     return await $axios.$get('api/v1/notifications/')
       .then((notiObjs) => {
-        console.log('notiObjs: ' + JSON.stringify(notiObjs))
         notiObjs.forEach((notiObj) => {
           switch (notiObj.action) {
+            case ('follow'):
+              notiObj.notiVisitor = `${notiObj.visitor.name} さんが`
+              notiObj.notiAction = 'あなたをフォローしました'
+              notiObj.notiVisitorLink = `/users/${notiObj.visitor.id}`
+              notiObj.notiTime = $moment(notiObj.created_at).format('YYYY年MM月DD日 HH時mm分')
+              break
             case ('like'):
-              notiObj.visitor = `${notiObj.visitor.name} さんが`
-              notiObj.action = 'あなたの投稿にいいねしました'
-              // notiObj.link = `/posts/${notiObj.post.id}`
-              notiObj.time = $moment(notiObj.created_at).format('YYYY年MM月DD日 HH時mm分')
+              notiObj.notiVisitor = `${notiObj.visitor.name} さんが`
+              notiObj.notiAction = 'あなたの投稿にいいねしました'
+              notiObj.notiPostLink = `/posts/${notiObj.post.id}`
+              notiObj.notiTime = $moment(notiObj.created_at).format('YYYY年MM月DD日 HH時mm分')
               break
             case ('comment'):
-              notiObj.visitor = `${notiObj.visitor.name} さんが`
-              notiObj.action = 'あなたの投稿にコメントしました'
-              // notiObj.link = `/posts/${notiObj.post.id}`
-              notiObj.time = $moment(notiObj.created_at).format('YYYY年MM月DD日 HH時mm分')
-              break
-            case ('follow'):
-              notiObj.visitor = `${notiObj.visitor.name} さんが`
-              notiObj.action = 'あなたをフォローしました'
-              // notiObj.link = `/users/${notiObj.visitor.id}`
-              notiObj.time = $moment(notiObj.created_at).format('YYYY年MM月DD日 HH時mm分')
+              notiObj.notiVisitor = `${notiObj.visitor.name} さんが`
+              notiObj.notiAction = 'あなたの投稿にコメントしました'
+              notiObj.notiPostLink = `/posts/${notiObj.post.id}`
+              notiObj.notiTime = $moment(notiObj.created_at).format('YYYY年MM月DD日 HH時mm分')
               break
           }
         })
-        console.log('notiObjs: ' + JSON.stringify(notiObjs))
         return {
           notifications: notiObjs
         }
