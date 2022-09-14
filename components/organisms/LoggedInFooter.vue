@@ -34,10 +34,10 @@
           </v-icon>
         </v-btn>
       </nuxt-link>
-      <!----- Notice ----->
+      <!----- Notification ----->
       <v-spacer />
       <nuxt-link
-        to="#"
+        to="/notification"
         class="text-decoration-none d-flex align-center"
       >
         <v-btn

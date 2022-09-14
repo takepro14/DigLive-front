@@ -48,8 +48,13 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // Doc: https://vuetifyjs.com/ja/getting-started/installation/#nuxt-3067306e30a430f330b930c830fc30eb
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    '@nuxtjs/moment'
   ],
+
+  moment: {
+    locales: ['ja']
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -112,7 +117,6 @@ export default {
         light: {
           // ref: https://colorhunt.co/
           header: "#4D4C7D",
-          // background: "#E9D5DA",
           background: "#EDE7F6",
           subheader: "#827397",
           button: "#363062",
