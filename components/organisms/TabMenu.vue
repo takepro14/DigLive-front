@@ -8,6 +8,11 @@
       dark
       flat
     >
+      <v-toolbar-title
+        class="mx-auto"
+      >
+        フィード
+      </v-toolbar-title>
       <template #extension>
         <v-tabs
           centered

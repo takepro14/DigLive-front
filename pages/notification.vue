@@ -80,7 +80,7 @@
                       <v-list-item-subtitle
                         class="py-2"
                       >
-                        {{ notification.comment.comment }}
+                        {{ notification.notiComment[0].comment }}
                       </v-list-item-subtitle>
                       <v-list-item-subtitle
                         class="py-2"
@@ -152,6 +152,7 @@ export default {
               notiObj.notiVisitor = `${notiObj.visitor.name} さんが`
               notiObj.notiAction = 'あなたの投稿にコメントしました'
               notiObj.notiPostLink = `/posts/${notiObj.post.id}`
+              notiObj.notiComment = notiObj.post.comments.filter((comment) => { return comment.id === notiObj.comment_id })
               notiObj.notiTime = $moment(notiObj.created_at).format('YYYY年MM月DD日 HH時mm分')
               break
           }

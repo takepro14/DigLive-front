@@ -12,7 +12,7 @@
         <v-icon class="mr-3">
           mdi-menu
         </v-icon>
-        MENU
+        Menu
       </v-toolbar-title>
     </v-toolbar>
     <v-list>

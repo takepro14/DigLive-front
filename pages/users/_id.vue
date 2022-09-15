@@ -30,7 +30,7 @@
           <v-toolbar-title
             class="mx-auto"
           >
-            {{ user.name }} さんのアクティビティ
+            {{ user.name }} さんの活動
           </v-toolbar-title>
           <template v-slot:extension>
             <v-tabs
