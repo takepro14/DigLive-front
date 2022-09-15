@@ -4,25 +4,26 @@
       link
       filter
       label
-      @click="toggleGenre"
       color="purple lighten-5"
-      :input-value="inputValue"
+      @click="toggleGenre"
     >
-    {{ genre.genre_name }}
+      <!-- :input-value="selected" -->
+      {{ genre.genre_name }}
     </v-chip>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    genre: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data () {
     return {
       isChecked: false
-    }
-  },
-  props: {
-    genre: {
-      type: Object
     }
   },
   methods: {

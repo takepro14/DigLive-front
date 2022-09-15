@@ -2,7 +2,7 @@
   <v-container
     class="pa-2 text-center"
   >
-  <Toaster />
+    <Toaster />
     <v-row>
       <v-col>
         <!--------------------------------------------------
@@ -39,7 +39,9 @@
         <!--------------------------------------------------
         -- プロフィール設定
         -------------------------------------------------->
-        <v-card v-if="menu === 'profileTab'">
+        <v-card
+          v-if="menu === 'profileTab'"
+        >
           <v-container>
             <v-row>
               <v-col>
@@ -47,6 +49,24 @@
                   ref="form"
                   v-model="isValid"
                 >
+                  <v-col
+                    class="text-center"
+                  >
+                    <v-list-item-title
+                      class="font-weight-bold"
+                    >
+                      プロフィール画像
+                    </v-list-item-title>
+                    <v-avatar
+                      size="200"
+                      tile
+                    >
+                      <v-img
+                        :src="'http://localhost:3000' + params.user.avatar"
+                        contain
+                      />
+                    </v-avatar>
+                  </v-col>
                   <InputFormName
                     :name.sync="params.user.name"
                   />
@@ -56,17 +76,24 @@
                   <v-file-input
                     label="プロフィール画像を選択"
                     accept="image/*"
-                    prepend-icon="mdi-camera"
                     v-model="avatar"
+                    prepend-icon="mdi-camera"
                   />
-                  <v-card-text>
+                  <v-card-text
+                    class="font-weight-bold"
+                  >
                     好きな音楽ジャンル(複数選択可)
+                  </v-card-text>
+                  <v-card-text>
+                    選択中：{{ params.user.checkedGenres }}
+                  </v-card-text>
+                  <v-card-text>
                     <InputFormGenre
                       :genres="genres"
                       :checkedGenres="params.user.checkedGenres"
-                      @checkedGenresEvent="checkedGenres = $event"
+                      @formGenreCheckedEvent="formGenreChecked"
+                      @formGenreUncheckedEvent="formGenreUnchecked"
                     />
-                      :genres.sync="checkedGenres"
                   </v-card-text>
                   <v-btn
                     :disabled="!isValid || loading"
@@ -74,9 +101,9 @@
                     block
                     dark
                     color="button"
-                    @click="changeProfile"
+                    @click="changeProfileData"
                   >
-                    設定を保存する
+                    設定を変更する
                   </v-btn>
                 </v-form>
               </v-col>
@@ -86,7 +113,9 @@
         <!--------------------------------------------------
         -- アカウント設定
         -------------------------------------------------->
-        <v-card v-else-if="menu === 'accountTab'">
+        <v-card
+          v-else-if="menu === 'accountTab'"
+        >
           <v-container>
             <v-row>
               <v-col>
@@ -111,6 +140,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -142,10 +172,20 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      changeProfile: 'modules/user/changeProfile'
+    }),
     tabClick (tabName) {
       this.menu = tabName
     },
-    changeProfile () {
+    formGenreChecked (value) {
+      this.params.user.checkedGenres.push(value)
+    },
+    formGenreUnchecked (value) {
+      const index = this.params.user.checkedGenres.indexOf(value)
+      this.params.user.checkedGenres.splice(index, 1)
+    },
+    changeProfileData () {
       const formData = new FormData()
       formData.append('user[name]', this.params.user.name)
       formData.append('user[email]', this.params.user.email)
@@ -161,17 +201,13 @@ export default {
           'content-type': 'multipart/form-data'
         }
       }
-      this.$emit('changeProfileEvent', { formData, config })
+      this.changeProfile({ formData, config })
       this.dialog = false
     }
   },
   async asyncData ({ $axios, store }) {
     const userObj = await $axios.$get(`/api/v1/users/${store.state.user.current.id}`)
     const genreObjs = await $axios.$get('/api/v1/genres')
-    // console.log('userObj.name: ' + userObj.name)
-    // console.log('userObj.email: ' + userObj.email)
-    // console.log('userObj.avatar.url: ' + userObj.avatar.url)
-    // console.log('userObj.profile: ' + userObj.profile)
     return {
       params: {
         user: {

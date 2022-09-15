@@ -7,6 +7,7 @@
           @menuClickEvent="menuClick"
         />
         <SideContent
+          class="my-4"
           :posts="posts"
           :users="users"
           :genres="genres"
@@ -14,7 +15,6 @@
           :menu="menu"
           @filteredPostsChangedEvent="filteredPostsChanged"
           @filteredUsersChangedEvent="filteredUsersChanged"
-          class="my-4"
         />
       </v-col>
       <v-col cols="12" sm="12" md="8" lg="8" xl="8">
