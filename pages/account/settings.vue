@@ -75,8 +75,8 @@
                   />
                   <v-file-input
                     label="プロフィール画像を選択"
+                    v-model="params.user.avatar"
                     accept="image/*"
-                    v-model="avatar"
                     prepend-icon="mdi-camera"
                   />
                   <v-card-text
@@ -84,8 +84,15 @@
                   >
                     好きな音楽ジャンル(複数選択可)
                   </v-card-text>
-                  <v-card-text>
-                    選択中：{{ params.user.checkedGenres }}
+                  <v-card-text
+                    v-if="params.user.checkedGenres.length"
+                  >
+                    {{ params.user.checkedGenres.join('・') }}
+                  </v-card-text>
+                  <v-card-text
+                    v-else-if="!params.user.checkedGenres.length"
+                  >
+                    なし
                   </v-card-text>
                   <v-card-text>
                     <InputFormGenre
@@ -161,14 +168,15 @@ export default {
         user: {
           name: '',
           email: '',
-          avatar: '',
           profile: '',
+          avatar: '',
           password: '',
           activated: true,
           checkedGenres: []
         }
       },
-      dialog: false
+      dialog: false,
+      isChanging: false
     }
   },
   methods: {
@@ -179,7 +187,13 @@ export default {
       this.menu = tabName
     },
     formGenreChecked (value) {
-      this.params.user.checkedGenres.push(value)
+      if (!this.isChanging) {
+        this.isChanging = true
+        this.params.user.checkedGenres = []
+        this.params.user.checkedGenres.push(value)
+      } else if (this.isChanging) {
+        this.params.user.checkedGenres.push(value)
+      }
     },
     formGenreUnchecked (value) {
       const index = this.params.user.checkedGenres.indexOf(value)
@@ -203,6 +217,7 @@ export default {
       }
       this.changeProfile({ formData, config })
       this.dialog = false
+      this.isChanging = false
     }
   },
   async asyncData ({ $axios, store }) {
@@ -213,9 +228,9 @@ export default {
         user: {
           name: userObj.name,
           email: userObj.email,
-          avatar: userObj.avatar.url,
           profile: userObj.profile,
-          checkedGenres: userObj.genres.map((g) => { return g.genre_name })
+          checkedGenres: userObj.genres.map((g) => { return g.genre_name }),
+          avatar: userObj.avatar.url
         }
       },
       genres: genreObjs
