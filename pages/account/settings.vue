@@ -1,119 +1,117 @@
 <template>
-  <div class="text-center">
-    <Toaster />
-    <v-card
-      width="100%"
-    >
-      <v-card-title
-        class="headline grey lighten-2"
-      >
-        プロフィールを編集する
-      </v-card-title>
-      <v-container
-        class="pa-2"
-      >
-        <v-row>
-          <v-col>
-            <!--------------------------------------------------
-            -- タブ
-            -------------------------------------------------->
-            <template v-slot:extension>
-              <v-tabs
-                centered
-                slider-color="yellow"
-                grow
-              >
-                <v-tab
-                  v-for="tab in tabs"
-                  :key="tab.id"
-                  @click="tabClick(tab.name)"
-                >
-                  {{ tab.title }}
-                </v-tab>
-              </v-tabs>
-            </template>
-            <!--------------------------------------------------
-            -- プロフィール設定
-            -------------------------------------------------->
-            <div
-              v-if="tab.name === 'profileTab'"
+  <v-container
+    class="pa-2 text-center"
+  >
+  <Toaster />
+    <v-row>
+      <v-col>
+        <!--------------------------------------------------
+        -- タブ
+        -------------------------------------------------->
+        <v-toolbar
+          color="subheader"
+          dark
+          flat
+        >
+          <v-toolbar-title
+            class="mx-auto"
+          >
+            設定
+          </v-toolbar-title>
+          <template
+            #extension
+          >
+            <v-tabs
+              centered
+              slider-color="yellow"
+              grow
             >
-              <v-form
-                ref="form"
-                v-model="isValid"
+              <v-tab
+                v-for="tab in tabs"
+                :key="tab.id"
+                @click="tabClick(tab.name)"
               >
-                <InputFormName
-                  :name.sync="params.user.name"
-                />
-                <InputFormProfile
-                  :profile.sync="params.user.profile"
-                />
-                <v-file-input
-                  label="プロフィール画像を選択"
-                  accept="image/*"
-                  prepend-icon="mdi-camera"
-                  v-model="params.user.avatar"
-                />
-                <v-card-text>
-                  好きな音楽ジャンル(複数選択可)
-                  <InputFormGenre
-                    :genres="genres"
-                    :checkedGenres="checkedGenres"
-                    @checkedGenresEvent="params.user.checkedGenres = $event"
+                {{ tab.title }}
+              </v-tab>
+            </v-tabs>
+          </template>
+        </v-toolbar>
+        <!--------------------------------------------------
+        -- プロフィール設定
+        -------------------------------------------------->
+        <v-card v-if="menu === 'profileTab'">
+          <v-container>
+            <v-row>
+              <v-col>
+                <v-form
+                  ref="form"
+                  v-model="isValid"
+                >
+                  <InputFormName
+                    :name.sync="params.user.name"
                   />
-                    <!-- :genres.sync="params.user.checkedGenres" -->
-                </v-card-text>
-                <v-btn
-                  :disabled="!isValid || loading"
-                  :loading="loading"
-                  block
-                  class="white--text"
-                  color="blue lighten-2"
-                  @click="changeProfile"
+                  <InputFormProfile
+                    :profile.sync="params.user.profile"
+                  />
+                  <v-file-input
+                    label="プロフィール画像を選択"
+                    accept="image/*"
+                    prepend-icon="mdi-camera"
+                    v-model="avatar"
+                  />
+                  <v-card-text>
+                    好きな音楽ジャンル(複数選択可)
+                    <InputFormGenre
+                      :genres="genres"
+                      :checkedGenres="params.user.checkedGenres"
+                      @checkedGenresEvent="checkedGenres = $event"
+                    />
+                      :genres.sync="checkedGenres"
+                  </v-card-text>
+                  <v-btn
+                    :disabled="!isValid || loading"
+                    :loading="loading"
+                    block
+                    dark
+                    color="button"
+                    @click="changeProfile"
+                  >
+                    設定を保存する
+                  </v-btn>
+                </v-form>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card>
+        <!--------------------------------------------------
+        -- アカウント設定
+        -------------------------------------------------->
+        <v-card v-else-if="menu === 'accountTab'">
+          <v-container>
+            <v-row>
+              <v-col>
+                <v-form
+                  ref="form"
+                  v-model="isValid"
                 >
-                  設定を保存する
-                </v-btn>
-              </v-form>
-            </div>
-            <!--------------------------------------------------
-            -- アカウント設定
-            -------------------------------------------------->
-            <div
-              v-if="tab.name === 'accountTab'"
-            >
-              <v-form
-                ref="form"
-                v-model="isValid"
-              >
-                <InputFormEmail
-                  :email.sync="params.user.email"
-                />
-                <InputFormPassword
-                  :password.sync="params.user.password"
-                />
-              </v-form>
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card>
-  </div>
+                  <InputFormEmail
+                    :email.sync="params.user.email"
+                  />
+                  <InputFormPassword
+                    :password.sync="params.user.password"
+                  />
+                </v-form>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 export default {
-  props: {
-    post: {
-      type: Object
-    },
-    currentUser: {
-      type: Object
-    },
-    genres: {
-      type: Array
-    }
-  },
   data () {
     return {
       menu: 'profileTab',
@@ -124,37 +122,26 @@ export default {
         },
         {
           title: 'アカウント',
-          name: 'accountTab '
+          name: 'accountTab'
         }
       ],
       isValid: false,
       loading: false,
       params: {
         user: {
-          name: this.currentUser.name,
-          email: this.currentUser.email,
-          avatar: this.currentUser.avatar.url,
-          profile: this.currentUser.profile,
-          // password: '',
+          name: '',
+          email: '',
+          avatar: '',
+          profile: '',
+          password: '',
           activated: true,
-          // ['ロック', 'J-POP', ...]
-          checkedGenres: this.currentUser.genres.map((g) => { return g.genre_name })
+          checkedGenres: []
         }
       },
       dialog: false
     }
   },
-  computed: {
-    ...mapGetters({
-      genres: 'modules/genre/genres',
-      currentUser: 'modules/user/currentUser'
-    })
-  },
   methods: {
-    ...mapActions({
-      getGenres: 'modules/genre/getGenres',
-      getCurrentUser: 'modules/user/getCurrentUser'
-    }),
     tabClick (tabName) {
       this.menu = tabName
     },
@@ -178,19 +165,25 @@ export default {
       this.dialog = false
     }
   },
-  async fetch ({ $axios, store }) {
-    await $axios.$get(`/api/v1/users/${store.state.user.current.id}`)
-      .then((userObj) => {
-        console.log('userObj: ' + JSON.stringify(this.params))
-        store.commit('setCurrentUser', userObj)
-      })
+  async asyncData ({ $axios, store }) {
+    const userObj = await $axios.$get(`/api/v1/users/${store.state.user.current.id}`)
+    const genreObjs = await $axios.$get('/api/v1/genres')
+    // console.log('userObj.name: ' + userObj.name)
+    // console.log('userObj.email: ' + userObj.email)
+    // console.log('userObj.avatar.url: ' + userObj.avatar.url)
+    // console.log('userObj.profile: ' + userObj.profile)
+    return {
+      params: {
+        user: {
+          name: userObj.name,
+          email: userObj.email,
+          avatar: userObj.avatar.url,
+          profile: userObj.profile,
+          checkedGenres: userObj.genres.map((g) => { return g.genre_name })
+        }
+      },
+      genres: genreObjs
+    }
   }
-
-  // async fetch () {
-  //   await this.getCurrentUser()
-  //     .then(() => {
-  //       this.getGenres()
-  //     })
-  // }
 }
 </script>
