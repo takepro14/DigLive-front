@@ -102,16 +102,104 @@
                       @formGenreUncheckedEvent="formGenreUnchecked"
                     />
                   </v-card-text>
-                  <v-btn
-                    :disabled="!isValid || loading"
-                    :loading="loading"
-                    block
-                    dark
-                    color="button"
-                    @click="changeProfileData"
+                  <!--------------------------------------------------
+                  -- プロフィール変更ダイアログ
+                  -------------------------------------------------->
+                  <v-dialog
+                    v-model="dialog"
+                    width="500"
                   >
-                    設定を変更する
-                  </v-btn>
+                    <!-- ダイアログクローズ -->
+                    <template
+                      #activator="{ on, attrs }"
+                    >
+                      <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        :disabled="!isValid || loading"
+                        :loading="loading"
+                        block
+                        dark
+                        color="button"
+                      >
+                        設定を変更する
+                      </v-btn>
+                    </template>
+                    <!-- ダイアログオープン -->
+                    <v-card>
+                      <v-card-title
+                        class="headline subheader"
+                      >
+                        プロフィールを変更する
+                      </v-card-title>
+                      <div
+                        class="ma-4"
+                      >
+                        <v-list-item>
+                          <v-list-item-content>
+                            <v-list-item-title
+                              class="py-4"
+                            >
+                              以下の内容で変更します。
+                            </v-list-item-title>
+                            <v-list-item-title
+                              class="pt-6"
+                            >
+                              ユーザー名
+                            </v-list-item-title>
+                            <v-list-item-subtitle>
+                              {{ params.user.name }}
+                            </v-list-item-subtitle>
+                            <v-list-item-title
+                              class="pt-6"
+                            >
+                              プロフィール
+                            </v-list-item-title>
+                            <v-list-item-subtitle>
+                              {{ params.user.profile }}
+                            </v-list-item-subtitle>
+                            <v-list-item-title
+                              class="pt-6"
+                            >
+                              プロフィール画像
+                            </v-list-item-title>
+                            <v-list-item-subtitle>
+                              {{ params.user.avatar }}
+                            </v-list-item-subtitle>
+                            <v-list-item-title
+                              class="pt-6"
+                            >
+                              好きな音楽ジャンル
+                            </v-list-item-title>
+                            <v-list-item-subtitle>
+                              {{ params.user.checkedGenres.join('・') }}
+                            </v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </div>
+                      <v-card-actions>
+                        <v-spacer />
+                        <v-btn
+                          color="button"
+                          dark
+                          @click="changeProfileData"
+                        >
+                          変更する
+                        </v-btn>
+                        <v-spacer />
+                      </v-card-actions>
+                      <v-card-actions>
+                        <v-spacer />
+                        <v-btn
+                          color="primary"
+                          text
+                          @click="dialog = false"
+                        >
+                          閉じる
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
                 </v-form>
               </v-col>
             </v-row>
