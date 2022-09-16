@@ -23,9 +23,7 @@
               通知一覧
             </v-toolbar-title>
             <v-spacer></v-spacer>
-
           </v-toolbar>
-
           <v-list
             three-line
           >
@@ -43,7 +41,6 @@
                       @click.stop="moveUserPage(notification.visitor.id)"
                     />
                   </v-list-item-avatar>
-
                   <v-list-item-content>
                     <div
                       v-if="notification.action === 'follow'"
