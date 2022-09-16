@@ -115,16 +115,18 @@ export default {
     theme: {
       themes: {
         light: {
-          // ref: https://colorhunt.co/
-          header: "#4D4C7D",
-          background: "#EDE7F6",
-          subheader: "#827397",
-          button: "#363062",
+          header: "4D4C7D",
+          subheader: "827397",
+          button: "F57C00",
           primary: '4080BE',
           info: '4FC1E9',
           success: '44D69E',
           warning: 'FEB65E',
           error: 'FB8678',
+          genre: 'E8EAF6',
+          tag: 'FFF8E1',
+          loader: 'E0E0E0',
+          slider: 'FFFF00'
         }
       }
     }

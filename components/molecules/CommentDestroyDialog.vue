@@ -15,13 +15,13 @@
           <v-icon
             class="text-right"
           >
-            mdi-dots-vertical
+            mdi-delete
           </v-icon>
         </v-btn>
       </template>
       <v-card>
         <v-card-title
-          class="headline grey lighten-2"
+          class="headline header white--text"
         >
           コメントを削除する
         </v-card-title>
@@ -45,7 +45,8 @@
           <v-spacer />
           <v-btn
             @click="destroyComment(comment.id)"
-            color="red lighten-2"
+            color="button white--text"
+            width="100%"
           >
             削除する
           </v-btn>

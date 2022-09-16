@@ -7,6 +7,7 @@
   >
     <v-container>
       <v-row>
+        <v-col>
         <v-list-item
           class="grow"
           @click.stop="moveUserPage"
@@ -33,12 +34,15 @@
             </v-list-item-title>
           </v-list-item-content>
           <v-spacer />
-          <PostDestroyDialog
-            v-if="isMyPost"
-            :post="post"
-            @destroyPostEvent="destroyPost(post.id)"
-          />
+          <v-list-item-icon>
+            <PostDestroyDialog
+              v-if="isMyPost"
+              :post="post"
+              @destroyPostEvent="destroyPost(post.id)"
+            />
+          </v-list-item-icon>
         </v-list-item>
+        </v-col>
       </v-row>
 
       <!-- YouTube -->
@@ -75,7 +79,7 @@
             :key="genre.genre_name"
             label
             link
-            color="purple lighten-5"
+            color="genre"
           >
             {{ genre.genre_name }}
           </v-chip>
@@ -83,7 +87,7 @@
             v-for="tag in post.tags"
             :key="tag.tag_name"
             link
-            color="orange lighten-5"
+            color="tag"
           >
             {{ tag.tag_name }}
           </v-chip>

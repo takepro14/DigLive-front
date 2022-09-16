@@ -4,7 +4,7 @@
       link
       filter
       label
-      color="purple lighten-5"
+      color="genre"
       @click="toggleGenre"
     >
       <!-- :input-value="selected" -->

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar
-      color="subheader"
+      color="header"
       dark
       flat
     >

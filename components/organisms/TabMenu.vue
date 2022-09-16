@@ -4,7 +4,7 @@
     width="100%"
   >
     <v-toolbar
-      color="subheader"
+      color="header"
       dark
       flat
     >
@@ -16,7 +16,7 @@
       <template #extension>
         <v-tabs
           centered
-          slider-color="yellow"
+          slider-color="slider"
           grow
         >
           <v-tab

@@ -1,6 +1,6 @@
 <template>
   <v-container
-    class="pa-2 text-center"
+    class="pa-2"
   >
     <Toaster />
     <v-row>
@@ -9,7 +9,7 @@
         -- タブ
         -------------------------------------------------->
         <v-toolbar
-          color="subheader"
+          color="header"
           dark
           flat
         >
@@ -23,7 +23,7 @@
           >
             <v-tabs
               centered
-              slider-color="yellow"
+              slider-color="slider"
               grow
             >
               <v-tab
@@ -79,20 +79,11 @@
                     accept="image/*"
                     prepend-icon="mdi-camera"
                   />
-                  <v-card-text
-                    class="font-weight-bold"
-                  >
+                  <v-card-text>
                     好きな音楽ジャンル(複数選択可)
                   </v-card-text>
-                  <v-card-text
-                    v-if="params.user.checkedGenres.length"
-                  >
-                    {{ params.user.checkedGenres.join('・') }}
-                  </v-card-text>
-                  <v-card-text
-                    v-else-if="!params.user.checkedGenres.length"
-                  >
-                    なし
+                  <v-card-text class="text-center">
+                    {{ dispCheckedGenres }}
                   </v-card-text>
                   <v-card-text>
                     <InputFormGenre
@@ -128,7 +119,7 @@
                     <!-- ダイアログオープン -->
                     <v-card>
                       <v-card-title
-                        class="headline subheader"
+                        class="headline header white--text"
                       >
                         プロフィールを変更する
                       </v-card-title>
@@ -183,8 +174,9 @@
                           color="button"
                           dark
                           @click="changeProfileData"
+                          width="100%"
                         >
-                          変更する
+                          変更を確定する
                         </v-btn>
                         <v-spacer />
                       </v-card-actions>
@@ -265,6 +257,15 @@ export default {
       },
       dialog: false,
       isChanging: false
+    }
+  },
+  computed: {
+    dispCheckedGenres () {
+      if (this.params.user.checkedGenres.length) {
+        return this.params.user.checkedGenres.join('・')
+      } else {
+        return 'なし'
+      }
     }
   },
   methods: {

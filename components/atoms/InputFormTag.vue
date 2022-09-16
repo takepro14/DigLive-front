@@ -6,7 +6,8 @@
       :tags="initTags"
       @tags-changed="newTags => tags = newTags"
       :autocomplete-items="filteredItems"
-      placeholder="自由にタグを追加："
+      style="color: #fff"
+      :placeholder="dispPlaceholder"
     />
   </div>
 </template>
@@ -39,6 +40,14 @@ export default {
       return this.autocompleteItems.filter((i) => {
         return i.text.includes(this.tag)
       })
+    },
+    // 未入力の場合にのみplaceholderを表示
+    dispPlaceholder () {
+      if (!this.tags.length) {
+        return 'ex) 一体感, 臨場感, ギターソロ, ...etc'
+      } else {
+        return ''
+      }
     }
   },
   watch: {
@@ -48,3 +57,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.ti-tag {
+  background-color: #FFF8E1 !important;
+  color: black !important;
+}
+</style>

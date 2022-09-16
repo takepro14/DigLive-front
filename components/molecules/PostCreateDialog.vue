@@ -16,7 +16,7 @@
           dark
           color="button"
           v-bind="attrs"
-          style="bottom:65px;right:65px"
+          style="bottom:70px;right:40px"
           v-on="on"
           x-large
         >
@@ -28,7 +28,7 @@
       <!-- ダイアログオープン -->
       <v-card>
         <v-card-title
-          class="headline subheader"
+          class="headline header white--text"
         >
           ライブ映像をシェアする
         </v-card-title>
@@ -50,14 +50,23 @@
             placeholder="Cメロのギターソロが最高！"
             outlined
           />
-          <InputFormGenre
-            :genres="genres"
-            @checkedGenresEvent="checkedGenres = $event"
-          />
-          <InputFormTag
-            :init-tags="tags"
-            @changed-tags="tags = $event"
-          />
+          <v-card-text>
+            音楽ジャンル (任意・複数可)
+            <InputFormGenre
+              :genres="genres"
+              @checkedGenresEvent="checkedGenres = $event"
+            />
+          </v-card-text>
+          <v-card-text
+          >
+            タグ (任意・複数可)
+            <v-card-text>
+              <InputFormTag
+                :init-tags="tags"
+                @changed-tags="tags = $event"
+              />
+            </v-card-text>
+          </v-card-text>
         </div>
         <v-card-actions>
           <v-spacer />
@@ -65,6 +74,7 @@
             color="button"
             dark
             @click="createPost"
+            width="100%"
           >
             投稿する
           </v-btn>

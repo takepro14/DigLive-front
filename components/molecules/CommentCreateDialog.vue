@@ -11,13 +11,13 @@
         #activator="{ on, attrs }"
       >
         <v-card
-          color="purple lighten-4"
+          color="button"
+          dark
           v-bind="attrs"
           class="mx-auto text-center"
           hover
           rounded
           v-on="on"
-          width="100%"
         >
           <v-card-text>
             <v-icon>
@@ -30,7 +30,7 @@
       <!-- ダイアログオープン -->
       <v-card>
         <v-card-title
-          class="headline grey lighten-2"
+          class="headline header white--text"
         >
           投稿にコメントする
         </v-card-title>
@@ -51,8 +51,10 @@
           <v-spacer />
           <v-btn
             @click="createComment"
+            color="button white--text"
+            width="100%"
           >
-            投稿する
+            コメントする
           </v-btn>
           <v-spacer />
         </v-card-actions>

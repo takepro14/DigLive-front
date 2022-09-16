@@ -8,6 +8,7 @@
     >
       mdi-keyboard-backspace
     </v-icon>
+    <!-- <v-container> -->
     <v-row>
       <v-col>
         <Post
@@ -44,6 +45,7 @@
         />
       </v-col>
     </v-row>
+    <!-- </v-container> -->
   </v-container>
 </template>
 

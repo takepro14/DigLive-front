@@ -11,7 +11,7 @@
         class="text-decoration-none d-flex align-center"
       >
         <v-btn
-          color="deep-purple accent-4"
+          color="button"
           text
         >
           <v-icon>
@@ -26,7 +26,7 @@
         class="text-decoration-none d-flex align-center"
       >
         <v-btn
-          color="deep-purple accent-4"
+          color="button"
           text
         >
           <v-icon>
@@ -41,7 +41,7 @@
         class="text-decoration-none d-flex align-center"
       >
         <v-btn
-          color="deep-purple accent-4"
+          color="button"
           text
         >
           <v-icon>

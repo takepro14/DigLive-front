@@ -23,7 +23,7 @@
       <v-col
       >
         <v-toolbar
-          color="subheader"
+          color="header"
           dark
           flat
         >
@@ -35,7 +35,7 @@
           <template v-slot:extension>
             <v-tabs
               centered
-              slider-color="yellow"
+              slider-color="slider"
               grow
             >
               <v-tab

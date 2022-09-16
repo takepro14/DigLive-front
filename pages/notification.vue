@@ -15,7 +15,7 @@
           class="mx-auto"
         >
           <v-toolbar
-            color="subheader"
+            color="header"
             dark
             flat
           >

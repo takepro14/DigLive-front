@@ -1,6 +1,6 @@
 <template>
   <v-sheet
-    :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"
+    color="loader"
     class="pa-3"
   >
     <v-skeleton-loader
@@ -13,13 +13,3 @@
     />
   </v-sheet>
 </template>
-
-<script>
-export default {
-  inject: {
-    theme: {
-      default: { isDark: false }
-    }
-  }
-}
-</script>

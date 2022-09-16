@@ -21,7 +21,7 @@
     </template>
       <v-card>
         <v-card-title
-          class="headline grey lighten-2"
+          class="headline header white--text"
         >
           投稿を削除する
         </v-card-title>
@@ -44,7 +44,8 @@
         <v-card-actions>
           <v-spacer />
           <v-btn
-            color="red lighten-2"
+            color="button white--text"
+            width="100%"
             @click="destroyPost(post.id)"
           >
             削除する
