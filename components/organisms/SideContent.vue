@@ -24,8 +24,8 @@
         <div v-if="menu === 'postsMenu'">
           <SearchFormKeyword
             :keyword.sync="keyword"
-            @formKeywordClearEvent="formKeywordClear"
-            @formKeywordFocusEvent="formKeywordFocus"
+            @formKeywordFocusInEvent="formKeywordFocusIn"
+            @formKeywordFocusOutEvent="formKeywordFocusOut"
           />
           <SearchFormGenre
             :genre.sync="genre"
@@ -48,8 +48,8 @@
         >
           <SearchFormKeyword
             :keyword.sync="keyword"
-            @formKeywordClearEvent="formKeywordClear"
-            @formKeywordFocusEvent="formKeywordFocus"
+            @formKeywordFocusInEvent="formKeywordFocusIn"
+            @formKeywordFocusOutEvent="formKeywordFocusOut"
           />
           <SearchFormGenre
             :genre.sync="genre"
@@ -126,31 +126,25 @@ export default {
     }
   },
   methods: {
-    formKeywordClear () {
-      this.keyword = ''
-    },
-    formTagClear () {
+    formKeywordFocusIn () {
       this.tag = ''
-    },
-    formGenreClear () {
       this.genre = ''
     },
-    formKeywordFocus () {
-      this.formTagClear()
-      this.formGenreClear()
+    formKeywordFocusOut () {
+      this.keyword = ''
     },
     formTagChecked (value) {
+      this.keyword = ''
+      this.genre = ''
       this.tag = value
-      this.formKeywordClear()
-      this.formGenreClear()
     },
     formTagUnchecked () {
       this.tag = ''
     },
     formGenreChecked (value) {
+      this.keyword = ''
+      this.tag = ''
       this.genre = value
-      this.formKeywordClear()
-      this.formTagClear()
     },
     formGenreUnchecked () {
       this.genre = ''

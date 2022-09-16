@@ -6,8 +6,8 @@
       rounded
       dense
       v-model="setKeyword"
-      @blur="formKeywordClear"
-      @focus="formKeywordFocus"
+      @focus="formKeywordFocusIn"
+      @blur="formKeywordFocusOut"
     />
   </div>
 </template>
@@ -27,11 +27,11 @@ export default {
     }
   },
   methods: {
-    formKeywordClear () {
-      this.$emit('formKeywordClearEvent')
+    formKeywordFocusIn () {
+      this.$emit('formKeywordFocusInEvent')
     },
-    formKeywordFocus () {
-      this.$emit('formKeywordFocusEvent')
+    formKeywordFocusOut () {
+      this.$emit('formKeywordFocusOutEvent')
     }
   }
 }
