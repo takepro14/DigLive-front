@@ -2,9 +2,13 @@
   <div
     class="mx-auto"
   >
+    <!--------------------------------------------------
+      最新タブ
+    --------------------------------------------------->
     <div
       v-if="newPostsTab"
     >
+      <!-- 非検索時(デフォルトビュー) -->
       <div
         v-if="!isSearching"
       >
@@ -18,9 +22,11 @@
           @destroyPostEvent="destroyPost"
         />
       </div>
+      <!-- 検索時 -->
       <div
         v-else-if="isSearching"
       >
+        <!-- キーワード検索時 -->
         <div
           v-if="keyword !== ''"
         >
@@ -28,13 +34,7 @@
             {{ keyword }} の検索結果 ({{ filteredPosts.length }})
           </h3>
         </div>
-        <div
-          v-else-if="tag !== ''"
-        >
-          <h3>
-            {{ tag }} の検索結果 ({{ filteredPosts.length }})
-          </h3>
-        </div>
+        <!-- ジャンル検索時 -->
         <div
           v-else-if="genre !== ''"
         >
@@ -42,6 +42,15 @@
             {{ genre }} の検索結果 ({{ filteredPosts.length }})
           </h3>
         </div>
+        <!-- タグ検索時 -->
+        <div
+          v-else-if="tag !== ''"
+        >
+          <h3>
+            {{ tag }} の検索結果 ({{ filteredPosts.length }})
+          </h3>
+        </div>
+        <!-- 検索結果 -->
         <Post
           v-for="post in filteredPosts"
           :key="post.id"
@@ -53,9 +62,13 @@
         />
       </div>
     </div>
+    <!--------------------------------------------------
+      フォロータブ
+    --------------------------------------------------->
     <div
       v-else-if="followedPostsTab"
     >
+      <!-- 非検索時(デフォルトビュー) -->
       <Post
         v-for="post in followedUsersPosts"
         :key="post.id"
@@ -65,11 +78,12 @@
         @unLikePostEvent="unLikePost"
         @destroyPostEvent="destroyPost"
       />
+      <!-- 検索時 -->
+      <!-- TODO: 実装予定 -->
     </div>
-    <div
-      v-else-if="searchPostsTab"
-    >
-    </div>
+    <!--------------------------------------------------
+      新規投稿ダイアログ
+    --------------------------------------------------->
     <PostCreateDialog
       @createPostEvent="createPost"
       :genres="genres"

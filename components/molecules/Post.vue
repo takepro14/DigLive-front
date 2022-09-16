@@ -12,6 +12,9 @@
           class="grow"
           @click.stop="moveUserPage"
         >
+          <!--------------------------------------------------
+            アバター
+          --------------------------------------------------->
           <v-list-item-avatar>
             <v-img
               class="elevation-6"
@@ -19,6 +22,9 @@
               :src="'http://localhost:3000' + post.user.avatar.url"
             />
           </v-list-item-avatar>
+          <!--------------------------------------------------
+            ユーザ名
+          --------------------------------------------------->
           <v-list-item-content>
             <!-- 投稿一覧ページでの表示 -->
             <v-list-item-title
@@ -34,6 +40,9 @@
             </v-list-item-title>
           </v-list-item-content>
           <v-spacer />
+          <!--------------------------------------------------
+            投稿削除ダイアログ
+          --------------------------------------------------->
           <v-list-item-icon>
             <PostDestroyDialog
               v-if="isMyPost"
@@ -44,8 +53,9 @@
         </v-list-item>
         </v-col>
       </v-row>
-
-      <!-- YouTube -->
+      <!--------------------------------------------------
+        YouTube埋め込み
+      --------------------------------------------------->
       <v-row
         v-if="hasYoutubeUrl"
         justify="center"
@@ -58,6 +68,9 @@
           /> -->
         </v-col>
       </v-row>
+      <!--------------------------------------------------
+        本文
+      --------------------------------------------------->
       <v-card-text
         class="text-h5 py-8"
       >
@@ -67,6 +80,9 @@
           {{ post.content }}
         </div>
       </v-card-text>
+      <!--------------------------------------------------
+        ジャンル・タグ
+      --------------------------------------------------->
       <div
         class="px-4"
       >
@@ -74,6 +90,7 @@
           active-class="primary--text"
           column
         >
+          <!-- ジャンル -->
           <v-chip
             v-for="genre in post.genres"
             :key="genre.genre_name"
@@ -83,6 +100,7 @@
           >
             {{ genre.genre_name }}
           </v-chip>
+          <!-- タグ -->
           <v-chip
             v-for="tag in post.tags"
             :key="tag.tag_name"
@@ -98,12 +116,20 @@
           align="center"
           justify="end"
         >
+          <!--------------------------------------------------
+            投稿時刻
+          --------------------------------------------------->
+          <!-- ホーム画面以外：正規時刻 -->
           <v-card-text
             v-if="$route.fullPath !== '/home'"
             class="mr-3"
           >
             {{ $my.format(post.created_at) }}
           </v-card-text>
+          <!--------------------------------------------------
+            いいね
+          --------------------------------------------------->
+          <!-- いいね済みの場合 -->
           <v-icon
             v-if="post.isLiked"
             class="mr-1"
@@ -112,6 +138,7 @@
           >
             mdi-heart
           </v-icon>
+          <!-- 未いいねの場合 -->
           <v-icon
             v-else
             class="mr-1"
@@ -120,18 +147,23 @@
           >
             mdi-heart-outline
           </v-icon>
+          <!-- いいね数 -->
           <span
             class="subheading mr-2"
             large
           >
             {{ likeLength }}
           </span>
+          <!--------------------------------------------------
+            コメント
+          --------------------------------------------------->
           <v-icon
             class="ml-3 mr-1"
             large
           >
             mdi-comment-processing-outline
           </v-icon>
+          <!-- コメント数 -->
           <span
             class="subheading"
           >

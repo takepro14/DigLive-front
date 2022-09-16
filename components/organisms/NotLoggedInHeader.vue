@@ -8,31 +8,33 @@
       top
       color="header"
     >
+      <!--------------------------------------------------
+        アプリロゴ・タイトル
+      --------------------------------------------------->
       <Title />
-      <v-spacer></v-spacer>
-        <!-- 新規登録ボタン -->
-        <v-btn
-          outlined
-          dark
-          color="blue lighten-2"
-          class="ml-2 font-weight-bold"
-          to="/signup"
-        >
-          {{ $my.pageTitle('signup') }}
-        </v-btn>
-        <!-- ログインボタン -->
-        <v-btn
-          text
-          class="ml-2 font-weight-bold"
-          to="/login"
-        >
-          {{ $my.pageTitle('login') }}
-        </v-btn>
+      <v-spacer />
+      <!--------------------------------------------------
+        新規登録ボタン
+      --------------------------------------------------->
+      <v-btn
+        outlined
+        color="button"
+        class="ml-2 font-weight-bold"
+        to="/signup"
+      >
+        {{ $my.pageTitle('signup') }}
+      </v-btn>
+      <!--------------------------------------------------
+        ログインボタン
+      --------------------------------------------------->
+      <v-btn
+        text
+        dark
+        class="ml-2 font-weight-bold"
+        to="/login"
+      >
+        {{ $my.pageTitle('login') }}
+      </v-btn>
     </v-app-bar>
   </div>
 </template>
-
-<script>
-export default {
-}
-</script>

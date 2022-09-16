@@ -22,11 +22,10 @@
           :disabled="!isValid || loading"
           :loading="loading"
           block
-          color="blue lighten-2"
-          class="white--text"
+          color="button white--text"
           @click="signup"
         >
-          登録する
+          新規登録する
         </v-btn>
       </v-form>
     </template>

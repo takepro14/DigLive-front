@@ -3,9 +3,7 @@
     <!-- :style="{ background: $vuetify.theme.themes.light.background }" -->
     <NotLoggedInHeader />
     <Toaster />
-    <nuxt
-      color="cyan lighten-5"
-    />
+    <nuxt />
     <NotLoggedInFooter />
   </v-app>
 </template>

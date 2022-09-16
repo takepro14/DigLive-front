@@ -2,11 +2,13 @@
   <v-container
     fluid
   >
-    <!-- 共通フォーマット -->
     <v-row
       align="center"
       justify="center"
     >
+      <!--------------------------------------------------
+        共通フォーマット
+      --------------------------------------------------->
       <v-col
         cols="12"
         class="my-8 text-center"
@@ -17,14 +19,15 @@
           {{ appName }}に{{ pageTitle }}
         </h1>
       </v-col>
-
+      <!--------------------------------------------------
+        入力フォームスロット
+      --------------------------------------------------->
       <v-card
         flat
         width="80%"
-        max-width="320"
+        min-width="400px"
         color="transparent"
       >
-        <!-- 入力フォーム -->
         <slot
           name="user-form-card-content"
         />

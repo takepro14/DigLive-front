@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- ヘッダー部 -->
     <v-toolbar
       color="header"
       dark
@@ -12,10 +13,14 @@
         検索
       </v-toolbar-title>
     </v-toolbar>
+    <!-- データ部 -->
     <v-list>
       <div
         class="px-4 py-2"
       >
+        <!--------------------------------------------------
+          投稿メニュー選択時
+        --------------------------------------------------->
         <div v-if="menu === 'postsMenu'">
           <SearchFormKeyword
             :keyword.sync="keyword"
@@ -35,6 +40,9 @@
             @formTagUncheckedEvent="formTagUnchecked"
           />
         </div>
+        <!--------------------------------------------------
+          ユーザメニュー選択時
+        --------------------------------------------------->
         <div
           v-if="menu === 'usersMenu'"
         >

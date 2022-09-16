@@ -2,9 +2,13 @@
   <div
     class="mx-auto"
   >
+    <!--------------------------------------------------
+      最新タブ
+    --------------------------------------------------->
     <div
       v-if="newUsersTab"
     >
+      <!-- 非検索時(デフォルトビュー) -->
       <div
         v-if="!isSearching"
       >
@@ -22,9 +26,11 @@
           />
         </div>
       </div>
+      <!-- 検索時 -->
       <div
         v-else-if="isSearching"
       >
+        <!-- キーワード検索時 -->
         <div
           v-if="keyword !== ''"
         >
@@ -32,6 +38,7 @@
             {{ keyword }} の検索結果 ({{ filteredUsers.length }})
           </h3>
         </div>
+        <!-- ジャンル検索時 -->
         <div
           v-else-if="genre !== ''"
         >
@@ -43,6 +50,7 @@
           v-for="user in filteredUsers"
           :key="user.id"
         >
+          <!-- 検索結果 -->
           <User
             v-if="user.id !== currentUser.id"
             :user="user"
@@ -54,9 +62,13 @@
         </div>
       </div>
     </div>
+    <!--------------------------------------------------
+      フォロータブ
+    --------------------------------------------------->
     <div
       v-else-if="followedUsersTab"
     >
+      <!-- 非検索時(デフォルトビュー) -->
       <div
         v-for="user in followedUsers"
         :key="user.id"
@@ -70,6 +82,8 @@
           @unfollowEvent="unfollow"
         />
       </div>
+      <!-- 検索時 -->
+      <!-- TODO: 実装予定 -->
     </div>
   </div>
 </template>

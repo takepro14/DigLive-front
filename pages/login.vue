@@ -24,13 +24,11 @@
         <v-card-text
           class="px-0"
         >
-          <!-- 初期状態orローディング中はボタン押下不可(disable) -->
           <v-btn
             :disabled="!isValid || loading"
             :loading="loading"
             block
-            color="blue lighten-2"
-            class="white--text"
+            color="button white--text"
             @click="login"
           >
             ログインする

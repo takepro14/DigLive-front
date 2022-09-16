@@ -1,6 +1,9 @@
 <template>
   <v-container>
     <Toaster />
+    <!--------------------------------------------------
+      戻るボタン
+    --------------------------------------------------->
     <v-icon
       x-large
       @click="historyBack"
@@ -8,12 +11,16 @@
     >
       mdi-keyboard-backspace
     </v-icon>
+    <!--------------------------------------------------
+      通知一覧
+    --------------------------------------------------->
     <v-row>
       <v-col>
       <v-card
           width="100%"
           class="mx-auto"
         >
+          <!-- ヘッダー部 -->
           <v-toolbar
             color="header"
             dark
@@ -24,6 +31,7 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
+          <!-- データ部 -->
           <v-list
             three-line
           >
@@ -42,6 +50,7 @@
                     />
                   </v-list-item-avatar>
                   <v-list-item-content>
+                    <!-- フォロー時に表示する内容 -->
                     <div
                       v-if="notification.action === 'follow'"
                       @click.stop="moveUserPage(notification.visitor.id)"
@@ -50,6 +59,7 @@
                         {{ notification.notiVisitor }} {{ notification.notiAction }}
                       </v-list-item-title>
                     </div>
+                    <!-- いいね時に表示する内容 -->
                     <div
                       v-else-if="notification.action === 'like'"
                       @click.stop="movePostPage(notification.post.id)"
@@ -65,6 +75,7 @@
                         {{ notification.post.content }}
                       </v-list-item-subtitle>
                     </div>
+                    <!-- コメント時に表示する内容 -->
                     <div
                       v-else-if="notification.action === 'comment'"
                       @click.stop="movePostPage(notification.post.id)"

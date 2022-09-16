@@ -9,6 +9,9 @@
       align="center"
       class="py-2"
     >
+      <!--------------------------------------------------
+        ユーザ名
+      --------------------------------------------------->
       <v-col
         class="text-center"
       >
@@ -20,6 +23,9 @@
       </v-col>
       <v-spacer />
       <v-spacer />
+      <!--------------------------------------------------
+        アバター
+      --------------------------------------------------->
       <v-col class="text-center">
         <v-avatar
           size="100"
@@ -35,39 +41,46 @@
       class="py-2"
     >
       <v-spacer />
-      <!-- カレントユーザの表示 -->
-      <UserEditDialog
-        v-if="isCurrentUser"
-        @changeProfileEvent="changeProfile"
-        :currentUser="currentUser"
-        :genres="genres"
-      />
-      <!-- 他ユーザの表示 -->
-      <v-btn
-        v-else-if="isFollowedTrue"
-        outlined
-        rounded
-        text
-        @click.stop="unfollow({ userId: user.id, route: $route.fullPath })"
+      <!--------------------------------------------------
+        フォローステータス
+      --------------------------------------------------->
+      <!-- 自分以外 -->
+      <div
+        v-if="!isCurrentUser"
       >
-        フォロー中
-      </v-btn>
-      <v-btn
-        v-else-if="isFollowedFalse"
-        outlined
-        rounded
-        color="blue"
-        @click.stop="follow({ userId: user.id, route: $route.fullPath })"
-      >
-        フォローする
-      </v-btn>
+        <!-- フォロー中 -->
+        <v-btn
+          v-if="isFollowedTrue"
+          outlined
+          rounded
+          text
+          @click.stop="unfollow({ userId: user.id, route: $route.fullPath })"
+        >
+          フォロー中
+        </v-btn>
+        <!-- 未フォロー -->
+        <v-btn
+          v-else-if="isFollowedFalse"
+          outlined
+          rounded
+          color="blue"
+          @click.stop="follow({ userId: user.id, route: $route.fullPath })"
+        >
+          フォローする
+        </v-btn>
+      </div>
     </v-row>
+    <!--------------------------------------------------
+      ユーザプロフィール
+    --------------------------------------------------->
     <v-row
       class="py-2"
     >
+      <!-- プロフィール -->
       <v-list-item-subtitle>
         {{ user.profile }}
       </v-list-item-subtitle>
+      <!-- ジャンル -->
       <v-list-item-subtitle>
         <v-chip-group
           column
@@ -82,6 +95,9 @@
         </v-chip-group>
       </v-list-item-subtitle>
     </v-row>
+    <!--------------------------------------------------
+      フォロー・フォロワー数
+    --------------------------------------------------->
     <v-row
       class="py-2"
     >
