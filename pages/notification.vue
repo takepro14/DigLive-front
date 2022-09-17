@@ -1,108 +1,74 @@
 <template>
   <v-container>
     <Toaster />
-    <!--
-      戻るボタン
-    -->
-    <v-icon
-      x-large
-      @click="historyBack"
-      class="py-4"
-    >
-      mdi-keyboard-backspace
-    </v-icon>
-    <!--
-      通知一覧
-    -->
     <v-row>
       <v-col>
-      <v-card
-          width="100%"
-          class="mx-auto"
-        >
-          <!-- ヘッダー部 -->
-          <v-toolbar
-            color="header"
-            dark
-            flat
+        <HistoryBack class="py-4" />
+        <v-card
+            width="100%"
+            class="mx-auto"
           >
-            <v-toolbar-title>
-              通知一覧
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-          <!-- データ部 -->
-          <v-list
-            three-line
-          >
-            <template
-              v-for="notification in notifications"
+            <v-toolbar
+              color="header"
+              dark
+              flat
             >
-              <div
-                :key="notification.id"
-              >
-                <v-list-item
-                >
-                  <v-list-item-avatar>
-                    <v-img
-                      :src="'http://localhost:3000' + notification.visitor.avatar.url"
-                      @click.stop="moveUserPage(notification.visitor.id)"
-                    />
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    <!-- フォロー時に表示する内容 -->
-                    <div
-                      v-if="notification.action === 'follow'"
-                      @click.stop="moveUserPage(notification.visitor.id)"
-                    >
-                      <v-list-item-title>
-                        {{ notification.notiVisitor }} {{ notification.notiAction }}
-                      </v-list-item-title>
-                    </div>
-                    <!-- いいね時に表示する内容 -->
-                    <div
-                      v-else-if="notification.action === 'like'"
-                      @click.stop="movePostPage(notification.post.id)"
-                    >
-                      <v-list-item-title
-                        class="py-2"
+              <v-toolbar-title>
+                通知一覧
+              </v-toolbar-title>
+              <v-spacer />
+            </v-toolbar>
+            <v-list three-line>
+              <template v-for="notification in notifications">
+                <div :key="notification.id">
+                  <v-list-item>
+                    <v-list-item-avatar>
+                      <v-img
+                        :src="'http://localhost:3000' + notification.visitor.avatar.url"
+                        @click.stop="moveUserPage(notification.visitor.id)"
+                      />
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <div
+                        v-if="notification.action === 'follow'"
+                        @click.stop="moveUserPage(notification.visitor.id)"
                       >
-                        {{ notification.notiVisitor }} {{ notification.notiAction }}
-                      </v-list-item-title>
-                      <v-list-item-subtitle
-                        class="py-2"
+                        <v-list-item-title>
+                          {{ notification.notiVisitor }} {{ notification.notiAction }}
+                        </v-list-item-title>
+                      </div>
+                      <div
+                        v-else-if="notification.action === 'like'"
+                        @click.stop="movePostPage(notification.post.id)"
                       >
-                        {{ notification.post.content }}
-                      </v-list-item-subtitle>
-                    </div>
-                    <!-- コメント時に表示する内容 -->
-                    <div
-                      v-else-if="notification.action === 'comment'"
-                      @click.stop="movePostPage(notification.post.id)"
-                    >
-                      <v-list-item-title
-                        class="py-2"
+                        <v-list-item-title class="py-2">
+                          {{ notification.notiVisitor }} {{ notification.notiAction }}
+                        </v-list-item-title>
+                        <v-list-item-subtitle class="py-2">
+                          {{ notification.post.content }}
+                        </v-list-item-subtitle>
+                      </div>
+                      <div
+                        v-else-if="notification.action === 'comment'"
+                        @click.stop="movePostPage(notification.post.id)"
                       >
-                        {{ notification.notiVisitor }} {{ notification.notiAction }}
-                      </v-list-item-title>
-                      <v-list-item-subtitle
-                        class="py-2"
-                      >
-                        {{ notification.notiComment[0].comment }}
-                      </v-list-item-subtitle>
-                      <v-list-item-subtitle
-                        class="py-2"
-                      >
-                        > {{ notification.post.content }}
-                      </v-list-item-subtitle>
-                    </div>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-divider />
-              </div>
-            </template>
-          </v-list>
-        </v-card>
+                        <v-list-item-title class="py-2">
+                          {{ notification.notiVisitor }} {{ notification.notiAction }}
+                        </v-list-item-title>
+                        <v-list-item-subtitle class="py-2">
+                          {{ notification.notiComment[0].comment }}
+                        </v-list-item-subtitle>
+                        <v-list-item-subtitle class="py-2">
+                          {{ notification.post.content }}
+                        </v-list-item-subtitle>
+                      </div>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-divider />
+                </div>
+              </template>
+            </v-list>
+          </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -110,7 +76,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import HistoryBack from '../components/atoms/HistoryBack.vue'
 export default {
+  components: { HistoryBack },
   layout: 'logged-in',
   middleware: [
     'authentication'
@@ -134,9 +102,6 @@ export default {
     },
     movePostPage (postId) {
       this.$router.push(`/posts/${postId}`)
-    },
-    historyBack () {
-      this.$router.go(-1)
     }
   },
   async asyncData ({ $axios, $moment }) {

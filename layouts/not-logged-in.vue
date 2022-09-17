@@ -1,9 +1,10 @@
 <template>
   <v-app>
-    <!-- :style="{ background: $vuetify.theme.themes.light.background }" -->
     <NotLoggedInHeader />
     <Toaster />
-    <nuxt />
+    <v-main>
+      <Nuxt />
+    </v-main>
     <NotLoggedInFooter />
   </v-app>
 </template>

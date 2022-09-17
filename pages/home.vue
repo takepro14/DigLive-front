@@ -2,9 +2,6 @@
   <v-container>
     <Toaster />
     <v-row>
-      <!--
-        左カラム
-      -->
       <v-col cols="12" sm="12" md="4" lg="4" xl="4">
         <SideMenu
           @menuClickEvent="menuClick"
@@ -20,9 +17,6 @@
           @filteredUsersChangedEvent="filteredUsersChanged"
         />
       </v-col>
-      <!--
-        右カラム
-      -->
       <v-col cols="12" sm="12" md="8" lg="8" xl="8">
         <TabMenu
           @tabClickEvent="tabClick"

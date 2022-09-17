@@ -1,21 +1,13 @@
 <template>
-  <div
-    class="mb-16"
-  >
+  <div class="mb-16">
     <v-app-bar
       fixed
       fab
       top
       color="header"
     >
-      <!--
-        アプリロゴ・タイトル
-      -->
       <Title />
       <v-spacer />
-      <!--
-        新規登録ボタン
-      -->
       <v-btn
         outlined
         color="button"
@@ -24,9 +16,6 @@
       >
         {{ $my.pageTitle('signup') }}
       </v-btn>
-      <!--
-        ログインボタン
-      -->
       <v-btn
         text
         dark

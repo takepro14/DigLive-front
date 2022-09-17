@@ -1,19 +1,7 @@
 <template>
   <v-container>
     <Toaster />
-    <!--
-      戻るボタン
-    -->
-    <v-icon
-      x-large
-      @click="historyBack"
-      class="py-4"
-    >
-      mdi-keyboard-backspace
-    </v-icon>
-    <!--
-      投稿
-    -->
+    <HistoryBack class="py-4" />
     <v-row>
       <v-col>
         <Post
@@ -23,9 +11,6 @@
         />
       </v-col>
     </v-row>
-    <!--
-      コメントダイアログ
-    -->
     <v-row>
       <v-col>
         <CommentCreateDialog
@@ -35,9 +20,6 @@
         />
       </v-col>
     </v-row>
-    <!--
-      コメント一覧
-    -->
     <v-row>
       <v-col
         v-for="comment in post.comments"
@@ -93,9 +75,6 @@ export default {
     }),
     addComment () {
       this.$store.dispatch('modules/post/emitReloadComments', this.post_id)
-    },
-    historyBack () {
-      this.$router.go(-1)
     }
   }
 }

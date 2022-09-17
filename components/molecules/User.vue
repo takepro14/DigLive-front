@@ -5,111 +5,87 @@
     @click="moveUserPage"
   >
     <Toaster />
-    <v-row
-      align="center"
-      class="py-2"
-    >
-      <!--
-        ユーザ名
-      -->
-      <v-col
-        class="text-center"
+    <v-container>
+      <v-row
+        align="center"
+        class="py-2"
       >
-        <v-list-item-title
-          class="text-h5"
-        >
-          {{ user.name }}
-        </v-list-item-title>
-      </v-col>
-      <v-spacer />
-      <v-spacer />
-      <!--
-        アバター
-      -->
-      <v-col class="text-center">
-        <v-avatar
-          size="100"
-          tile
-        >
-          <v-img
-            :src="avatarUrl"
-          />
-        </v-avatar>
-      </v-col>
-    </v-row>
-    <v-row
-      class="py-2"
-    >
-      <v-spacer />
-      <!--
-        フォローステータス
-      -->
-      <!-- 自分以外 -->
-      <div
-        v-if="!isCurrentUser"
+        <v-col class="text-center">
+          <v-list-item-title class="text-h5">
+            {{ user.name }}
+          </v-list-item-title>
+        </v-col>
+        <v-spacer />
+        <v-spacer />
+        <v-col class="text-center">
+          <v-avatar
+            size="100"
+            tile
+          >
+            <v-img :src="avatarUrl" />
+          </v-avatar>
+        </v-col>
+      </v-row>
+      <v-row class="py-2">
+        <v-spacer />
+        <div v-if="!isCurrentUser">
+          <div v-if="isFollowedTrue">
+            <v-btn
+              outlined
+              rounded
+              text
+              @click.stop="unfollow({ userId: user.id, route: $route.fullPath })"
+            >
+              フォロー中
+            </v-btn>
+          </div>
+          <div v-else-if="isFollowedFalse">
+            <v-btn
+              outlined
+              rounded
+              color="blue"
+              @click.stop="follow({ userId: user.id, route: $route.fullPath })"
+            >
+              フォローする
+            </v-btn>
+          </div>
+        </div>
+      </v-row>
+      <v-row class="py-2">
+        <v-list-item-subtitle>
+          {{ user.profile }}
+        </v-list-item-subtitle>
+        <v-list-item-subtitle>
+          <v-chip-group
+            column
+            multiple
+            class="my-4"
+          >
+            <Genre
+              v-for="genre in user.genres"
+              :key="genre.genre_name"
+              :genre="genre"
+            />
+          </v-chip-group>
+        </v-list-item-subtitle>
+      </v-row>
+      <v-row
+        class="py-2 d-flex"
+        align="center"
+        justify="end"
       >
-        <!-- フォロー中 -->
-        <v-btn
-          v-if="isFollowedTrue"
-          outlined
-          rounded
-          text
-          @click.stop="unfollow({ userId: user.id, route: $route.fullPath })"
-        >
-          フォロー中
-        </v-btn>
-        <!-- 未フォロー -->
-        <v-btn
-          v-else-if="isFollowedFalse"
-          outlined
-          rounded
-          color="blue"
-          @click.stop="follow({ userId: user.id, route: $route.fullPath })"
-        >
-          フォローする
-        </v-btn>
-      </div>
-    </v-row>
-    <!--
-      ユーザプロフィール
-    -->
-    <v-row
-      class="py-2"
-    >
-      <!-- プロフィール -->
-      <v-list-item-subtitle>
-        {{ user.profile }}
-      </v-list-item-subtitle>
-      <!-- ジャンル -->
-      <v-list-item-subtitle>
-        <v-chip-group
-          column
-          multiple
-          class="my-4"
-        >
-          <Genre
-            v-for="genre in user.genres"
-            :key="genre.genre_name"
-            :genre="genre"
-          />
-        </v-chip-group>
-      </v-list-item-subtitle>
-    </v-row>
-    <!--
-      フォロー・フォロワー数
-    -->
-    <v-row
-      class="py-2"
-    >
-    <v-spacer />
-    <v-spacer />
-      <v-col>
-          {{ followingLength }} フォロー
-      </v-col>
-      <v-col>
-          {{ followerLength }} フォロワー
-      </v-col>
-    </v-row>
+        <div class="ml-3 mr-1">
+          <v-card-text>
+            {{ followingLength }} フォロー
+          </v-card-text>
+        </div>
+        <div class="ml-3 mr-1">
+          <v-card-text>
+            {{ followerLength }} フォロワー
+          </v-card-text>
+        </div>
+      </v-row>
+    </v-container>
   </v-card>
 </template>
 

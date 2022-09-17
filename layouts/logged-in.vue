@@ -2,7 +2,7 @@
   <v-app>
     <LoggedInHeader />
     <v-main>
-      <nuxt />
+      <Nuxt />
     </v-main>
     <LoggedInFooter />
   </v-app>

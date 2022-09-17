@@ -6,12 +6,7 @@
       offset-y
       max-width="200"
     >
-      <!--
-        ダイアログクローズ
-      -->
-      <template
-        v-slot:activator="{ on }"
-      >
+      <template v-slot:activator="{ on }">
         <v-btn
           icon
           v-on="on"
@@ -21,16 +16,10 @@
           </v-icon>
         </v-btn>
       </template>
-      <!--
-        ダイアログオープン
-      -->
-      <v-list
-        dense
-      >
+      <v-list dense>
         <v-subheader>
           ログイン中のユーザー
         </v-subheader>
-
         <v-list-item>
           <v-list-item-content>
             <v-list-item-subtitle>
@@ -38,28 +27,20 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-
         <v-divider />
-
         <v-subheader>
           アカウント
         </v-subheader>
-
-        <template
-          v-for="(menu, i) in menus"
-        >
+        <template v-for="(menu, i) in menus">
           <v-divider
             v-if="menu.divider"
             :key="`menu-divider-${i}`"
           />
-
           <v-list-item
             :key="`menu-list-${i}`"
             :to="{ name: menu.name }"
           >
-            <v-list-item-icon
-              class="mr-2"
-            >
+            <v-list-item-icon class="mr-2">
               <v-icon
                 size="22"
                 v-text="menu.icon"
@@ -81,7 +62,6 @@ export default {
     return {
       menus: [
         { name: 'account-settings', icon: 'mdi-account-cog' },
-        { name: 'account-password', icon: 'mdi-lock-outline' },
         { name: 'logout', icon: 'mdi-logout-variant', divider: true }
       ]
     }

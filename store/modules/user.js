@@ -17,9 +17,6 @@ export const getters = {
 }
 
 export const mutations = {
-  // --------------------------------------------------
-  // 初期ロード用
-  // --------------------------------------------------
   setUsers (state, payload) {
     state.users = payload
   },
@@ -32,9 +29,6 @@ export const mutations = {
   setUserClear (state) {
     state.user = {}
   },
-  // --------------------------------------------------
-  // 即時反映用
-  // --------------------------------------------------
   reloadUserByFollow (state, payload) {
     // ユーザ一覧画面用
     if (payload.route.includes('home')) {
@@ -77,9 +71,7 @@ export const mutations = {
 }
 
 export const actions = {
-  // --------------------------------------------------
   // ユーザ一覧画面用
-  // --------------------------------------------------
   async getUsers ({ commit, rootState }) {
     if (!state.users.length) {
       await this.$axios.$get('/api/v1/users')
@@ -98,9 +90,7 @@ export const actions = {
         })
     }
   },
-  // --------------------------------------------------
   // ユーザ詳細画面用
-  // --------------------------------------------------
   emitSetUser ({ commit, rootState }, userObj) {
     // フォロー状態のフラグ追加
     const followersIds = userObj.passive_relationships.map((passiveRelationship) => {
@@ -124,9 +114,7 @@ export const actions = {
         })
       })
   },
-  // --------------------------------------------------
   // 共通
-  // --------------------------------------------------
   async getCurrentUser ({ commit, rootState }) {
     await this.$axios.$get(`/api/v1/users/${rootState.user.current.id}`)
       .then((userObj) => {

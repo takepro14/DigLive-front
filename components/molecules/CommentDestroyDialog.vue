@@ -4,46 +4,28 @@
       v-model="dialog"
       width="500"
     >
-      <!--
-        ダイアログクローズ
-      -->
-      <template
-        #activator="{ on, attrs }"
-      >
+      <template #activator="{ on, attrs }">
         <v-btn
           icon
           v-bind="attrs"
           v-on="on"
         >
-          <v-icon
-            class="text-right"
-          >
+          <v-icon class="text-right">
             mdi-delete
           </v-icon>
         </v-btn>
       </template>
-      <!--
-        ダイアログオープン
-      -->
       <v-card>
-        <v-card-title
-          class="headline header white--text"
-        >
+        <v-card-title class="headline header white--text">
           コメントを削除する
         </v-card-title>
-        <v-row
-          class="text-center pt-6 pb-2"
-        >
+        <v-row class="text-center pt-6 pb-2">
           <v-card-text>
             以下のコメントを削除しますか？
           </v-card-text>
         </v-row>
-        <v-row
-          class="text-center pb-2"
-        >
-          <v-card-text
-            class="font-weight-bold"
-          >
+        <v-row class="text-center pb-2">
+          <v-card-text class="font-weight-bold">
             "{{ comment.comment }}"
           </v-card-text>
         </v-row>

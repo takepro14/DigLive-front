@@ -1,18 +1,6 @@
 <template>
   <v-container>
-    <!--
-      戻るボタン
-    -->
-    <v-icon
-      x-large
-      @click="historyBack"
-      class="py-4"
-    >
-      mdi-keyboard-backspace
-    </v-icon>
-    <!--
-      ユーザプロフィール
-    -->
+    <HistoryBack class="py-4" />
     <v-row>
       <v-col>
         <User
@@ -25,9 +13,6 @@
         />
       </v-col>
     </v-row>
-    <!--
-      ユーザアクティビティ
-    -->
     <v-row>
       <v-col
       >
@@ -125,9 +110,6 @@ export default {
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost'
     }),
-    historyBack () {
-      this.$router.go(-1)
-    },
     tabClick (tabName) {
       this.menu = tabName
     }

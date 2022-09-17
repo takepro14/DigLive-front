@@ -4,9 +4,6 @@
       bottom
       fixed
     >
-      <!--
-        マイページ
-      -->
       <v-spacer />
       <nuxt-link
         :to="currentUserPath"
@@ -21,9 +18,6 @@
           </v-icon>
         </v-btn>
       </nuxt-link>
-      <!--
-        ホーム
-      -->
       <v-spacer />
       <nuxt-link
         to="/home"
@@ -38,9 +32,6 @@
           </v-icon>
         </v-btn>
       </nuxt-link>
-      <!--
-        通知
-      -->
       <v-spacer />
       <nuxt-link
         to="/notification"

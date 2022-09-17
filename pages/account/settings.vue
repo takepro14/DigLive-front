@@ -1,26 +1,18 @@
 <template>
-  <v-container
-    class="pa-2"
-  >
+  <v-container class="pa-2">
     <Toaster />
+    <HistoryBack class="py-4" />
     <v-row>
       <v-col>
-        <!--
-        -- タブ
-        -------------------------------------------------->
         <v-toolbar
           color="header"
           dark
           flat
         >
-          <v-toolbar-title
-            class="mx-auto"
-          >
+          <v-toolbar-title class="mx-auto">
             設定
           </v-toolbar-title>
-          <template
-            #extension
-          >
+          <template #extension>
             <v-tabs
               centered
               slider-color="slider"
@@ -36,12 +28,7 @@
             </v-tabs>
           </template>
         </v-toolbar>
-        <!--
-        -- プロフィール設定
-        -------------------------------------------------->
-        <v-card
-          v-if="menu === 'profileTab'"
-        >
+        <v-card v-if="menu === 'profileTab'">
           <v-container>
             <v-row>
               <v-col>
@@ -49,12 +36,8 @@
                   ref="form"
                   v-model="isValid"
                 >
-                  <v-col
-                    class="text-center"
-                  >
-                    <v-list-item-title
-                      class="font-weight-bold"
-                    >
+                  <v-col class="text-center">
+                    <v-list-item-title class="font-weight-bold">
                       プロフィール画像
                     </v-list-item-title>
                     <v-avatar
@@ -93,17 +76,11 @@
                       @formGenreUncheckedEvent="formGenreUnchecked"
                     />
                   </v-card-text>
-                  <!--
-                  -- プロフィール変更ダイアログ
-                  -------------------------------------------------->
                   <v-dialog
                     v-model="dialog"
                     width="500"
                   >
-                    <!-- ダイアログクローズ -->
-                    <template
-                      #activator="{ on, attrs }"
-                    >
+                    <template #activator="{ on, attrs }">
                       <v-btn
                         v-bind="attrs"
                         v-on="on"
@@ -116,50 +93,35 @@
                         設定を変更する
                       </v-btn>
                     </template>
-                    <!-- ダイアログオープン -->
                     <v-card>
-                      <v-card-title
-                        class="headline header white--text"
-                      >
+                      <v-card-title class="headline header white--text">
                         プロフィールを変更する
                       </v-card-title>
-                      <div
-                        class="ma-4"
-                      >
+                      <div class="ma-4">
                         <v-list-item>
                           <v-list-item-content>
-                            <v-list-item-title
-                              class="py-4"
-                            >
+                            <v-list-item-title class="py-4">
                               以下の内容で変更します。
                             </v-list-item-title>
-                            <v-list-item-title
-                              class="pt-6"
-                            >
+                            <v-list-item-title class="pt-6">
                               ユーザー名
                             </v-list-item-title>
                             <v-list-item-subtitle>
                               {{ params.user.name }}
                             </v-list-item-subtitle>
-                            <v-list-item-title
-                              class="pt-6"
-                            >
+                            <v-list-item-title class="pt-6">
                               プロフィール
                             </v-list-item-title>
                             <v-list-item-subtitle>
                               {{ params.user.profile }}
                             </v-list-item-subtitle>
-                            <v-list-item-title
-                              class="pt-6"
-                            >
+                            <v-list-item-title class="pt-6">
                               プロフィール画像
                             </v-list-item-title>
                             <v-list-item-subtitle>
                               {{ params.user.avatar }}
                             </v-list-item-subtitle>
-                            <v-list-item-title
-                              class="pt-6"
-                            >
+                            <v-list-item-title class="pt-6">
                               好きな音楽ジャンル
                             </v-list-item-title>
                             <v-list-item-subtitle>
@@ -197,9 +159,6 @@
             </v-row>
           </v-container>
         </v-card>
-        <!--
-        -- アカウント設定
-        -------------------------------------------------->
         <v-card
           v-else-if="menu === 'accountTab'"
         >
