@@ -6,9 +6,6 @@
         <SideMenu
           @menuClickEvent="menuClick"
         />
-        <LoaderTypeTag
-          v-if="isLoadingGenresAndTags"
-        />
         <SideContent
           class="my-4"
           :posts="posts"
@@ -18,6 +15,10 @@
           :menu="menu"
           @filteredPostsChangedEvent="filteredPostsChanged"
           @filteredUsersChangedEvent="filteredUsersChanged"
+        />
+        <LoaderTypeTag
+          v-if="isLoadingGenresAndTags"
+          :repeat="menu === 'postsMenu' ? 2 : 1"
         />
       </v-col>
       <v-col cols="12" sm="12" md="8" lg="8" xl="8">

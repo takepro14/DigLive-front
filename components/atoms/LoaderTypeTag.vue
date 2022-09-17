@@ -4,7 +4,7 @@
     class="my-2"
   >
     <div
-      v-for="n in 2"
+      v-for="n in repeat"
       :key="n.id"
     >
       <v-skeleton-loader
@@ -27,3 +27,13 @@
     </div>
   </v-sheet>
 </template>
+
+<script>
+export default {
+  props: {
+    repeat: {
+      type: Number
+    }
+  }
+}
+</script>
