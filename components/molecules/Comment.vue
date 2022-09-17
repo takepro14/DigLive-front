@@ -10,9 +10,6 @@
             class="grow"
             @click.stop="moveUserPage"
           >
-            <!--
-              アバター
-            -->
             <v-list-item-avatar>
               <v-img
                 class="elevation-6"
@@ -20,18 +17,12 @@
                 :src="avatarUrl"
               />
             </v-list-item-avatar>
-            <!--
-              ユーザ名
-            -->
             <v-list-item-content>
               <v-list-item-title>
                   {{ comment.user.name }}
               </v-list-item-title>
             </v-list-item-content>
             <v-spacer />
-            <!--
-              コメント削除ダイアログ
-            -->
             <CommentDestroyDialog
               v-if="isMyComment"
               :comment="comment"
@@ -40,9 +31,6 @@
           </v-list-item>
         </v-col>
       </v-row>
-      <!--
-        コメント本文
-      -->
       <v-row>
         <v-col>
           <v-card-text
@@ -52,9 +40,6 @@
           </v-card-text>
         </v-col>
       </v-row>
-      <!--
-        コメント日時
-      -->
       <v-row>
         <v-spacer />
         <v-col>

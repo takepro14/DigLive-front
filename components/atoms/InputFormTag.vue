@@ -1,15 +1,12 @@
 <template>
-  <div>
-    <!-- http://www.vue-tags-input.com/#/ -->
-    <vue-tags-input
-      v-model="tag"
-      :tags="initTags"
-      @tags-changed="newTags => tags = newTags"
-      :autocomplete-items="filteredItems"
-      style="color: #fff"
-      :placeholder="dispPlaceholder"
-    />
-  </div>
+  <vue-tags-input
+    v-model="tag"
+    :tags="initTags"
+    @tags-changed="newTags => tags = newTags"
+    :autocomplete-items="filteredItems"
+    style="color: #fff"
+    :placeholder="dispPlaceholder"
+  />
 </template>
 
 <script>

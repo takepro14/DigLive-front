@@ -17,9 +17,6 @@ export const getters = {
 }
 
 export const mutations = {
-  // --------------------------------------------------
-  // 初期ロード用
-  // --------------------------------------------------
   setPosts (state, payload) {
     state.posts = payload
   },
@@ -39,9 +36,6 @@ export const mutations = {
   // reloadPostsByCreatePost (state, payload) {
   //   state.posts.push(payload)
   // },
-  // --------------------------------------------------
-  // 即時反映用
-  // --------------------------------------------------
   reloadPostsByDestroyPost (state, payload) {
     state.posts = state.posts.filter(post => post.id !== payload)
   },
@@ -99,9 +93,7 @@ export const mutations = {
 }
 
 export const actions = {
-  // --------------------------------------------------
   // 投稿一覧画面用
-  // --------------------------------------------------
   async getPosts ({ state, commit, rootState }) {
     if (!state.posts.length) {
       await this.$axios.$get('/api/v1/posts')
@@ -138,6 +130,7 @@ export const actions = {
       })
   },
   async createPost ({ commit }, params) {
+    console.log('params: ' + JSON.stringify(params))
     const data = new FormData()
     if (params.tags.length !== 0) {
       params.tags.forEach((tag) => {
@@ -162,9 +155,7 @@ export const actions = {
         })
       })
   },
-  // --------------------------------------------------
   // 投稿詳細画面用
-  // --------------------------------------------------
   getPost ({ rootState, commit }, postObj) {
     // いいね状態のフラグ追加
     const likedUserIds = postObj.likes.map((like) => {
@@ -197,9 +188,7 @@ export const actions = {
   emitSetPostClear ({ commit }) {
     commit('setPostClear')
   },
-  // --------------------------------------------------
   // 共通
-  // --------------------------------------------------
   async likePost ({ rootState, commit }, postObjAndRoute) {
     await this.$axios.$post('/api/v1/likes', {
       like: {

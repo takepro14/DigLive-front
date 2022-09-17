@@ -7,7 +7,6 @@
       color="genre"
       @click="toggleGenre"
     >
-      <!-- :input-value="selected" -->
       {{ genre.genre_name }}
     </v-chip>
   </div>

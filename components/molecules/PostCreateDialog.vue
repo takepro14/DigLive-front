@@ -4,12 +4,7 @@
       v-model="dialog"
       width="500"
     >
-      <!--
-        ダイアログクローズ
-      -->
-      <template
-        #activator="{ on, attrs }"
-      >
+      <template #activator="{ on, attrs }">
         <v-btn
           fixed
           fab
@@ -27,18 +22,13 @@
           </v-icon>
         </v-btn>
       </template>
-      <!--
-        ダイアログオープン
-      -->
+
       <v-card>
-        <v-card-title
-          class="headline header white--text"
-        >
+        <v-card-title class="headline header white--text">
           ライブ映像をシェアする
         </v-card-title>
-        <div
-          class="ma-4"
-        >
+        {{ checkedGenres }}
+        <div class="ma-4">
           <v-text-field
             v-model="youtube_url"
             label="YouTube URL"
@@ -58,18 +48,16 @@
             音楽ジャンル (任意・複数可)
             <InputFormGenre
               :genres="genres"
-              @checkedGenresEvent="checkedGenres = $event"
+              @formGenreCheckedEvent="formGenreChecked"
+              @formGenreUncheckedEvent="formGenreUnchecked"
             />
           </v-card-text>
-          <v-card-text
-          >
+          <v-card-text>
             タグ (任意・複数可)
-            <v-card-text>
-              <InputFormTag
-                :init-tags="tags"
-                @changed-tags="tags = $event"
-              />
-            </v-card-text>
+            <InputFormTag
+              :init-tags="tags"
+              @changed-tags="tags = $event"
+            />
           </v-card-text>
         </div>
         <v-card-actions>
@@ -77,8 +65,8 @@
           <v-btn
             color="button"
             dark
-            @click="createPost"
             width="100%"
+            @click="createPost"
           >
             投稿する
           </v-btn>
@@ -118,6 +106,13 @@ export default {
     }
   },
   methods: {
+    formGenreChecked (value) {
+      this.checkedGenres.push(value)
+    },
+    formGenreUnchecked (value) {
+      const idx = this.checkedGenres.indexOf(value)
+      this.checkedGenres.splice(idx, 1)
+    },
     createPost () {
       this.$emit('createPostEvent', {
         tags: this.tags,
@@ -126,9 +121,12 @@ export default {
         content: this.content,
         genres: this.checkedGenres
       })
-      this.content = ''
       this.dialog = false
       this.$vuetify.goTo(0)
+      this.resetForm()
+    },
+    resetForm () {
+      this.content = ''
       this.checkedGenres = []
     }
   }

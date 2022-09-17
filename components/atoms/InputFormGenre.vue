@@ -1,22 +1,19 @@
 <template>
-  <div>
-    <v-chip-group
-      column
-      multiple
-      class="my-4"
+  <v-chip-group
+    column
+    multiple
+  >
+    <div
+      v-for="genre in genres"
+      :key="genre.genre_name"
     >
-      <div
-        v-for="genre in genres"
-        :key="genre.genre_name"
-      >
-        <Genre
-          :genre="genre"
-          @formGenreCheckedEvent="formGenreChecked"
-          @formGenreUncheckedEvent="formGenreUnchecked"
-        />
-      </div>
-    </v-chip-group>
-  </div>
+      <Genre
+        :genre="genre"
+        @formGenreCheckedEvent="formGenreChecked"
+        @formGenreUncheckedEvent="formGenreUnchecked"
+      />
+    </div>
+  </v-chip-group>
 </template>
 
 <script>
