@@ -1,11 +1,13 @@
 <template>
   <v-container>
     <Toaster />
-    <RefParent />
     <v-row>
       <v-col cols="12" sm="12" md="4" lg="4" xl="4">
         <SideMenu
           @menuClickEvent="menuClick"
+        />
+        <LoaderTypeTag
+          v-if="isLoadingGenresAndTags"
         />
         <SideContent
           class="my-4"
@@ -22,31 +24,40 @@
         <TabMenu
           @tabClickEvent="tabClick"
         />
-        <Loader
-          v-if="isLoading === true"
-        />
-        <PostsFeed
+        <div
           v-if="menu === 'postsMenu'"
-          :posts="posts"
-          :tab="tab"
-          :filteredPosts="filteredPosts"
-          :followedUsersPosts="followedUsersPosts"
-          :keyword="keyword"
-          :tag="tag"
-          :genres="genres"
-          :tags="tags"
-          :genre="genre"
-        />
-        <UsersFeed
+        >
+          <LoaderTypeCard
+            v-if="isLoadingPosts"
+          />
+          <PostsFeed
+            :posts="posts"
+            :tab="tab"
+            :filteredPosts="filteredPosts"
+            :followedUsersPosts="followedUsersPosts"
+            :keyword="keyword"
+            :tag="tag"
+            :genres="genres"
+            :tags="tags"
+            :genre="genre"
+          />
+        </div>
+        <div
           v-if="menu === 'usersMenu'"
-          :users="users"
-          :currentUser="currentUser"
-          :tab="tab"
-          :filteredUsers="filteredUsers"
-          :followedUsers="followedUsers"
-          :keyword="keyword"
-          :genre="genre"
-        />
+        >
+          <LoaderTypeCard
+            v-if="isLoadingUsers"
+          />
+          <UsersFeed
+            :users="users"
+            :currentUser="currentUser"
+            :tab="tab"
+            :filteredUsers="filteredUsers"
+            :followedUsers="followedUsers"
+            :keyword="keyword"
+            :genre="genre"
+          />
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -62,8 +73,9 @@ export default {
   data ({ $store }) {
     return {
       currentUserId: $store.state.user.current.id,
-      isLoading: true,
+      isLoadingPosts: true,
       isLoadingUsers: true,
+      isLoadingGenresAndTags: true,
       menu: 'postsMenu',
       tab: 'New',
       filteredPosts: [],
@@ -106,11 +118,14 @@ export default {
     tabClick (value) {
       this.tab = value
     },
-    stopLoading () {
-      this.isLoading = false
+    stopLoadingPosts () {
+      this.isLoadingPosts = false
     },
     stopLoadingUsers () {
       this.isLoadingUsers = false
+    },
+    stopLoadingGenresAndTags () {
+      this.isLoadingGenresAndTags = false
     },
     filteredPostsChanged (...args) {
       const [filteredPosts, keyword, tag, genre] = args
@@ -130,21 +145,18 @@ export default {
   async fetch () {
     await this.getPosts()
       .then(() => {
+        this.stopLoadingPosts()
         this.getGenres()
-      })
-      .then(() => {
         this.getTags()
       })
       .then(() => {
-        this.stopLoading()
+        this.stopLoadingGenresAndTags()
       })
       .then(() => {
         this.getUsers()
       })
       .then(() => {
         this.stopLoadingUsers()
-      })
-      .then(() => {
         this.getCurrentUser()
       })
   }

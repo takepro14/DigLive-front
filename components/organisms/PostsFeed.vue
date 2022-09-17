@@ -1,7 +1,13 @@
 <template>
-  <div class="mx-auto">
-    <div v-if="newPostsTab">
-      <div v-if="!isSearching">
+  <div
+    class="mx-auto"
+  >
+    <div
+      v-if="newPostsTab"
+    >
+      <div
+        v-if="!isSearching"
+      >
         <Post
           v-for="post in posts"
           :key="post.id"
@@ -12,18 +18,26 @@
           @destroyPostEvent="destroyPost"
         />
       </div>
-      <div v-else-if="isSearching">
-        <div v-if="keyword !== ''">
+      <div
+        v-else-if="isSearching"
+      >
+        <div
+          v-if="keyword !== ''"
+        >
           <h3>
             {{ keyword }} の検索結果 ({{ filteredPosts.length }})
           </h3>
         </div>
-        <div v-else-if="genre !== ''">
+        <div
+          v-else-if="genre !== ''"
+        >
           <h3>
             {{ genre }} の検索結果 ({{ filteredPosts.length }})
           </h3>
         </div>
-        <div v-else-if="tag !== ''">
+        <div
+          v-else-if="tag !== ''"
+        >
           <h3>
             {{ tag }} の検索結果 ({{ filteredPosts.length }})
           </h3>

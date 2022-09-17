@@ -1,10 +1,14 @@
 <template>
-  <div class="text-center">
+  <div
+    class="text-center"
+  >
     <v-dialog
       v-model="dialog"
       width="500"
     >
-      <template #activator="{ on, attrs }">
+      <template
+        #activator="{ on, attrs }"
+      >
         <v-btn
           fixed
           fab
@@ -17,18 +21,24 @@
           v-on="on"
           x-large
         >
-          <v-icon dark>
+          <v-icon
+            dark
+          >
             mdi-plus
           </v-icon>
         </v-btn>
       </template>
 
       <v-card>
-        <v-card-title class="headline header white--text">
+        <v-card-title
+          class="headline header white--text"
+        >
           ライブ映像をシェアする
         </v-card-title>
-        {{ checkedGenres }}
-        <div class="ma-4">
+        <!-- {{ checkedGenres }} -->
+        <div
+          class="ma-4"
+        >
           <v-text-field
             v-model="youtube_url"
             label="YouTube URL"

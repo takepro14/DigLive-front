@@ -1,8 +1,12 @@
 <template>
   <div>
-    <v-chip-group column>
+    <v-chip-group
+      column
+    >
       <v-card-text>
-        <h2 class="text-h6 text-center font-weight-bold">
+        <h2
+          class="text-h6 text-center font-weight-bold"
+        >
           音楽ジャンルで検索
         </h2>
       </v-card-text>

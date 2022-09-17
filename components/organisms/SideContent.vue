@@ -6,15 +6,21 @@
       flat
     >
       <v-toolbar-title>
-        <v-icon class="mr-3">
+        <v-icon
+          class="mr-3"
+        >
           mdi-magnify
         </v-icon>
         検索
       </v-toolbar-title>
     </v-toolbar>
     <v-list>
-      <div class="px-4 py-2">
-        <div v-if="menu === 'postsMenu'">
+      <div
+        class="px-4 py-2"
+      >
+        <div
+          v-if="menu === 'postsMenu'"
+        >
           <SearchFormKeyword
             :keyword.sync="keyword"
             @formKeywordFocusInEvent="formKeywordFocusIn"
@@ -33,7 +39,9 @@
             @formTagUncheckedEvent="formTagUnchecked"
           />
         </div>
-        <div v-if="menu === 'usersMenu'">
+        <div
+          v-if="menu === 'usersMenu'"
+        >
           <SearchFormKeyword
             :keyword.sync="keyword"
             @formKeywordFocusInEvent="formKeywordFocusIn"

@@ -8,7 +8,9 @@
     :color="toast.color"
   >
     {{ toast.msg }}
-    <template #action="{ attrs }">
+    <template
+      #action="{ attrs }"
+    >
       <v-btn
         v-bind="attrs"
         text

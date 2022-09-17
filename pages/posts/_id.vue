@@ -1,7 +1,9 @@
 <template>
   <v-container>
     <Toaster />
-    <HistoryBack class="py-4" />
+    <HistoryBack
+      class="py-4"
+    />
     <v-row>
       <v-col>
         <Post

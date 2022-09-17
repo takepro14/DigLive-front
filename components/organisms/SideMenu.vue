@@ -9,7 +9,9 @@
       flat
     >
       <v-toolbar-title>
-        <v-icon class="mr-3">
+        <v-icon
+          class="mr-3"
+        >
           mdi-menu
         </v-icon>
         Menu

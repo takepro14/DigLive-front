@@ -3,7 +3,9 @@
     <Toaster />
     <v-row>
       <v-col>
-        <HistoryBack class="py-4" />
+        <HistoryBack
+          class="py-4"
+        />
         <v-card
             width="100%"
             class="mx-auto"
@@ -18,9 +20,15 @@
               </v-toolbar-title>
               <v-spacer />
             </v-toolbar>
-            <v-list three-line>
-              <template v-for="notification in notifications">
-                <div :key="notification.id">
+            <v-list
+              three-line
+            >
+              <template
+                v-for="notification in notifications"
+              >
+                <div
+                  :key="notification.id"
+                >
                   <v-list-item>
                     <v-list-item-avatar>
                       <v-img
@@ -41,10 +49,14 @@
                         v-else-if="notification.action === 'like'"
                         @click.stop="movePostPage(notification.post.id)"
                       >
-                        <v-list-item-title class="py-2">
+                        <v-list-item-title
+                          class="py-2"
+                        >
                           {{ notification.notiVisitor }} {{ notification.notiAction }}
                         </v-list-item-title>
-                        <v-list-item-subtitle class="py-2">
+                        <v-list-item-subtitle
+                          class="py-2"
+                        >
                           {{ notification.post.content }}
                         </v-list-item-subtitle>
                       </div>
@@ -52,13 +64,19 @@
                         v-else-if="notification.action === 'comment'"
                         @click.stop="movePostPage(notification.post.id)"
                       >
-                        <v-list-item-title class="py-2">
+                        <v-list-item-title
+                          class="py-2"
+                        >
                           {{ notification.notiVisitor }} {{ notification.notiAction }}
                         </v-list-item-title>
-                        <v-list-item-subtitle class="py-2">
+                        <v-list-item-subtitle
+                          class="py-2"
+                        >
                           {{ notification.notiComment[0].comment }}
                         </v-list-item-subtitle>
-                        <v-list-item-subtitle class="py-2">
+                        <v-list-item-subtitle
+                          class="py-2"
+                        >
                           {{ notification.post.content }}
                         </v-list-item-subtitle>
                       </div>

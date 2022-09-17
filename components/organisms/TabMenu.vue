@@ -13,7 +13,9 @@
       >
         フィード
       </v-toolbar-title>
-      <template #extension>
+      <template
+        #extension
+      >
         <v-tabs
           centered
           slider-color="slider"

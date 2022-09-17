@@ -1,6 +1,8 @@
 <template>
   <v-container>
-    <HistoryBack class="py-4" />
+    <HistoryBack
+      class="py-4"
+    />
     <v-row>
       <v-col>
         <User
@@ -26,7 +28,9 @@
           >
             {{ user.name }} さんの活動
           </v-toolbar-title>
-          <template #extension>
+          <template
+            #extension
+          >
             <v-tabs
               centered
               slider-color="slider"

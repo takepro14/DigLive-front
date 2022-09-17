@@ -1,5 +1,7 @@
 <template>
-  <div class="mb-16">
+  <div
+    class="mb-16"
+  >
     <v-app-bar
       fixed
       fab

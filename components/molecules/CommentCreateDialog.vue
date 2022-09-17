@@ -6,7 +6,9 @@
       v-model="dialog"
       width="500"
     >
-      <template #activator="{ on, attrs }">
+      <template
+        #activator="{ on, attrs }"
+      >
         <v-card
           color="button"
           dark
@@ -26,10 +28,14 @@
       </template>
 
       <v-card>
-        <v-card-title class="headline header white--text">
+        <v-card-title
+          class="headline header white--text"
+        >
           投稿にコメントする
         </v-card-title>
-        <div class="ma-4">
+        <div
+          class="ma-4"
+        >
           <v-textarea
             v-model="comment"
             :rules="rules"
