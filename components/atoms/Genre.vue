@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <v-chip
-      link
-      filter
-      label
-      color="genre"
-      @click="toggleGenre"
-    >
-      {{ genre.genre_name }}
-    </v-chip>
-  </div>
+  <v-chip
+    link
+    filter
+    label
+    color="genre"
+    @click="toggleGenre"
+  >
+    {{ genre.genre_name }}
+  </v-chip>
 </template>
 
 <script>
@@ -28,11 +26,12 @@ export default {
   methods: {
     toggleGenre () {
       this.isChecked = !this.isChecked
-      if (this.isChecked === true) {
-        this.$emit('formGenreCheckedEvent', this.genre.genre_name)
-      } else {
-        this.$emit('formGenreUncheckedEvent', this.genre.genre_name)
-      }
+      this.isChecked
+        ? this.$emit('formGenreCheckedEvent', this.genre.genre_name)
+        : this.$emit('formGenreUncheckedEvent', this.genre.genre_name)
+    },
+    resetFormGenre () {
+      this.isChecked = false
     }
   }
 }

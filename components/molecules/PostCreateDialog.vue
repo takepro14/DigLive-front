@@ -50,6 +50,7 @@
               :genres="genres"
               @formGenreCheckedEvent="formGenreChecked"
               @formGenreUncheckedEvent="formGenreUnchecked"
+              ref="child"
             />
           </v-card-text>
           <v-card-text>
@@ -123,9 +124,6 @@ export default {
       })
       this.dialog = false
       this.$vuetify.goTo(0)
-      this.resetForm()
-    },
-    resetForm () {
       this.content = ''
       this.checkedGenres = []
     }

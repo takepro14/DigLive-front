@@ -6,7 +6,7 @@
       offset-y
       max-width="200"
     >
-      <template v-slot:activator="{ on }">
+      <template #activator="{ on }">
         <v-btn
           icon
           v-on="on"

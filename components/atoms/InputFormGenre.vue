@@ -22,6 +22,7 @@ export default {
     genres: {
       type: Array
     },
+    // settingsページ用
     checkedGenres: {
       type: Array,
       default: () => []
