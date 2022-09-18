@@ -2,6 +2,8 @@
   <v-card
     class="my-1 mx-1"
     width="100%"
+    height="100%"
+    style="position: relative"
   >
     <v-container>
       <v-row>
@@ -42,7 +44,7 @@
       </v-row>
       <v-row>
         <v-spacer />
-        <v-col>
+        <v-col style="position: absolute;bottom: 0;right: 0;">
           {{ $my.format(comment.created_at) }}
         </v-col>
       </v-row>

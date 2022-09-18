@@ -43,7 +43,7 @@
         </v-col>
       </v-row>
 
-      <!-- <v-row
+      <v-row
         v-if="hasYoutubeUrl"
         justify="center"
       >
@@ -52,7 +52,7 @@
             :youtube_url="post.youtube_url"
           />
         </v-col>
-      </v-row> -->
+      </v-row>
 
       <v-row>
         <v-col>
