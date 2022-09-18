@@ -110,15 +110,15 @@ export default {
       tags: 'modules/tag/tags',
       currentUser: 'modules/user/currentUser'
     }),
-    followedUsersPosts () {
-      return this.posts.filter((post) => {
-        return post.user.passive_relationships.map(rel => rel.follower_id).includes(this.currentUserId)
-      })
-    },
     followedUsers () {
       return this.users.filter((user) => {
         return this.currentUser.active_relationships.map(rel => rel.followed_id).includes(user.id)
       })
+    },
+    followedUsersPosts () {
+      return this.followedUsers.map((followedUser) => {
+        return followedUser.posts
+      }).flat()
     }
   },
   methods: {
