@@ -3,61 +3,79 @@
     <Toaster />
     <v-row>
       <v-col cols="12" sm="12" md="4" lg="4" xl="4">
-        <SideMenu
-          @menuClickEvent="menuClick"
-        />
-        <SideContent
-          class="my-4"
-          :posts="posts"
-          :users="users"
-          :genres="genres"
-          :tags="tags"
-          :menu="menu"
-          @filteredPostsChangedEvent="filteredPostsChanged"
-          @filteredUsersChangedEvent="filteredUsersChanged"
-        />
-        <LoaderTypeTag
-          v-if="isLoadingGenresAndTags"
-          :repeat="menu === 'postsMenu' ? 2 : 1"
-        />
-      </v-col>
-      <v-col cols="12" sm="12" md="8" lg="8" xl="8">
-        <TabMenu
-          @tabClickEvent="tabClick"
-        />
         <div
-          v-if="menu === 'postsMenu'"
+          v-if="isLoading"
         >
-          <LoaderTypeCard
-            v-if="isLoadingPosts"
+          <LoaderTypecCrd
+            :repeat="1"
           />
-          <PostsFeed
-            :posts="posts"
-            :tab="tab"
-            :filteredPosts="filteredPosts"
-            :followedUsersPosts="followedUsersPosts"
-            :keyword="keyword"
-            :tag="tag"
-            :genres="genres"
-            :tags="tags"
-            :genre="genre"
+          <LoaderTypeTag
+            :repeat="2"
           />
         </div>
         <div
-          v-if="menu === 'usersMenu'"
+          v-else
+        >
+          <SideMenu
+            @menuClickEvent="menuClick"
+          />
+          <SideContent
+            class="my-4"
+            :posts="posts"
+            :users="users"
+            :genres="genres"
+            :tags="tags"
+            :menu="menu"
+            @filteredPostsChangedEvent="filteredPostsChanged"
+            @filteredUsersChangedEvent="filteredUsersChanged"
+          />
+        </div>
+      </v-col>
+      <v-col cols="12" sm="12" md="8" lg="8" xl="8">
+        <div
+          v-if="isLoading"
         >
           <LoaderTypeCard
-            v-if="isLoadingUsers"
+            :repeat="5"
           />
-          <UsersFeed
-            :users="users"
-            :currentUser="currentUser"
-            :tab="tab"
-            :filteredUsers="filteredUsers"
-            :followedUsers="followedUsers"
-            :keyword="keyword"
-            :genre="genre"
-          />
+        </div>
+        <div
+          v-else
+        >
+        <TabMenu
+          @tabClickEvent="tabClick"
+        />
+          <div
+            v-if="menu === 'postsMenu'"
+          >
+            <PostsFeed
+              :posts="posts"
+              :tab="tab"
+              :filteredPosts="filteredPosts"
+              :followedUsersPosts="followedUsersPosts"
+              :keyword="keyword"
+              :tag="tag"
+              :genres="genres"
+              :tags="tags"
+              :genre="genre"
+            />
+          </div>
+          <div
+            v-if="menu === 'usersMenu'"
+          >
+            <LoaderTypeCard
+              v-if="isLoadingUsers"
+            />
+            <UsersFeed
+              :users="users"
+              :currentUser="currentUser"
+              :tab="tab"
+              :filteredUsers="filteredUsers"
+              :followedUsers="followedUsers"
+              :keyword="keyword"
+              :genre="genre"
+            />
+          </div>
         </div>
       </v-col>
     </v-row>
@@ -74,9 +92,7 @@ export default {
   data ({ $store }) {
     return {
       currentUserId: $store.state.user.current.id,
-      isLoadingPosts: true,
-      isLoadingUsers: true,
-      isLoadingGenresAndTags: true,
+      isLoading: true,
       menu: 'postsMenu',
       tab: 'New',
       filteredPosts: [],
@@ -119,14 +135,8 @@ export default {
     tabClick (value) {
       this.tab = value
     },
-    stopLoadingPosts () {
-      this.isLoadingPosts = false
-    },
-    stopLoadingUsers () {
-      this.isLoadingUsers = false
-    },
-    stopLoadingGenresAndTags () {
-      this.isLoadingGenresAndTags = false
+    stopLoading () {
+      this.isLoading = false
     },
     filteredPostsChanged (...args) {
       const [filteredPosts, keyword, tag, genre] = args
@@ -146,19 +156,19 @@ export default {
   async fetch () {
     await this.getPosts()
       .then(() => {
-        this.stopLoadingPosts()
         this.getGenres()
-        this.getTags()
       })
       .then(() => {
-        this.stopLoadingGenresAndTags()
+        this.getTags()
       })
       .then(() => {
         this.getUsers()
       })
       .then(() => {
-        this.stopLoadingUsers()
         this.getCurrentUser()
+      })
+      .then(() => {
+        this.stopLoading()
       })
   }
 }

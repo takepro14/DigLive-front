@@ -29,11 +29,11 @@
 </template>
 
 <script>
-export default {
+export default ({
   props: {
     repeat: {
       type: Number
     }
   }
-}
+})
 </script>
