@@ -37,10 +37,12 @@ export const mutations = {
       })
       state.users[idx].isFollowed = true
       state.users[idx].passive_relationships.push(payload.relObj)
+      state.currentUser.active_relationships.push(payload.relObj)
     // ユーザ詳細画面用
     } else if (payload.route.includes('users')) {
       state.user.isFollowed = true
       state.user.passive_relationships.push(payload.relObj)
+      state.currentUser.active_relationships.push(payload.relObj)
     }
   },
   reloadUserByUnfollow (state, payload) {
@@ -54,6 +56,10 @@ export const mutations = {
         return passiveRelationship.follower_id !== payload.currentUserId
       })
       state.users[idx].passive_relationships = otherFollowers
+      const otherFollowing = state.currentUser.active_relationships.filter((activeRelationship) => {
+        return activeRelationship.followed_id !== payload.userId
+      })
+      state.currentUser.active_relationships = otherFollowing
     // ユーザ詳細画面用
     } else if (payload.route.includes('users')) {
       state.user.isFollowed = false
@@ -61,6 +67,10 @@ export const mutations = {
         return passiveRelationship.follower_id !== payload.currentUserId
       })
       state.user.passive_relationships = otherFollowers
+      const otherFollowing = state.currentUser.active_relationships.filter((activeRelationship) => {
+        return activeRelationship.followed_id !== payload.userId
+      })
+      state.currentUser.active_relationships = otherFollowing
     }
   },
   reloadUserBySetProfile (state, payload) {
