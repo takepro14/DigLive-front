@@ -10,9 +10,7 @@
         cols="12"
         class="py-0"
       >
-        <div
-          class="text-center text-body-2"
-        >
+        <div class="text-center text-body-2">
           &copy;{{ copyRightYear }}
           <strong>{{ appName }}</strong>
         </div>

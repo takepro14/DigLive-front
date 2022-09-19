@@ -53,9 +53,7 @@
       class="overflow-y-auto"
       max-height="600"
     >
-      <v-responsive
-        height="1500"
-      />
+      <v-responsive height="1500" />
     </v-responsive>
   </div>
 </template>

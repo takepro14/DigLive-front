@@ -35,9 +35,7 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-card-text
-            class="text-h6"
-          >
+          <v-card-text class="text-h6">
             {{ comment.comment }}
           </v-card-text>
         </v-col>

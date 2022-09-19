@@ -8,9 +8,7 @@
       dark
       flat
     >
-      <template
-        #extension
-      >
+      <template #extension>
         <v-tabs
           centered
           slider-color="slider"

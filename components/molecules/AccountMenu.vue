@@ -6,23 +6,17 @@
       offset-y
       max-width="200"
     >
-      <template
-        #activator="{ on }"
-      >
+      <template #activator="{ on }">
         <v-btn
           icon
           v-on="on"
         >
-          <v-icon
-            large
-          >
+          <v-icon large>
             mdi-account-circle
           </v-icon>
         </v-btn>
       </template>
-      <v-list
-        dense
-      >
+      <v-list dense>
         <v-subheader>
           ログイン中のユーザー
         </v-subheader>
@@ -37,9 +31,7 @@
         <v-subheader>
           アカウント
         </v-subheader>
-        <template
-          v-for="(menu, i) in menus"
-        >
+        <template v-for="(menu, i) in menus">
           <v-divider
             v-if="menu.divider"
             :key="`menu-divider-${i}`"
@@ -48,9 +40,7 @@
             :key="`menu-list-${i}`"
             :to="{ name: menu.name }"
           >
-            <v-list-item-icon
-              class="mr-2"
-            >
+            <v-list-item-icon class="mr-2">
               <v-icon
                 size="22"
                 v-text="menu.icon"

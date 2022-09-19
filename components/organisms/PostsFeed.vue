@@ -1,52 +1,82 @@
 <template>
-  <div class="mx-auto" >
-    <div v-if="newPostsTab" >
-      <Post
-        v-for="post in posts"
-        :key="post.id"
-        :post="post"
-        :currentUserId="currentUserId"
-        @likePostEvent="likePost"
-        @unLikePostEvent="unLikePost"
-        @destroyPostEvent="destroyPost"
-      />
+  <div class="mx-auto">
+    <div v-if="newPostsTab">
+      <v-row>
+        <v-col
+          v-for="post in posts"
+          :key="post.id"
+          cols="12"
+          sm="12"
+          md="12"
+          lg="6"
+          xl="4"
+        >
+          <Post
+            :post="post"
+            :currentUserId="currentUserId"
+            @likePostEvent="likePost"
+            @unLikePostEvent="unLikePost"
+            @destroyPostEvent="destroyPost"
+          />
+      </v-col>
+    </v-row>
     </div>
-    <div v-else-if="followedPostsTab" >
-      <Post
-        v-for="post in followedPosts"
-        :key="post.id"
-        :post="post"
-        :currentUserId="currentUserId"
-        @likePostEvent="likePost"
-        @unLikePostEvent="unLikePost"
-        @destroyPostEvent="destroyPost"
-      />
+    <div v-else-if="followedPostsTab">
+      <v-row>
+        <v-col
+          v-for="post in followedPosts"
+          :key="post.id"
+          cols="12"
+          sm="12"
+          md="12"
+          lg="6"
+          xl="4"
+        >
+          <Post
+            :post="post"
+            :currentUserId="currentUserId"
+            @likePostEvent="likePost"
+            @unLikePostEvent="unLikePost"
+            @destroyPostEvent="destroyPost"
+          />
+        </v-col>
+      </v-row>
     </div>
-    <div v-else-if="filteredPostsTab" >
+    <div v-else-if="filteredPostsTab">
       <div v-if="keyword !== ''" >
         <h3>
           {{ keyword }} の検索結果 ({{ filteredPosts.length }})
         </h3>
       </div>
-      <div v-else-if="genre !== ''" >
+      <div v-else-if="genre !== ''">
         <h3>
           {{ genre }} の検索結果 ({{ filteredPosts.length }})
         </h3>
       </div>
-      <div v-else-if="tag !== ''" >
+      <div v-else-if="tag !== ''">
         <h3>
           {{ tag }} の検索結果 ({{ filteredPosts.length }})
         </h3>
       </div>
-      <Post
-        v-for="post in filteredPosts"
-        :key="post.id"
-        :post="post"
-        :currentUserId="currentUserId"
-        @likePostEvent="likePost"
-        @unLikePostEvent="unLikePost"
-        @destroyPostEvent="destroyPost"
-      />
+      <v-row>
+        <v-col
+          v-for="post in filteredPosts"
+          :key="post.id"
+          cols="12"
+          sm="12"
+          md="12"
+          lg="6"
+          xl="4"
+        >
+          <Post
+            :post="post"
+            :currentUserId="currentUserId"
+            @likePostEvent="likePost"
+            @unLikePostEvent="unLikePost"
+            @destroyPostEvent="destroyPost"
+          />
+        </v-col>
+      </v-row>
     </div>
     <PostCreateDialog
       :genres="genres"

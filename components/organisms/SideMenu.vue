@@ -1,26 +1,19 @@
 <template>
-  <v-card
-    class="mx-auto"
-    tile
-  >
+  <v-card>
     <v-toolbar
       color="header"
       dark
       flat
     >
       <v-toolbar-title>
-        <v-icon
-          class="mr-3"
-        >
+        <v-icon class="mr-3">
           mdi-menu
         </v-icon>
         Menu
       </v-toolbar-title>
     </v-toolbar>
     <v-list>
-      <v-list-item-group
-        color="primary"
-      >
+      <v-list-item-group color="header">
         <v-list-item
           v-for="menu in menus"
           :key="menu.id"

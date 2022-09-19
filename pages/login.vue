@@ -1,18 +1,12 @@
 <template>
   <InputForm>
-    <template
-      #user-form-card-content
-    >
+    <template #user-form-card-content>
       <v-form
         ref="form"
         v-model="isValid"
       >
-        <InputFormEmail
-          :email.sync="params.auth.email"
-        />
-        <InputFormPassword
-          :password.sync="params.auth.password"
-        />
+        <InputFormEmail :email.sync="params.auth.email" />
+        <InputFormPassword :password.sync="params.auth.password" />
         <v-card-actions>
           <nuxt-link
             to="#"
@@ -21,9 +15,7 @@
             パスワードを忘れた？
           </nuxt-link>
         </v-card-actions>
-        <v-card-text
-          class="px-0"
-        >
+        <v-card-text class="px-0">
           <v-btn
             :disabled="!isValid || loading"
             :loading="loading"

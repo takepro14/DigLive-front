@@ -1,8 +1,6 @@
 <template>
   <InputForm>
-    <template
-      #user-form-card-content
-    >
+    <template #user-form-card-content>
       <v-form
         ref="form"
         v-model="isValid"

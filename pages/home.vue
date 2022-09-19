@@ -1,5 +1,8 @@
 <template>
-  <v-container>
+  <v-container
+    fluid
+    class="pa-8"
+  >
     <Toaster />
     <v-row>
       <v-col cols="12" sm="12" md="4" lg="4" xl="4">

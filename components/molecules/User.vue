@@ -2,6 +2,7 @@
   <v-card
     class="mx-auto px-10"
     width="100%"
+    height="100%"
     @click="moveUserPage"
   >
     <Toaster />
@@ -10,40 +11,26 @@
         align="center"
         class="py-2"
       >
-        <v-col
-          class="text-center"
-        >
-          <v-list-item-title
-            class="text-h5"
-          >
+        <v-col class="text-center">
+          <v-list-item-title class="text-h5" >
             {{ user.name }}
           </v-list-item-title>
         </v-col>
         <v-spacer />
         <v-spacer />
-        <v-col
-          class="text-center"
-        >
+        <v-col class="text-center">
           <v-avatar
             size="100"
             tile
           >
-            <v-img
-              :src="avatarUrl"
-            />
+            <v-img :src="avatarUrl" />
           </v-avatar>
         </v-col>
       </v-row>
-      <v-row
-        class="py-2"
-      >
+      <v-row class="py-2" >
         <v-spacer />
-        <div
-          v-if="!isCurrentUser"
-        >
-          <div
-            v-if="isFollowedTrue"
-          >
+        <div v-if="!isCurrentUser">
+          <div v-if="isFollowedTrue">
             <v-btn
               outlined
               rounded
@@ -53,9 +40,7 @@
               フォロー中
             </v-btn>
           </div>
-          <div
-            v-else-if="isFollowedFalse"
-          >
+          <div v-else-if="isFollowedFalse">
             <v-btn
               outlined
               rounded
@@ -90,16 +75,12 @@
         align="center"
         justify="end"
       >
-        <div
-          class="ml-3 mr-1"
-        >
+        <div class="ml-3 mr-1">
           <v-card-text>
             {{ followingLength }} フォロー
           </v-card-text>
         </div>
-        <div
-          class="ml-3 mr-1"
-        >
+        <div class="ml-3 mr-1">
           <v-card-text>
             {{ followerLength }} フォロワー
           </v-card-text>

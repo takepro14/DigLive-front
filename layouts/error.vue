@@ -1,31 +1,19 @@
 <template>
-  <v-container
-    fill-height
-  >
+  <v-container fill-height>
     <v-row>
-      <v-col
-        cols="12"
-      >
-        <v-card-title
-          class="justify-center"
-        >
+      <v-col cols="12">
+        <v-card-title class="justify-center">
           {{ error.statusCode }}
         </v-card-title>
-        <v-card-text
-          class="text-center"
-        >
+        <v-card-text class="text-center">
           {{ errorMessage }}
         </v-card-text>
-        <v-card-actions
-          class="justify-center"
-        >
+        <v-card-actions class="justify-center">
           <v-icon>
             mdi-emoticon-sick-outline
           </v-icon>
         </v-card-actions>
-        <v-card-actions
-          class="justify-center"
-        >
+        <v-card-actions class="justify-center">
           <v-btn
             icon
             x-large

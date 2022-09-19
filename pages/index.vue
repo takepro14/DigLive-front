@@ -1,7 +1,5 @@
 <template>
-  <v-container
-    class="my-16"
-  >
+  <v-container class="my-16">
     <v-row>
       <v-col>
         <NotLoggedInHeader />

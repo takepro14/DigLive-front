@@ -1,11 +1,7 @@
 <template>
-  <v-container
-    class="pa-2"
-  >
+  <v-container class="pa-2">
     <Toaster />
-    <HistoryBack
-      class="py-4"
-    />
+    <HistoryBack class="py-4" />
     <v-row>
       <v-col>
         <v-toolbar
@@ -13,14 +9,10 @@
           dark
           flat
         >
-          <v-toolbar-title
-            class="mx-auto"
-          >
+          <v-toolbar-title class="mx-auto">
             設定
           </v-toolbar-title>
-          <template
-            #extension
-          >
+          <template #extension>
             <v-tabs
               centered
               slider-color="slider"
@@ -36,9 +28,7 @@
             </v-tabs>
           </template>
         </v-toolbar>
-        <v-card
-          v-if="menu === 'profileTab'"
-        >
+        <v-card v-if="menu === 'profileTab'">
           <v-container>
             <v-row>
               <v-col>
@@ -46,12 +36,8 @@
                   ref="form"
                   v-model="isValid"
                 >
-                  <v-col
-                    class="text-center"
-                  >
-                    <v-list-item-title
-                      class="font-weight-bold"
-                    >
+                  <v-col class="text-center">
+                    <v-list-item-title class="font-weight-bold">
                       プロフィール画像
                     </v-list-item-title>
                     <v-avatar
@@ -64,12 +50,8 @@
                       />
                     </v-avatar>
                   </v-col>
-                  <InputFormName
-                    :name.sync="params.user.name"
-                  />
-                  <InputFormProfile
-                    :profile.sync="params.user.profile"
-                  />
+                  <InputFormName :name.sync="params.user.name" />
+                  <InputFormProfile :profile.sync="params.user.profile" />
                   <v-file-input
                     label="プロフィール画像を選択"
                     v-model="params.user.avatar"
@@ -79,9 +61,7 @@
                   <v-card-text>
                     好きな音楽ジャンル(複数選択可)
                   </v-card-text>
-                  <v-card-text
-                    class="text-center"
-                  >
+                  <v-card-text class="text-center">
                     {{ dispCheckedGenres }}
                   </v-card-text>
                   <v-card-text>
@@ -96,9 +76,7 @@
                     v-model="dialog"
                     width="500"
                   >
-                    <template
-                      #activator="{ on, attrs }"
-                    >
+                    <template #activator="{ on, attrs }">
                       <v-btn
                         v-bind="attrs"
                         v-on="on"
@@ -112,46 +90,34 @@
                       </v-btn>
                     </template>
                     <v-card>
-                      <v-card-title
-                        class="headline header white--text"
-                      >
+                      <v-card-title class="headline header white--text">
                         プロフィールを変更する
                       </v-card-title>
                       <div class="ma-4">
                         <v-list-item>
                           <v-list-item-content>
-                            <v-list-item-title
-                              class="py-4"
-                            >
+                            <v-list-item-title class="py-4">
                               以下の内容で変更します。
                             </v-list-item-title>
-                            <v-list-item-title
-                              class="pt-6"
-                            >
+                            <v-list-item-title class="pt-6">
                               ユーザー名
                             </v-list-item-title>
                             <v-list-item-subtitle>
                               {{ params.user.name }}
                             </v-list-item-subtitle>
-                            <v-list-item-title
-                              class="pt-6"
-                            >
+                            <v-list-item-title class="pt-6">
                               プロフィール
                             </v-list-item-title>
                             <v-list-item-subtitle>
                               {{ params.user.profile }}
                             </v-list-item-subtitle>
-                            <v-list-item-title
-                              class="pt-6"
-                            >
+                            <v-list-item-title class="pt-6">
                               プロフィール画像
                             </v-list-item-title>
                             <v-list-item-subtitle>
                               {{ params.user.avatar }}
                             </v-list-item-subtitle>
-                            <v-list-item-title
-                              class="pt-6"
-                            >
+                            <v-list-item-title class="pt-6">
                               好きな音楽ジャンル
                             </v-list-item-title>
                             <v-list-item-subtitle>
@@ -189,9 +155,7 @@
             </v-row>
           </v-container>
         </v-card>
-        <v-card
-          v-else-if="menu === 'accountTab'"
-        >
+        <v-card v-else-if="menu === 'accountTab'">
           <v-container>
             <v-row>
               <v-col>
@@ -199,12 +163,8 @@
                   ref="form"
                   v-model="isValid"
                 >
-                  <InputFormEmail
-                    :email.sync="params.user.email"
-                  />
-                  <InputFormPassword
-                    :password.sync="params.user.password"
-                  />
+                  <InputFormEmail :email.sync="params.user.email" />
+                  <InputFormPassword :password.sync="params.user.password" />
                 </v-form>
               </v-col>
             </v-row>

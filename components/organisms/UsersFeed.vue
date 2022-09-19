@@ -1,10 +1,16 @@
 <template>
   <div class="mx-auto" >
     <div v-if="newUsersTab" >
-      <div
-        v-for="user in users"
-        :key="user.id"
-      >
+      <v-row>
+        <v-col
+          v-for="user in users"
+          :key="user.id"
+          cols="12"
+          sm="12"
+          md="12"
+          lg="6"
+          xl="4"
+        >
         <User
           v-if="user.id !== currentUser.id"
           :user="user"
@@ -13,22 +19,30 @@
           @followEvent="follow"
           @unfollowEvent="unfollow"
         />
-      </div>
+      </v-col>
+    </v-row>
     </div>
     <div v-else-if="followedUsersTab" >
-      <div
-        v-for="user in followedUsers"
-        :key="user.id"
-      >
-        <User
-          v-if="user.id !== currentUser.id"
-          :user="user"
-          :currentUser="currentUser"
-          class="my-6"
-          @followEvent="follow"
-          @unfollowEvent="unfollow"
-        />
-      </div>
+      <v-row>
+        <v-col
+          v-for="user in followedUsers"
+          :key="user.id"
+          cols="12"
+          sm="12"
+          md="12"
+          lg="6"
+          xl="4"
+        >
+          <User
+            v-if="user.id !== currentUser.id"
+            :user="user"
+            :currentUser="currentUser"
+            class="my-6"
+            @followEvent="follow"
+            @unfollowEvent="unfollow"
+          />
+        </v-col>
+      </v-row>
     </div>
     <div v-else-if="filteredUsersTab" >
       <div v-if="keyword !== ''" >
@@ -41,19 +55,26 @@
           {{ genre }} の検索結果 ({{ filteredUsers.length }})
         </h3>
       </div>
-      <div
-        v-for="user in filteredUsers"
-        :key="user.id"
-      >
-        <User
-          v-if="user.id !== currentUser.id"
-          :user="user"
-          :currentUser="currentUser"
-          class="my-6"
-          @followEvent="follow"
-          @unfollowEvent="unfollow"
-        />
-      </div>
+      <v-row>
+        <v-col
+          v-for="user in filteredUsers"
+          :key="user.id"
+          cols="12"
+          sm="12"
+          md="12"
+          lg="6"
+          xl="4"
+        >
+          <User
+            v-if="user.id !== currentUser.id"
+            :user="user"
+            :currentUser="currentUser"
+            class="my-6"
+            @followEvent="follow"
+            @unfollowEvent="unfollow"
+          />
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>

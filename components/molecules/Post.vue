@@ -2,6 +2,7 @@
   <v-card
     class="mx-auto my-4"
     width="100%"
+    height="100%"
     hover
     @click="movePostPage"
   >
@@ -20,14 +21,10 @@
               />
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title
-                v-if="$route.fullPath === '/home'"
-              >
+              <v-list-item-title v-if="$route.fullPath === '/home'">
                 {{ post.user.name }}・{{ post.created_at | moment }}
               </v-list-item-title>
-              <v-list-item-title
-                v-else
-              >
+              <v-list-item-title v-else>
                 {{ post.user.name }}
               </v-list-item-title>
             </v-list-item-content>
@@ -43,7 +40,7 @@
         </v-col>
       </v-row>
 
-      <!-- <v-row
+      <v-row
         v-if="hasYoutubeUrl"
         justify="center"
       >
@@ -52,22 +49,16 @@
             :youtube_url="post.youtube_url"
           />
         </v-col>
-      </v-row> -->
+      </v-row>
 
       <v-row>
         <v-col>
-          <v-card-text
-            class="text-h5 py-8"
-          >
-            <div
-              class="text--primary"
-            >
+          <v-card-text class="text-h5 py-8">
+            <div class="text--primary">
               {{ post.content }}
             </div>
           </v-card-text>
-          <div
-            class="px-4"
-          >
+          <div class="px-4">
             <v-chip-group
               active-class="primary--text"
               column
@@ -101,18 +92,12 @@
               align="center"
               justify="end"
             >
-              <div
-                v-if="$route.fullPath !== '/home'"
-              >
-                <v-card-text
-                  class="ml-3 mr-1"
-                >
+              <div v-if="$route.fullPath !== '/home'">
+                <v-card-text class="ml-3 mr-1">
                   {{ $my.format(post.created_at) }}
                 </v-card-text>
               </div>
-              <div
-                v-if="post.isLiked"
-              >
+              <div v-if="post.isLiked">
                 <v-icon
                   class="ml-3 mr-1"
                   @click.stop="unLikePost({ post, route: $route.fullPath })"
@@ -121,9 +106,7 @@
                   mdi-heart
                 </v-icon>
               </div>
-              <div
-                v-else
-              >
+              <div v-else>
                 <v-icon
                   class="ml-3 mr-1"
                   large
@@ -143,9 +126,7 @@
                   mdi-comment-processing-outline
                 </v-icon>
               </div>
-              <span
-                class="subheading"
-              >
+              <span class="subheading">
                 {{ commentLength }}
               </span>
             </v-row>

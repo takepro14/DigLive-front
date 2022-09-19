@@ -1,9 +1,7 @@
 <template>
   <v-toolbar-title>
     <v-row>
-      <v-col
-        class="d-flex"
-      >
+      <v-col class="d-flex">
         <!-- <v-img
           src="Logo.png"
           class="mr-1"
@@ -11,9 +9,7 @@
           width="40px"
           contain
         /> -->
-        <span
-          class="white--text font-weight-bold"
-        >
+        <span class="white--text font-weight-bold">
           {{ appName }}
         </span>
       </v-col>

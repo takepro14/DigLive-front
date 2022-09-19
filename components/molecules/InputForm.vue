@@ -1,7 +1,5 @@
 <template>
-  <v-container
-    fluid
-  >
+  <v-container fluid>
     <v-row
       align="center"
       justify="center"
@@ -10,9 +8,7 @@
         cols="12"
         class="my-8 text-center"
       >
-        <h1
-          class="text-h5 font-weight-bold"
-        >
+        <h1 class="text-h5 font-weight-bold">
           {{ appName }}に{{ pageTitle }}
         </h1>
       </v-col>
@@ -22,9 +18,7 @@
         min-width="400px"
         color="transparent"
       >
-        <slot
-          name="user-form-card-content"
-        />
+        <slot name="user-form-card-content" />
       </v-card>
     </v-row>
   </v-container>
