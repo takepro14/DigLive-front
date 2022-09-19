@@ -6,8 +6,10 @@
       <v-col>
         <Post
           :post="post"
+          :currentUserId="currentUserId"
           @likePostEvent="likePost"
           @unLikePostEvent="unLikePost"
+          @destroyPostEvent="destroyPost"
         />
       </v-col>
     </v-row>
@@ -68,6 +70,7 @@ export default {
   methods: {
     ...mapActions({
       emitSetPostClear: 'modules/post/emitSetPostClear',
+      destroyPost: 'modules/post/destroyPost',
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost',
       createComment: 'modules/post/createComment',

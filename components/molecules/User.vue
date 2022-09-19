@@ -4,6 +4,7 @@
     width="100%"
     height="100%"
     @click="moveUserPage"
+    style="position: relative;"
   >
     <Toaster />
     <v-container>
@@ -74,6 +75,7 @@
         class="py-2 d-flex"
         align="center"
         justify="end"
+        style="position: absolute;bottom: 10px;right: 10px;"
       >
         <div class="ml-3 mr-1">
           <v-card-text>

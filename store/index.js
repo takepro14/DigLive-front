@@ -32,9 +32,6 @@ export const state = () => ({
 export const getters = {}
 
 export const mutations = {
-  // setTagList (state, payload) {
-  //   state.tag.list = payload
-  // },
   setCurrentUser (state, payload) {
     state.user.current = payload
   },

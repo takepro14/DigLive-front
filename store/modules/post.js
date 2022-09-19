@@ -37,7 +37,10 @@ export const mutations = {
   //   state.posts.push(payload)
   // },
   reloadPostsByDestroyPost (state, payload) {
-    state.posts = state.posts.filter(post => post.id !== payload)
+    const idx = state.posts.findIndex((post) => {
+      return post.id === payload
+    })
+    state.posts.splice(idx, 1)
   },
   reloadPostByLikePost (state, payload) {
     if (payload.route.includes('home')) {
@@ -175,8 +178,12 @@ export const actions = {
       .then(() => {
         this.dispatch('getToast', {
           msg: '投稿を削除しました',
-          color: 'prymary'
+          color: 'prymary',
+          timeout: 10000
         })
+      })
+      .then(() => {
+        this.app.router.push('/home')
       })
   },
   async emitReloadComments ({ commit }, postId) {

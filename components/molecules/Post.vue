@@ -40,7 +40,7 @@
         </v-col>
       </v-row>
 
-      <v-row
+      <!-- <v-row
         v-if="hasYoutubeUrl"
         justify="center"
       >
@@ -49,11 +49,11 @@
             :youtube_url="post.youtube_url"
           />
         </v-col>
-      </v-row>
+      </v-row> -->
 
       <v-row>
         <v-col>
-          <v-card-text class="text-h5 py-8">
+          <v-card-text class="text-h5 py-8 flex-grow-1">
             <div class="text--primary">
               {{ post.content }}
             </div>
