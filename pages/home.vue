@@ -119,9 +119,10 @@ export default {
       })
     },
     followedPosts () {
-      return this.followedUsers.map((followedUser) => {
-        return followedUser.posts
-      }).flat()
+      const followedUsersIds = this.followedUsers.map((user) => { return user.id })
+      return this.posts.filter((post) => {
+        return followedUsersIds.includes(post.user.id)
+      })
     }
   },
   methods: {
