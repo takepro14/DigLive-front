@@ -16,21 +16,16 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col
-      >
+      <v-col>
         <v-toolbar
           color="header"
           dark
           flat
         >
-          <v-toolbar-title
-            class="mx-auto"
-          >
+          <v-toolbar-title class="mx-auto">
             {{ user.name }} さんの活動
           </v-toolbar-title>
-          <template
-            #extension
-          >
+          <template #extension>
             <v-tabs
               centered
               slider-color="slider"
@@ -46,20 +41,16 @@
             </v-tabs>
           </template>
         </v-toolbar>
-        <div
-          v-if="menu === 'postsTab'"
-        >
+        <div v-if="menu === 'postsTab'">
           <Post
-            v-for="post in user.posts"
+            v-for="post in userPosts"
             :key="post.id"
             :post="post"
             @likePostEvent="likePost"
             @unLikePostEvent="unLikePost"
           />
         </div>
-        <div
-          v-if="menu === 'likesTab'"
-        >
+        <div v-if="menu === 'likesTab'">
           <Post
             v-for="post in likedPosts"
             :key="post.id"
@@ -95,12 +86,18 @@ export default {
   computed: {
     ...mapGetters({
       user: 'modules/user/user',
+      posts: 'modules/post/posts',
       currentUser: 'modules/user/currentUser',
       genres: 'modules/genre/genres'
     }),
+    userPosts () {
+      return this.posts.filter((post) => {
+        return post.user.id === this.user.id
+      })
+    },
     likedPosts () {
-      return this.user.likes.map((like) => {
-        return like.post
+      return this.posts.filter((post) => {
+        return post.likes.map((like) => { return like.id }).includes(this.user.id)
       })
     }
   },
@@ -124,11 +121,11 @@ export default {
         store.dispatch('modules/user/emitSetUser', user)
         return user
       })
-      .then((user) => {
-        store.dispatch('modules/post/getUserPosts', user.posts)
-      })
       .then(() => {
         store.dispatch('modules/user/getCurrentUser')
+      })
+      .then(() => {
+        store.dispatch('modules/post/getPosts')
       })
   },
   created () {

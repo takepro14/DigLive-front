@@ -1,7 +1,6 @@
 export const state = {
   posts: [],
-  post: {},
-  userPosts: []
+  post: {}
 }
 
 export const getters = {
@@ -10,9 +9,6 @@ export const getters = {
   },
   post (state) {
     return state.post
-  },
-  userPosts (state) {
-    return state.userPosts
   }
 }
 
@@ -22,9 +18,6 @@ export const mutations = {
   },
   setPost (state, payload) {
     state.post = payload
-  },
-  setUserPosts (state, payload) {
-    state.userPosts = payload
   },
   setPostClear (state) {
     state.post = {}
@@ -43,25 +36,25 @@ export const mutations = {
     state.posts.splice(idx, 1)
   },
   reloadPostByLikePost (state, payload) {
-    if (payload.route.includes('home')) {
+    if (payload.route.includes('post')) {
+      state.post.isLiked = true
+      state.post.likes.push(payload.likeObj)
+    } else {
       const idx = state.posts.findIndex((post) => {
         return post.id === payload.postObj.id
       })
       state.posts[idx].isLiked = true
       state.posts[idx].likes.push(payload.likeObj)
-    } else if (payload.route.includes('user')) {
-      const idx = state.userPosts.findIndex((post) => {
-        return post.id === payload.postObj.id
-      })
-      state.userPosts[idx].isLiked = true
-      state.userPosts[idx].likes.push(payload.likeObj)
-    } else if (payload.route.includes('post')) {
-      state.post.isLiked = true
-      state.post.likes.push(payload.likeObj)
     }
   },
   reloadPostByUnLikePost (state, payload) {
-    if (payload.route.includes('home')) {
+    if (payload.route.includes('post')) {
+      state.post.isLiked = false
+      const otherUsersLikes = state.post.likes.filter(like =>
+        like.user_id !== payload.likeObj.user_id
+      )
+      state.post.likes = otherUsersLikes
+    } else {
       const idx = state.posts.findIndex((post) => {
         return post.id === payload.postObj.id
       })
@@ -70,21 +63,6 @@ export const mutations = {
         like.user_id !== payload.likeObj.user_id
       )
       state.posts[idx].likes = otherUsersLikes
-    } else if (payload.route.includes('user')) {
-      const idx = state.userPosts.findIndex((post) => {
-        return post.id === payload.postObj.id
-      })
-      state.userPosts[idx].isLiked = false
-      const otherUsersLikes = state.userPosts[idx].likes.filter(like =>
-        like.user_id !== payload.likeObj.user_id
-      )
-      state.userPosts[idx].likes = otherUsersLikes
-    } else if (payload.route.includes('post')) {
-      state.post.isLiked = false
-      const otherUsersLikes = state.post.likes.filter(like =>
-        like.user_id !== payload.likeObj.user_id
-      )
-      state.post.likes = otherUsersLikes
     }
   },
   reloadCommentsByCreateComment (state, payload) {
@@ -166,9 +144,6 @@ export const actions = {
     })
     postObj.isLiked = likedUserIds.includes(rootState.user.current.id)
     commit('setPost', postObj)
-  },
-  getUserPosts ({ commit }, postsArray) {
-    commit('setUserPosts', postsArray)
   },
   async destroyPost ({ commit }, postId) {
     await this.$axios.delete(`/api/v1/posts/${postId}`, { data: { id: postId } })
