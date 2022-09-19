@@ -4,7 +4,6 @@
       <SearchFormKeyword
         :keyword.sync="keyword"
         @formKeywordFocusInEvent="formKeywordFocusIn"
-        @formKeywordFocusOutEvent="formKeywordFocusOut"
       />
       <SearchFormGenre
         :genre.sync="genre"
@@ -89,9 +88,6 @@ export default {
     formKeywordFocusIn () {
       this.tag = ''
       this.genre = ''
-    },
-    formKeywordFocusOut () {
-      this.keyword = ''
     },
     formTagChecked (value) {
       this.keyword = ''

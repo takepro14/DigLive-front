@@ -7,7 +7,6 @@
       dense
       v-model="setKeyword"
       @focus="formKeywordFocusIn"
-      @blur="formKeywordFocusOut"
     />
   </div>
 </template>
@@ -29,9 +28,6 @@ export default {
   methods: {
     formKeywordFocusIn () {
       this.$emit('formKeywordFocusInEvent')
-    },
-    formKeywordFocusOut () {
-      this.$emit('formKeywordFocusOutEvent')
     }
   }
 }
