@@ -1,63 +1,8 @@
 <template>
-  <div
-    class="mx-auto"
-  >
-    <div
-      v-if="newPostsTab"
-    >
-      <div
-        v-if="!isSearching"
-      >
-        <Post
-          v-for="post in posts"
-          :key="post.id"
-          :post="post"
-          :currentUserId="currentUserId"
-          @likePostEvent="likePost"
-          @unLikePostEvent="unLikePost"
-          @destroyPostEvent="destroyPost"
-        />
-      </div>
-      <div
-        v-else-if="isSearching"
-      >
-        <div
-          v-if="keyword !== ''"
-        >
-          <h3>
-            {{ keyword }} の検索結果 ({{ filteredPosts.length }})
-          </h3>
-        </div>
-        <div
-          v-else-if="genre !== ''"
-        >
-          <h3>
-            {{ genre }} の検索結果 ({{ filteredPosts.length }})
-          </h3>
-        </div>
-        <div
-          v-else-if="tag !== ''"
-        >
-          <h3>
-            {{ tag }} の検索結果 ({{ filteredPosts.length }})
-          </h3>
-        </div>
-        <Post
-          v-for="post in filteredPosts"
-          :key="post.id"
-          :post="post"
-          :currentUserId="currentUserId"
-          @likePostEvent="likePost"
-          @unLikePostEvent="unLikePost"
-          @destroyPostEvent="destroyPost"
-        />
-      </div>
-    </div>
-    <div
-      v-else-if="followedPostsTab"
-    >
+  <div class="mx-auto" >
+    <div v-if="newPostsTab" >
       <Post
-        v-for="post in followedUsersPosts"
+        v-for="post in posts"
         :key="post.id"
         :post="post"
         :currentUserId="currentUserId"
@@ -65,7 +10,43 @@
         @unLikePostEvent="unLikePost"
         @destroyPostEvent="destroyPost"
       />
-      <!-- TODO: 検索時実装予定 -->
+    </div>
+    <div v-else-if="followedPostsTab" >
+      <Post
+        v-for="post in followedPosts"
+        :key="post.id"
+        :post="post"
+        :currentUserId="currentUserId"
+        @likePostEvent="likePost"
+        @unLikePostEvent="unLikePost"
+        @destroyPostEvent="destroyPost"
+      />
+    </div>
+    <div v-else-if="filteredPostsTab" >
+      <div v-if="keyword !== ''" >
+        <h3>
+          {{ keyword }} の検索結果 ({{ filteredPosts.length }})
+        </h3>
+      </div>
+      <div v-else-if="genre !== ''" >
+        <h3>
+          {{ genre }} の検索結果 ({{ filteredPosts.length }})
+        </h3>
+      </div>
+      <div v-else-if="tag !== ''" >
+        <h3>
+          {{ tag }} の検索結果 ({{ filteredPosts.length }})
+        </h3>
+      </div>
+      <Post
+        v-for="post in filteredPosts"
+        :key="post.id"
+        :post="post"
+        :currentUserId="currentUserId"
+        @likePostEvent="likePost"
+        @unLikePostEvent="unLikePost"
+        @destroyPostEvent="destroyPost"
+      />
     </div>
     <PostCreateDialog
       :genres="genres"
@@ -78,11 +59,23 @@
 import { mapActions } from 'vuex'
 export default {
   props: {
-    posts: {
-      type: Array
+    menu: {
+      type: String
     },
     tab: {
       type: String
+    },
+    genres: {
+      type: Array
+    },
+    tags: {
+      type: Array
+    },
+    posts: {
+      type: Array
+    },
+    followedPosts: {
+      type: Array
     },
     filteredPosts: {
       type: Array
@@ -95,15 +88,6 @@ export default {
     },
     tag: {
       type: String
-    },
-    followedUsersPosts: {
-      type: Array
-    },
-    genres: {
-      type: Array
-    },
-    tags: {
-      type: Array
     }
   },
   data ({ $store }) {
@@ -113,14 +97,17 @@ export default {
   },
   computed: {
     newPostsTab () {
-      return this.tab === 'New'
+      return (this.menu === 'postsMenu') && (this.tab === 'newTab')
     },
     followedPostsTab () {
-      return this.tab === 'Follow'
+      return (this.menu === 'postsMenu') && (this.tab === 'followTab')
     },
-    isSearching () {
-      return (!!this.keyword) || (!!this.tag) || (!!this.genre)
+    filteredPostsTab () {
+      return (this.menu === 'searchMenu') && (this.tab === 'postsTab')
     }
+    // isSearching () {
+    //   return (!!this.keyword) || (!!this.tag) || (!!this.genre)
+    // }
   },
   methods: {
     ...mapActions({
@@ -129,11 +116,6 @@ export default {
       createPost: 'modules/post/createPost',
       destroyPost: 'modules/post/destroyPost'
     })
-  },
-  inject: {
-    theme: {
-      default: { isDark: false }
-    }
   }
 }
 </script>

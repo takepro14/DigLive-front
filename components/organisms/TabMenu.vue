@@ -8,11 +8,6 @@
       dark
       flat
     >
-      <v-toolbar-title
-        class="mx-auto"
-      >
-        フィード
-      </v-toolbar-title>
       <template
         #extension
       >
@@ -36,18 +31,24 @@
 
 <script>
 export default {
-  data () {
-    return {
-      tabs: [
-        {
-          title: '最新',
-          name: 'New'
-        },
-        {
-          title: 'フォロー',
-          name: 'Follow'
-        }
-      ]
+  props: {
+    menu: {
+      type: String
+    },
+    mainTabs: {
+      type: Array
+    },
+    searchTabs: {
+      type: Array
+    }
+  },
+  computed: {
+    tabs () {
+      if (this.menu === 'postsMenu' || this.menu === 'usersMenu') {
+        return this.mainTabs
+      } else {
+        return this.searchTabs
+      }
     }
   },
   methods: {

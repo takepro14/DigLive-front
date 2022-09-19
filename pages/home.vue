@@ -3,79 +3,66 @@
     <Toaster />
     <v-row>
       <v-col cols="12" sm="12" md="4" lg="4" xl="4">
-        <div
-          v-if="isLoading"
-        >
-          <LoaderTypecCrd
-            :repeat="1"
-          />
-          <LoaderTypeTag
-            :repeat="2"
-          />
+        <div v-if="isLoading">
+          <LoaderTypeCard :repeat="1" />
+          <LoaderTypeTag :repeat="2" />
         </div>
-        <div
-          v-else
-        >
+        <div v-else>
           <SideMenu
+            :menus="menus"
             @menuClickEvent="menuClick"
           />
-          <SideContent
-            class="my-4"
-            :posts="posts"
-            :users="users"
-            :genres="genres"
-            :tags="tags"
-            :menu="menu"
-            @filteredPostsChangedEvent="filteredPostsChanged"
-            @filteredUsersChangedEvent="filteredUsersChanged"
-          />
+          <div v-if="menu === ('postsMenu' || 'usersMenu')" >
+            <SideContentMain />
+          </div>
+          <div v-else-if="menu === 'searchMenu'" >
+            <SideContentSearch
+              class="my-4"
+              :tab="tab"
+              :posts="posts"
+              :users="users"
+              :genres="genres"
+              :tags="tags"
+              @filteredPostsChangedEvent="filteredPostsChanged"
+              @filteredUsersChangedEvent="filteredUsersChanged"
+            />
+          </div>
         </div>
       </v-col>
       <v-col cols="12" sm="12" md="8" lg="8" xl="8">
-        <div
-          v-if="isLoading"
-        >
-          <LoaderTypeCard
-            :repeat="5"
-          />
+        <div v-if="isLoading">
+          <LoaderTypeCard :repeat="5" />
         </div>
-        <div
-          v-else
-        >
-        <TabMenu
-          @tabClickEvent="tabClick"
-        />
-          <div
-            v-if="menu === 'postsMenu'"
-          >
-            <PostsFeed
-              :posts="posts"
-              :tab="tab"
-              :filteredPosts="filteredPosts"
-              :followedUsersPosts="followedUsersPosts"
-              :keyword="keyword"
-              :tag="tag"
-              :genres="genres"
-              :tags="tags"
-              :genre="genre"
-            />
-          </div>
-          <div
-            v-if="menu === 'usersMenu'"
-          >
-            <LoaderTypeCard
-              v-if="isLoadingUsers"
-            />
-            <UsersFeed
-              :users="users"
-              :currentUser="currentUser"
-              :tab="tab"
-              :filteredUsers="filteredUsers"
-              :followedUsers="followedUsers"
-              :keyword="keyword"
-              :genre="genre"
-            />
-          </div>
+        <div v-else >
+          <TabMenu
+            :menu="menu"
+            :mainTabs="mainTabs"
+            :searchTabs="searchTabs"
+            @tabClickEvent="tabClick"
+          />
+          <PostsFeed
+            :menu="menu"
+            :tab="tab"
+            :posts="posts"
+            :genres="genres"
+            :tags="tags"
+            :followedPosts="followedPosts"
+            :filteredPosts="filteredPosts"
+            :keyword="keyword"
+            :genre="genre"
+            :tag="tag"
+          />
+          <UsersFeed
+            :menu="menu"
+            :tab="tab"
+            :users="users"
+            :genres="genres"
+            :currentUser="currentUser"
+            :followedUsers="followedUsers"
+            :filteredUsers="filteredUsers"
+            :keyword="keyword"
+            :genre="genre"
+          />
         </div>
       </v-col>
     </v-row>
@@ -94,12 +81,25 @@ export default {
       currentUserId: $store.state.user.current.id,
       isLoading: true,
       menu: 'postsMenu',
-      tab: 'New',
+      tab: 'newTab',
       filteredPosts: [],
       filteredUsers: [],
       keyword: '',
       tag: '',
-      genre: ''
+      genre: '',
+      menus: [
+        { title: '投稿', name: 'postsMenu', icon: 'mdi-comment-processing' },
+        { title: 'ユーザー', name: 'usersMenu', icon: 'mdi-account-multiple' },
+        { title: '検索', name: 'searchMenu', icon: 'mdi-magnify' }
+      ],
+      mainTabs: [
+        { title: '最新', name: 'newTab' },
+        { title: 'フォロー', name: 'followTab' }
+      ],
+      searchTabs: [
+        { title: '投稿', name: 'postsTab' },
+        { title: 'ユーザー', name: 'usersTab' }
+      ]
     }
   },
   computed: {
@@ -115,7 +115,7 @@ export default {
         return this.currentUser.active_relationships.map(rel => rel.followed_id).includes(user.id)
       })
     },
-    followedUsersPosts () {
+    followedPosts () {
       return this.followedUsers.map((followedUser) => {
         return followedUser.posts
       }).flat()
@@ -131,6 +131,20 @@ export default {
     }),
     menuClick (value) {
       this.menu = value
+      // メニューによってv-tabsが異なるため補正の処理
+      if (this.menu === 'postsMenu' || this.menu === 'usersMenu') {
+        if (this.tab === 'postsTab') {
+          this.tab = 'newTab'
+        } else if (this.tab === 'usersTab') {
+          this.tab = 'followTab'
+        }
+      } else if (this.menu === 'searchMenu') {
+        if (this.tab === 'newTab') {
+          this.tab = 'postsTab'
+        } else if (this.tab === 'followTab') {
+          this.tab = 'usersTab'
+        }
+      }
     },
     tabClick (value) {
       this.tab = value

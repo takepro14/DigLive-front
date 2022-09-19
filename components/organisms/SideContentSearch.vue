@@ -1,62 +1,26 @@
 <template>
-  <div>
-    <v-toolbar
-      color="header"
-      dark
-      flat
-    >
-      <v-toolbar-title>
-        <v-icon
-          class="mr-3"
-        >
-          mdi-magnify
-        </v-icon>
-        検索
-      </v-toolbar-title>
-    </v-toolbar>
-    <v-list>
-      <div
-        class="px-4 py-2"
-      >
-        <div
-          v-if="menu === 'postsMenu'"
-        >
-          <SearchFormKeyword
-            :keyword.sync="keyword"
-            @formKeywordFocusInEvent="formKeywordFocusIn"
-            @formKeywordFocusOutEvent="formKeywordFocusOut"
-          />
-          <SearchFormGenre
-            :genre.sync="genre"
-            :genres="genres"
-            @formGenreCheckedEvent="formGenreChecked"
-            @formGenreUncheckedEvent="formGenreUnchecked"
-          />
-          <SearchFormTag
-            :tag.sync="tag"
-            :tags="tags"
-            @formTagCheckedEvent="formTagChecked"
-            @formTagUncheckedEvent="formTagUnchecked"
-          />
-        </div>
-        <div
-          v-if="menu === 'usersMenu'"
-        >
-          <SearchFormKeyword
-            :keyword.sync="keyword"
-            @formKeywordFocusInEvent="formKeywordFocusIn"
-            @formKeywordFocusOutEvent="formKeywordFocusOut"
-          />
-          <SearchFormGenre
-            :genre.sync="genre"
-            :genres="genres"
-            @formGenreCheckedEvent="formGenreChecked"
-            @formGenreUncheckedEvent="formGenreUnchecked"
-          />
-        </div>
-      </div>
-    </v-list>
-  </div>
+  <v-list>
+    <div class="px-4 py-2">
+      <SearchFormKeyword
+        :keyword.sync="keyword"
+        @formKeywordFocusInEvent="formKeywordFocusIn"
+        @formKeywordFocusOutEvent="formKeywordFocusOut"
+      />
+      <SearchFormGenre
+        :genre.sync="genre"
+        :genres="genres"
+        @formGenreCheckedEvent="formGenreChecked"
+        @formGenreUncheckedEvent="formGenreUnchecked"
+      />
+      <SearchFormTag
+        v-if="tab === 'postsTab'"
+        :tag.sync="tag"
+        :tags="tags"
+        @formTagCheckedEvent="formTagChecked"
+        @formTagUncheckedEvent="formTagUnchecked"
+      />
+    </div>
+  </v-list>
 </template>
 
 <script>
@@ -66,6 +30,9 @@ export default {
     'authentication'
   ],
   props: {
+    tab: {
+      type: String
+    },
     posts: {
       type: Array
     },
@@ -77,9 +44,6 @@ export default {
     },
     tags: {
       type: Array
-    },
-    menu: {
-      type: String
     }
   },
   data () {

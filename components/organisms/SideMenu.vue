@@ -44,20 +44,9 @@
 
 <script>
 export default {
-  data () {
-    return {
-      menus: [
-        {
-          title: '投稿',
-          name: 'postsMenu',
-          icon: 'mdi-comment-processing'
-        },
-        {
-          title: 'ユーザー',
-          name: 'usersMenu',
-          icon: 'mdi-account-multiple'
-        }
-      ]
+  props: {
+    menus: {
+      type: Array
     }
   },
   methods: {

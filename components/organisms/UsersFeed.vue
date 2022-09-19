@@ -1,62 +1,21 @@
 <template>
-  <div
-    class="mx-auto"
-  >
-    <div
-      v-if="newUsersTab"
-    >
+  <div class="mx-auto" >
+    <div v-if="newUsersTab" >
       <div
-        v-if="!isSearching"
+        v-for="user in users"
+        :key="user.id"
       >
-        <div
-          v-for="user in users"
-          :key="user.id"
-        >
-          <User
-            v-if="user.id !== currentUser.id"
-            :user="user"
-            :currentUser="currentUser"
-            class="my-6"
-            @followEvent="follow"
-            @unfollowEvent="unfollow"
-          />
-        </div>
-      </div>
-      <div
-        v-else-if="isSearching"
-      >
-        <div
-          v-if="keyword !== ''"
-        >
-          <h3>
-            {{ keyword }} の検索結果 ({{ filteredUsers.length }})
-          </h3>
-        </div>
-        <div
-          v-else-if="genre !== ''"
-        >
-          <h3>
-            {{ genre }} の検索結果 ({{ filteredUsers.length }})
-          </h3>
-        </div>
-        <div
-          v-for="user in filteredUsers"
-          :key="user.id"
-        >
-          <User
-            v-if="user.id !== currentUser.id"
-            :user="user"
-            :currentUser="currentUser"
-            class="my-6"
-            @followEvent="follow"
-            @unfollowEvent="unfollow"
-          />
-        </div>
+        <User
+          v-if="user.id !== currentUser.id"
+          :user="user"
+          :currentUser="currentUser"
+          class="my-6"
+          @followEvent="follow"
+          @unfollowEvent="unfollow"
+        />
       </div>
     </div>
-    <div
-      v-else-if="followedUsersTab"
-    >
+    <div v-else-if="followedUsersTab" >
       <div
         v-for="user in followedUsers"
         :key="user.id"
@@ -70,7 +29,31 @@
           @unfollowEvent="unfollow"
         />
       </div>
-      <!-- TODO: 検索時実装予定 -->
+    </div>
+    <div v-else-if="filteredUsersTab" >
+      <div v-if="keyword !== ''" >
+        <h3>
+          {{ keyword }} の検索結果 ({{ filteredUsers.length }})
+        </h3>
+      </div>
+      <div v-else-if="genre !== ''" >
+        <h3>
+          {{ genre }} の検索結果 ({{ filteredUsers.length }})
+        </h3>
+      </div>
+      <div
+        v-for="user in filteredUsers"
+        :key="user.id"
+      >
+        <User
+          v-if="user.id !== currentUser.id"
+          :user="user"
+          :currentUser="currentUser"
+          class="my-6"
+          @followEvent="follow"
+          @unfollowEvent="unfollow"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -79,23 +62,26 @@
 import { mapActions } from 'vuex'
 export default {
   props: {
-    users: {
-      type: Array
-    },
-    keyword: {
+    menu: {
       type: String
-    },
-    filteredUsers: {
-      type: Array
-    },
-    currentUser: {
-      type: Object
     },
     tab: {
       type: String
     },
+    currentUser: {
+      type: Object
+    },
+    users: {
+      type: Array
+    },
     followedUsers: {
       type: Array
+    },
+    filteredUsers: {
+      type: Array
+    },
+    keyword: {
+      type: String
     },
     genre: {
       type: String
@@ -109,13 +95,13 @@ export default {
   },
   computed: {
     newUsersTab () {
-      return this.tab === 'New'
+      return (this.menu === 'usersMenu') && (this.tab === 'newTab')
     },
     followedUsersTab () {
-      return this.tab === 'Follow'
+      return (this.menu === 'usersMenu') && (this.tab === 'followTab')
     },
-    isSearching () {
-      return (!!this.keyword) || (!!this.genre)
+    filteredUsersTab () {
+      return (this.menu === 'searchMenu') && (this.tab === 'usersTab')
     }
   }
 }
