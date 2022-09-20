@@ -1,5 +1,5 @@
 <template>
-  <vue-tags-input
+  <VueTagsInput
     v-model="tag"
     :tags="initTags"
     @tags-changed="newTags => tags = newTags"
@@ -10,12 +10,7 @@
 </template>
 
 <script>
-import VueTagsInput from '@johmun/vue-tags-input'
-
 export default {
-  components: {
-    VueTagsInput
-  },
   props: {
     initTags: {
       type: Array
