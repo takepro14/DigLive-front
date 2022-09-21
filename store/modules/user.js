@@ -144,7 +144,7 @@ export const actions = {
     userObj.isFollowed = followersIds.includes(rootState.user.current.id)
     commit('setUser', userObj)
   },
-  emitSetUserClear ({ commit }) {
+  getUserClear ({ commit }) {
     commit('setUserClear')
   },
   async changeProfile ({ commit, rootState }, { formData, config }) {
