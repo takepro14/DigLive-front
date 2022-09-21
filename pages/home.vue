@@ -6,11 +6,11 @@
     <Toaster />
     <v-row>
       <v-col cols="12" sm="12" md="4" lg="4" xl="4">
-        <div v-if="isLoading">
+        <!-- <div v-if="isLoading">
           <LoaderTypeCard :repeat="1" />
           <LoaderTypeTag :repeat="2" />
         </div>
-        <div v-else>
+        <div v-else> -->
           <SideMenu
             :menus="menus"
             @menuClickEvent="menuClick"
@@ -22,21 +22,21 @@
             <SideContentSearch
               class="my-4"
               :tab="tab"
-              :posts="posts"
               :users="users"
               :genres="genres"
               :tags="tags"
               @filteredPostsChangedEvent="filteredPostsChanged"
               @filteredUsersChangedEvent="filteredUsersChanged"
             />
+              <!-- :posts="posts" -->
           </div>
-        </div>
+        <!-- </div> -->
       </v-col>
       <v-col cols="12" sm="12" md="8" lg="8" xl="8">
-        <div v-if="isLoading">
+        <!-- <div v-if="isLoading">
           <LoaderTypeCard :repeat="5" />
         </div>
-        <div v-else >
+        <div v-else > -->
           <TabMenu
             :menu="menu"
             :mainTabs="mainTabs"
@@ -46,7 +46,6 @@
           <PostsFeed
             :menu="menu"
             :tab="tab"
-            :posts="posts"
             :genres="genres"
             :tags="tags"
             :followedPosts="followedPosts"
@@ -55,6 +54,7 @@
             :genre="genre"
             :tag="tag"
           />
+            <!-- :posts="posts" -->
           <UsersFeed
             :menu="menu"
             :tab="tab"
@@ -66,7 +66,7 @@
             :keyword="keyword"
             :genre="genre"
           />
-        </div>
+        <!-- </div> -->
       </v-col>
     </v-row>
   </v-container>
@@ -107,7 +107,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      posts: 'modules/post/posts',
+      // posts: 'modules/post/posts',
       users: 'modules/user/users',
       genres: 'modules/genre/genres',
       tags: 'modules/tag/tags',
@@ -117,17 +117,17 @@ export default {
       return this.users.filter((user) => {
         return this.currentUser.active_relationships.map(rel => rel.followed_id).includes(user.id)
       })
-    },
-    followedPosts () {
-      const followedUsersIds = this.followedUsers.map((user) => { return user.id })
-      return this.posts.filter((post) => {
-        return followedUsersIds.includes(post.user.id)
-      })
     }
+    // followedPosts () {
+    //   const followedUsersIds = this.followedUsers.map((user) => { return user.id })
+    //   return this.posts.filter((post) => {
+    //     return followedUsersIds.includes(post.user.id)
+    //   })
+    // }
   },
   methods: {
     ...mapActions({
-      getPosts: 'modules/post/getPosts',
+      // getPosts: 'modules/post/getPosts',
       getTags: 'modules/tag/getTags',
       getGenres: 'modules/genre/getGenres',
       getUsers: 'modules/user/getUsers',
@@ -169,25 +169,26 @@ export default {
       this.keyword = keyword
       this.genre = genre
     }
-  },
-  // PostFeed.vue, SideContent.vueとやりとりするのでhome.vueでGET
-  async fetch () {
-    await this.getPosts()
-      .then(() => {
-        this.getGenres()
-      })
-      .then(() => {
-        this.getTags()
-      })
-      .then(() => {
-        this.getUsers()
-      })
-      .then(() => {
-        this.getCurrentUser()
-      })
-      .then(() => {
-        this.stopLoading()
-      })
   }
+  // PostFeed.vue, SideContent.vueとやりとりするのでhome.vueでGET
+  // async fetch () {
+  //   await this.getPosts()
+  // }
+  // .then(() => {
+  // await this.getGenres()
+  // })
+  //     .then(() => {
+  //       this.getTags()
+  //     })
+  //     .then(() => {
+  //       this.getUsers()
+  //     })
+  //     .then(() => {
+  //       this.getCurrentUser()
+  //     })
+  //     .then(() => {
+  //       this.stopLoading()
+  //     })
+  // }
 }
 </script>

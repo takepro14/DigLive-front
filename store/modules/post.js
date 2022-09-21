@@ -1,9 +1,13 @@
 export const state = {
+  page: 1,
   posts: [],
   post: {}
 }
 
 export const getters = {
+  page (state) {
+    return state.page
+  },
   posts (state) {
     return state.posts
   },
@@ -13,8 +17,13 @@ export const getters = {
 }
 
 export const mutations = {
+  // ページを1進める
+  setPage (state) {
+    state.page += 1
+  },
   setPosts (state, payload) {
-    state.posts = payload
+    // state.posts = payload
+    state.posts.push(...payload)
   },
   setPost (state, payload) {
     state.post = payload
@@ -74,25 +83,39 @@ export const mutations = {
 }
 
 export const actions = {
+  getPage ({ commit }) {
+    commit('setPage')
+  },
   // 投稿一覧画面用
-  async getPosts ({ state, commit, rootState }) {
-    if (!state.posts.length) {
-      await this.$axios.$get('/api/v1/posts')
-        // いいね状態のフラグ追加
-        .then((posts) => {
-          posts.forEach((post) => {
-            let likedUserIds = []
-            likedUserIds = post.likes.map((like) => {
-              return like.user_id
-            })
-            post.isLiked = likedUserIds.includes(rootState.user.current.id)
-          })
-          return posts
-        })
-        .then((posts) => {
-          commit('setPosts', posts)
-        })
-    }
+  // async getPosts ({ state, commit, rootState }) {
+  //   if (!state.posts.length) {
+  //     await this.$axios.$get('/api/v1/posts')
+  //       // いいね状態のフラグ追加
+  //       .then((res) => {
+  //         res.posts.forEach((post) => {
+  //           let likedUserIds = []
+  //           likedUserIds = post.likes.map((like) => {
+  //             return like.user_id
+  //           })
+  //           post.isLiked = likedUserIds.includes(rootState.user.current.id)
+  //         })
+  //         return res.posts
+  //       })
+  //       .then((posts) => {
+  //         commit('setPosts', posts)
+  //       })
+  //   }
+  // },
+  getPosts ({ rootState, commit }, postsObj) {
+    console.log('postsObj: ' + JSON.stringify(postsObj))
+    // いいねフラグの付与
+    postsObj.forEach((post) => {
+      let likedUserIds = []
+      likedUserIds = post.likes.map((like) => { return like.user_id })
+      post.isLiked = likedUserIds.includes(rootState.user.current.id)
+    })
+    // ステートへの反映
+    commit('setPosts', postsObj)
   },
   // 一時的な妥協案
   async getPostForPosts ({ commit, rootState }, postId) {
