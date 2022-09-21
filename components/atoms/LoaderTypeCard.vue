@@ -4,7 +4,7 @@
     class="pa-3"
   >
       <v-skeleton-loader
-        v-for="n in repeat"
+        v-for="n in 5"
         :key="n.id"
         class="mx-auto my-6"
         width="100%"
@@ -12,13 +12,3 @@
       />
   </v-sheet>
 </template>
-
-<script>
-export default ({
-  props: {
-    repeat: {
-      type: Number
-    }
-  }
-})
-</script>

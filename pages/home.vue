@@ -28,7 +28,6 @@
               @filteredPostsChangedEvent="filteredPostsChanged"
               @filteredUsersChangedEvent="filteredUsersChanged"
             />
-              <!-- :posts="posts" -->
           </div>
         <!-- </div> -->
       </v-col>
@@ -53,8 +52,6 @@
             :genre="genre"
             :tag="tag"
           />
-            <!-- :followedPosts="followedPosts" -->
-            <!-- :posts="posts" -->
           <UsersFeed
             :menu="menu"
             :tab="tab"
@@ -108,16 +105,16 @@ export default {
   computed: {
     ...mapGetters({
       // posts: 'modules/post/posts',
-      users: 'modules/user/users',
+      // users: 'modules/user/users',
       genres: 'modules/genre/genres',
       tags: 'modules/tag/tags',
       currentUser: 'modules/user/currentUser'
-    }),
-    followedUsers () {
-      return this.users.filter((user) => {
-        return this.currentUser.active_relationships.map(rel => rel.followed_id).includes(user.id)
-      })
-    }
+    })
+    // followedUsers () {
+    //   return this.users.filter((user) => {
+    //     return this.currentUser.active_relationships.map(rel => rel.followed_id).includes(user.id)
+    //   })
+    // }
   },
   methods: {
     ...mapActions({

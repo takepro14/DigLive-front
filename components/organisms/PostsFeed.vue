@@ -1,8 +1,16 @@
 <template>
   <div class="mx-auto">
-    <PostsFeedNew v-if="newPostsTab" />
-    <PostsFeedFollow v-else-if="followedPostsTab" />
-    <PostsFeedSearch v-else-if="filteredPostsTab"/>
+    <div v-if="newPostsTab">
+      <LoaderTypeCard v-if="isLoadingPosts" />
+      <PostsFeedNew />
+    </div>
+    <div v-else-if="followedPostsTab">
+      <LoaderTypeCard v-if="isLoadingFollowedPosts" />
+      <PostsFeedFollow />
+    </div>
+    <div v-else-if="filteredPostsTab">
+      <PostsFeedSearch />
+    </div>
     <PostCreateDialog
       :genres="genres"
       @createPostEvent="createPost"
@@ -11,6 +19,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     menu: {
@@ -36,6 +45,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      posts: 'modules/post/posts',
+      followedPosts: 'modules/post/followedPosts'
+    }),
     newPostsTab () {
       return (this.menu === 'postsMenu') && (this.tab === 'newTab')
     },
@@ -44,6 +57,12 @@ export default {
     },
     filteredPostsTab () {
       return (this.menu === 'searchMenu') && (this.tab === 'postsTab')
+    },
+    isLoadingPosts () {
+      return !this.posts.length
+    },
+    isLoadingFollowedPosts () {
+      return !this.followedPosts.length
     }
   }
 }

@@ -1,12 +1,21 @@
 <template>
   <div class="mx-auto" >
-      <UsersFeedNew v-if="newUsersTab" />
-      <UsersFeedFollow v-else-if="followedUsersTab" />
-      <UsersFeedSearch v-else-if="filteredUsersTab" />
+    <div v-if="newUsersTab">
+      <LoaderTypeCard v-if="isLoadingUsers" />
+      <UsersFeedNew  />
+    </div>
+    <div v-else-if="followedUsersTab">
+      <LoaderTypeCard :repeat="5" v-if="isLoadingFollowedUsers" />
+      <UsersFeedFollow />
+    </div>
+    <div v-else-if="filteredUsersTab">
+      <UsersFeedSearch  />
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     menu: {
@@ -35,6 +44,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      users: 'modules/user/users',
+      followedUsers: 'modules/user/followedUsers'
+    }),
     newUsersTab () {
       return (this.menu === 'usersMenu') && (this.tab === 'newTab')
     },
@@ -43,6 +56,12 @@ export default {
     },
     filteredUsersTab () {
       return (this.menu === 'searchMenu') && (this.tab === 'usersTab')
+    },
+    isLoadingUsers () {
+      return !this.users.length
+    },
+    isLoadingFollowedUsers () {
+      return !this.followedUsers.length
     }
   }
 }
