@@ -1,28 +1,57 @@
 export const state = {
+  // common
+  currentUser: {},
+  // home - new
+  page: 1,
   users: [],
-  user: {},
-  currentUser: {}
+  // home - follow
+  followedPage: 1,
+  followedUsers: [],
+  // id
+  user: {}
 }
 
 export const getters = {
+  // common
+  currentUser (state) {
+    return state.currentUser
+  },
+  // home - new
+  page (state) {
+    return state.page
+  },
   users (state) {
     return state.users
   },
-  user (state) {
-    return state.user
+  // home - follow
+  followedPage (state) {
+    return state.followedPage
   },
-  currentUser (state) {
-    return state.currentUser
+  followedUsers (state) {
+    return state.followedUsers
   }
 }
 
 export const mutations = {
-  setUsers (state, payload) {
-    state.users = payload
-  },
+  // common
   setCurrentUser (state, payload) {
     state.currentUser = payload
   },
+  // home - new
+  setPage (state) {
+    state.page += 1
+  },
+  setUsers (state, payload) {
+    state.users.push(...payload)
+  },
+  // home - follow
+  setFollowedPage (state) {
+    state.followedPage += 1
+  },
+  setFollowedUsers (state, payload) {
+    state.followedUsers.push(...payload)
+  },
+  // id
   setUser (state, payload) {
     state.user = payload
   },
@@ -81,30 +110,36 @@ export const mutations = {
 }
 
 export const actions = {
-  // ユーザ一覧画面用
-  async getUsers ({ commit, rootState }) {
-    if (!state.users.length) {
-      await this.$axios.$get('/api/v1/users')
-        // フォロー状態のフラグ追加
-        .then((users) => {
-          users.forEach((user) => {
-            const followersIds = user.passive_relationships.map((passiveRelationship) => {
-              return passiveRelationship.follower_id
-            })
-            user.isFollowed = followersIds.includes(rootState.user.current.id)
-          })
-          return users
-        })
-        .then((users) => {
-          commit('setUsers', users)
-        })
-    }
+  // home - new
+  getPage ({ commit }) {
+    commit('setPage')
+  },
+  getUsers ({ rootState, commit }, usersObj) {
+    console.log('usersObj: ' + usersObj.length)
+    // フォローフラグの付与
+    usersObj.forEach((user) => {
+      const followersIds = user.passive_relationships.map((pRel) => { return pRel.follower_id })
+      user.isFollowed = followersIds.includes(rootState.user.current.id)
+    })
+    commit('setUsers', usersObj)
+  },
+  // home - follow
+  getFollowedPage ({ commit }) {
+    commit('setFollowedPage')
+  },
+  getFollowedUsers ({ rootState, commit }, usersObj) {
+    // フォローフラグの付与
+    usersObj.forEach((user) => {
+      const followersIds = user.passive_relationships.map((pRel) => { return pRel.follower_id })
+      user.isFollowed = followersIds.includes(rootState.user.current.id)
+    })
+    commit('setFollowedUsers', usersObj)
   },
   // ユーザ詳細画面用
   emitSetUser ({ commit, rootState }, userObj) {
     // フォロー状態のフラグ追加
-    const followersIds = userObj.passive_relationships.map((passiveRelationship) => {
-      return passiveRelationship.follower_id
+    const followersIds = userObj.passive_relationships.map((pRel) => {
+      return pRel.follower_id
     })
     userObj.isFollowed = followersIds.includes(rootState.user.current.id)
     commit('setUser', userObj)
