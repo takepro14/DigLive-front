@@ -48,12 +48,12 @@
             :tab="tab"
             :genres="genres"
             :tags="tags"
-            :followedPosts="followedPosts"
             :filteredPosts="filteredPosts"
             :keyword="keyword"
             :genre="genre"
             :tag="tag"
           />
+            <!-- :followedPosts="followedPosts" -->
             <!-- :posts="posts" -->
           <UsersFeed
             :menu="menu"
@@ -118,16 +118,9 @@ export default {
         return this.currentUser.active_relationships.map(rel => rel.followed_id).includes(user.id)
       })
     }
-    // followedPosts () {
-    //   const followedUsersIds = this.followedUsers.map((user) => { return user.id })
-    //   return this.posts.filter((post) => {
-    //     return followedUsersIds.includes(post.user.id)
-    //   })
-    // }
   },
   methods: {
     ...mapActions({
-      // getPosts: 'modules/post/getPosts',
       getTags: 'modules/tag/getTags',
       getGenres: 'modules/genre/getGenres',
       getUsers: 'modules/user/getUsers',

@@ -1,37 +1,53 @@
 export const state = {
+  // home - new
   page: 1,
   posts: [],
+  // home - follow
+  followedPage: 1,
+  followedPosts: [],
+  // id
   post: {}
 }
 
 export const getters = {
+  // home - new
   page (state) {
     return state.page
   },
   posts (state) {
     return state.posts
   },
-  post (state) {
-    return state.post
+  // home - follow
+  followedPage (state) {
+    return state.followedPage
+  },
+  followedPosts (state) {
+    return state.followedPosts
   }
 }
 
 export const mutations = {
-  // ページを1進める
+  // home - new
   setPage (state) {
     state.page += 1
   },
   setPosts (state, payload) {
-    // state.posts = payload
     state.posts.push(...payload)
   },
+  // home - follow
+  setFollowedPage (state) {
+    state.followedPage += 1
+  },
+  setFollowedPosts (state, payload) {
+    state.followedPosts.push(...payload)
+  },
+  // id
   setPost (state, payload) {
     state.post = payload
   },
   setPostClear (state) {
     state.post = {}
   },
-  // 一時的な妥協案
   setPostForPosts (state, payload) {
     state.posts.unshift(payload)
   },
@@ -86,28 +102,10 @@ export const actions = {
   getPage ({ commit }) {
     commit('setPage')
   },
-  // 投稿一覧画面用
-  // async getPosts ({ state, commit, rootState }) {
-  //   if (!state.posts.length) {
-  //     await this.$axios.$get('/api/v1/posts')
-  //       // いいね状態のフラグ追加
-  //       .then((res) => {
-  //         res.posts.forEach((post) => {
-  //           let likedUserIds = []
-  //           likedUserIds = post.likes.map((like) => {
-  //             return like.user_id
-  //           })
-  //           post.isLiked = likedUserIds.includes(rootState.user.current.id)
-  //         })
-  //         return res.posts
-  //       })
-  //       .then((posts) => {
-  //         commit('setPosts', posts)
-  //       })
-  //   }
-  // },
+  getFollowedPage ({ commit }) {
+    commit('setFollowedPage')
+  },
   getPosts ({ rootState, commit }, postsObj) {
-    console.log('postsObj: ' + JSON.stringify(postsObj))
     // いいねフラグの付与
     postsObj.forEach((post) => {
       let likedUserIds = []
@@ -116,6 +114,16 @@ export const actions = {
     })
     // ステートへの反映
     commit('setPosts', postsObj)
+  },
+  getFollowedPosts ({ rootState, commit }, postsObj) {
+    // いいねフラグの付与
+    postsObj.forEach((post) => {
+      let likedUserIds = []
+      likedUserIds = post.likes.map((like) => { return like.user_id })
+      post.isLiked = likedUserIds.includes(rootState.user.current.id)
+    })
+    // ステートへの反映
+    commit('setFollowedPosts', postsObj)
   },
   // 一時的な妥協案
   async getPostForPosts ({ commit, rootState }, postId) {

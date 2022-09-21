@@ -172,14 +172,14 @@ export default {
     }
   },
   methods: {
-    destroyPost (postId) {
-      this.$emit('destroyPostEvent', postId)
-    },
     likePost (postObjAndRoute) {
       this.$emit('likePostEvent', postObjAndRoute)
     },
     unLikePost (postObjAndRoute) {
       this.$emit('unLikePostEvent', postObjAndRoute)
+    },
+    destroyPost (postId) {
+      this.$emit('destroyPostEvent', postId)
     },
     movePostPage () {
       this.$router.push(`/posts/${this.post.id}`)
