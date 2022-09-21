@@ -31,7 +31,7 @@
       <v-row class="py-2" >
         <v-spacer />
         <div v-if="!isCurrentUser">
-          <div v-if="isFollowedTrue">
+          <div v-if="isFollowed">
             <v-btn
               outlined
               rounded
@@ -41,7 +41,7 @@
               フォロー中
             </v-btn>
           </div>
-          <div v-else-if="isFollowedFalse">
+          <div v-else-if="!isFollowed">
             <v-btn
               outlined
               rounded
@@ -110,11 +110,8 @@ export default {
     isCurrentUser () {
       return this.user.id === this.currentUser.id
     },
-    isFollowedTrue () {
-      return this.user.isFollowed === true
-    },
-    isFollowedFalse () {
-      return this.user.isFollowed === false
+    isFollowed () {
+      return this.user.isFollowed
     },
     followerLength () {
       return !this.user.passive_relationships ? 0 : this.user.passive_relationships.length

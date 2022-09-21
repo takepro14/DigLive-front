@@ -6,64 +6,52 @@
     <Toaster />
     <v-row>
       <v-col cols="12" sm="12" md="4" lg="4" xl="4">
-        <!-- <div v-if="isLoading">
-          <LoaderTypeCard :repeat="1" />
-          <LoaderTypeTag :repeat="2" />
+        <SideMenu
+          :menus="menus"
+          @menuClickEvent="menuClick"
+        />
+        <div v-if="menu === ('postsMenu' || 'usersMenu')" >
+          <SideContentMain />
         </div>
-        <div v-else> -->
-          <SideMenu
-            :menus="menus"
-            @menuClickEvent="menuClick"
-          />
-          <div v-if="menu === ('postsMenu' || 'usersMenu')" >
-            <SideContentMain />
-          </div>
-          <div v-else-if="menu === 'searchMenu'" >
-            <SideContentSearch
-              class="my-4"
-              :tab="tab"
-              :users="users"
-              :genres="genres"
-              :tags="tags"
-              @filteredPostsChangedEvent="filteredPostsChanged"
-              @filteredUsersChangedEvent="filteredUsersChanged"
-            />
-          </div>
-        <!-- </div> -->
-      </v-col>
-      <v-col cols="12" sm="12" md="8" lg="8" xl="8">
-        <!-- <div v-if="isLoading">
-          <LoaderTypeCard :repeat="5" />
-        </div>
-        <div v-else > -->
-          <TabMenu
-            :menu="menu"
-            :mainTabs="mainTabs"
-            :searchTabs="searchTabs"
-            @tabClickEvent="tabClick"
-          />
-          <PostsFeed
-            :menu="menu"
-            :tab="tab"
-            :genres="genres"
-            :tags="tags"
-            :filteredPosts="filteredPosts"
-            :keyword="keyword"
-            :genre="genre"
-            :tag="tag"
-          />
-          <UsersFeed
-            :menu="menu"
+        <div v-else-if="menu === 'searchMenu'" >
+          <SideContentSearch
+            class="my-4"
             :tab="tab"
             :users="users"
             :genres="genres"
-            :currentUser="currentUser"
-            :followedUsers="followedUsers"
-            :filteredUsers="filteredUsers"
-            :keyword="keyword"
-            :genre="genre"
+            :tags="tags"
+            @filteredPostsChangedEvent="filteredPostsChanged"
+            @filteredUsersChangedEvent="filteredUsersChanged"
           />
-        <!-- </div> -->
+        </div>
+      </v-col>
+      <v-col cols="12" sm="12" md="8" lg="8" xl="8">
+        <TabMenu
+          :menu="menu"
+          :mainTabs="mainTabs"
+          :searchTabs="searchTabs"
+          @tabClickEvent="tabClick"
+        />
+        <PostsFeed
+          :menu="menu"
+          :tab="tab"
+          :genres="genres"
+          :tags="tags"
+          :filteredPosts="filteredPosts"
+          :keyword="keyword"
+          :genre="genre"
+          :tag="tag"
+        />
+        <UsersFeed
+          :menu="menu"
+          :tab="tab"
+          :users="users"
+          :genres="genres"
+          :followedUsers="followedUsers"
+          :filteredUsers="filteredUsers"
+          :keyword="keyword"
+          :genre="genre"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -78,8 +66,6 @@ export default {
   ],
   data ({ $store }) {
     return {
-      currentUserId: $store.state.user.current.id,
-      isLoading: true,
       menu: 'postsMenu',
       tab: 'newTab',
       filteredPosts: [],
@@ -104,17 +90,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      // posts: 'modules/post/posts',
-      // users: 'modules/user/users',
       genres: 'modules/genre/genres',
       tags: 'modules/tag/tags',
       currentUser: 'modules/user/currentUser'
     })
-    // followedUsers () {
-    //   return this.users.filter((user) => {
-    //     return this.currentUser.active_relationships.map(rel => rel.followed_id).includes(user.id)
-    //   })
-    // }
   },
   methods: {
     ...mapActions({
