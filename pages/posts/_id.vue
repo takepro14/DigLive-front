@@ -53,12 +53,6 @@ export default {
       post_id: $route.params.id
     }
   },
-  async fetch ({ $axios, route, store }) {
-    await $axios.$get(`/api/v1/posts/${route.params.id}`)
-      .then((post) => {
-        store.dispatch('modules/post/getPost', post)
-      })
-  },
   computed: {
     ...mapGetters({
       post: 'modules/post/post'
@@ -69,7 +63,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      emitSetPostClear: 'modules/post/emitSetPostClear',
+      getPostClear: 'modules/post/getPostClear',
       destroyPost: 'modules/post/destroyPost',
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost',
@@ -79,6 +73,15 @@ export default {
     addComment () {
       this.$store.dispatch('modules/post/emitReloadComments', this.post_id)
     }
+  },
+  async fetch ({ $axios, route, store }) {
+    await $axios.$get(`/api/v1/posts/${route.params.id}`)
+      .then((post) => {
+        store.dispatch('modules/post/getPost', post)
+      })
+  },
+  destroyed () {
+    this.getPostClear()
   }
 }
 </script>

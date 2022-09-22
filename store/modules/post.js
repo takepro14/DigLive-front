@@ -28,6 +28,9 @@ export const getters = {
   followedPosts (state) {
     return state.followedPosts
   },
+  post (state) {
+    return state.post
+  },
   userPostsPage (state) {
     return state.userPostsPage
   },
@@ -93,10 +96,11 @@ export const mutations = {
   //   state.posts.push(payload)
   // },
   reloadPostsByDestroyPost (state, payload) {
-    const idx = state.posts.findIndex((post) => {
-      return post.id === payload
-    })
-    state.posts.splice(idx, 1)
+    // --- 共通処理 ---
+    const idx = state.posts.findIndex((post) => { return post.id === payload })
+    if (idx !== -1) {
+      state.posts.splice(idx, 1)
+    }
   },
   reloadPostByLikePost (state, payload) {
     // --- 個別処理 ---
@@ -278,7 +282,7 @@ export const actions = {
         commit('setPost', post)
       })
   },
-  emitSetPostClear ({ commit }) {
+  getPostClear ({ commit }) {
     commit('setPostClear')
   },
   async likePost ({ rootState, commit }, postObjAndRoute) {

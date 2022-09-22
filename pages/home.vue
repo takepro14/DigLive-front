@@ -10,20 +10,18 @@
           :menus="menus"
           @menuClickEvent="menuClick"
         />
-        <div v-if="menu === ('postsMenu' || 'usersMenu')" >
-          <SideContentMain />
-        </div>
-        <div v-else-if="menu === 'searchMenu'" >
-          <SideContentSearch
-            class="my-4"
-            :tab="tab"
-            :users="users"
-            :genres="genres"
-            :tags="tags"
-            @filteredPostsChangedEvent="filteredPostsChanged"
-            @filteredUsersChangedEvent="filteredUsersChanged"
-          />
-        </div>
+        <SideContentMain
+          v-if="menu === ('postsMenu' || 'usersMenu')"
+        />
+        <SideContentSearch
+          v-else-if="menu === 'searchMenu'"
+          class="my-4"
+          :tab="tab"
+          :genres="genres"
+          :tags="tags"
+          @filteredPostsChangedEvent="filteredPostsChanged"
+          @filteredUsersChangedEvent="filteredUsersChanged"
+        />
       </v-col>
       <v-col cols="12" sm="12" md="8" lg="8" xl="8">
         <TabMenu
@@ -37,7 +35,6 @@
           :tab="tab"
           :genres="genres"
           :tags="tags"
-          :filteredPosts="filteredPosts"
           :keyword="keyword"
           :genre="genre"
           :tag="tag"
@@ -45,10 +42,7 @@
         <UsersFeed
           :menu="menu"
           :tab="tab"
-          :users="users"
           :genres="genres"
-          :followedUsers="followedUsers"
-          :filteredUsers="filteredUsers"
           :keyword="keyword"
           :genre="genre"
         />
@@ -64,7 +58,7 @@ export default {
   middleware: [
     'authentication'
   ],
-  data ({ $store }) {
+  data () {
     return {
       menu: 'postsMenu',
       tab: 'newTab',
@@ -91,16 +85,13 @@ export default {
   computed: {
     ...mapGetters({
       genres: 'modules/genre/genres',
-      tags: 'modules/tag/tags',
-      currentUser: 'modules/user/currentUser'
+      tags: 'modules/tag/tags'
     })
   },
   methods: {
     ...mapActions({
       getTags: 'modules/tag/getTags',
-      getGenres: 'modules/genre/getGenres',
-      getUsers: 'modules/user/getUsers',
-      getCurrentUser: 'modules/user/getCurrentUser'
+      getGenres: 'modules/genre/getGenres'
     }),
     menuClick (value) {
       this.menu = value
@@ -138,26 +129,11 @@ export default {
       this.keyword = keyword
       this.genre = genre
     }
+  },
+  async fetch () {
+    await this.getGenres()
+    await this.getTags()
+    await this.stopLoading()
   }
-  // PostFeed.vue, SideContent.vueとやりとりするのでhome.vueでGET
-  // async fetch () {
-  //   await this.getPosts()
-  // }
-  // .then(() => {
-  // await this.getGenres()
-  // })
-  //     .then(() => {
-  //       this.getTags()
-  //     })
-  //     .then(() => {
-  //       this.getUsers()
-  //     })
-  //     .then(() => {
-  //       this.getCurrentUser()
-  //     })
-  //     .then(() => {
-  //       this.stopLoading()
-  //     })
-  // }
 }
 </script>

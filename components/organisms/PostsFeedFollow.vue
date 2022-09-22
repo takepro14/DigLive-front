@@ -43,7 +43,6 @@ export default {
       getFollowedPosts: 'modules/post/getFollowedPosts',
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost',
-      createPost: 'modules/post/createPost',
       destroyPost: 'modules/post/destroyPost'
     }),
     async infiniteHandler ($state) {

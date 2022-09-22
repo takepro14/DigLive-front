@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
     menu: {
@@ -64,6 +64,11 @@ export default {
     isLoadingFollowedPosts () {
       return !this.followedPosts.length
     }
+  },
+  methods: {
+    ...mapActions({
+      createPost: 'modules/post/createPost'
+    })
   }
 }
 </script>
