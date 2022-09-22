@@ -54,17 +54,17 @@ export default {
   },
   watch: {
     keyword () {
-      this.keywordSearch()
+      this.keywordSearchPosts()
     },
     genre () {
-      this.genreSearch()
+      this.genreSearchPosts()
     },
     tag () {
-      this.tagSearch()
+      this.tagSearchPosts()
     }
   },
   methods: {
-    keywordSearch () {
+    keywordSearchPosts () {
       this.$axios.$get('api/v1/posts/search', {
         params: {
           post_keyword: this.keyword
@@ -77,7 +77,7 @@ export default {
           console.error(error)
         })
     },
-    genreSearch () {
+    genreSearchPosts () {
       this.$axios.$get('api/v1/posts/search', {
         params: {
           post_genre: this.genre
@@ -90,7 +90,7 @@ export default {
           console.error(error)
         })
     },
-    tagSearch () {
+    tagSearchPosts () {
       this.$axios.$get('api/v1/posts/search', {
         params: {
           post_tag: this.tag

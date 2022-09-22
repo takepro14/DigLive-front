@@ -126,19 +126,6 @@ export default {
     tagChanged (value) {
       this.tag = value
     }
-    // filteredPostsChanged (...args) {
-    //   const [filteredPosts, keyword, tag, genre] = args
-    //   this.filteredPosts = filteredPosts
-    //   this.keyword = keyword
-    //   this.tag = tag
-    //   this.genre = genre
-    // },
-    // filteredUsersChanged (...args) {
-    //   const [filteredUsers, keyword, genre] = args
-    //   this.filteredUsers = filteredUsers
-    //   this.keyword = keyword
-    //   this.genre = genre
-    // }
   },
   async fetch () {
     await this.getGenres()

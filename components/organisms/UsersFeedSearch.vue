@@ -1,18 +1,14 @@
 <template>
   <div>
-    <div v-if="keyword !== ''" >
-      <h3>
-        {{ keyword }} の検索結果 ({{ filteredUsers.length }})
-      </h3>
-    </div>
-    <div v-else-if="genre !== ''" >
-      <h3>
-        {{ genre }} の検索結果 ({{ filteredUsers.length }})
-      </h3>
-    </div>
+    keyword: {{ keyword }}
+    genre: {{ genre }}
+    <!-- resultUsers: {{ resultUsers }} -->
+    <h3 v-if="isSearching">
+      {{ keyword || genre }} の検索結果 ({{ resultUsers.length }})
+    </h3>
     <v-row>
       <v-col
-        v-for="user in filteredUsers"
+        v-for="user in resultUsers"
         :key="user.id"
         cols="12"
         sm="12"
@@ -21,7 +17,6 @@
         xl="4"
       >
         <User
-          v-if="user.id !== currentUser.id"
           :user="user"
           :currentUser="currentUser"
           class="my-6"
@@ -34,20 +29,67 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  methods: {
-    ...mapActions({
-      follow: 'modules/user/follow',
-      unfollow: 'modules/user/unfollow'
-    })
-  },
   props: {
     keyword: {
       type: String
     },
     genre: {
       type: String
+    }
+  },
+  data () {
+    return {
+      resultUsers: []
+    }
+  },
+  computed: {
+    ...mapGetters({
+      currentUser: 'modules/user/currentUser'
+    }),
+    isSearching () {
+      return this.keyword || this.genre
+    }
+  },
+  watch: {
+    keyword () {
+      this.keywordSearchUsers()
+    },
+    genre () {
+      this.genreSearchUsers()
+    }
+  },
+  methods: {
+    ...mapActions({
+      follow: 'modules/user/follow',
+      unfollow: 'modules/user/unfollow'
+    }),
+    keywordSearchUsers () {
+      this.$axios.$get('api/v1/users/search', {
+        params: {
+          user_keyword: this.keyword
+        }
+      })
+        .then((usersObj) => {
+          this.resultUsers = usersObj
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
+    genreSearchUsers () {
+      this.$axios.$get('api/v1/users/search', {
+        params: {
+          user_genre: this.genre
+        }
+      })
+        .then((usersObj) => {
+          this.resultUsers = usersObj
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   }
 }

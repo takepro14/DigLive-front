@@ -51,38 +51,6 @@ export default {
       return this.tab === 'postsTab'
     }
   },
-  // computed: {
-  //   filteredPosts () {
-  //     if (this.keyword !== '') {
-  //       return this.posts.filter((post) => {
-  //         return post.content.includes(this.keyword)
-  //       })
-  //     } else if (this.tag !== '') {
-  //       return this.posts.filter((post) => {
-  //         return post.tags.map(tag => tag.tag_name).includes(this.tag)
-  //       })
-  //     } else if (this.genre !== '') {
-  //       return this.posts.filter((post) => {
-  //         return post.genres.map(genre => genre.genre_name).includes(this.genre)
-  //       })
-  //     } else {
-  //       return []
-  //     }
-  //   },
-  //   filteredUsers () {
-  //     if (this.keyword !== '') {
-  //       return this.users.filter((user) => {
-  //         return (user.name.includes(this.keyword) || user.profile.includes(this.keyword))
-  //       })
-  //     } else if (this.genre !== '') {
-  //       return this.users.filter((user) => {
-  //         return user.genres.map(genre => genre.genre_name).includes(this.genre)
-  //       })
-  //     } else {
-  //       return []
-  //     }
-  //   }
-  // },
   methods: {
     formKeywordFocusIn () {
       this.tag = ''
@@ -116,12 +84,5 @@ export default {
       this.$emit('tagChangedEvent', this.tag)
     }
   }
-  //   filteredPosts () {
-  //     this.$emit('filteredPostsChangedEvent', this.keyword, this.tag, this.genre)
-  //   },
-  //   filteredUsers () {
-  //     this.$emit('filteredUsersChangedEvent', this.keyword, this.genre)
-  //   }
-  // }
 }
 </script>

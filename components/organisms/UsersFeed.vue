@@ -9,7 +9,10 @@
       <UsersFeedFollow />
     </div>
     <div v-else-if="filteredUsersTab">
-      <UsersFeedSearch  />
+      <UsersFeedSearch
+        :keyword="keyword"
+        :genre="genre"
+      />
     </div>
   </div>
 </template>
@@ -23,18 +26,6 @@ export default {
     },
     tab: {
       type: String
-    },
-    currentUser: {
-      type: Object
-    },
-    users: {
-      type: Array
-    },
-    followedUsers: {
-      type: Array
-    },
-    filteredUsers: {
-      type: Array
     },
     keyword: {
       type: String
