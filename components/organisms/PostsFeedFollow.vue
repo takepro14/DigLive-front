@@ -1,5 +1,18 @@
 <template>
   <div class="mx-auto">
+    <v-row v-if="isLoadingFollowedPosts">
+      <v-col
+        v-for="n in 10"
+        :key="n"
+        cols="12"
+        sm="12"
+        md="12"
+        lg="6"
+        xl="4"
+      >
+        <LoaderTypeCard />
+      </v-col>
+    </v-row>
     <v-row>
       <v-col
         v-for="post in followedPosts"
@@ -35,7 +48,21 @@ export default {
       currentUser: 'modules/user/currentUser',
       followedPage: 'modules/post/followedPage',
       followedPosts: 'modules/post/followedPosts'
+    }),
+    isLoadingFollowedPosts () {
+      return !this.followedPosts.length
+    }
+  },
+  async mounted () {
+    await this.$axios.$get('/api/v1/posts', {
+      params: {
+        page: this.followedPage,
+        user_id: this.currentUser.id
+      }
     })
+      .then((data) => {
+        this.getFollowedPosts(data.posts)
+      })
   },
   methods: {
     ...mapActions({
@@ -46,6 +73,8 @@ export default {
       destroyPost: 'modules/post/destroyPost'
     }),
     async infiniteHandler ($state) {
+      // 初回読み込みで1pageなので2page〜を読み込むためにここでgetPageする
+      this.getFollowedPage()
       await this.$axios.$get('/api/v1/posts', {
         params: {
           page: this.followedPage,
@@ -55,7 +84,6 @@ export default {
         .then((data) => {
           setTimeout(() => {
             if (this.followedPage <= data.kaminari.pagination.pages) {
-              this.getFollowedPage()
               this.getFollowedPosts(data.posts)
               $state.loaded()
             } else {

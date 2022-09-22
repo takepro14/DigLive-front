@@ -1,5 +1,18 @@
 <template>
   <div class="mx-auto">
+    <v-row v-if="isLoadingPosts">
+      <v-col
+        v-for="n in 10"
+        :key="n"
+        cols="12"
+        sm="12"
+        md="12"
+        lg="6"
+        xl="4"
+      >
+        <LoaderTypeCard />
+      </v-col>
+    </v-row>
     <v-row>
       <v-col
         v-for="post in posts"
@@ -35,7 +48,20 @@ export default {
       currentUser: 'modules/user/currentUser',
       page: 'modules/post/page',
       posts: 'modules/post/posts'
+    }),
+    isLoadingPosts () {
+      return !this.posts.length
+    }
+  },
+  async mounted () {
+    await this.$axios.$get('/api/v1/posts', {
+      params: {
+        page: this.page
+      }
     })
+      .then((data) => {
+        this.getPosts(data.posts)
+      })
   },
   methods: {
     ...mapActions({
@@ -43,10 +69,11 @@ export default {
       getPosts: 'modules/post/getPosts',
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost',
-      createPost: 'modules/post/createPost',
       destroyPost: 'modules/post/destroyPost'
     }),
     async infiniteHandler ($state) {
+      // 初回読み込みで1pageなので2page〜を読み込むためにここでgetPageする
+      this.getPage()
       await this.$axios.$get('/api/v1/posts', {
         params: {
           page: this.page
@@ -55,7 +82,6 @@ export default {
         .then((data) => {
           setTimeout(() => {
             if (this.page <= data.kaminari.pagination.pages) {
-              this.getPage()
               this.getPosts(data.posts)
               $state.loaded()
             } else {

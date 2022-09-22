@@ -1,20 +1,17 @@
 <template>
   <div class="mx-auto">
-    <div v-if="newPostsTab">
-      <LoaderTypeCard v-if="isLoadingPosts" />
-      <PostsFeedNew />
-    </div>
-    <div v-else-if="followedPostsTab">
-      <LoaderTypeCard v-if="isLoadingFollowedPosts" />
-      <PostsFeedFollow />
-    </div>
-    <div v-else-if="filteredPostsTab">
-      <PostsFeedSearch
-        :keyword="keyword"
-        :genre="genre"
-        :tag="tag"
-      />
-    </div>
+    <PostsFeedNew
+      v-if="newPostsTab"
+    />
+    <PostsFeedFollow
+      v-else-if="followedPostsTab"
+    />
+    <PostsFeedSearch
+      v-else-if="filteredPostsTab"
+      :keyword="keyword"
+      :genre="genre"
+      :tag="tag"
+    />
     <PostCreateDialog
       :genres="genres"
       :tags="tags"
@@ -62,12 +59,6 @@ export default {
     },
     filteredPostsTab () {
       return (this.menu === 'searchMenu') && (this.tab === 'postsTab')
-    },
-    isLoadingPosts () {
-      return !this.posts.length
-    },
-    isLoadingFollowedPosts () {
-      return !this.followedPosts.length
     }
   },
   methods: {
