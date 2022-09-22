@@ -1,11 +1,10 @@
 <template>
   <VueTagsInput
-    v-model="tag"
-    :tags="initTags"
-    @tags-changed="newTags => tags = newTags"
+    v-model="inputTag"
+    :inputTags="initTags"
+    @tags-changed="newTags => inputTags = newTags"
     :autocomplete-items="filteredItems"
-    style="color: #fff"
-    :placeholder="dispPlaceholder"
+    :placeholder="displayPlaceholder"
   />
 </template>
 
@@ -14,38 +13,41 @@ export default {
   props: {
     initTags: {
       type: Array
+    },
+    tags: {
+      type: Array
     }
   },
   data () {
     return {
       // input中のテキスト
-      tag: '',
+      inputTag: '',
       // 確定したタグの配列: [{ "text": "タグ", "tiClasses": [ "ti-valid" ] }, {...}]
-      tags: this.initTags,
-      // DBからmiddlewareで取得 => vuexに保存する?
-      autocompleteItems: [{ text: '服' }, { text: '髪型' }, { text: '筋トレ' }]
+      inputTags: this.initTags,
+      autocompleteItems: []
     }
   },
   computed: {
     // 入力文言を含むタグをオートコンプリート表示する
     filteredItems () {
       return this.autocompleteItems.filter((i) => {
-        return i.text.includes(this.tag)
+        return i.text.includes(this.inputTag)
       })
     },
     // 未入力の場合にのみplaceholderを表示
-    dispPlaceholder () {
-      if (!this.tags.length) {
-        return 'ex) 一体感, 臨場感, ギターソロ, ...etc'
-      } else {
-        return ''
-      }
+    displayPlaceholder () {
+      return !this.inputTags.length ? '一体感、臨場感、ギターソロ...etc' : ''
     }
   },
   watch: {
-    tags (newValue) {
+    inputTags (newValue) {
       this.$emit('changed-tags', newValue)
     }
+  },
+  created () {
+    this.autocompleteItems = this.tags.map((tag) => {
+      return { text: tag.tag_name }
+    })
   }
 }
 </script>

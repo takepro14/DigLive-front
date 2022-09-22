@@ -56,8 +56,9 @@
           <v-card-text>
             タグ (任意・複数可)
             <InputFormTag
-              :init-tags="tags"
-              @changed-tags="tags = $event"
+              :tags="tags"
+              :init-tags="inputTags"
+              @changed-tags="inputTags = $event"
             />
           </v-card-text>
         </div>
@@ -93,6 +94,9 @@ export default {
   props: {
     genres: {
       type: Array
+    },
+    tags: {
+      type: Array
     }
   },
   data ({ $store }) {
@@ -100,7 +104,7 @@ export default {
       dialog: false,
       youtube_url: '',
       content: 'テスト',
-      tags: [],
+      inputTags: [],
       rules: [v => v.length <= 300 || '300文字以内で入力してください'],
       user_id: $store.state.user.current.id,
       checkedGenres: []
@@ -116,7 +120,7 @@ export default {
     },
     createPost () {
       this.$emit('createPostEvent', {
-        tags: this.tags,
+        tags: this.inputTags,
         userId: this.user_id,
         youtubeUrl: this.youtube_url,
         content: this.content,

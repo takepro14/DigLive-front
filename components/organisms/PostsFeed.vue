@@ -17,6 +17,7 @@
     </div>
     <PostCreateDialog
       :genres="genres"
+      :tags="tags"
       @createPostEvent="createPost"
     />
   </div>
