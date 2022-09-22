@@ -12,7 +12,7 @@
         @formGenreUncheckedEvent="formGenreUnchecked"
       />
       <SearchFormTag
-        v-if="tab === 'postsTab'"
+        v-if="isPostsTab"
         :tag.sync="tag"
         :tags="tags"
         @formTagCheckedEvent="formTagChecked"
@@ -32,12 +32,6 @@ export default {
     tab: {
       type: String
     },
-    posts: {
-      type: Array
-    },
-    users: {
-      type: Array
-    },
     genres: {
       type: Array
     },
@@ -53,37 +47,42 @@ export default {
     }
   },
   computed: {
-    filteredPosts () {
-      if (this.keyword !== '') {
-        return this.posts.filter((post) => {
-          return post.content.includes(this.keyword)
-        })
-      } else if (this.tag !== '') {
-        return this.posts.filter((post) => {
-          return post.tags.map(tag => tag.tag_name).includes(this.tag)
-        })
-      } else if (this.genre !== '') {
-        return this.posts.filter((post) => {
-          return post.genres.map(genre => genre.genre_name).includes(this.genre)
-        })
-      } else {
-        return []
-      }
-    },
-    filteredUsers () {
-      if (this.keyword !== '') {
-        return this.users.filter((user) => {
-          return (user.name.includes(this.keyword) || user.profile.includes(this.keyword))
-        })
-      } else if (this.genre !== '') {
-        return this.users.filter((user) => {
-          return user.genres.map(genre => genre.genre_name).includes(this.genre)
-        })
-      } else {
-        return []
-      }
+    isPostsTab () {
+      return this.tab === 'postsTab'
     }
   },
+  // computed: {
+  //   filteredPosts () {
+  //     if (this.keyword !== '') {
+  //       return this.posts.filter((post) => {
+  //         return post.content.includes(this.keyword)
+  //       })
+  //     } else if (this.tag !== '') {
+  //       return this.posts.filter((post) => {
+  //         return post.tags.map(tag => tag.tag_name).includes(this.tag)
+  //       })
+  //     } else if (this.genre !== '') {
+  //       return this.posts.filter((post) => {
+  //         return post.genres.map(genre => genre.genre_name).includes(this.genre)
+  //       })
+  //     } else {
+  //       return []
+  //     }
+  //   },
+  //   filteredUsers () {
+  //     if (this.keyword !== '') {
+  //       return this.users.filter((user) => {
+  //         return (user.name.includes(this.keyword) || user.profile.includes(this.keyword))
+  //       })
+  //     } else if (this.genre !== '') {
+  //       return this.users.filter((user) => {
+  //         return user.genres.map(genre => genre.genre_name).includes(this.genre)
+  //       })
+  //     } else {
+  //       return []
+  //     }
+  //   }
+  // },
   methods: {
     formKeywordFocusIn () {
       this.tag = ''
@@ -107,12 +106,22 @@ export default {
     }
   },
   watch: {
-    filteredPosts () {
-      this.$emit('filteredPostsChangedEvent', this.filteredPosts, this.keyword, this.tag, this.genre)
+    keyword () {
+      this.$emit('keywordChangedEvent', this.keyword)
     },
-    filteredUsers () {
-      this.$emit('filteredUsersChangedEvent', this.filteredUsers, this.keyword, this.genre)
+    genre () {
+      this.$emit('genreChangedEvent', this.genre)
+    },
+    tag () {
+      this.$emit('tagChangedEvent', this.tag)
     }
   }
+  //   filteredPosts () {
+  //     this.$emit('filteredPostsChangedEvent', this.keyword, this.tag, this.genre)
+  //   },
+  //   filteredUsers () {
+  //     this.$emit('filteredUsersChangedEvent', this.keyword, this.genre)
+  //   }
+  // }
 }
 </script>

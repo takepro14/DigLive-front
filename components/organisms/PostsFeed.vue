@@ -9,7 +9,11 @@
       <PostsFeedFollow />
     </div>
     <div v-else-if="filteredPostsTab">
-      <PostsFeedSearch />
+      <PostsFeedSearch
+        :keyword="keyword"
+        :genre="genre"
+        :tag="tag"
+      />
     </div>
     <PostCreateDialog
       :genres="genres"

@@ -41,6 +41,14 @@ export default {
       follow: 'modules/user/follow',
       unfollow: 'modules/user/unfollow'
     })
+  },
+  props: {
+    keyword: {
+      type: String
+    },
+    genre: {
+      type: String
+    }
   }
 }
 </script>

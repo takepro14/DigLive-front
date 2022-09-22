@@ -19,8 +19,9 @@
           :tab="tab"
           :genres="genres"
           :tags="tags"
-          @filteredPostsChangedEvent="filteredPostsChanged"
-          @filteredUsersChangedEvent="filteredUsersChanged"
+          @keywordChangedEvent="keywordChanged"
+          @genreChangedEvent="genreChanged"
+          @tagChangedEvent="tagChanged"
         />
       </v-col>
       <v-col cols="12" sm="12" md="8" lg="8" xl="8">
@@ -116,19 +117,28 @@ export default {
     stopLoading () {
       this.isLoading = false
     },
-    filteredPostsChanged (...args) {
-      const [filteredPosts, keyword, tag, genre] = args
-      this.filteredPosts = filteredPosts
-      this.keyword = keyword
-      this.tag = tag
-      this.genre = genre
+    keywordChanged (value) {
+      this.keyword = value
     },
-    filteredUsersChanged (...args) {
-      const [filteredUsers, keyword, genre] = args
-      this.filteredUsers = filteredUsers
-      this.keyword = keyword
-      this.genre = genre
+    genreChanged (value) {
+      this.genre = value
+    },
+    tagChanged (value) {
+      this.tag = value
     }
+    // filteredPostsChanged (...args) {
+    //   const [filteredPosts, keyword, tag, genre] = args
+    //   this.filteredPosts = filteredPosts
+    //   this.keyword = keyword
+    //   this.tag = tag
+    //   this.genre = genre
+    // },
+    // filteredUsersChanged (...args) {
+    //   const [filteredUsers, keyword, genre] = args
+    //   this.filteredUsers = filteredUsers
+    //   this.keyword = keyword
+    //   this.genre = genre
+    // }
   },
   async fetch () {
     await this.getGenres()
