@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// state
+////////////////////////////////////////////////////////////////////////////////////////////////////
 export const state = {
   // /home -> posts -> new
   page: 1,
@@ -15,6 +18,9 @@ export const state = {
   userLikes: []
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// getters
+////////////////////////////////////////////////////////////////////////////////////////////////////
 export const getters = {
   page (state) {
     return state.page
@@ -45,8 +51,11 @@ export const getters = {
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// mutations
+////////////////////////////////////////////////////////////////////////////////////////////////////
 export const mutations = {
-  // ---------- ローディング処理 ----------
+  // ========== ローディング処理 ==========
   setPage (state) {
     state.page += 1
   },
@@ -74,7 +83,7 @@ export const mutations = {
   setUserLikes (state, payload) {
     state.userLikes.push(...payload)
   },
-  // ---------- リセット処理 ----------
+  // ========== リセット処理 ==========
   setPostClear (state) {
     state.post = {}
   },
@@ -85,7 +94,7 @@ export const mutations = {
   setPostForPosts (state, payload) {
     state.posts.unshift(payload)
   },
-  // ---------- 即時リロード処理 ----------
+  // ========== 即時リロード処理 ==========
   reloadCommentsByCreateComment (state, payload) {
     state.post.comments.push(payload)
   },
@@ -96,14 +105,14 @@ export const mutations = {
   //   state.posts.push(payload)
   // },
   reloadPostsByDestroyPost (state, payload) {
-    // --- 共通処理 ---
+    // ----- 共通処理 -----
     const idx = state.posts.findIndex((post) => { return post.id === payload })
     if (idx !== -1) {
       state.posts.splice(idx, 1)
     }
   },
   reloadPostByLikePost (state, payload) {
-    // --- 個別処理 ---
+    // ----- 個別処理 -----
     if (payload.route.includes('posts')) {
       state.post.isLiked = true
       state.post.likes.push(payload.likeObj)
@@ -121,7 +130,7 @@ export const mutations = {
         state.userLikes[idxLikes].likes.push(payload.likeObj)
       }
     }
-    // --- 共通処理 ---
+    // ----- 共通処理 -----
     const idx = state.posts.findIndex((post) => { return post.id === payload.postObj.id })
     // idx === -1すなわち見つからなかった時は無限スクロール前のデータなので問題ない
     if (idx !== -1) {
@@ -130,7 +139,7 @@ export const mutations = {
     }
   },
   reloadPostByUnLikePost (state, payload) {
-    // --- 個別処理 ---
+    // ----- 個別処理 -----
     if (payload.route.includes('posts')) {
       state.post.isLiked = false
       const otherLikes = state.post.likes.filter((like) => { return like.user_id !== payload.likeObj.user_id })
@@ -151,7 +160,7 @@ export const mutations = {
         state.userLikes[idxLikes].likes = otherLikes
       }
     }
-    // --- 共通処理 ---
+    // ----- 共通処理 -----
     const idx = state.posts.findIndex((post) => { return post.id === payload.postObj.id })
     if (idx !== -1) {
       state.posts[idx].isLiked = false
@@ -161,8 +170,11 @@ export const mutations = {
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// actions
+////////////////////////////////////////////////////////////////////////////////////////////////////
 export const actions = {
-  // ---------- ローディング処理 ----------
+  // ========== ローディング処理 ==========
   getPage ({ commit }) {
     commit('setPage')
   },
@@ -207,7 +219,7 @@ export const actions = {
     })
     commit('setUserLikes', postsObj)
   },
-  // ---------- 確認中 ----------
+  // ========== 確認中 ==========
   async getPostForPosts ({ commit, rootState }, postId) {
     await this.$axios.$get(`/api/v1/posts/${postId}`)
       // postへの追加処理: いいね済の場合にtrueを立てる
@@ -234,7 +246,7 @@ export const actions = {
   getUserPostsClear ({ commit }) {
     commit('setUserClear')
   },
-  // ---------- アクション時処理 ----------
+  // ========== アクション時処理 ==========
   async createPost ({ commit }, params) {
     const data = new FormData()
     if (params.tags.length !== 0) {

@@ -1,8 +1,8 @@
 <template>
   <div class="mx-auto">
-    keyword: {{ keyword }}
+    <!-- keyword: {{ keyword }}
     genre: {{ genre }}
-    tag: {{ tag }}
+    tag: {{ tag }} -->
     <!-- resultPosts: {{ resultPosts }} -->
     <h3 v-if="isSearching">
       {{ keyword || genre || tag }} の検索結果 ({{ resultPosts.length }})
@@ -19,7 +19,7 @@
       >
         <Post
           :post="post"
-          :currentUserId="currentUserId"
+          :currentUserId="currentUser.id"
           @likePostEvent="likePost"
           @unLikePostEvent="unLikePost"
           @destroyPostEvent="destroyPost"
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
     keyword: {
@@ -48,22 +50,42 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      currentUser: 'modules/user/currentUser'
+    }),
     isSearching () {
       return this.keyword || this.genre || this.tag
     }
   },
   watch: {
     keyword () {
-      this.keywordSearchPosts()
+      if (this.keyword !== '') {
+        this.delaySearch()
+      } else {
+        this.resultPosts = []
+      }
     },
     genre () {
-      this.genreSearchPosts()
+      if (this.genre !== '') {
+        this.genreSearchPosts()
+      } else {
+        this.resultPosts = []
+      }
     },
     tag () {
-      this.tagSearchPosts()
+      if (this.tag !== '') {
+        this.tagSearchPosts()
+      } else {
+        this.resultPosts = []
+      }
     }
   },
   methods: {
+    ...mapActions({
+      likePost: 'modules/post/likePost',
+      unLikePost: 'modules/post/unLikePost',
+      destroyPost: 'modules/post/destroyPost'
+    }),
     keywordSearchPosts () {
       this.$axios.$get('api/v1/posts/search', {
         params: {
@@ -103,6 +125,9 @@ export default {
           console.error(error)
         })
     }
+  },
+  created () {
+    this.delaySearch = _.debounce(this.keywordSearchPosts, 1000)
   }
 }
 </script>

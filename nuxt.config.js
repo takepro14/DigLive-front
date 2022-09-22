@@ -30,8 +30,9 @@ export default {
     'plugins/axios',
     'plugins/my-inject',
     'plugins/nuxt-client-init',
-    { src: '~/plugins/vue-tags-input.js', ssr: false},
-    { src: '~/plugins/vue-infinite-loading.js', ssr: false},
+    { src: '~/plugins/vue-tags-input.js', ssr: false },
+    { src: '~/plugins/vue-infinite-loading.js', ssr: false },
+    { src: '~/plugins/lodash.js' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -1,7 +1,7 @@
 <template>
   <div>
-    keyword: {{ keyword }}
-    genre: {{ genre }}
+    <!-- keyword: {{ keyword }}
+    genre: {{ genre }} -->
     <!-- resultUsers: {{ resultUsers }} -->
     <h3 v-if="isSearching">
       {{ keyword || genre }} の検索結果 ({{ resultUsers.length }})
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
@@ -54,10 +55,18 @@ export default {
   },
   watch: {
     keyword () {
-      this.keywordSearchUsers()
+      if (this.keyword !== '') {
+        this.delaySearch()
+      } else {
+        this.resultUsers = []
+      }
     },
     genre () {
-      this.genreSearchUsers()
+      if (this.genre !== '') {
+        this.genreSearchUsers()
+      } else {
+        this.resultUsers = []
+      }
     }
   },
   methods: {
@@ -91,6 +100,9 @@ export default {
           console.error(error)
         })
     }
+  },
+  created () {
+    this.delaySearch = _.debounce(this.keywordSearchUsers, 1000)
   }
 }
 </script>
