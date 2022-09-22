@@ -5,6 +5,7 @@
       filled
       rounded
       dense
+      clearable
       v-model="setKeyword"
       @focus="formKeywordFocusIn"
     />
