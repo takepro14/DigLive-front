@@ -1,121 +1,110 @@
 export const state = {
   // common
   currentUser: {},
-  // home - new
+  // /home -> users -> new
   page: 1,
   users: [],
-  // home - follow
+  // /home -> users -> follow
   followedPage: 1,
   followedUsers: [],
-  // id
+  // /users/id
   user: {}
 }
 
 export const getters = {
-  // common
   currentUser (state) {
     return state.currentUser
   },
-  // home - new
   page (state) {
     return state.page
   },
   users (state) {
     return state.users
   },
-  // home - follow
   followedPage (state) {
     return state.followedPage
   },
   followedUsers (state) {
     return state.followedUsers
   },
-  // id
   user (state) {
     return state.user
   }
 }
 
 export const mutations = {
-  // common
+  // ---------- ローディング処理 ----------
   setCurrentUser (state, payload) {
     state.currentUser = payload
   },
-  // home - new
   setPage (state) {
     state.page += 1
   },
   setUsers (state, payload) {
     state.users.push(...payload)
   },
-  // home - follow
   setFollowedPage (state) {
     state.followedPage += 1
   },
   setFollowedUsers (state, payload) {
     state.followedUsers.push(...payload)
   },
-  // id
   setUser (state, payload) {
     state.user = payload
   },
   setUserClear (state) {
     state.user = {}
   },
+  // ---------- 即時リロード処理 ----------
   reloadUserBySetProfile (state, payload) {
     state.currentUser.name = payload.name
     state.currentUser.email = payload.email
     state.currentUser.avatar.url = payload.avatar.url
   },
-  // common
   reloadUserByFollow (state, payload) {
-    // home
-    if (payload.route.includes('home')) {
-      const idx = state.users.findIndex((user) => {
-        return user.id === payload.userId
-      })
-      state.users[idx].isFollowed = true
-      state.users[idx].passive_relationships.push(payload.relObj)
-      state.currentUser.active_relationships.push(payload.relObj)
-    // id
-    } else if (payload.route.includes('users')) {
+    // 個別処理
+    if (payload.route.includes('users')) {
       state.user.isFollowed = true
       state.user.passive_relationships.push(payload.relObj)
       state.currentUser.active_relationships.push(payload.relObj)
     }
+    // 共通処理
+    const idx = state.users.findIndex((user) => { return user.id === payload.userId })
+    if (idx !== -1) {
+      state.users[idx].isFollowed = true
+      state.users[idx].passive_relationships.push(payload.relObj)
+      state.currentUser.active_relationships.push(payload.relObj)
+    }
   },
   reloadUserByUnfollow (state, payload) {
-    // home
-    if (payload.route.includes('home')) {
-      const idx = state.users.findIndex((user) => {
-        return user.id === payload.userId
-      })
-      state.users[idx].isFollowed = false
-      const otherFollowers = state.users[idx].passive_relationships.filter((passiveRelationship) => {
-        return passiveRelationship.follower_id !== payload.currentUserId
-      })
-      state.users[idx].passive_relationships = otherFollowers
-      const otherFollowing = state.currentUser.active_relationships.filter((activeRelationship) => {
-        return activeRelationship.followed_id !== payload.userId
-      })
-      state.currentUser.active_relationships = otherFollowing
-    // id
-    } else if (payload.route.includes('users')) {
+    // 個別処理
+    if (payload.route.includes('users')) {
       state.user.isFollowed = false
-      const otherFollowers = state.user.passive_relationships.filter((passiveRelationship) => {
-        return passiveRelationship.follower_id !== payload.currentUserId
-      })
+      const otherFollowers = state.user.passive_relationships.filter((pRel) => { return pRel.follower_id !== payload.currentUserId })
       state.user.passive_relationships = otherFollowers
-      const otherFollowing = state.currentUser.active_relationships.filter((activeRelationship) => {
-        return activeRelationship.followed_id !== payload.userId
-      })
+      const otherFollowing = state.currentUser.active_relationships.filter((aRel) => { return aRel.followed_id !== payload.userId })
+      state.currentUser.active_relationships = otherFollowing
+    }
+    // 共通処理
+    const idx = state.users.findIndex((user) => { return user.id === payload.userId })
+    if (idx !== -1) {
+      state.users[idx].isFollowed = false
+      const otherFollowers = state.users[idx].passive_relationships.filter((pRel) => { return pRel.follower_id !== payload.currentUserId })
+      state.users[idx].passive_relationships = otherFollowers
+      const otherFollowing = state.currentUser.active_relationships.filter((aRel) => { return aRel.followed_id !== payload.userId })
       state.currentUser.active_relationships = otherFollowing
     }
   }
 }
 
 export const actions = {
-  // home - new
+  // ---------- ローディング処理 ----------
+  async getCurrentUser ({ commit, rootState }) {
+    await this.$axios.$get(`/api/v1/users/${rootState.user.current.id}`)
+      .then((userObj) => {
+        commit('setCurrentUser', userObj)
+      })
+  },
   getPage ({ commit }) {
     commit('setPage')
   },
@@ -126,7 +115,6 @@ export const actions = {
     })
     commit('setUsers', usersObj)
   },
-  // home - follow
   getFollowedPage ({ commit }) {
     commit('setFollowedPage')
   },
@@ -137,7 +125,6 @@ export const actions = {
     })
     commit('setFollowedUsers', usersObj)
   },
-  // id
   getUser ({ commit, rootState }, userObj) {
     // 当ユーザをカレントユーザがフォロー済みかどうかのフラグを付与
     const followersIds = userObj.passive_relationships.map((pRel) => { return pRel.follower_id })
@@ -147,6 +134,7 @@ export const actions = {
   getUserClear ({ commit }) {
     commit('setUserClear')
   },
+  // ---------- 各種アクション時処理 ----------
   async changeProfile ({ commit, rootState }, { formData, config }) {
     await this.$axios.$put(`/api/v1/users/${rootState.user.current.id}`, formData, config)
       .then((currentUserObj) => {
@@ -157,13 +145,6 @@ export const actions = {
           msg: 'プロフィールを変更しました',
           color: 'info'
         })
-      })
-  },
-  // common
-  async getCurrentUser ({ commit, rootState }) {
-    await this.$axios.$get(`/api/v1/users/${rootState.user.current.id}`)
-      .then((userObj) => {
-        commit('setCurrentUser', userObj)
       })
   },
   async follow ({ commit }, userIdAndRoute) {
