@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-if="isLoadingUsers">
+    <v-row v-if="isLoading">
       <v-col
         v-for="n in 10"
         :key="n"
@@ -15,8 +15,8 @@
     </v-row>
     <v-row>
       <v-col
-        v-for="user in users"
-        :key="user.id"
+        v-for="(user,index) in users"
+        :key="`user-new-${index}`"
         cols="12"
         sm="12"
         md="12"
@@ -44,15 +44,17 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
+  data () {
+    return {
+      isLoading: false
+    }
+  },
   computed: {
     ...mapGetters({
       currentUser: 'modules/user/currentUser',
       page: 'modules/user/page',
       users: 'modules/user/users'
-    }),
-    isLoadingUsers () {
-      return !this.users.length
-    }
+    })
   },
   methods: {
     ...mapActions({
@@ -62,8 +64,9 @@ export default {
       unfollow: 'modules/user/unfollow'
     }),
     async infiniteHandler ($state) {
-      // 初回読み込みで1pageなので2page〜を読み込むためにここでgetPageする
-      this.getPage()
+      if (!this.users.length) {
+        this.isLoading = true
+      }
       await this.$axios.$get('/api/v1/users', {
         params: {
           page: this.page
@@ -72,7 +75,9 @@ export default {
         .then((data) => {
           setTimeout(() => {
             if (this.page <= data.kaminari.pagination.pages) {
+              this.getPage()
               this.getUsers(data.users)
+              this.isLoading = false
               $state.loaded()
             } else {
               $state.complete()
@@ -83,16 +88,6 @@ export default {
           $state.complete()
         })
     }
-  },
-  async mounted () {
-    await this.$axios.$get('/api/v1/users', {
-      params: {
-        page: this.page
-      }
-    })
-      .then((data) => {
-        this.getUsers(data.users)
-      })
   }
 }
 </script>

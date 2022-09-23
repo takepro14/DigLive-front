@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-if="isLoadingFollowedUsers">
+    <v-row v-if="isLoading">
       <v-col
         v-for="n in 10"
         :key="n"
@@ -15,8 +15,8 @@
     </v-row>
     <v-row>
       <v-col
-        v-for="user in followedUsers"
-        :key="user.id"
+        v-for="(user, index) in followedUsers"
+        :key="`user-follow-${index}`"
         cols="12"
         sm="12"
         md="12"
@@ -44,15 +44,17 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
+  data () {
+    return {
+      isLoading: false
+    }
+  },
   computed: {
     ...mapGetters({
       currentUser: 'modules/user/currentUser',
       followedPage: 'modules/user/followedPage',
       followedUsers: 'modules/user/followedUsers'
-    }),
-    isLoadingFollowedUsers () {
-      return !this.followedUsers.length
-    }
+    })
   },
   methods: {
     ...mapActions({
@@ -62,8 +64,10 @@ export default {
       unfollow: 'modules/user/unfollow'
     }),
     async infiniteHandler ($state) {
-      // 初回読み込みで1pageなので2page〜を読み込むためにここでgetPageする
-      this.getFollowedPage()
+      // データの初回ロード前のみスケルトンローダーを表示
+      if (!this.followedUsers.length) {
+        this.isLoading = true
+      }
       await this.$axios.$get('/api/v1/users', {
         params: {
           page: this.followedPage,
@@ -73,7 +77,10 @@ export default {
         .then((data) => {
           setTimeout(() => {
             if (this.followedPage <= data.kaminari.pagination.pages) {
+              // データを1ページあたりの件数GETできた時に限り次のページにする
+              this.getFollowedPage()
               this.getFollowedUsers(data.users)
+              this.isLoading = false
               $state.loaded()
             } else {
               $state.complete()
@@ -84,17 +91,6 @@ export default {
           $state.complete()
         })
     }
-  },
-  async mounted () {
-    await this.$axios.$get('/api/v1/users', {
-      params: {
-        page: this.followedPage,
-        user_id: this.currentUser.id
-      }
-    })
-      .then((data) => {
-        this.getFollowedUsers(data.users)
-      })
   }
 }
 </script>
