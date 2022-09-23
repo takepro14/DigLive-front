@@ -53,17 +53,6 @@ export default {
       return !this.followedPosts.length
     }
   },
-  async mounted () {
-    await this.$axios.$get('/api/v1/posts', {
-      params: {
-        page: this.followedPage,
-        user_id: this.currentUser.id
-      }
-    })
-      .then((data) => {
-        this.getFollowedPosts(data.posts)
-      })
-  },
   methods: {
     ...mapActions({
       getFollowedPage: 'modules/post/getFollowedPage',
@@ -95,6 +84,17 @@ export default {
           $state.complete()
         })
     }
+  },
+  async mounted () {
+    await this.$axios.$get('/api/v1/posts', {
+      params: {
+        page: this.followedPage,
+        user_id: this.currentUser.id
+      }
+    })
+      .then((data) => {
+        this.getFollowedPosts(data.posts)
+      })
   }
 }
 </script>

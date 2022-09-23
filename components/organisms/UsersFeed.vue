@@ -1,19 +1,16 @@
 <template>
   <div class="mx-auto" >
-    <div v-if="newUsersTab">
-      <LoaderTypeCard v-if="isLoadingUsers" />
-      <UsersFeedNew  />
-    </div>
-    <div v-else-if="followedUsersTab">
-      <LoaderTypeCard :repeat="5" v-if="isLoadingFollowedUsers" />
-      <UsersFeedFollow />
-    </div>
-    <div v-else-if="filteredUsersTab">
-      <UsersFeedSearch
-        :keyword="keyword"
-        :genre="genre"
-      />
-    </div>
+    <UsersFeedNew
+      v-if="newUsersTab"
+    />
+    <UsersFeedFollow
+      v-else-if="followedUsersTab"
+    />
+    <UsersFeedSearch
+      v-else-if="filteredUsersTab"
+      :keyword="keyword"
+      :genre="genre"
+    />
   </div>
 </template>
 
@@ -47,12 +44,6 @@ export default {
     },
     filteredUsersTab () {
       return (this.menu === 'searchMenu') && (this.tab === 'usersTab')
-    },
-    isLoadingUsers () {
-      return !this.users.length
-    },
-    isLoadingFollowedUsers () {
-      return !this.followedUsers.length
     }
   }
 }

@@ -53,16 +53,6 @@ export default {
       return !this.posts.length
     }
   },
-  async mounted () {
-    await this.$axios.$get('/api/v1/posts', {
-      params: {
-        page: this.page
-      }
-    })
-      .then((data) => {
-        this.getPosts(data.posts)
-      })
-  },
   methods: {
     ...mapActions({
       getPage: 'modules/post/getPage',
@@ -93,6 +83,16 @@ export default {
           $state.complete()
         })
     }
+  },
+  async mounted () {
+    await this.$axios.$get('/api/v1/posts', {
+      params: {
+        page: this.page
+      }
+    })
+      .then((data) => {
+        this.getPosts(data.posts)
+      })
   }
 }
 </script>

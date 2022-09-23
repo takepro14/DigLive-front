@@ -1,5 +1,18 @@
 <template>
   <div>
+    <v-row v-if="isLoadingUsers">
+      <v-col
+        v-for="n in 10"
+        :key="n"
+        cols="12"
+        sm="12"
+        md="12"
+        lg="6"
+        xl="4"
+      >
+        <LoaderTypeCard />
+      </v-col>
+    </v-row>
     <v-row>
       <v-col
         v-for="user in users"
@@ -36,7 +49,10 @@ export default {
       currentUser: 'modules/user/currentUser',
       page: 'modules/user/page',
       users: 'modules/user/users'
-    })
+    }),
+    isLoadingUsers () {
+      return !this.users.length
+    }
   },
   methods: {
     ...mapActions({
@@ -46,6 +62,8 @@ export default {
       unfollow: 'modules/user/unfollow'
     }),
     async infiniteHandler ($state) {
+      // 初回読み込みで1pageなので2page〜を読み込むためにここでgetPageする
+      this.getPage()
       await this.$axios.$get('/api/v1/users', {
         params: {
           page: this.page
@@ -54,7 +72,6 @@ export default {
         .then((data) => {
           setTimeout(() => {
             if (this.page <= data.kaminari.pagination.pages) {
-              this.getPage()
               this.getUsers(data.users)
               $state.loaded()
             } else {
@@ -66,6 +83,16 @@ export default {
           $state.complete()
         })
     }
+  },
+  async mounted () {
+    await this.$axios.$get('/api/v1/users', {
+      params: {
+        page: this.page
+      }
+    })
+      .then((data) => {
+        this.getUsers(data.users)
+      })
   }
 }
 </script>
