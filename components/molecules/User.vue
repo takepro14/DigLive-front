@@ -79,12 +79,12 @@
       >
         <div class="ml-3 mr-1">
           <v-card-text>
-            {{ followingLength }} フォロー
+            {{ user.followingCount }} フォロー
           </v-card-text>
         </div>
         <div class="ml-3 mr-1">
           <v-card-text>
-            {{ followerLength }} フォロワー
+            {{ user.followerCount }} フォロワー
           </v-card-text>
         </div>
       </v-row>
@@ -113,12 +113,12 @@ export default {
     isFollowed () {
       return this.user.isFollowed
     },
-    followerLength () {
-      return !this.user.passive_relationships ? 0 : this.user.passive_relationships.length
-    },
-    followingLength () {
-      return !this.user.active_relationships ? 0 : this.user.active_relationships.length
-    },
+    // followerLength () {
+    //   return !this.user.passive_relationships ? 0 : this.user.passive_relationships.length
+    // },
+    // followingLength () {
+    //   return !this.user.active_relationships ? 0 : this.user.active_relationships.length
+    // },
     avatarUrl () {
       return 'http://localhost:3000' + this.user.avatar.url
     }

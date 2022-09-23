@@ -15,7 +15,7 @@
     </v-row>
     <v-row>
       <v-col
-        v-for="(user, index) in followedUsers"
+        v-for="(user, index) in followedUsersReactive"
         :key="`user-follow-${index}`"
         cols="12"
         sm="12"
@@ -54,7 +54,13 @@ export default {
       currentUser: 'modules/user/currentUser',
       followedPage: 'modules/user/followedPage',
       followedUsers: 'modules/user/followedUsers'
-    })
+    }),
+    // API GETしたusersの中でリアルタイムにフォロー中のユーザのみ返す
+    followedUsersReactive () {
+      return this.followedUsers.filter((user) => {
+        return user.isFollowed === true
+      })
+    }
   },
   methods: {
     ...mapActions({
@@ -77,7 +83,6 @@ export default {
         .then((data) => {
           setTimeout(() => {
             if (this.followedPage <= data.kaminari.pagination.pages) {
-              // データを1ページあたりの件数GETできた時に限り次のページにする
               this.getFollowedPage()
               this.getFollowedUsers(data.users)
               this.isLoading = false
