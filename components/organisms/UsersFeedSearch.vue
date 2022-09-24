@@ -2,13 +2,26 @@
   <div>
     <!-- keyword: {{ keyword }}
     genre: {{ genre }} -->
-    <!-- resultUsers: {{ resultUsers }} -->
+    <!-- filteredUsers: {{ filteredUsers }} -->
+    <v-row v-if="isLoading">
+      <v-col
+        v-for="n in 10"
+        :key="n"
+        cols="12"
+        sm="12"
+        md="12"
+        lg="6"
+        xl="4"
+      >
+        <LoaderTypeCard />
+      </v-col>
+    </v-row>
     <h3 v-if="isSearching">
-      {{ keyword || genre }} の検索結果 ({{ resultUsers.length }})
+      {{ keyword || genre }} の検索結果 ({{ filteredUsers.length }})
     </h3>
     <v-row>
       <v-col
-        v-for="user in resultUsers"
+        v-for="user in filteredUsers"
         :key="user.id"
         cols="12"
         sm="12"
@@ -42,12 +55,13 @@ export default {
   },
   data () {
     return {
-      resultUsers: []
+      isLoading: false
     }
   },
   computed: {
     ...mapGetters({
-      currentUser: 'modules/user/currentUser'
+      currentUser: 'modules/user/currentUser',
+      filteredUsers: 'modules/user/filteredUsers'
     }),
     isSearching () {
       return this.keyword || this.genre
@@ -58,43 +72,58 @@ export default {
       if (this.keyword !== '') {
         this.delaySearch()
       } else {
-        this.resultUsers = []
+        this.getFilteredPostsClear()
       }
     },
     genre () {
       if (this.genre !== '') {
         this.genreSearchUsers()
       } else {
-        this.resultUsers = []
+        this.getFilteredPostsClear()
       }
     }
   },
   methods: {
     ...mapActions({
       follow: 'modules/user/follow',
-      unfollow: 'modules/user/unfollow'
+      unfollow: 'modules/user/unfollow',
+      getFilteredUsers: 'modules/user/getFilteredUsers',
+      getFilteredUsersZero: 'modules/user/getFilteredUsersZero',
+      getFilteredPostsClear: 'modules/user/getFilteredUsersClear'
     }),
     keywordSearchUsers () {
+      this.isLoading = true
       this.$axios.$get('api/v1/users/search', {
         params: {
           user_keyword: this.keyword
         }
       })
-        .then((usersObj) => {
-          this.resultUsers = usersObj
+        .then((usersArray) => {
+          if (usersArray.length) {
+            this.getFilteredUsers(usersArray)
+          } else {
+            this.getFilteredUsersZero()
+          }
+          this.isLoading = false
         })
         .catch((error) => {
           console.error(error)
         })
     },
     genreSearchUsers () {
+      this.isLoading = true
       this.$axios.$get('api/v1/users/search', {
         params: {
           user_genre: this.genre
         }
       })
-        .then((usersObj) => {
-          this.resultUsers = usersObj
+        .then((usersArray) => {
+          if (usersArray.length) {
+            this.getFilteredUsers(usersArray)
+          } else {
+            this.getFilteredUsersZero()
+          }
+          this.isLoading = false
         })
         .catch((error) => {
           console.error(error)
@@ -102,7 +131,7 @@ export default {
     }
   },
   created () {
-    this.delaySearch = _.debounce(this.keywordSearchUsers, 1000)
+    this.delaySearch = _.debounce(this.keywordSearchUsers, 500)
   }
 }
 </script>

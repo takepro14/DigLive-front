@@ -10,7 +10,9 @@ export const state = {
   followedPage: 1,
   followedUsers: [],
   // ---------- /users/:id ----------
-  user: {}
+  user: {},
+  // ---------- /home/検索 ----------
+  filteredUsers: []
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,6 +39,10 @@ export const getters = {
   // ---------- /users/:id ----------
   user (state) {
     return state.user
+  },
+  // ---------- /home/検索 ----------
+  filteredUsers (state) {
+    return state.filteredUsers
   }
 }
 
@@ -49,6 +55,9 @@ export const mutations = {
   // ==================================================
   setUserClear (state) {
     state.user = {}
+  },
+  setFilteredUsersClear (state) {
+    state.filteredUsers = []
   },
   // ==================================================
   // データロード
@@ -73,6 +82,14 @@ export const mutations = {
   // ---------- /users/:id ----------
   setUser (state, payload) {
     state.user = payload
+  },
+  // ---------- /home/検索 ----------
+  setFilteredUsers (state, usersArray) {
+    state.filteredUsers = usersArray
+  },
+  // ---------- /home/検索(結果0件) ----------
+  setFilteredUsersZero (state) {
+    state.filteredusers = []
   },
   // ==================================================
   // プロフィール変更の即時反映
@@ -157,6 +174,9 @@ export const actions = {
   getUserClear ({ commit }) {
     commit('setUserClear')
   },
+  getFilteredUsersClear ({ commit }) {
+    commit('setFilteredUsersClear')
+  },
   // ==================================================
   // データロード
   // ==================================================
@@ -172,9 +192,10 @@ export const actions = {
   },
   getUsers ({ rootState, commit }, usersArray) {
     usersArray.forEach((user) => {
-      user.isFollowed = user.passive_relationships.map((pRel) => {
+      const followerIds = user.passive_relationships.map((pRel) => {
         return pRel.follower_id
-      }).includes(rootState.user.current.id)
+      })
+      user.isFollowed = followerIds.includes(rootState.user.current.id)
     })
     commit('setUsers', usersArray)
   },
@@ -184,18 +205,34 @@ export const actions = {
   },
   getFollowedUsers ({ rootState, commit }, usersArray) {
     usersArray.forEach((user) => {
-      user.isFollowed = user.passive_relationships.map((pRel) => {
+      const followerIds = user.passive_relationships.map((pRel) => {
         return pRel.follower_id
-      }).includes(rootState.user.current.id)
+      })
+      user.isFollowed = followerIds.includes(rootState.user.current.id)
     })
     commit('setFollowedUsers', usersArray)
   },
   // ---------- /users/:id ----------
   getUser ({ commit, rootState }, userObj) {
-    userObj.isFollowed = userObj.passive_relationships.map((pRel) => {
+    const followerIds = userObj.passive_relationships.map((pRel) => {
       return pRel.follower_id
-    }).includes(rootState.user.current.id)
+    })
+    userObj.isFollowed = followerIds.includes(rootState.user.current.id)
     commit('setUser', userObj)
+  },
+  // ---------- /home/検索 ----------
+  getFilteredUsers ({ rootState, commit }, usersArray) {
+    usersArray.forEach((user) => {
+      const followerIds = user.passive_relationships.map((pRel) => {
+        return pRel.follower_id
+      })
+      user.isFollowed = followerIds.includes(rootState.user.current.id)
+    })
+    commit('setFilteredUsers', usersArray)
+  },
+  // ---------- /home/検索(結果0件) ----------
+  getFilteredUsersZero ({ commit }) {
+    commit('setFilteredUsersZero')
   },
   // ==================================================
   // プロフィール変更アクション
