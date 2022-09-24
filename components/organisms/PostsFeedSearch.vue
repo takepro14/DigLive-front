@@ -4,12 +4,25 @@
     genre: {{ genre }}
     tag: {{ tag }} -->
     <!-- resultPosts: {{ resultPosts }} -->
+    <v-row v-if="isLoading">
+      <v-col
+        v-for="n in 10"
+        :key="n"
+        cols="12"
+        sm="12"
+        md="12"
+        lg="6"
+        xl="4"
+      >
+        <LoaderTypeCard />
+      </v-col>
+    </v-row>
     <h3 v-if="isSearching">
-      {{ keyword || genre || tag }} の検索結果 ({{ resultPosts.length }})
+      {{ keyword || genre || tag }} の検索結果 ({{ filteredPosts.length }})
     </h3>
     <v-row>
       <v-col
-        v-for="post in resultPosts"
+        v-for="post in filteredPosts"
         :key="post.id"
         cols="12"
         sm="12"
@@ -46,12 +59,13 @@ export default {
   },
   data () {
     return {
-      resultPosts: []
+      isLoading: false
     }
   },
   computed: {
     ...mapGetters({
-      currentUser: 'modules/user/currentUser'
+      currentUser: 'modules/user/currentUser',
+      filteredPosts: 'modules/post/filteredPosts'
     }),
     isSearching () {
       return this.keyword || this.genre || this.tag
@@ -62,21 +76,21 @@ export default {
       if (this.keyword !== '') {
         this.delaySearch()
       } else {
-        this.resultPosts = []
+        this.getFilteredPostsClear()
       }
     },
     genre () {
       if (this.genre !== '') {
         this.genreSearchPosts()
       } else {
-        this.resultPosts = []
+        this.getFilteredPostsClear()
       }
     },
     tag () {
       if (this.tag !== '') {
         this.tagSearchPosts()
       } else {
-        this.resultPosts = []
+        this.getFilteredPostsClear()
       }
     }
   },
@@ -84,16 +98,20 @@ export default {
     ...mapActions({
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost',
-      destroyPost: 'modules/post/destroyPost'
+      destroyPost: 'modules/post/destroyPost',
+      getFilteredPosts: 'modules/post/getFilteredPosts',
+      getFilteredPostsClear: 'modules/post/getFilteredPostsClear'
     }),
     keywordSearchPosts () {
+      this.isLoading = true
       this.$axios.$get('api/v1/posts/search', {
         params: {
           post_keyword: this.keyword
         }
       })
         .then((postsArray) => {
-          this.resultPosts = postsArray
+          this.getFilteredPosts(postsArray)
+          this.isLoading = false
         })
         .catch((error) => {
           console.error(error)
@@ -106,7 +124,8 @@ export default {
         }
       })
         .then((postsArray) => {
-          this.resultPosts = postsArray
+          this.getFilteredPosts(postsArray)
+          this.isLoading = false
         })
         .catch((error) => {
           console.error(error)
@@ -119,7 +138,8 @@ export default {
         }
       })
         .then((postsArray) => {
-          this.resultPosts = postsArray
+          this.getFilteredPosts(postsArray)
+          this.isLoading = false
         })
         .catch((error) => {
           console.error(error)
@@ -127,7 +147,7 @@ export default {
     }
   },
   created () {
-    this.delaySearch = _.debounce(this.keywordSearchPosts, 1000)
+    this.delaySearch = _.debounce(this.keywordSearchPosts, 500)
   }
 }
 </script>

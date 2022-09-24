@@ -15,7 +15,9 @@ export const state = {
   userPosts: [],
   // ---------- /users/id/いいね ----------
   userLikesPage: 1,
-  userLikes: []
+  userLikes: [],
+  // ---------- /home/検索 ----------
+  filteredPosts: []
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +55,10 @@ export const getters = {
   },
   userLikesPage (state) {
     return state.userLikesPage
+  },
+  // ---------- /home/検索 ----------
+  filteredPosts (state) {
+    return state.filteredPosts
   }
 }
 
@@ -95,6 +101,10 @@ export const mutations = {
   setUserLikes (state, payload) {
     state.userLikes.push(...payload)
   },
+  // ---------- /home/検索 ----------
+  setFilteredPosts (state, postsArray) {
+    state.filteredPosts = postsArray
+  },
   // ==================================================
   // データクリア
   // ==================================================
@@ -107,6 +117,9 @@ export const mutations = {
   },
   setPostForPosts (state, payload) {
     state.posts.unshift(payload)
+  },
+  setFilteredPostsClear (state) {
+    state.filteredPosts = []
   },
   // ==================================================
   // コメントの即時反映
@@ -152,7 +165,8 @@ export const mutations = {
     }
     changeLiked(state.posts)
     changeLiked(state.followedPosts)
-    // id系は都度ロードされるので不要
+    changeLiked(state.filteredPosts)
+    // idのページは都度ロードされるので不要
   },
   reloadPostByUnLikePost (state, postObjAndLikeObj) {
     const changeUnLiked = (postsContext) => {
@@ -168,7 +182,8 @@ export const mutations = {
     }
     changeUnLiked(state.posts)
     changeUnLiked(state.followedPosts)
-    // id系は都度ロードされるので不要
+    changeUnLiked(state.filteredPosts)
+    // idのページは都度ロードされるので不要
   }
 }
 
@@ -184,6 +199,9 @@ export const actions = {
   },
   getUserPostsClear ({ commit }) {
     commit('setUserClear')
+  },
+  getFilteredPostsClear ({ commit }) {
+    commit('setFilteredPostsClear')
   },
   // ==================================================
   // データロード
@@ -243,6 +261,15 @@ export const actions = {
       return like.user_id
     }).includes(rootState.user.current.id)
     commit('setPost', postObj)
+  },
+  // ---------- /home/検索 ----------
+  getFilteredPosts ({ rootState, commit }, postsArray) {
+    postsArray.forEach((post) => {
+      post.isLiked = post.likes.map((like) => {
+        return like.user_id
+      }).includes(rootState.user.current.id)
+    })
+    commit('setFilteredPosts', postsArray)
   },
   // ==================================================
   // 投稿アクション
