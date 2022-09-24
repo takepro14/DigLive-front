@@ -100,7 +100,7 @@
               <div v-if="post.isLiked">
                 <v-icon
                   class="ml-3 mr-1"
-                  @click.stop="unLikePost({ post, route: $route.fullPath })"
+                  @click.stop="unLikePost(post)"
                   large
                 >
                   mdi-heart
@@ -110,13 +110,13 @@
                 <v-icon
                   class="ml-3 mr-1"
                   large
-                  @click.stop="likePost({ post, route: $route.fullPath })"
+                  @click.stop="likePost(post)"
                 >
                   mdi-heart-outline
                 </v-icon>
               </div>
               <span class="subheading">
-                {{ post.likesCount }}
+                {{ likeLength }}
               </span>
               <div>
                 <v-icon
@@ -161,9 +161,9 @@ export default {
     commentLength () {
       return !this.post.comments ? 0 : this.post.comments.length
     },
-    // likeLength () {
-    //   return !this.post.likes ? 0 : this.post.likes.length
-    // },
+    likeLength () {
+      return !this.post.likes ? 0 : this.post.likes.length
+    },
     isMyPost () {
       return this.post.user_id === this.currentUserId
     },
@@ -172,11 +172,11 @@ export default {
     }
   },
   methods: {
-    likePost (postObjAndRoute) {
-      this.$emit('likePostEvent', postObjAndRoute)
+    likePost (postObj) {
+      this.$emit('likePostEvent', postObj)
     },
-    unLikePost (postObjAndRoute) {
-      this.$emit('unLikePostEvent', postObjAndRoute)
+    unLikePost (postObj) {
+      this.$emit('unLikePostEvent', postObj)
     },
     destroyPost (postId) {
       this.$emit('destroyPostEvent', postId)

@@ -92,8 +92,8 @@ export default {
           post_keyword: this.keyword
         }
       })
-        .then((postsObj) => {
-          this.resultPosts = postsObj
+        .then((postsArray) => {
+          this.resultPosts = postsArray
         })
         .catch((error) => {
           console.error(error)
@@ -105,8 +105,8 @@ export default {
           post_genre: this.genre
         }
       })
-        .then((postsObj) => {
-          this.resultPosts = postsObj
+        .then((postsArray) => {
+          this.resultPosts = postsArray
         })
         .catch((error) => {
           console.error(error)
@@ -118,8 +118,8 @@ export default {
           post_tag: this.tag
         }
       })
-        .then((postsObj) => {
-          this.resultPosts = postsObj
+        .then((postsArray) => {
+          this.resultPosts = postsArray
         })
         .catch((error) => {
           console.error(error)
