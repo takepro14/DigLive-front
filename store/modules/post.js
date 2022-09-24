@@ -17,6 +17,11 @@ export const state = {
   userLikesPage: 1,
   userLikes: []
 }
+// ---------- /home/投稿/最新 ----------
+// ---------- /home/投稿/フォロー ----------
+// ---------- /posts/:id ----------
+// ---------- /users/id/投稿 ----------
+// ---------- /users/id/いいね ----------
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // getters
@@ -117,72 +122,55 @@ export const mutations = {
   reloadCommentsByDestroyComment (state, payload) {
     state.post.comments = state.post.comments.filter(comment => comment.id !== payload)
   },
-  // reloadPostsByCreatePost (state, payload) {
-  //   state.posts.push(payload)
-  // },
+  reloadPostsByCreatePost (state, payload) {
+    payload.isLiked = false
+    payload.likesCount = 0
+    // ---------- /home/投稿/最新 ----------
+    state.posts.unshift(payload)
+    // console.log('state.posts: ' + JSON.stringify(state.posts))
+    // ※1
+  },
   reloadPostsByDestroyPost (state, payload) {
     // ----- 共通処理 -----
-    const idx = state.posts.findIndex((post) => { return post.id === payload })
+    const idx = state.posts.findIndex((post) => {
+      return post.id === payload
+    })
     if (idx !== -1) {
       state.posts.splice(idx, 1)
     }
   },
+  // TODO: ルートを渡す必要なし
   reloadPostByLikePost (state, payload) {
-    // ----- 個別処理 -----
-    if (payload.route.includes('posts')) {
-      state.post.isLiked = true
-      state.post.likes.push(payload.likeObj)
-    } else if (payload.route.includes('users')) {
-      // 投稿タブ想定
-      const idxPosts = state.userPosts.findIndex((post) => { return post.id === payload.postObj.id })
-      if (idxPosts !== -1) {
-        state.userPosts[idxPosts].isLiked = true
-        state.userPosts[idxPosts].likes.push(payload.likeObj)
-      }
-      // いいねタブ想定
-      const idxLikes = state.userLikes.findIndex((post) => { return post.id === payload.postObj.id })
-      if (idxLikes !== -1) {
-        state.userLikes[idxLikes].isLiked = true
-        state.userLikes[idxLikes].likes.push(payload.likeObj)
+    const changeLiked = (postsContext) => {
+      const idx = postsContext.findIndex((post) => {
+        return post.id === payload.postObj.id
+      })
+      if (idx !== -1) {
+        postsContext[idx].isLiked = true
+        postsContext[idx].likesCount += 1
       }
     }
-    // ----- 共通処理 -----
-    const idx = state.posts.findIndex((post) => { return post.id === payload.postObj.id })
-    // idx === -1すなわち見つからなかった時は無限スクロール前のデータなので問題ない
-    if (idx !== -1) {
-      state.posts[idx].isLiked = true
-      state.posts[idx].likes.push(payload.likeObj)
-    }
+    // ---------- /home/投稿/最新 ----------
+    changeLiked(state.posts)
+    // ---------- /home/投稿/フォロー ----------
+    changeLiked(state.followedPosts)
+    // ※1: /posts/:id, /users/:id/投稿, /users/:id/いいね => ページ遷移の都度ロードされるので不要
   },
   reloadPostByUnLikePost (state, payload) {
-    // ----- 個別処理 -----
-    if (payload.route.includes('posts')) {
-      state.post.isLiked = false
-      const otherLikes = state.post.likes.filter((like) => { return like.user_id !== payload.likeObj.user_id })
-      state.post.likes = otherLikes
-    } else if (payload.route.includes('users')) {
-      // 投稿タブ想定
-      const idxPosts = state.userPosts.findIndex((post) => { return post.id === payload.postObj.id })
-      if (idxPosts !== -1) {
-        state.userPosts[idxPosts].isLiked = false
-        const otherPosts = state.userPosts[idxPosts].likes.filter((like) => { return like.user_id !== payload.likeObj.user_id })
-        state.userPosts[idxPosts].likes = otherPosts
-      }
-      // いいねタブ想定
-      const idxLikes = state.userLikes.findIndex((post) => { return post.id === payload.postObj.id })
-      if (idxLikes !== -1) {
-        state.userLikes[idxLikes].isLiked = false
-        const otherLikes = state.userLikes[idxLikes].likes.filter((like) => { return like.user_id !== payload.likeObj.user_id })
-        state.userLikes[idxLikes].likes = otherLikes
+    const changeUnLiked = (postsContext) => {
+      const idx = postsContext.findIndex((post) => {
+        return post.id === payload.postObj.id
+      })
+      if (idx !== -1) {
+        postsContext[idx].isLiked = false
+        postsContext[idx].likesCount -= 1
       }
     }
-    // ----- 共通処理 -----
-    const idx = state.posts.findIndex((post) => { return post.id === payload.postObj.id })
-    if (idx !== -1) {
-      state.posts[idx].isLiked = false
-      const otherLikes = state.posts[idx].likes.filter((like) => { return like.user_id !== payload.likeObj.user_id })
-      state.posts[idx].likes = otherLikes
-    }
+    // ---------- /home/投稿/最新 ----------
+    changeUnLiked(state.posts)
+    // ---------- /home/投稿/フォロー ----------
+    changeUnLiked(state.followedPosts)
+    // ※1
   }
 }
 
@@ -191,82 +179,97 @@ export const mutations = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const actions = {
   // ==================================================
-  // ローディング処理
+  // リセット処理
   // ==================================================
-  getPage ({ commit }) {
-    commit('setPage')
-  },
-  getPosts ({ rootState, commit }, postsObj) {
-    postsObj.forEach((post) => {
-      let likedUserIds = []
-      likedUserIds = post.likes.map((like) => { return like.user_id })
-      post.isLiked = likedUserIds.includes(rootState.user.current.id)
-    })
-    commit('setPosts', postsObj)
-  },
-  getFollowedPage ({ commit }) {
-    commit('setFollowedPage')
-  },
-  getFollowedPosts ({ rootState, commit }, postsObj) {
-    postsObj.forEach((post) => {
-      let likedUserIds = []
-      likedUserIds = post.likes.map((like) => { return like.user_id })
-      post.isLiked = likedUserIds.includes(rootState.user.current.id)
-    })
-    commit('setFollowedPosts', postsObj)
-  },
-  getUserPostsPage ({ commit }) {
-    commit('setUserPostsPage')
-  },
-  getUserPosts ({ rootState, commit }, postsObj) {
-    postsObj.forEach((post) => {
-      let likedUserIds = []
-      likedUserIds = post.likes.map((like) => { return like.user_id })
-      post.isLiked = likedUserIds.includes(rootState.user.current.id)
-    })
-    commit('setUserPosts', postsObj)
-  },
-  getUserLikesPage ({ commit }) {
-    commit('setUserLikesPage')
-  },
-  getUserLikes ({ rootState, commit }, postsObj) {
-    postsObj.forEach((post) => {
-      let likedUserIds = []
-      likedUserIds = post.likes.map((like) => { return like.user_id })
-      post.isLiked = likedUserIds.includes(rootState.user.current.id)
-    })
-    commit('setUserLikes', postsObj)
-  },
-  // 確認中
-  async getPostForPosts ({ commit, rootState }, postId) {
-    await this.$axios.$get(`/api/v1/posts/${postId}`)
-      // postへの追加処理: いいね済の場合にtrueを立てる
-      .then((post) => {
-        let likedUserIds = []
-        likedUserIds = post.likes.map((like) => {
-          return like.user_id
-        })
-        post.isLiked = likedUserIds.includes(rootState.user.current.id)
-        return post
-      })
-      .then((post) => {
-        commit('setPostForPosts', post)
-      })
-  },
-  getPost ({ rootState, commit }, postObj) {
-    // いいね状態のフラグ追加
-    const likedUserIds = postObj.likes.map((like) => {
-      return like.user_id
-    })
-    postObj.isLiked = likedUserIds.includes(rootState.user.current.id)
-    commit('setPost', postObj)
+  getPostClear ({ commit }) {
+    commit('setPostClear')
   },
   getUserPostsClear ({ commit }) {
     commit('setUserClear')
   },
   // ==================================================
+  // ローディング処理
+  // ==================================================
+  // ---------- /home/投稿/最新 ----------
+  getPage ({ commit }) {
+    commit('setPage')
+  },
+  getPosts ({ rootState, commit }, postsArray) {
+    postsArray.forEach((post) => {
+      post.likesCount = post.likes.length
+      post.isLiked = post.likes.map((like) => {
+        return like.user_id
+      }).includes(rootState.user.current.id)
+    })
+    commit('setPosts', postsArray)
+  },
+  // 投稿
+  // async getPostForPosts ({ commit, rootState }, postId) {
+  //   await this.$axios.$get(`/api/v1/posts/${postId}`)
+  //     // postへの追加処理: いいね済の場合にtrueを立てる
+  //     .then((post) => {
+  //       let likedUserIds = []
+  //       likedUserIds = post.likes.map((like) => {
+  //         return like.user_id
+  //       })
+  //       post.isLiked = likedUserIds.includes(rootState.user.current.id)
+  //       return post
+  //     })
+  //     .then((post) => {
+  //       commit('setPostForPosts', post)
+  //     })
+  // },
+  // // ---------- /home/投稿/フォロー ----------
+  getFollowedPage ({ commit }) {
+    commit('setFollowedPage')
+  },
+  getFollowedPosts ({ rootState, commit }, postsArray) {
+    postsArray.forEach((post) => {
+      post.likesCount = post.likes.length
+      post.isLiked = post.likes.map((like) => {
+        return like.user_id
+      }).includes(rootState.user.current.id)
+    })
+    commit('setFollowedPosts', postsArray)
+  },
+  // ---------- /users/id/投稿 ----------
+  getUserPostsPage ({ commit }) {
+    commit('setUserPostsPage')
+  },
+  getUserPosts ({ rootState, commit }, postsArray) {
+    postsArray.forEach((post) => {
+      post.likesCount = post.likes.length
+      post.isLiked = post.likes.map((like) => {
+        return like.user_id
+      }).includes(rootState.user.current.id)
+    })
+    commit('setUserPosts', postsArray)
+  },
+  // ---------- /users/id/いいね ----------
+  getUserLikesPage ({ commit }) {
+    commit('setUserLikesPage')
+  },
+  getUserLikes ({ rootState, commit }, postsArray) {
+    postsArray.forEach((post) => {
+      post.likesCount = post.likes.length
+      post.isLiked = post.likes.map((like) => {
+        return like.user_id
+      }).includes(rootState.user.current.id)
+    })
+    commit('setUserLikes', postsArray)
+  },
+  // ---------- /posts/id ----------
+  getPost ({ rootState, commit }, postObj) {
+    postObj.likesCount = postObj.likes.length
+    postObj.isLiked = postObj.likes.map((like) => {
+      return like.user_id
+    }).includes(rootState.user.current.id)
+    commit('setPost', postObj)
+  },
+  // ==================================================
   // 各種アクション時処理
   // ==================================================
+  // ---------- 投稿関連 ----------
   async createPost ({ commit }, params) {
     const data = new FormData()
     if (params.tags.length !== 0) {
@@ -284,7 +287,8 @@ export const actions = {
     data.append('post[content]', params.content)
     await this.$axios.post('/api/v1/posts', data)
       .then((postObj) => {
-        this.dispatch('modules/post/getPostForPosts', postObj.data.id)
+        // this.dispatch('modules/post/getPostForPosts', postObj.data.id)
+        commit('reloadPostsByCreatePost', postObj.data)
       })
       .then(() => {
         this.dispatch('getToast', {
@@ -308,15 +312,7 @@ export const actions = {
         this.app.router.push('/home')
       })
   },
-  async emitReloadComments ({ commit }, postId) {
-    await this.$axios.$get(`/api/v1/posts/${postId}`)
-      .then((post) => {
-        commit('setPost', post)
-      })
-  },
-  getPostClear ({ commit }) {
-    commit('setPostClear')
-  },
+  // ---------- いいね関連 ----------
   async likePost ({ rootState, commit }, postObjAndRoute) {
     await this.$axios.$post('/api/v1/likes', {
       like: {
@@ -356,6 +352,13 @@ export const actions = {
           msg: 'いいね！を解除しました',
           color: 'prymary'
         })
+      })
+  },
+  // ---------- コメント関連 ----------
+  async emitReloadComments ({ commit }, postId) {
+    await this.$axios.$get(`/api/v1/posts/${postId}`)
+      .then((post) => {
+        commit('setPost', post)
       })
   },
   async createComment ({ commit }, params) {

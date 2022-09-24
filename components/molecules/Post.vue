@@ -116,7 +116,7 @@
                 </v-icon>
               </div>
               <span class="subheading">
-                {{ likeLength }}
+                {{ post.likesCount }}
               </span>
               <div>
                 <v-icon
@@ -161,9 +161,9 @@ export default {
     commentLength () {
       return !this.post.comments ? 0 : this.post.comments.length
     },
-    likeLength () {
-      return !this.post.likes ? 0 : this.post.likes.length
-    },
+    // likeLength () {
+    //   return !this.post.likes ? 0 : this.post.likes.length
+    // },
     isMyPost () {
       return this.post.user_id === this.currentUserId
     },
