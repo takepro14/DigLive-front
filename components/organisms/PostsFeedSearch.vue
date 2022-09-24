@@ -4,6 +4,9 @@
     genre: {{ genre }}
     tag: {{ tag }} -->
     <!-- resultPosts: {{ resultPosts }} -->
+    <h3 v-if="isSearching">
+      {{ keyword || genre || tag }} の検索結果 ({{ filteredPosts.length }})
+    </h3>
     <v-row v-if="isLoading">
       <v-col
         v-for="n in 10"
@@ -17,9 +20,6 @@
         <LoaderTypeCard />
       </v-col>
     </v-row>
-    <h3 v-if="isSearching">
-      {{ keyword || genre || tag }} の検索結果 ({{ filteredPosts.length }})
-    </h3>
     <v-row>
       <v-col
         v-for="post in filteredPosts"

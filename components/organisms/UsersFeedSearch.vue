@@ -3,6 +3,9 @@
     <!-- keyword: {{ keyword }}
     genre: {{ genre }} -->
     <!-- filteredUsers: {{ filteredUsers }} -->
+    <h3 v-if="isSearching">
+      {{ keyword || genre }} の検索結果 ({{ filteredUsers.length }})
+    </h3>
     <v-row v-if="isLoading">
       <v-col
         v-for="n in 10"
@@ -16,9 +19,6 @@
         <LoaderTypeCard />
       </v-col>
     </v-row>
-    <h3 v-if="isSearching">
-      {{ keyword || genre }} の検索結果 ({{ filteredUsers.length }})
-    </h3>
     <v-row>
       <v-col
         v-for="user in filteredUsers"
@@ -69,7 +69,7 @@ export default {
   },
   watch: {
     keyword () {
-      if (this.keyword !== '') {
+      if (this.keyword !== '' && this.keyword !== null) {
         this.delaySearch()
       } else {
         this.getFilteredPostsClear()
