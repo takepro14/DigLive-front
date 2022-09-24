@@ -67,6 +67,22 @@ export const getters = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const mutations = {
   // ==================================================
+  // データクリア
+  // ==================================================
+  setPostClear (state) {
+    state.post = {}
+  },
+  setUserClear (state) {
+    state.userPosts = []
+    state.userPostsPage = 1
+  },
+  setPostForPosts (state, payload) {
+    state.posts.unshift(payload)
+  },
+  setFilteredPostsClear (state) {
+    state.filteredPosts = []
+  },
+  // ==================================================
   // データロード
   // ==================================================
   // ---------- /home/投稿/最新 ----------
@@ -105,20 +121,8 @@ export const mutations = {
   setFilteredPosts (state, postsArray) {
     state.filteredPosts = postsArray
   },
-  // ==================================================
-  // データクリア
-  // ==================================================
-  setPostClear (state) {
-    state.post = {}
-  },
-  setUserClear (state) {
-    state.userPosts = []
-    state.userPostsPage = 1
-  },
-  setPostForPosts (state, payload) {
-    state.posts.unshift(payload)
-  },
-  setFilteredPostsClear (state) {
+  // ---------- /home/検索(結果0件) ----------
+  setFilteredPostsZero (state) {
     state.filteredPosts = []
   },
   // ==================================================
@@ -196,7 +200,7 @@ export const mutations = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const actions = {
   // ==================================================
-  // リセット処理
+  // データクリア
   // ==================================================
   getPostClear ({ commit }) {
     commit('setPostClear')
@@ -274,6 +278,10 @@ export const actions = {
       }).includes(rootState.user.current.id)
     })
     commit('setFilteredPosts', postsArray)
+  },
+  // ---------- /home/検索(結果0件) ----------
+  getFilteredPostsZero ({ commit }) {
+    commit('setFilteredPostsZero')
   },
   // ==================================================
   // 投稿アクション

@@ -100,6 +100,7 @@ export default {
       unLikePost: 'modules/post/unLikePost',
       destroyPost: 'modules/post/destroyPost',
       getFilteredPosts: 'modules/post/getFilteredPosts',
+      getFilteredPostsZero: 'modules/post/getFilteredPostsZero',
       getFilteredPostsClear: 'modules/post/getFilteredPostsClear'
     }),
     keywordSearchPosts () {
@@ -110,7 +111,11 @@ export default {
         }
       })
         .then((postsArray) => {
-          this.getFilteredPosts(postsArray)
+          if (postsArray.length) {
+            this.getFilteredPosts(postsArray)
+          } else {
+            this.getFilteredPostsZero()
+          }
           this.isLoading = false
         })
         .catch((error) => {
@@ -118,13 +123,18 @@ export default {
         })
     },
     genreSearchPosts () {
+      this.isLoading = true
       this.$axios.$get('api/v1/posts/search', {
         params: {
           post_genre: this.genre
         }
       })
         .then((postsArray) => {
-          this.getFilteredPosts(postsArray)
+          if (postsArray.length) {
+            this.getFilteredPosts(postsArray)
+          } else {
+            this.getFilteredPostsZero()
+          }
           this.isLoading = false
         })
         .catch((error) => {
@@ -132,13 +142,18 @@ export default {
         })
     },
     tagSearchPosts () {
+      this.isLoading = true
       this.$axios.$get('api/v1/posts/search', {
         params: {
           post_tag: this.tag
         }
       })
         .then((postsArray) => {
-          this.getFilteredPosts(postsArray)
+          if (postsArray.length) {
+            this.getFilteredPosts(postsArray)
+          } else {
+            this.getFilteredPostsZero()
+          }
           this.isLoading = false
         })
         .catch((error) => {
