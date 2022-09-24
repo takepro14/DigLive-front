@@ -136,19 +136,23 @@ export const mutations = {
   reloadPostsByCreatePost (state, payload) {
     payload.isLiked = false
     payload.likesCount = 0
-    // ---------- /home/投稿/最新 ----------
     state.posts.unshift(payload)
-    // console.log('state.posts: ' + JSON.stringify(state.posts))
-    // ※1
+    // followedPosts => 他人の投稿しかないので不要
+    // filteredPosts, userPosts, userLikes => 都度ロードされるので不要
   },
-  reloadPostsByDestroyPost (state, payload) {
-    // ----- 共通処理 -----
-    const idx = state.posts.findIndex((post) => {
-      return post.id === payload
-    })
-    if (idx !== -1) {
-      state.posts.splice(idx, 1)
+  reloadPostsByDestroyPost (state, postId) {
+    const postDestroyed = (postContext) => {
+      const idx = postContext.findIndex((post) => {
+        return post.id === postId
+      })
+      if (idx !== -1) {
+        postContext.splice(idx, 1)
+      }
     }
+    postDestroyed(state.posts)
+    postDestroyed(state.filteredPosts)
+    // followedPosts => 他人の投稿しかないので不要
+    // userPosts, userLikes => 都度ロードされるので不要
   },
   // ==================================================
   // いいねの即時反映
@@ -166,7 +170,7 @@ export const mutations = {
     changeLiked(state.posts)
     changeLiked(state.followedPosts)
     changeLiked(state.filteredPosts)
-    // idのページは都度ロードされるので不要
+    // userPosts, userLikes => 都度ロードされるので不要
   },
   reloadPostByUnLikePost (state, postObjAndLikeObj) {
     const changeUnLiked = (postsContext) => {
@@ -183,7 +187,7 @@ export const mutations = {
     changeUnLiked(state.posts)
     changeUnLiked(state.followedPosts)
     changeUnLiked(state.filteredPosts)
-    // idのページは都度ロードされるので不要
+    // userPosts, userLikes => 都度ロードされるので不要
   }
 }
 
