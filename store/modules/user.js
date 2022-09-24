@@ -2,7 +2,6 @@
 // state
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const state = {
-  // ---------- 共通 ----------
   currentUser: {},
   // ---------- /home/ユーザ/最新 ----------
   page: 1,
@@ -18,7 +17,6 @@ export const state = {
 // getters
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const getters = {
-  // ---------- 共通 ----------
   currentUser (state) {
     return state.currentUser
   },
@@ -47,7 +45,13 @@ export const getters = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const mutations = {
   // ==================================================
-  // ローディング処理
+  // データクリア
+  // ==================================================
+  setUserClear (state) {
+    state.user = {}
+  },
+  // ==================================================
+  // データロード
   // ==================================================
   setCurrentUser (state, payload) {
     state.currentUser = payload
@@ -70,65 +74,76 @@ export const mutations = {
   setUser (state, payload) {
     state.user = payload
   },
-  setUserClear (state) {
-    state.user = {}
-  },
   // ==================================================
-  // 即時リロード処理
+  // プロフィール変更の即時反映
   // ==================================================
   reloadUserBySetProfile (state, payload) {
     state.currentUser.name = payload.name
     state.currentUser.email = payload.email
     state.currentUser.avatar.url = payload.avatar.url
   },
-  reloadUserByFollow (state, payload) {
+  // ==================================================
+  // フォローの即時反映
+  // ==================================================
+  reloadUserByFollow (state, userIdRouteRelObj) {
     // ---------- /users/:id ----------
-    if (payload.route.includes('users')) {
+    if (userIdRouteRelObj.route.includes('users')) {
       state.user.isFollowed = true
-      state.user.followerCount += 1
+      state.user.passive_relationships.push(userIdRouteRelObj.relObj)
+      state.currentUser.active_relationships.push(userIdRouteRelObj.relObj)
     }
-    // ---------- /home/ユーザ/最新 ----------
-    const idx = state.users.findIndex((user) => {
-      return user.id === payload.userId
-    })
-    // ロード済みの場合
-    if (idx !== -1) {
-      state.users[idx].isFollowed = true
-      state.users[idx].followerCount += 1
-      // 今フォローしたユーザはフォロータブで未ロード想定のため、オートリロード
-      state.followedUsers = []
-      state.followedPage = 1
+    // ---------- /home/* ----------
+    const userFollow = (usersContext) => {
+      const idx = usersContext.findIndex((user) => {
+        return user.id === userIdRouteRelObj.userId
+      })
+      if (idx !== -1) {
+        usersContext[idx].isFollowed = true
+        usersContext[idx].passive_relationships.push(userIdRouteRelObj.relObj)
+        state.currentUser.active_relationships.push(userIdRouteRelObj.relObj)
+      }
     }
-    // ---------- /home/ユーザ/フォロー ----------
-    // const idxF = state.followedUsers.findIndex((user) => {
-    //   return user.id === payload.userId
-    // })
-    // if (idxF !== -1) {
-    //   state.followedUsers[idxF].isFollowed = true
-    //   state.followedUsers[idxF].followerCount += 1
-    // }
+    userFollow(state.users)
+    userFollow(state.followedUsers)
+    // 今フォローしたユーザはフォロータブで未ロード想定のため、オートリロード
+    state.followedUsers = []
+    state.followedPage = 1
   },
-  reloadUserByUnfollow (state, payload) {
-    // ---------- /users/:id ----------
-    if (payload.route.includes('users')) {
+  // ==================================================
+  // アンフォローの即時反映
+  // ==================================================
+  reloadUserByUnfollow (state, userIdRouteCurrentId) {
+    // ---------- /user/:id ----------
+    if (userIdRouteCurrentId.route.includes('users')) {
       state.user.isFollowed = false
-      state.user.followerCount -= 1
+      const otherFollowers = state.user.passive_relationships.filter((pRel) => {
+        return pRel.follower_id !== userIdRouteCurrentId.currentUserId
+      })
+      state.user.passive_relationships = otherFollowers
+      const otherFollowing = state.currentUser.active_relationships.filter((aRel) => {
+        return aRel.followed_id !== userIdRouteCurrentId.userId
+      })
+      state.currentUser.active_relationships = otherFollowing
     }
-    // ---------- /home/ユーザ/最新 ----------
-    const idx = state.users.findIndex((user) => {
-      return user.id === payload.userId
-    })
-    if (idx !== -1) {
-      state.users[idx].isFollowed = false
-      state.users[idx].followerCount -= 1
+    // ---------- /home/* ----------
+    const userUnFollow = (usersContext) => {
+      const idx = usersContext.findIndex((user) => {
+        return user.id === userIdRouteCurrentId.userId
+      })
+      if (idx !== -1) {
+        usersContext[idx].isFollowed = false
+        const otherFollowers = usersContext[idx].passive_relationships.filter((pRel) => {
+          return pRel.follower_id !== userIdRouteCurrentId.currentUserId
+        })
+        usersContext[idx].passive_relationships = otherFollowers
+        const otherFollowing = state.currentUser.active_relationships.filter((aRel) => {
+          return aRel.followed_id !== userIdRouteCurrentId.userId
+        })
+        state.currentUser.active_relationships = otherFollowing
+      }
     }
-    const idxF = state.followedUsers.findIndex((user) => {
-      return user.id === payload.userId
-    })
-    if (idxF !== -1) {
-      state.followedUsers[idxF].isFollowed = false
-      state.followedUsers[idxF].followerCount -= 1
-    }
+    userUnFollow(state.users)
+    userUnFollow(state.followedUsers)
   }
 }
 
@@ -137,9 +152,14 @@ export const mutations = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const actions = {
   // ==================================================
-  // ローディング処理
+  // データクリア
   // ==================================================
-  // ---------- 共通 ----------
+  getUserClear ({ commit }) {
+    commit('setUserClear')
+  },
+  // ==================================================
+  // データロード
+  // ==================================================
   async getCurrentUser ({ commit, rootState }) {
     await this.$axios.$get(`/api/v1/users/${rootState.user.current.id}`)
       .then((userObj) => {
@@ -150,44 +170,35 @@ export const actions = {
   getPage ({ commit }) {
     commit('setPage')
   },
-  getUsers ({ rootState, commit }, usersAry) {
-    usersAry.forEach((user) => {
-      user.followingCount = user.active_relationships.length
-      user.followerCount = user.passive_relationships.length
+  getUsers ({ rootState, commit }, usersArray) {
+    usersArray.forEach((user) => {
       user.isFollowed = user.passive_relationships.map((pRel) => {
         return pRel.follower_id
       }).includes(rootState.user.current.id)
     })
-    commit('setUsers', usersAry)
+    commit('setUsers', usersArray)
   },
   // ---------- /home/ユーザ/フォロー ----------
   getFollowedPage ({ commit }) {
     commit('setFollowedPage')
   },
-  getFollowedUsers ({ rootState, commit }, usersAry) {
-    usersAry.forEach((user) => {
-      user.followingCount = user.active_relationships.length
-      user.followerCount = user.passive_relationships.length
+  getFollowedUsers ({ rootState, commit }, usersArray) {
+    usersArray.forEach((user) => {
       user.isFollowed = user.passive_relationships.map((pRel) => {
         return pRel.follower_id
       }).includes(rootState.user.current.id)
     })
-    commit('setFollowedUsers', usersAry)
+    commit('setFollowedUsers', usersArray)
   },
   // ---------- /users/:id ----------
   getUser ({ commit, rootState }, userObj) {
-    userObj.followingCount = userObj.active_relationships.length
-    userObj.followerCount = userObj.passive_relationships.length
     userObj.isFollowed = userObj.passive_relationships.map((pRel) => {
       return pRel.follower_id
     }).includes(rootState.user.current.id)
     commit('setUser', userObj)
   },
-  getUserClear ({ commit }) {
-    commit('setUserClear')
-  },
   // ==================================================
-  // 各種アクション時処理
+  // プロフィール変更アクション
   // ==================================================
   async changeProfile ({ commit, rootState }, { formData, config }) {
     await this.$axios.$put(`/api/v1/users/${rootState.user.current.id}`, formData, config)
@@ -201,14 +212,17 @@ export const actions = {
         })
       })
   },
-  async follow ({ commit }, userIdAndRoute) {
+  // ==================================================
+  // フォローアクション
+  // ==================================================
+  async follow ({ commit }, userIdRoute) {
     await this.$axios.$post('/api/v1/relationships', {
-      user_id: userIdAndRoute.userId
+      user_id: userIdRoute.userId
     })
       .then((relObj) => {
         commit('reloadUserByFollow', {
-          userId: userIdAndRoute.userId,
-          route: userIdAndRoute.route,
+          userId: userIdRoute.userId,
+          route: userIdRoute.route,
           relObj
         })
       })
@@ -219,16 +233,19 @@ export const actions = {
         })
       })
   },
-  async unfollow ({ commit, rootState }, userIdAndRoute) {
-    await this.$axios.$delete(`/api/v1/relationships/${userIdAndRoute.userId}`, {
+  // ==================================================
+  // アンフォローアクション
+  // ==================================================
+  async unfollow ({ commit, rootState }, userIdRoute) {
+    await this.$axios.$delete(`/api/v1/relationships/${userIdRoute.userId}`, {
       params: {
-        user_id: userIdAndRoute.userId
+        user_id: userIdRoute.userId
       }
     })
       .then(() => {
         commit('reloadUserByUnfollow', {
-          userId: userIdAndRoute.userId,
-          route: userIdAndRoute.route,
+          userId: userIdRoute.userId,
+          route: userIdRoute.route,
           currentUserId: rootState.user.current.id
         })
       })

@@ -92,11 +92,11 @@
               align="center"
               justify="end"
             >
-              <div v-if="$route.fullPath !== '/home'">
+              <!-- <div v-if="$route.fullPath !== '/home'"> -->
                 <v-card-text class="ml-3 mr-1">
                   {{ $my.format(post.created_at) }}
                 </v-card-text>
-              </div>
+              <!-- </div> -->
               <div v-if="post.isLiked">
                 <v-icon
                   class="ml-3 mr-1"

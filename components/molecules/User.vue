@@ -79,12 +79,12 @@
       >
         <div class="ml-3 mr-1">
           <v-card-text>
-            {{ user.followingCount }} フォロー
+            {{ followingLength }} フォロー
           </v-card-text>
         </div>
         <div class="ml-3 mr-1">
           <v-card-text>
-            {{ user.followerCount }} フォロワー
+            {{ followerLength }} フォロワー
           </v-card-text>
         </div>
       </v-row>
@@ -113,12 +113,12 @@ export default {
     isFollowed () {
       return this.user.isFollowed
     },
-    // followerLength () {
-    //   return !this.user.passive_relationships ? 0 : this.user.passive_relationships.length
-    // },
-    // followingLength () {
-    //   return !this.user.active_relationships ? 0 : this.user.active_relationships.length
-    // },
+    followerLength () {
+      return !this.user.passive_relationships ? 0 : this.user.passive_relationships.length
+    },
+    followingLength () {
+      return !this.user.active_relationships ? 0 : this.user.active_relationships.length
+    },
     avatarUrl () {
       return 'http://localhost:3000' + this.user.avatar.url
     }
@@ -130,11 +130,11 @@ export default {
     changeProfile ({ formData, config }) {
       this.$emit('changeProfileEvent', { formData, config })
     },
-    follow (userIdAndRoute) {
-      this.$emit('followEvent', userIdAndRoute)
+    follow (userIdRoute) {
+      this.$emit('followEvent', userIdRoute)
     },
-    unfollow (userIdAndRoute) {
-      this.$emit('unfollowEvent', userIdAndRoute)
+    unfollow (userIdRoute) {
+      this.$emit('unfollowEvent', userIdRoute)
     }
   }
 }
