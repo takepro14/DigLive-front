@@ -2,18 +2,18 @@
 // state
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const state = {
-  // /home -> posts -> new
-  page: 1,
+  // ---------- /home/投稿/最新 ----------
+  page: 2,
   posts: [],
-  // /home -> posts -> follow
+  // ---------- /home/投稿/フォロー ----------
   followedPage: 1,
   followedPosts: [],
-  // /posts/id
+  // ---------- /posts/:id ----------
   post: {},
-  // /users/id -> posts
+  // ---------- /users/id/投稿 ----------
   userPostsPage: 1,
   userPosts: [],
-  // /users/id -> likes
+  // ---------- /users/id/いいね ----------
   userLikesPage: 1,
   userLikes: []
 }
@@ -22,27 +22,32 @@ export const state = {
 // getters
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const getters = {
+  // ---------- /home/投稿/最新 ----------
   page (state) {
     return state.page
   },
   posts (state) {
     return state.posts
   },
+  // ---------- /home/投稿/フォロー ----------
   followedPage (state) {
     return state.followedPage
   },
   followedPosts (state) {
     return state.followedPosts
   },
+  // ---------- /posts/:id ----------
   post (state) {
     return state.post
   },
+  // ---------- /users/id/投稿 ----------
   userPostsPage (state) {
     return state.userPostsPage
   },
   userPosts (state) {
     return state.userPosts
   },
+  // ---------- /users/id/いいね ----------
   userLikes (state) {
     return state.userLikes
   },
@@ -55,35 +60,44 @@ export const getters = {
 // mutations
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const mutations = {
-  // ========== ローディング処理 ==========
+  // ==================================================
+  // ローディング処理
+  // ==================================================
+  // ---------- /home/投稿/最新 ----------
   setPage (state) {
     state.page += 1
   },
   setPosts (state, payload) {
     state.posts.push(...payload)
   },
+  // ---------- /home/投稿/フォロー ----------
   setFollowedPage (state) {
     state.followedPage += 1
   },
   setFollowedPosts (state, payload) {
     state.followedPosts.push(...payload)
   },
+  // ---------- /posts/:id ----------
   setPost (state, payload) {
     state.post = payload
   },
+  // ---------- /users/id/投稿 ----------
   setUserPostsPage (state) {
     state.userPostsPage += 1
   },
   setUserPosts (state, payload) {
     state.userPosts.push(...payload)
   },
+  // ---------- /users/id/いいね ----------
   setUserLikesPage (state) {
     state.userLikesPage += 1
   },
   setUserLikes (state, payload) {
     state.userLikes.push(...payload)
   },
-  // ========== リセット処理 ==========
+  // ==================================================
+  // リセット処理
+  // ==================================================
   setPostClear (state) {
     state.post = {}
   },
@@ -94,7 +108,9 @@ export const mutations = {
   setPostForPosts (state, payload) {
     state.posts.unshift(payload)
   },
-  // ========== 即時リロード処理 ==========
+  // ==================================================
+  // 即時リロード処理
+  // ==================================================
   reloadCommentsByCreateComment (state, payload) {
     state.post.comments.push(payload)
   },
@@ -174,7 +190,9 @@ export const mutations = {
 // actions
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const actions = {
-  // ========== ローディング処理 ==========
+  // ==================================================
+  // ローディング処理
+  // ==================================================
   getPage ({ commit }) {
     commit('setPage')
   },
@@ -219,7 +237,7 @@ export const actions = {
     })
     commit('setUserLikes', postsObj)
   },
-  // ========== 確認中 ==========
+  // 確認中
   async getPostForPosts ({ commit, rootState }, postId) {
     await this.$axios.$get(`/api/v1/posts/${postId}`)
       // postへの追加処理: いいね済の場合にtrueを立てる
@@ -246,7 +264,9 @@ export const actions = {
   getUserPostsClear ({ commit }) {
     commit('setUserClear')
   },
-  // ========== アクション時処理 ==========
+  // ==================================================
+  // 各種アクション時処理
+  // ==================================================
   async createPost ({ commit }, params) {
     const data = new FormData()
     if (params.tags.length !== 0) {
