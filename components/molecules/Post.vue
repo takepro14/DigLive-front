@@ -1,12 +1,13 @@
 <template>
   <v-card
-    class="mx-auto my-4"
+    class="mx-auto my-4 card-outter"
     width="100%"
     height="100%"
     hover
     @click="movePostPage"
   >
     <v-container>
+      <!-- ヘッダー -->
       <v-row>
         <v-col>
           <v-list-item
@@ -39,7 +40,8 @@
           </v-list-item>
         </v-col>
       </v-row>
-
+      <!-- /ヘッダー -->
+      <!-- YouTube -->
       <!-- <v-row
         v-if="hasYoutubeUrl"
         justify="center"
@@ -50,7 +52,8 @@
           />
         </v-col>
       </v-row> -->
-
+      <!-- /YouTube -->
+      <!-- 本文・ジャンル -->
       <v-row>
         <v-col>
           <v-card-text class="text-h5 py-8 flex-grow-1">
@@ -84,19 +87,20 @@
           </div>
         </v-col>
       </v-row>
-
+      <!-- /本文・ジャンル -->
+      <!-- フッター -->
       <v-row>
         <v-col>
-          <v-card-actions>
+          <v-card-actions class="card-actions">
             <v-row
               align="center"
               justify="end"
             >
-              <!-- <div v-if="$route.fullPath !== '/home'"> -->
+              <div v-if="$route.fullPath !== '/home'">
                 <v-card-text class="ml-3 mr-1">
                   {{ $my.format(post.created_at) }}
                 </v-card-text>
-              <!-- </div> -->
+              </div>
               <div v-if="post.isLiked">
                 <v-icon
                   class="ml-3 mr-1"
@@ -133,7 +137,7 @@
           </v-card-actions>
         </v-col>
       </v-row>
-
+      <!-- /フッター -->
     </v-container>
   </v-card>
 </template>
@@ -193,3 +197,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.card-outter {
+  position: relative;
+}
+
+.card-actions {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+</style>
