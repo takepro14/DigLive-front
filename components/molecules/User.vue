@@ -30,7 +30,17 @@
       </v-row>
       <v-row class="py-2" >
         <v-spacer />
-        <div v-if="!isCurrentUser">
+        <div v-if="isCurrentUser">
+            <v-btn
+              outlined
+              rounded
+              text
+              @click.stop="moveSettingsPage"
+            >
+              編集
+            </v-btn>
+        </div>
+        <div v-else>
           <div v-if="isFollowed">
             <v-btn
               outlined
@@ -126,6 +136,9 @@ export default {
   methods: {
     moveUserPage () {
       this.$router.push(`/users/${this.user.id}`)
+    },
+    moveSettingsPage () {
+      this.$router.push('/account/settings')
     },
     changeProfile ({ formData, config }) {
       this.$emit('changeProfileEvent', { formData, config })
