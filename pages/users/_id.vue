@@ -61,7 +61,7 @@ export default {
   methods: {
     ...mapActions({
       getCurrentUser: 'modules/user/getCurrentUser',
-      getUserClear: 'modules/user/getUserClear',
+      // getUserClear: 'modules/user/getUserClear',
       getUserPostsClear: 'modules/post/getUserPostsClear',
       follow: 'modules/user/follow',
       unfollow: 'modules/user/unfollow',
@@ -85,7 +85,7 @@ export default {
     this.getGenres()
   },
   destroyed () {
-    this.getUserClear(this.user_id)
+    // this.getUserClear(this.user_id)
     this.getUserPostsClear()
   }
 }

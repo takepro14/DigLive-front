@@ -17,7 +17,7 @@
               <v-img
                 class="elevation-6"
                 alt=""
-                :src="'http://localhost:3000' + post.user.avatar.url"
+                :src="userAvatar"
               />
             </v-list-item-avatar>
             <v-list-item-content>
@@ -169,6 +169,9 @@ export default {
     },
     hasYoutubeUrl () {
       return !!this.post.youtube_url
+    },
+    userAvatar () {
+      return 'http://localhost:3000' + this.post.user.avatar.url
     }
   },
   methods: {

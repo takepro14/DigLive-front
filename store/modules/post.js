@@ -174,7 +174,8 @@ export const mutations = {
     changeLiked(state.posts)
     changeLiked(state.followedPosts)
     changeLiked(state.filteredPosts)
-    // userPosts, userLikes => 都度ロードされるので不要
+    changeLiked(state.userPosts)
+    changeLiked(state.userLikes)
   },
   reloadPostByUnLikePost (state, postObjAndLikeObj) {
     const changeUnLiked = (postsContext) => {
@@ -191,7 +192,8 @@ export const mutations = {
     changeUnLiked(state.posts)
     changeUnLiked(state.followedPosts)
     changeUnLiked(state.filteredPosts)
-    // userPosts, userLikes => 都度ロードされるので不要
+    changeUnLiked(state.userPosts)
+    changeUnLiked(state.userLikes)
   }
 }
 
