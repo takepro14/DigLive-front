@@ -122,6 +122,7 @@ export const mutations = {
     }
     userFollow(state.users)
     userFollow(state.followedUsers)
+    userFollow(state.filteredUsers)
     // 今フォローしたユーザはフォロータブで未ロード想定のため、オートリロード
     state.followedUsers = []
     state.followedPage = 1
@@ -161,6 +162,7 @@ export const mutations = {
     }
     userUnFollow(state.users)
     userUnFollow(state.followedUsers)
+    userUnFollow(state.filteredUsers)
   }
 }
 
