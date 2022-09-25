@@ -9,7 +9,7 @@
     <v-container>
       <!-- ヘッダー -->
       <v-row
-        class="text-left"
+        class="my-2 text-left"
         align="center"
       >
         <v-col
@@ -42,7 +42,7 @@
       </v-row>
       <!-- /ヘッダー -->
       <!-- フォローフラグ・編集 -->
-      <v-row class="py-2" >
+      <v-row class="my-2" >
         <v-spacer />
         <div v-if="isCurrentUser">
             <v-btn
@@ -79,7 +79,7 @@
       </v-row>
       <!-- /フォローフラグ・編集 -->
       <!-- プロフィール -->
-      <v-row class="py-6">
+      <v-row class="my-2">
         <v-list-item-subtitle class="wrap-text">
           {{ user.profile }}
         </v-list-item-subtitle>

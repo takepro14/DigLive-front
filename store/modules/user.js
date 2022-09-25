@@ -53,9 +53,9 @@ export const mutations = {
   // ==================================================
   // データクリア
   // ==================================================
-  // setUserClear (state) {
-  //   state.user = {}
-  // },
+  setUserClear (state) {
+    state.user = {}
+  },
   setFilteredUsersClear (state) {
     state.filteredUsers = []
   },
@@ -173,9 +173,9 @@ export const actions = {
   // ==================================================
   // データクリア
   // ==================================================
-  // getUserClear ({ commit }) {
-  //   commit('setUserClear')
-  // },
+  getUserClear ({ commit }) {
+    commit('setUserClear')
+  },
   getFilteredUsersClear ({ commit }) {
     commit('setFilteredUsersClear')
   },

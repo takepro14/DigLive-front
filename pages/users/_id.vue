@@ -61,7 +61,7 @@ export default {
   methods: {
     ...mapActions({
       getCurrentUser: 'modules/user/getCurrentUser',
-      // getUserClear: 'modules/user/getUserClear',
+      getUserClear: 'modules/user/getUserClear',
       getUserPostsClear: 'modules/post/getUserPostsClear',
       follow: 'modules/user/follow',
       unfollow: 'modules/user/unfollow',
@@ -84,8 +84,11 @@ export default {
     this.getCurrentUser()
     this.getGenres()
   },
+  // id.vue => id.vueに移動する時にdestroyed hookに定義するとエラーになるため
+  beforeDestroyed () {
+    this.getUserClear(this.user_id)
+  },
   destroyed () {
-    // this.getUserClear(this.user_id)
     this.getUserPostsClear()
   }
 }

@@ -22,14 +22,18 @@
               />
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title v-if="$route.fullPath === '/home'">
+              <v-list-item-title
+                v-if="$route.fullPath === '/home'"
+                class="wrap-text"
+              >
                 {{ post.user.name }}・{{ post.created_at | moment }}
               </v-list-item-title>
-              <v-list-item-title v-else>
+              <v-list-item-title
+                v-else
+              >
                 {{ post.user.name }}
               </v-list-item-title>
             </v-list-item-content>
-            <v-spacer />
             <v-list-item-icon>
               <PostDestroyDialog
                 v-if="isMyPost"
@@ -56,11 +60,11 @@
       <!-- 本文・ジャンル -->
       <v-row>
         <v-col>
-          <v-card-text class="text-h5 py-8 flex-grow-1">
+          <v-card-title>
             <div class="text--primary">
               {{ post.content }}
             </div>
-          </v-card-text>
+          </v-card-title>
           <div class="px-4">
             <v-chip-group
               active-class="primary--text"
@@ -89,7 +93,7 @@
       </v-row>
       <!-- /本文・ジャンル -->
       <!-- フッター -->
-      <v-row>
+      <v-row class="my-4">
         <v-col>
           <v-card-actions class="card-actions">
             <v-row
@@ -199,10 +203,15 @@ export default {
 </script>
 
 <style scoped>
+/* テキストを省略せず折り返し */
+.wrap-text {
+  word-break: break-all;
+  white-space: normal;
+}
+/* フッターを最下部に固定 */
 .card-outter {
   position: relative;
 }
-
 .card-actions {
   position: absolute;
   bottom: 15px;
