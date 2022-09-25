@@ -60,10 +60,11 @@ export default {
             if (this.userPostsPage <= data.kaminari.pagination.pages) {
               this.getUserPostsPage()
               this.getUserPosts(data.posts)
-              this.isLoading = false
               $state.loaded()
+              this.isLoading = false
             } else {
               $state.complete()
+              this.isLoading = false
             }
           }, 1000)
         })

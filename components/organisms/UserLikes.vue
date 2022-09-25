@@ -60,10 +60,11 @@ export default {
             if (this.userLikesPage <= data.kaminari.pagination.pages) {
               this.getUserLikesPage()
               this.getUserLikes(data.posts)
-              this.isLoading = false
               $state.loaded()
+              this.isLoading = false
             } else {
               $state.complete()
+              this.isLoading = false
             }
           }, 1000)
         })

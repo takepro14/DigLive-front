@@ -77,10 +77,11 @@ export default {
             if (this.page <= data.kaminari.pagination.pages) {
               this.getPage()
               this.getPosts(data.posts)
-              this.isLoading = false
               $state.loaded()
+              this.isLoading = false
             } else {
               $state.complete()
+              this.isLoading = false
             }
           }, 1000)
         })

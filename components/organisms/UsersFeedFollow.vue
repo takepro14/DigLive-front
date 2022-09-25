@@ -85,10 +85,11 @@ export default {
             if (this.followedPage <= data.kaminari.pagination.pages) {
               this.getFollowedPage()
               this.getFollowedUsers(data.users)
-              this.isLoading = false
               $state.loaded()
+              this.isLoading = false
             } else {
               $state.complete()
+              this.isLoading = false
             }
           }, 1000)
         })
