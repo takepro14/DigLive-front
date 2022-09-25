@@ -1,25 +1,37 @@
 <template>
   <v-card
-    class="mx-auto px-10"
+    class="mx-auto px-10 py-5 card-outter"
     width="100%"
     height="100%"
     @click="moveUserPage"
-    style="position: relative;"
   >
     <Toaster />
     <v-container>
+      <!-- ヘッダー -->
       <v-row
+        class="text-left"
         align="center"
-        class="py-2"
       >
-        <v-col class="text-center">
-          <v-list-item-title class="text-h5" >
+        <v-col
+          cols="12"
+          sm="12"
+          md="9"
+          lg="9"
+          xl="9"
+          class="text-center"
+        >
+          <v-list-item-title class="text-h5 text-left wrap-text" >
             {{ user.name }}
           </v-list-item-title>
         </v-col>
-        <v-spacer />
-        <v-spacer />
-        <v-col class="text-center">
+        <v-col
+          cols="12"
+          sm="12"
+          md="3"
+          lg="3"
+          xl="3"
+          class="text-center"
+        >
           <v-avatar
             size="100"
             tile
@@ -28,6 +40,8 @@
           </v-avatar>
         </v-col>
       </v-row>
+      <!-- /ヘッダー -->
+      <!-- フォローフラグ・編集 -->
       <v-row class="py-2" >
         <v-spacer />
         <div v-if="isCurrentUser">
@@ -63,8 +77,10 @@
           </div>
         </div>
       </v-row>
-      <v-row class="py-2">
-        <v-list-item-subtitle>
+      <!-- /フォローフラグ・編集 -->
+      <!-- プロフィール -->
+      <v-row class="py-6">
+        <v-list-item-subtitle class="wrap-text">
           {{ user.profile }}
         </v-list-item-subtitle>
         <v-list-item-subtitle>
@@ -81,12 +97,9 @@
           </v-chip-group>
         </v-list-item-subtitle>
       </v-row>
-      <v-row
-        class="py-2 d-flex"
-        align="center"
-        justify="end"
-        style="position: absolute;bottom: 10px;right: 10px;"
-      >
+      <!-- /プロフィール -->
+      <!-- フッター -->
+      <v-row class="card-actions">
         <div class="ml-3 mr-1">
           <v-card-text>
             {{ followingLength }} フォロー
@@ -98,6 +111,7 @@
           </v-card-text>
         </div>
       </v-row>
+      <!-- /フッター -->
     </v-container>
   </v-card>
 </template>
@@ -152,3 +166,20 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/* テキストを省略せず折り返し */
+.wrap-text {
+  word-break: break-all;
+  white-space: normal;
+}
+/* フッターを最下部に固定 */
+.card-outter {
+  position: relative;
+}
+.card-actions {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+</style>
