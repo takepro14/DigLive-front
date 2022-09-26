@@ -6,6 +6,7 @@
       <v-col>
         <SettingsTabMenu
           :tab="tab"
+          :tabs="tabs"
           @tabClickEvent="tabClick"
         />
         <SettingsProfile
