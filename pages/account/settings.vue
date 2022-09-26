@@ -4,224 +4,30 @@
     <HistoryBack class="py-4" />
     <v-row>
       <v-col>
-        <!-- ヘッダー -->
-        <v-toolbar
-          color="header"
-          dark
-          flat
-        >
-          <v-toolbar-title class="mx-auto">
-            設定
-          </v-toolbar-title>
-          <template #extension>
-            <v-tabs
-              centered
-              slider-color="slider"
-              grow
-            >
-              <v-tab
-                v-for="tab in tabs"
-                :key="tab.id"
-                @click="tabClick(tab.name)"
-              >
-                {{ tab.title }}
-              </v-tab>
-            </v-tabs>
-          </template>
-        </v-toolbar>
-        <!-- /ヘッダー -->
-        <!-- プロフィールタブ -->
-        <v-card v-if="menu === 'profileTab'">
-          <v-container>
-            <v-row>
-              <v-col>
-                <v-form ref="form">
-                  <!--  変更入力 -->
-                  <v-col class="text-center">
-                    <v-list-item-title class="font-weight-bold">
-                      プロフィール画像
-                    </v-list-item-title>
-                    <v-avatar
-                      size="200"
-                      tile
-                    >
-                      <v-img
-                        :src="userAvatar"
-                        contain
-                      />
-                    </v-avatar>
-                  </v-col>
-                  <InputFormName :name.sync="params.user.name" />
-                  <InputFormProfile :profile.sync="params.user.profile" />
-                  <v-file-input
-                    label="プロフィール画像を選択"
-                    v-model="params.user.avatar"
-                    accept="image/*"
-                    prepend-icon="mdi-camera"
-                  />
-                  <v-card-text>
-                    好きな音楽ジャンル(複数選択可)
-                  </v-card-text>
-                  <v-card-text class="text-center">
-                    <div>【選択中】</div>
-                    {{ displayCheckedGenres }}
-                  </v-card-text>
-                  <v-card-text>
-                    <InputFormGenre
-                      :genres="genres"
-                      :checkedGenres="params.user.checkedGenres"
-                      @formGenreCheckedEvent="formGenreChecked"
-                      @formGenreUncheckedEvent="formGenreUnchecked"
-                    />
-                  </v-card-text>
-                  <!--  /変更入力 -->
-                  <!--  変更確認 -->
-                  <v-dialog
-                    v-model="dialog"
-                    width="500"
-                  >
-                    <!--  変更確認ボタン -->
-                    <template #activator="{ on, attrs }">
-                      <v-btn
-                        v-bind="attrs"
-                        v-on="on"
-                        block
-                        dark
-                        color="button"
-                        @click="changeTarget"
-                      >
-                        設定を変更する
-                      </v-btn>
-                    </template>
-                    <!--  /変更確認ボタン -->
-                    <!--  変更確認モーダル -->
-                    <v-card>
-                      <v-card-title class="headline header white--text">
-                        プロフィールを変更する
-                      </v-card-title>
-                      <div class="ma-4">
-                        <v-list-item>
-                          <!-- 変更なし時の表示 -->
-                          <v-list-item-content v-if="!changeTargetLists.length">
-                            <v-list-item-title class="py-4">
-                              変更する項目はありません
-                            </v-list-item-title>
-                          </v-list-item-content>
-                          <!-- /変更なし時の表示 -->
-                          <!-- 変更あり時の表示 -->
-                          <v-list-item-content v-else>
-                            <v-list-item-title class="py-4">
-                              以下の内容を変更します
-                            </v-list-item-title>
-                            <div v-if="changeTargetLists.includes('name')">
-                              <v-list-item-title class="pt-6">
-                                ユーザー名
-                              </v-list-item-title>
-                              <v-list-item-subtitle>
-                                {{ params.user.name }}
-                              </v-list-item-subtitle>
-                            </div>
-                            <div v-if="changeTargetLists.includes('profile')">
-                              <v-list-item-title class="pt-6">
-                                プロフィール
-                              </v-list-item-title>
-                              <v-list-item-subtitle>
-                                {{ params.user.profile }}
-                              </v-list-item-subtitle>
-                            </div>
-                            <div v-if="changeTargetLists.includes('avatar')">
-                              <v-list-item-title class="pt-6">
-                                プロフィール画像
-                              </v-list-item-title>
-                              <v-list-item-subtitle>
-                                {{ params.user.avatar }}
-                              </v-list-item-subtitle>
-                            </div>
-                            <div v-if="changeTargetLists.includes('checkedGenres')">
-                              <v-list-item-title class="pt-6">
-                                好きな音楽ジャンル
-                              </v-list-item-title>
-                              <v-list-item-subtitle>
-                                {{ displayCheckedGenres }}
-                              </v-list-item-subtitle>
-                            </div>
-                            <v-card-actions>
-                              <v-spacer />
-                              <v-btn
-                                color="button"
-                                dark
-                                @click="submitChangedData"
-                                width="100%"
-                              >
-                                変更を確定する
-                              </v-btn>
-                              <v-spacer />
-                            </v-card-actions>
-                          </v-list-item-content>
-                          <!-- /変更あり時の表示 -->
-                        </v-list-item>
-                      </div>
-                      <!-- 共通表示 -->
-                      <v-card-actions>
-                        <v-spacer />
-                        <v-btn
-                          color="primary"
-                          text
-                          @click="dialog = false"
-                        >
-                          閉じる
-                        </v-btn>
-                      </v-card-actions>
-                      <!-- /共通表示 -->
-                    </v-card>
-                    <!--  変更確認モーダル -->
-                  </v-dialog>
-                  <!--  /変更確認 -->
-                </v-form>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card>
-        <!-- /プロフィールタブ -->
-        <!-- アカウントタブ -->
-        <v-card v-else-if="menu === 'accountTab'">
-          <v-container>
-            <v-row>
-              <v-col>
-                <v-form ref="form">
-                  <InputFormEmail :email.sync="params.user.email" />
-                  <InputFormPassword :password.sync="params.user.password" />
-                </v-form>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card>
-        <!-- /アカウントタブ -->
+        <SettingsTabMenu
+          :tab="tab"
+          @tabClickEvent="tabClick"
+        />
+        <SettingsProfile
+          v-if="isProfileTab"
+          :currentUser="currentUser"
+          :genres="genres"
+          :name.sync="setName"
+          :profile.sync="setProfile"
+          :avatar.sync="setAvatar"
+          :checkedGenres="setCheckedGenres"
+          @formGenreCheckedEvent="formGenreChecked"
+          @formGenreUncheckedEvent="formGenreUnchecked"
+          :changeTargetLists="changeTargetLists"
+          @changeTargetEvent="changeTarget"
+          :displayCheckedGenres="displayCheckedGenres"
+          @submitChangedDataEvent="submitChangedData"
+        />
+        <SettingsAccount
+          v-else-if="isAccountTab"
+        />
       </v-col>
     </v-row>
-    <!-- デバッグ用コード -->
-    <!-- <div>
-      <v-card class="my-4" color="grey lighten-2">
-        <v-card-tit>変更後</v-card-tit>
-        <v-card-text>params: {{ params }}</v-card-text>
-        <v-card-text>params.user.name: {{ params.user.name }}</v-card-text>
-        <v-card-text>params.user.email: {{ params.user.email }}</v-card-text>
-        <v-card-text>params.user.profile: {{ params.user.profile }}</v-card-text>
-        <v-card-text>params.user.checkedGenres: {{ params.user.checkedGenres }}</v-card-text>
-        <v-card-text>params.user.avatar: {{ params.user.avatar }}</v-card-text>
-        <v-card-text>changeTargetLists: {{ changeTargetLists }}</v-card-text>
-      </v-card>
-      <v-card class="my-4" color="grey lighten-2">
-        <v-card-tit>変更前</v-card-tit>
-        <v-card-text>beforeParams: {{ beforeParams }}</v-card-text>
-        <v-card-text>beforeParams.user.name: {{ beforeParams.user.name }}</v-card-text>
-        <v-card-text>beforeParams.user.email: {{ beforeParams.user.email }}</v-card-text>
-        <v-card-text>beforeParams.user.profile: {{ beforeParams.user.profile }}</v-card-text>
-        <v-card-text>beforeParams.user.checkedGenres: {{ beforeParams.user.checkedGenres }}</v-card-text>
-        <v-card-text>beforeParams.user.avatar: {{ beforeParams.user.avatar }}</v-card-text>
-      </v-card>
-      {{ userAvatar }}
-    </div> -->
   </v-container>
 </template>
 
@@ -230,48 +36,57 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
-      menu: 'profileTab',
+      tab: 'profileTab',
       tabs: [
-        {
-          title: 'プロフィール',
-          name: 'profileTab'
-        },
-        {
-          title: 'アカウント',
-          name: 'accountTab'
-        }
+        { title: 'プロフィール', name: 'profileTab' },
+        { title: 'アカウント', name: 'accountTab' }
       ],
       params: {
         user: {
           name: '',
-          email: '',
           profile: '',
           avatar: '',
-          password: '',
-          activated: true,
           checkedGenres: []
         }
       },
       beforeParams: {
         user: {
           name: '',
-          email: '',
           profile: '',
           avatar: '',
-          password: '',
-          activated: true,
           checkedGenres: []
         }
       },
+      // 仮
+      paramsAccount: {
+        user: {
+          email: '',
+          password: '',
+          activated: true
+        }
+      },
+      beforeParamsAccount: {
+        user: {
+          email: '',
+          password: '',
+          activated: true
+        }
+      },
+      // 変更対象項目名が格納される配列
       changeTargetLists: [],
-      dialog: false,
-      isChanging: false
+      isGenreChanged: false
     }
   },
   computed: {
     ...mapGetters({
       currentUser: 'modules/user/currentUser'
     }),
+    isProfileTab () {
+      return this.tab === 'profileTab'
+    },
+    isAccountTab () {
+      return this.tab === 'accountTab'
+    },
     displayCheckedGenres () {
       if (this.params.user.checkedGenres.length) {
         return this.params.user.checkedGenres.join('・')
@@ -279,27 +94,40 @@ export default {
         return 'なし'
       }
     },
-    userAvatar () {
-    // if (!this.currentUser.length) {
-    //   return 'http://localhost:3000' + this.beforeParams.user.avatar
-    // } else {
-      return 'http://localhost:3000' + this.currentUser.avatar.url
-    // }
+    // ==================================================
+    // プロフィール用
+    // ==================================================
+    setName: {
+      get () { return this.params.user.name },
+      set (value) { this.params.user.name = value }
+    },
+    setProfile: {
+      get () { return this.params.user.profile },
+      set (value) { this.params.user.profile = value }
+    },
+    setAvatar: {
+      get () { return this.params.user.avatar },
+      set (value) { this.params.user.avatar = value }
+    },
+    setCheckedGenres: {
+      get () { return this.params.user.checkedGenres },
+      set (value) { this.params.user.checkedGenres = value }
     }
   },
   methods: {
     ...mapActions({
-      changeProfile: 'modules/user/changeProfile'
+      changeProfile: 'modules/user/changeProfile',
+      getCurrentUser: 'modules/user/getCurrentUser'
     }),
     tabClick (tabName) {
-      this.menu = tabName
+      this.tab = tabName
     },
     formGenreChecked (value) {
-      if (!this.isChanging) {
-        this.isChanging = true
+      if (!this.isGenreChanged) {
+        this.isGenreChanged = true
         this.params.user.checkedGenres = []
         this.params.user.checkedGenres.push(value)
-      } else if (this.isChanging) {
+      } else if (this.isGenreChanged) {
         this.params.user.checkedGenres.push(value)
       }
     },
@@ -311,13 +139,11 @@ export default {
     // 変更データ送信後のリセット
     // ==================================================
     formReset () {
-      this.dialog = false
-      this.isChanging = false
+      this.isGenreChanged = false
       // 参照を解除するためにJSON.parseにて複製
       this.beforeParams = JSON.parse(JSON.stringify(this.params))
       // JSON.parseで反映されないので暫定的に直接代入
       this.beforeParams.user.avatar = this.params.user.avatar
-      // Object.assign({}, this.params)
     },
     // ==================================================
     // 変更データ項目のセット
@@ -337,7 +163,6 @@ export default {
         }
       // Array型の項目 => 変更あり・未登録のとき追加、変更なし・登録済みのとき削除
       } else if (Array.isArray(afterParam)) {
-        // const isChanged = afterParam.map((aParam) => { return beforeParam.includes(aParam) }).includes(false)
         const isChanged = JSON.stringify(afterParam.sort()) !== JSON.stringify(beforeParam.sort())
         if (isChanged) {
           if (!this.changeTargetLists.includes(paramStr)) {
@@ -389,7 +214,7 @@ export default {
   },
   // ==================================================
   // 既存データロード
-  // ==================================================
+  // ==================================================n
   // プロフィール画像をリアクティブに表示するためcurrentUserから取得
   async fetch ({ store }) {
     await store.dispatch('modules/user/getCurrentUser')

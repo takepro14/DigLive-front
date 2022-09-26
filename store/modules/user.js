@@ -182,6 +182,9 @@ export const actions = {
   // ==================================================
   // データロード
   // ==================================================
+  // getCurrentUser ({ commit }, userObj) {
+  //   commit('setCurrentUser', userObj)
+  // },
   async getCurrentUser ({ commit, rootState }) {
     await this.$axios.$get(`/api/v1/users/${rootState.user.current.id}`)
       .then((userObj) => {

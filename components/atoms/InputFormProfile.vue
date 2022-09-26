@@ -17,15 +17,15 @@ export default {
       default: ''
     }
   },
-  // data () {
-  //   const max = 200
-  //   return {
-  //     max,
-  //     rules: [
-  //       v => (this.max >= v.length) || `${this.max}文字以内で入力してください`
-  //     ]
-  //   }
-  // },
+  data () {
+    const max = 200
+    return {
+      max,
+      rules: [
+        v => (this.max >= v.length) || `${this.max}文字以内で入力してください`
+      ]
+    }
+  },
   computed: {
     setProfile: {
       get () { return this.profile },
