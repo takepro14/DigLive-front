@@ -4,6 +4,7 @@
     <HistoryBack class="py-4" />
     <v-row>
       <v-col>
+        <!-- ヘッダー -->
         <v-toolbar
           color="header"
           dark
@@ -28,11 +29,14 @@
             </v-tabs>
           </template>
         </v-toolbar>
+        <!-- /ヘッダー -->
+        <!-- プロフィールタブ -->
         <v-card v-if="menu === 'profileTab'">
           <v-container>
             <v-row>
               <v-col>
                 <v-form ref="form">
+                  <!--  変更入力 -->
                   <v-col class="text-center">
                     <v-list-item-title class="font-weight-bold">
                       プロフィール画像
@@ -70,10 +74,13 @@
                       @formGenreUncheckedEvent="formGenreUnchecked"
                     />
                   </v-card-text>
+                  <!--  /変更入力 -->
+                  <!--  変更確認 -->
                   <v-dialog
                     v-model="dialog"
                     width="500"
                   >
+                    <!--  変更確認ボタン -->
                     <template #activator="{ on, attrs }">
                       <v-btn
                         v-bind="attrs"
@@ -86,20 +93,22 @@
                         設定を変更する
                       </v-btn>
                     </template>
+                    <!--  /変更確認ボタン -->
+                    <!--  変更確認モーダル -->
                     <v-card>
                       <v-card-title class="headline header white--text">
                         プロフィールを変更する
                       </v-card-title>
                       <div class="ma-4">
                         <v-list-item>
-                          <!-- 変更なし -->
+                          <!-- 変更なし時の表示 -->
                           <v-list-item-content v-if="!changeTargetLists.length">
                             <v-list-item-title class="py-4">
                               変更する項目はありません
                             </v-list-item-title>
                           </v-list-item-content>
-                          <!-- /変更なし -->
-                          <!-- 変更あり -->
+                          <!-- /変更なし時の表示 -->
+                          <!-- 変更あり時の表示 -->
                           <v-list-item-content v-else>
                             <v-list-item-title class="py-4">
                               以下の内容を変更します
@@ -149,9 +158,10 @@
                               <v-spacer />
                             </v-card-actions>
                           </v-list-item-content>
-                          <!-- /変更あり -->
+                          <!-- /変更あり時の表示 -->
                         </v-list-item>
                       </div>
+                      <!-- 共通表示 -->
                       <v-card-actions>
                         <v-spacer />
                         <v-btn
@@ -162,13 +172,18 @@
                           閉じる
                         </v-btn>
                       </v-card-actions>
+                      <!-- /共通表示 -->
                     </v-card>
+                    <!--  変更確認モーダル -->
                   </v-dialog>
+                  <!--  /変更確認 -->
                 </v-form>
               </v-col>
             </v-row>
           </v-container>
         </v-card>
+        <!-- /プロフィールタブ -->
+        <!-- アカウントタブ -->
         <v-card v-else-if="menu === 'accountTab'">
           <v-container>
             <v-row>
@@ -181,6 +196,7 @@
             </v-row>
           </v-container>
         </v-card>
+        <!-- /アカウントタブ -->
       </v-col>
     </v-row>
     <!-- デバッグ用コード -->
