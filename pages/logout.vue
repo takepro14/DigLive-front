@@ -1,8 +1,10 @@
 <script>
 export default {
-  async middleware ({ $auth, redirect }) {
+  async middleware ({ $auth, redirect, store }) {
     await $auth.logout()
-    return redirect('/')
+      .then(() => {
+        return redirect('/')
+      })
   }
 }
 </script>

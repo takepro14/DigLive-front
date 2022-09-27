@@ -49,7 +49,6 @@ export default {
     }
   },
   computed: {
-    // 新規登録後のログインリクエストパラメータ
     loginParams () {
       const params = {
         auth: {
@@ -68,12 +67,14 @@ export default {
           .then(() => {
             this.$axios.$post('/api/v1/auth_token', this.loginParams, { withCredentials: true })
               .then((userObj) => {
+                this.$store.dispatch('getToast', { msg: '新規登録が完了しました' })
                 this.$auth.login(userObj)
                 this.$router.push('/home')
               })
-              .catch(error => console.log(error))
+              .catch((error) => {
+                console.log(error)
+              })
           })
-          // .catch(error => this.createFailure(error))
       }
       this.loading = false
     }

@@ -38,7 +38,7 @@
           />
           <v-list-item
             :key="`menu-list-${i}`"
-            :to="{ name: menu.name }"
+            @click="movePage(menu.path)"
           >
             <v-list-item-icon class="mr-2">
               <v-icon
@@ -62,9 +62,19 @@ export default {
   data () {
     return {
       menus: [
-        { name: 'account-settings', icon: 'mdi-account-cog' },
-        { name: 'logout', icon: 'mdi-logout-variant', divider: true }
+        { name: 'account-settings', icon: 'mdi-account-cog', path: '/account/settings' },
+        { name: 'logout', icon: 'mdi-logout-variant', path: '/logout', divider: true }
       ]
+    }
+  },
+  methods: {
+    movePage (path) {
+      this.$router.push(path)
+      if (path === '/logout') {
+        setTimeout(() => {
+          this.$store.dispatch('getToast', { msg: 'ログアウトしました' })
+        }, 500)
+      }
     }
   }
 }

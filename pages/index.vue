@@ -1,5 +1,6 @@
 <template>
   <v-container class="my-16">
+    <Toaster />
     <v-row>
       <v-col>
         <NotLoggedInHeader />

@@ -31,7 +31,7 @@ export const state = {
   toast: {
     msg: null,
     color: '',
-    timeout: 3000
+    timeout: 2000
   }
 }
 
@@ -84,7 +84,7 @@ export const actions = {
   },
   getToast ({ commit }, { msg, color, timeout }) {
     color = color || 'info'
-    timeout = timeout || 4000
+    timeout = timeout || 2000
     commit('setToast', { msg, color, timeout })
   },
   // ログイン前ユーザがアクセスしたルートを記憶する

@@ -32,9 +32,6 @@ export default {
       set (val) { return this.resetToast() && val }
     }
   },
-  beforeDestroy () {
-    this.resetToast()
-  },
   methods: {
     resetToast () {
       return this.$store.dispatch('getToast', { msg: null })

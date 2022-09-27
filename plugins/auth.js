@@ -27,19 +27,16 @@ class Authentication {
   setAuth ({ token, expires, user }) {
     const exp = expires * 1000
     const jwtPayload = (token) ? jwtDecode(token) : {}
-
     this.store.dispatch('getAuthToken', token)
     this.store.dispatch('getAuthExpires', exp)
     this.store.dispatch('getCurrentUser', user)
     this.store.dispatch('getAuthPayload', jwtPayload)
   }
 
-  // ログイン業務
   login (response) {
     this.setAuth(response)
   }
 
-  // Vuexの値を初期値に戻す
   resetVuex () {
     this.setAuth({ token: null, expires: 0, user: null })
     this.store.dispatch('getCurrentUser', [])
@@ -51,7 +48,6 @@ class Authentication {
     return (status >= 200 && status < 300) || (status === 401)
   }
 
-  // ログアウト業務
   async logout () {
     await this.$axios.$delete(
       '/api/v1/auth_token',
@@ -60,22 +56,22 @@ class Authentication {
     this.resetVuex()
   }
 
-  // 有効期限内にtrueを返す
+  // 有効期限内の場合はtrue
   isAuthenticated () {
     return new Date().getTime() < this.expires
   }
 
-  // ユーザーが存在している場合はtrueを返す
+  // ユーザーが存在している場合はtrue
   isExistUser () {
     return this.user.sub && this.payload.sub && this.user.sub === this.payload.sub
   }
 
-  // ユーザーが存在し、かつ有効期限切れの場合にtrueを返す
+  // ユーザーが存在し、かつ有効期限切れの場合にtrue
   isExistUserAndExpired () {
     return this.isExistUser() && !this.isAuthenticated()
   }
 
-  // ユーザーが存在し、かつ有効期限内の場合にtrueを返す
+  // ユーザーが存在し、かつ有効期限内の場合にtrue
   loggedIn () {
     return this.isExistUser() && this.isAuthenticated()
   }

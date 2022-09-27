@@ -38,7 +38,12 @@ export default {
     return {
       isValid: false,
       loading: false,
-      params: { auth: { email: 'test-user1@example.com', password: 'password' } },
+      params: {
+        auth: {
+          email: 'test-user10@example.com',
+          password: 'password'
+        }
+      },
       redirectPath: $store.state.LoggedIn.rememberPath,
       LoggedInHomePath: $store.state.LoggedIn.homePath
     }
@@ -48,24 +53,19 @@ export default {
       this.loading = true
       if (this.isValid) {
         await this.$axios.$post('/api/v1/auth_token', this.params, { withCredentials: true })
-          .then(response => this.authSuccessful(response))
-          .catch(error => this.authFailure(error))
+          .then((response) => {
+            this.$store.dispatch('getToast', { msg: 'ログインしました' })
+            this.$auth.login(response)
+            this.$router.push(this.redirectPath)
+            this.$router.dispatch('getRememberPath', this.LoggedInHomePath)
+          })
+          .catch((error) => {
+            if (error && error.status === 404) {
+              return this.$store.dispatch('getToast', { msg: 'ユーザが見つかりません' })
+            }
+          })
       }
       this.loading = false
-    },
-    authSuccessful (response) {
-      this.$auth.login(response)
-      // 記憶ルートにリダイレクト
-      this.$router.push(this.redirectPath)
-      // 記憶ルートを初期値に戻す
-      this.$router.dispatch('getRememberPath', this.LoggedInHomePath)
-    },
-    authFailure ({ response }) {
-      if (response && response.status === 404) {
-        // トースター出力
-        const msg = 'ユーザが見つかりません'
-        return this.$store.dispatch('getToast', { msg })
-      }
     }
   }
 }
