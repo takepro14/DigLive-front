@@ -10,6 +10,13 @@
             <InputFormPassword
               :password.sync="setPassword"
             />
+            <SettingsAccountChangeDialog
+              :email="email"
+              :password="password"
+              :changeTargetLists="changeTargetLists"
+              @changeTargetEvent="changeTarget"
+              @submitChangedDataEvent="submitChangedData"
+            />
           </v-form>
         </v-col>
       </v-row>
@@ -25,6 +32,9 @@ export default {
     },
     password: {
       type: String
+    },
+    changeTargetLists: {
+      type: Array
     }
   },
   computed: {
@@ -35,6 +45,15 @@ export default {
     setPassword: {
       get () { return this.password },
       set (value) { this.$emit('update:password', value) }
+    }
+  },
+  methods: {
+    changeTarget () {
+      this.$emit('changeTargetEvent')
+    },
+    submitChangedData () {
+      this.$emit('submitChangedDataEvent')
+      this.dialog = false
     }
   }
 }

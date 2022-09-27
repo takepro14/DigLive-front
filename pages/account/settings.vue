@@ -28,9 +28,41 @@
           v-else-if="isAccountTab"
           :email.sync="setEmail"
           :password.sync="setPassword"
+          :changeTargetLists="changeTargetLists"
+          @changeTargetEvent="changeTarget"
+          @submitChangedDataEvent="submitChangedData"
         />
       </v-col>
     </v-row>
+    <!-- デバッグ用コード -->
+    <div>
+      <v-card class="my-4" color="grey lighten-2">
+        <v-card-title>changeTargetLists</v-card-title>
+        <v-card-text>{{ changeTargetLists }}</v-card-text>
+        <div v-if="isProfileTab">
+          <v-card-title>params.user.name</v-card-title>
+          <v-card-text>{{ params.user.name }}</v-card-text>
+          <v-card-title>params.user.email</v-card-title>
+          <v-card-text>{{ params.user.email }}</v-card-text>
+          <v-card-title>params.user.profile</v-card-title>
+          <v-card-text>{{ params.user.profile }}</v-card-text>
+          <v-card-title>params.user.checkedGenres</v-card-title>
+          <v-card-text>{{ params.user.checkedGenres }}</v-card-text>
+          <v-card-title>params.user.avatar</v-card-title>
+          <v-card-text>{{ params.user.avatar }}</v-card-text>
+          <v-card-title>params(all)</v-card-title>
+          <v-card-text>{{ params }}</v-card-text>
+        </div>
+        <div v-else-if="isAccountTab">
+          <v-card-title>accountParams.user.email</v-card-title>
+          <v-card-text>{{ accountParams.user.email }}</v-card-text>
+          <v-card-title>accountParams.user.password</v-card-title>
+          <v-card-text>{{ accountParams.user.password }}</v-card-text>
+          <v-card-title>accountParams(all)</v-card-title>
+          <v-card-text>{{ accountParams }}</v-card-text>
+        </div>
+      </v-card>
+    </div>
   </v-container>
 </template>
 
@@ -53,7 +85,7 @@ export default {
       accountParams: {
         user: { email: '', password: '' }
       },
-      accountBeforeParams: {
+      beforeAccountParams: {
         user: { email: '', password: '' }
       },
       // 変更対象項目名が格納される配列
@@ -101,6 +133,21 @@ export default {
     setPassword: {
       get () { return this.accountParams.user.password },
       set (value) { this.accountParams.user.password = value }
+    },
+    isNoChanged () {
+      return !this.changeTargetLists.length
+    },
+    isChanged () {
+      return (target) => {
+        return this.changeTargetLists.includes(target)
+      }
+    }
+  },
+  watch: {
+    tab () {
+      // Profile, Accountでロジックを流用しているためタブが変わったらリセット
+      this.changeTargetLists = []
+      // TODO: 入力内容もクリアするか？
     }
   },
   methods: {
@@ -166,39 +213,42 @@ export default {
       }
     },
     changeTarget () {
-      this.setChangeTargetLists(this.params.user.name, this.beforeParams.user.name, 'name')
-      this.setChangeTargetLists(this.params.user.profile, this.beforeParams.user.profile, 'profile')
-      this.setChangeTargetLists(this.params.user.avatar, this.beforeParams.user.avatar, 'avatar')
-      this.setChangeTargetLists(this.params.user.checkedGenres, this.beforeParams.user.checkedGenres, 'checkedGenres')
+      if (this.isProfileTab) {
+        this.setChangeTargetLists(this.params.user.name, this.beforeParams.user.name, 'name')
+        this.setChangeTargetLists(this.params.user.profile, this.beforeParams.user.profile, 'profile')
+        this.setChangeTargetLists(this.params.user.avatar, this.beforeParams.user.avatar, 'avatar')
+        this.setChangeTargetLists(this.params.user.checkedGenres, this.beforeParams.user.checkedGenres, 'checkedGenres')
+      } else if (this.isAccountTab) {
+        this.setChangeTargetLists(this.accountParams.user.email, this.beforeAccountParams.user.email, 'email')
+        this.setChangeTargetLists(this.accountParams.user.password, this.beforeAccountParams.user.password, 'password')
+      }
     },
     // ==================================================
     // 変更データの送信
     // ==================================================
     submitChangedData () {
       const formData = new FormData()
-      if (this.changeTargetLists.includes('name')) {
-        formData.append('user[name]', this.params.user.name)
-      }
-      if (this.changeTargetLists.includes('profile')) {
-        formData.append('user[profile]', this.params.user.profile)
-      }
-      if (this.changeTargetLists.includes('avatar')) {
-        formData.append('user[avatar]', this.params.user.avatar)
-      }
-      if (this.changeTargetLists.includes('checkedGenres')) {
-        if (this.params.user.checkedGenres.length) {
-          this.params.user.checkedGenres.forEach((genre) => {
-            formData.append('user[genres][]', genre)
-          })
+      if (this.isProfileTab) {
+        if (this.isChanged('name')) { formData.append('user[name]', this.params.user.name) }
+        if (this.isChanged('profile')) { formData.append('user[profile]', this.params.user.profile) }
+        if (this.isChanged('avatar')) { formData.append('user[avatar]', this.params.user.avatar) }
+        if (this.isChanged('checkedGenres')) {
+          if (this.params.user.checkedGenres.length) {
+            this.params.user.checkedGenres.forEach((genre) => {
+              formData.append('user[genres][]', genre)
+            })
+          }
         }
-      }
-      const config = {
-        headders: {
-          'content-type': 'multipart/form-data'
+        const config = {
+          headders: {
+            'content-type': 'multipart/form-data'
+          }
         }
+        this.changeProfile({ formData, config })
+        this.formReset()
+      } else if (this.isAccountTab) {
+        // TODO
       }
-      this.changeProfile({ formData, config })
-      this.formReset()
     }
   },
   // ==================================================
@@ -231,12 +281,14 @@ export default {
       genres: genresArray,
       accountParams: {
         user: {
-          email: userObj.email
+          email: userObj.email,
+          password: ''
         }
       },
-      accountBeforeParams: {
+      beforeAccountParams: {
         user: {
-          email: userObj.email
+          email: userObj.email,
+          password: ''
         }
       }
     }

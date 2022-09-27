@@ -45,7 +45,7 @@
               />
             </v-card-text>
             <!-- /設定入力 -->
-            <SettingProfileChangeDialog
+            <SettingsProfileChangeDialog
               :name="name"
               :profile="profile"
               :avatar="avatar"
@@ -57,29 +57,6 @@
           </v-form>
         </v-col>
       </v-row>
-    <!-- デバッグ用コード -->
-    <!-- <div>
-      <v-card class="my-4" color="grey lighten-2">
-        <v-card-tit>変更後</v-card-tit>
-        <v-card-text>params: {{ params }}</v-card-text>
-        <v-card-text>params.user.name: {{ params.user.name }}</v-card-text>
-        <v-card-text>params.user.email: {{ params.user.email }}</v-card-text>
-        <v-card-text>params.user.profile: {{ params.user.profile }}</v-card-text>
-        <v-card-text>params.user.checkedGenres: {{ params.user.checkedGenres }}</v-card-text>
-        <v-card-text>params.user.avatar: {{ params.user.avatar }}</v-card-text>
-        <v-card-text>changeTargetLists: {{ changeTargetLists }}</v-card-text>
-      </v-card>
-      <v-card class="my-4" color="grey lighten-2">
-        <v-card-tit>変更前</v-card-tit>
-        <v-card-text>beforeParams: {{ beforeParams }}</v-card-text>
-        <v-card-text>beforeParams.user.name: {{ beforeParams.user.name }}</v-card-text>
-        <v-card-text>beforeParams.user.email: {{ beforeParams.user.email }}</v-card-text>
-        <v-card-text>beforeParams.user.profile: {{ beforeParams.user.profile }}</v-card-text>
-        <v-card-text>beforeParams.user.checkedGenres: {{ beforeParams.user.checkedGenres }}</v-card-text>
-        <v-card-text>beforeParams.user.avatar: {{ beforeParams.user.avatar }}</v-card-text>
-      </v-card>
-      {{ userAvatar }}
-    </div> -->
     </v-container>
   </v-card>
 </template>
