@@ -31,6 +31,7 @@
           :changeTargetLists="changeTargetLists"
           @changeTargetEvent="changeTarget"
           @submitChangedDataEvent="submitChangedData"
+          @destroyAccountEvent="destroyAccount"
         />
       </v-col>
     </v-row>
@@ -153,7 +154,8 @@ export default {
   methods: {
     ...mapActions({
       changeProfile: 'modules/user/changeProfile',
-      getCurrentUser: 'modules/user/getCurrentUser'
+      getCurrentUser: 'modules/user/getCurrentUser',
+      getSettingsAccountDestroy: 'modules/user/getSettingsAccountDestroy'
     }),
     tabClick (tabName) {
       this.tab = tabName
@@ -176,10 +178,14 @@ export default {
     // ==================================================
     formReset () {
       this.isGenreChanged = false
-      // 参照を解除するためにJSON.parseにて複製
-      this.beforeParams = JSON.parse(JSON.stringify(this.params))
-      // JSON.parseで反映されないので暫定的に直接代入
-      this.beforeParams.user.avatar = this.params.user.avatar
+      if (this.isProfileTab) {
+        // 参照を解除するためにJSON.parseにて複製
+        this.beforeParams = JSON.parse(JSON.stringify(this.params))
+        // JSON.parseで反映されないので暫定的に直接代入
+        this.beforeParams.user.avatar = this.params.user.avatar
+      } else if (this.isAccountTab) {
+        this.beforeAccountParams = JSON.parse(JSON.stringify(this.accountParams))
+      }
     },
     // ==================================================
     // 変更データ項目のセット
@@ -250,6 +256,12 @@ export default {
       }
       this.changeProfile({ formData, config })
       this.formReset()
+    },
+    // ==================================================
+    // アカウントの削除
+    // ==================================================
+    destroyAccount () {
+      this.getSettingsAccountDestroy()
     }
   },
   // ==================================================

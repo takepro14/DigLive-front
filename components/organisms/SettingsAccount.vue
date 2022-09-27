@@ -10,13 +10,20 @@
             <InputFormPassword
               :password.sync="setPassword"
             />
-            <SettingsAccountChangeDialog
-              :email="email"
-              :password="password"
-              :changeTargetLists="changeTargetLists"
-              @changeTargetEvent="changeTarget"
-              @submitChangedDataEvent="submitChangedData"
-            />
+            <div class="mt-6">
+              <SettingsAccountChangeDialog
+                :email="email"
+                :password="password"
+                :changeTargetLists="changeTargetLists"
+                @changeTargetEvent="changeTarget"
+                @submitChangedDataEvent="submitChangedData"
+              />
+            </div>
+            <div class="mt-6">
+              <SettingsAccountDestroyDialog
+                @destroyAccountEvent="destroyAccount"
+              />
+            </div>
           </v-form>
         </v-col>
       </v-row>
@@ -54,6 +61,9 @@ export default {
     submitChangedData () {
       this.$emit('submitChangedDataEvent')
       this.dialog = false
+    },
+    destroyAccount () {
+      this.$emit('destroyAccountEvent')
     }
   }
 }

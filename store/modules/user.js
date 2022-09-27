@@ -240,22 +240,7 @@ export const actions = {
     commit('setFilteredUsersZero')
   },
   // ==================================================
-  // 設定変更アクション
-  // ==================================================
-  async changeProfile ({ commit, rootState }, { formData, config }) {
-    await this.$axios.$put(`/api/v1/users/${rootState.user.current.id}`, formData, config)
-      .then((currentUserObj) => {
-        commit('reloadUserBySetProfile', currentUserObj)
-      })
-      .then(() => {
-        this.dispatch('getToast', {
-          msg: 'プロフィールを変更しました',
-          color: 'info'
-        })
-      })
-  },
-  // ==================================================
-  // フォローアクション
+  // フォロー
   // ==================================================
   async follow ({ commit }, userIdRoute) {
     await this.$axios.$post('/api/v1/relationships', {
@@ -276,7 +261,7 @@ export const actions = {
       })
   },
   // ==================================================
-  // アンフォローアクション
+  // アンフォロー
   // ==================================================
   async unfollow ({ commit, rootState }, userIdRoute) {
     await this.$axios.$delete(`/api/v1/relationships/${userIdRoute.userId}`, {
@@ -295,6 +280,36 @@ export const actions = {
         this.dispatch('getToast', {
           msg: 'ユーザのフォローを解除しました',
           color: 'prymary'
+        })
+      })
+  },
+  // ==================================================
+  // 設定変更
+  // ==================================================
+  async changeProfile ({ commit, rootState }, { formData, config }) {
+    await this.$axios.$put(`/api/v1/users/${rootState.user.current.id}`, formData, config)
+      .then((currentUserObj) => {
+        commit('reloadUserBySetProfile', currentUserObj)
+      })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: 'プロフィールを変更しました',
+          color: 'info'
+        })
+      })
+  },
+  // ==================================================
+  // アカウント削除
+  // ==================================================
+  async getSettingsAccountDestroy ({ rootState }) {
+    await this.$axios.$delete(`/api/v1/users/${rootState.user.current.id}`)
+      .then(() => {
+        this.app.router.push('/logout')
+      })
+      .then(() => {
+        this.dispatch('getToast', {
+          msg: 'アカウントを削除しました',
+          color: 'info'
         })
       })
   }

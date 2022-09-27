@@ -286,7 +286,7 @@ export const actions = {
     commit('setFilteredPostsZero')
   },
   // ==================================================
-  // 投稿アクション
+  // 投稿
   // ==================================================
   async createPost ({ commit }, params) {
     const data = new FormData()
@@ -332,7 +332,7 @@ export const actions = {
       })
   },
   // ==================================================
-  // いいねアクション
+  // いいね
   // ==================================================
   async likePost ({ rootState, commit }, postObj) {
     await this.$axios.$post('/api/v1/likes', {
@@ -374,7 +374,7 @@ export const actions = {
       })
   },
   // ==================================================
-  // コメントアクション
+  // コメント
   // ==================================================
   async emitReloadComments ({ commit }, postId) {
     await this.$axios.$get(`/api/v1/posts/${postId}`)

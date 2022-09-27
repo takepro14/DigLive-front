@@ -6,6 +6,7 @@
       offset-y
       max-width="200"
     >
+      <!-- サブメニューボタン -->
       <template #activator="{ on }">
         <v-btn
           icon
@@ -16,6 +17,8 @@
           </v-icon>
         </v-btn>
       </template>
+      <!-- /サブメニューボタン -->
+      <!-- サブメニュー -->
       <v-list dense>
         <v-subheader>
           ログイン中のユーザー
@@ -28,9 +31,6 @@
           </v-list-item-content>
         </v-list-item>
         <v-divider />
-        <v-subheader>
-          アカウント
-        </v-subheader>
         <template v-for="(menu, i) in menus">
           <v-divider
             v-if="menu.divider"
@@ -52,6 +52,7 @@
           </v-list-item>
         </template>
       </v-list>
+      <!-- /サブメニュー -->
     </v-menu>
   </div>
 </template>

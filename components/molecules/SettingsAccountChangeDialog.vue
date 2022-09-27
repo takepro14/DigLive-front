@@ -22,7 +22,6 @@
       <v-card-title class="headline header white--text">
         アカウント情報を変更する
       </v-card-title>
-      changeTargetLists: {{ changeTargetLists }}
       <div class="ma-4">
         <v-list-item>
           <!-- 変更なし時の表示 -->

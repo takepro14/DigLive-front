@@ -13,7 +13,7 @@
         <Title />
       </nuxt-link>
       <v-spacer />
-      <AccountMenu />
+      <LoggedInHeaderSubMenu />
     </v-app-bar>
   </div>
 </template>
