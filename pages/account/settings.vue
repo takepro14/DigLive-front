@@ -224,7 +224,7 @@ export default {
       }
     },
     // ==================================================
-    // 変更データの送信
+    // 変更データの作成・送信
     // ==================================================
     submitChangedData () {
       const formData = new FormData()
@@ -239,16 +239,17 @@ export default {
             })
           }
         }
-        const config = {
-          headders: {
-            'content-type': 'multipart/form-data'
-          }
-        }
-        this.changeProfile({ formData, config })
-        this.formReset()
       } else if (this.isAccountTab) {
-        // TODO
+        if (this.isChanged('email')) { formData.append('user[email]', this.accountParams.user.email) }
+        if (this.isChanged('password')) { formData.append('user[password]', this.accountParams.user.password) }
       }
+      const config = {
+        headders: {
+          'content-type': 'multipart/form-data'
+        }
+      }
+      this.changeProfile({ formData, config })
+      this.formReset()
     }
   },
   // ==================================================

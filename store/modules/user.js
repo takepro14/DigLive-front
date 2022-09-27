@@ -240,7 +240,7 @@ export const actions = {
     commit('setFilteredUsersZero')
   },
   // ==================================================
-  // プロフィール変更アクション
+  // 設定変更アクション
   // ==================================================
   async changeProfile ({ commit, rootState }, { formData, config }) {
     await this.$axios.$put(`/api/v1/users/${rootState.user.current.id}`, formData, config)
