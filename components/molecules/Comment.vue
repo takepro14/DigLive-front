@@ -1,11 +1,11 @@
 <template>
   <v-card
-    class="my-1 mx-1"
+    class="my-1 mx-1 card-outter"
     width="100%"
     height="100%"
-    style="position: relative"
   >
     <v-container>
+      <!-- ヘッダー -->
       <v-row>
         <v-col>
           <v-list-item
@@ -33,19 +33,30 @@
           </v-list-item>
         </v-col>
       </v-row>
+      <!-- /ヘッダー -->
+      <!-- 本文 -->
       <v-row>
         <v-col>
-          <v-card-text class="text-h6">
+          <v-card-text class="text-h6 pb-12">
             {{ comment.comment }}
           </v-card-text>
         </v-col>
       </v-row>
-      <v-row>
-        <v-spacer />
-        <v-col style="position: absolute;bottom: 0;right: 0;">
-          {{ $my.format(comment.created_at) }}
-        </v-col>
-      </v-row>
+      <!-- /本文 -->
+      <!-- フッター -->
+      <v-card-actions
+        class="card-actions"
+      >
+        <v-row
+          align="center"
+          justify="end"
+        >
+          <v-card-text>
+            {{ $my.format(comment.created_at) }}
+          </v-card-text>
+        </v-row>
+      </v-card-actions>
+      <!-- /フッター -->
     </v-container>
   </v-card>
 </template>
@@ -77,3 +88,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/* フッターを最下部に固定 */
+.card-outter {
+  position: relative;
+}
+.card-actions {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+</style>
