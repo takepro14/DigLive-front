@@ -108,8 +108,8 @@
               <div v-if="post.isLiked">
                 <v-icon
                   class="ml-3 mr-1"
-                  @click.stop="unLikePost(post)"
                   large
+                  @click.stop="unLikePost(post)"
                 >
                   mdi-heart
                 </v-icon>
@@ -159,7 +159,8 @@ export default {
   },
   props: {
     post: {
-      type: Object
+      type: Object,
+      default: () => ({})
     },
     currentUserId: {
       type: Number

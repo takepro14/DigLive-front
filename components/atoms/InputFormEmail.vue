@@ -1,4 +1,5 @@
 <template>
+<div>
   <v-text-field
     v-model="setEmail"
     :rules="rules"
@@ -6,6 +7,7 @@
     :placeholder="placeholder ? 'your@email.com' : undefined"
     outlined
   />
+</div>
 </template>
 
 <script>

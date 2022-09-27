@@ -1,7 +1,7 @@
 <template>
   <v-file-input
-    label="プロフィール画像を選択"
     v-model="setAvatar"
+    label="プロフィール画像を選択"
     accept="image/*"
     prepend-icon="mdi-camera"
   />

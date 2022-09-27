@@ -26,6 +26,8 @@
         />
         <SettingsAccount
           v-else-if="isAccountTab"
+          :email.sync="setEmail"
+          :password.sync="setPassword"
         />
       </v-col>
     </v-row>
@@ -43,35 +45,16 @@ export default {
         { title: 'アカウント', name: 'accountTab' }
       ],
       params: {
-        user: {
-          name: '',
-          profile: '',
-          avatar: '',
-          checkedGenres: []
-        }
+        user: { name: '', profile: '', avatar: '', checkedGenres: [] }
       },
       beforeParams: {
-        user: {
-          name: '',
-          profile: '',
-          avatar: '',
-          checkedGenres: []
-        }
+        user: { name: '', profile: '', avatar: '', checkedGenres: [] }
       },
-      // 仮
-      paramsAccount: {
-        user: {
-          email: '',
-          password: '',
-          activated: true
-        }
+      accountParams: {
+        user: { email: '', password: '' }
       },
-      beforeParamsAccount: {
-        user: {
-          email: '',
-          password: '',
-          activated: true
-        }
+      accountBeforeParams: {
+        user: { email: '', password: '' }
       },
       // 変更対象項目名が格納される配列
       changeTargetLists: [],
@@ -95,9 +78,6 @@ export default {
         return 'なし'
       }
     },
-    // ==================================================
-    // プロフィール用
-    // ==================================================
     setName: {
       get () { return this.params.user.name },
       set (value) { this.params.user.name = value }
@@ -113,6 +93,14 @@ export default {
     setCheckedGenres: {
       get () { return this.params.user.checkedGenres },
       set (value) { this.params.user.checkedGenres = value }
+    },
+    setEmail: {
+      get () { return this.accountParams.user.email },
+      set (value) { this.accountParams.user.email = value }
+    },
+    setPassword: {
+      get () { return this.accountParams.user.password },
+      set (value) { this.accountParams.user.password = value }
     }
   },
   methods: {
@@ -227,23 +215,30 @@ export default {
       params: {
         user: {
           name: userObj.name,
-          email: userObj.email,
           profile: userObj.profile,
           checkedGenres: userObj.genres.map((g) => { return g.genre_name }),
           avatar: userObj.avatar.url
         }
       },
-      // 変更前データとして格納
       beforeParams: {
         user: {
           name: userObj.name,
-          email: userObj.email,
           profile: userObj.profile,
           checkedGenres: userObj.genres.map((g) => { return g.genre_name }),
           avatar: userObj.avatar.url
         }
       },
-      genres: genresArray
+      genres: genresArray,
+      accountParams: {
+        user: {
+          email: userObj.email
+        }
+      },
+      accountBeforeParams: {
+        user: {
+          email: userObj.email
+        }
+      }
     }
   }
 }
