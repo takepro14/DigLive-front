@@ -41,7 +41,8 @@ export const state = {
   // ==================================================
   // 通知
   // ==================================================
-  notifications: []
+  notifications: [],
+  notificationsUncheckedCount: 0
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +54,9 @@ export const getters = {
   // ==================================================
   notifications (state) {
     return state.notifications
+  },
+  notificationsUncheckedCount (state) {
+    return state.notificationsUncheckedCount
   }
 }
 
@@ -86,6 +90,15 @@ export const mutations = {
   // ==================================================
   setNotifications (state, notifications) {
     state.notifications = notifications
+  },
+  setNotificationsUncheckedCount (state, notificationsUncheckedCount) {
+    state.notificationsUncheckedCount = notificationsUncheckedCount
+  },
+  setNotificationsChecked (state) {
+    state.notifications.forEach((notification) => {
+      notification.checked = true
+    })
+    state.notificationsUncheckedCount = 0
   }
 }
 
@@ -177,8 +190,20 @@ export const actions = {
         return notificationsArray
       })
       .then((notificationsArray) => {
-        console.log('notificationsArray: ' + JSON.stringify(notificationsArray))
         commit('setNotifications', notificationsArray)
+        return notificationsArray
+      })
+      .then((notificationsArray) => {
+        const uncheckedNotifications = notificationsArray.filter((notification) => {
+          return notification.checked === false
+        })
+        commit('setNotificationsUncheckedCount', uncheckedNotifications.length)
+      })
+  },
+  async getNotificationsChecked ({ commit }) {
+    await this.$axios.$put('api/v1/notifications/update_all')
+      .then(() => {
+        commit('setNotificationsChecked')
       })
   }
 }

@@ -34,7 +34,10 @@
                         v-if="notification.action === 'follow'"
                         @click.stop="moveUserPage(notification.visitor.id)"
                       >
-                        <v-list-item-title class="wrap-text">
+                        <v-list-item-title
+                          class="wrap-text"
+                          :class="isChecked(notification)"
+                        >
                           {{ notification.notiVisitor }} {{ notification.notiAction }}
                         </v-list-item-title>
                       </div>
@@ -44,7 +47,10 @@
                         v-else-if="notification.action === 'like'"
                         @click.stop="movePostPage(notification.post.id)"
                       >
-                        <v-list-item-title class="my-4 wrap-text">
+                        <v-list-item-title
+                          class="my-4 wrap-text"
+                          :class="isChecked(notification)"
+                        >
                           {{ notification.notiVisitor }} {{ notification.notiAction }}
                         </v-list-item-title>
                         <v-list-item-subtitle class="my-4 wrap-text">
@@ -57,7 +63,10 @@
                         v-else-if="notification.action === 'comment'"
                         @click.stop="movePostPage(notification.post.id)"
                       >
-                        <v-list-item-title class="my-4 wrap-text">
+                        <v-list-item-title
+                          class="my-4 wrap-text"
+                          :class="isChecked(notification)"
+                        >
                           {{ notification.notiVisitor }} {{ notification.notiAction }}
                         </v-list-item-title>
                         <v-list-item-subtitle class="my-4 wrap-text">
@@ -91,7 +100,12 @@ export default {
     ...mapGetters({
       currentUser: 'modules/user/currentUser',
       notifications: 'notifications'
-    })
+    }),
+    isChecked () {
+      return (notificationObj) => {
+        return !notificationObj.checked ? 'font-weight-bold' : ''
+      }
+    }
   },
   methods: {
     moveUserPage (visitorId) {
@@ -106,6 +120,9 @@ export default {
       .then(() => {
         store.dispatch('getNotifications')
       })
+  },
+  destroyed () {
+    this.$store.dispatch('getNotificationsChecked')
   }
 }
 </script>

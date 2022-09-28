@@ -27,7 +27,6 @@
           color="button"
           text
         >
-        currentUser: {{ currentUser.name }}
           <v-icon>
             mdi-home
           </v-icon>
@@ -43,11 +42,12 @@
           text
         >
             <v-badge
+              v-if="notificationsUncheckedCount"
               overlap
               offset-x="-2"
               offset-y="-10"
               color="green"
-              :content="notificationsCount"
+              :content="notificationsUncheckedCount"
             />
           <v-icon>
             mdi-bell
@@ -78,13 +78,10 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'modules/user/currentUser',
-      notifications: 'notifications'
+      notificationsUncheckedCount: 'notificationsUncheckedCount'
     }),
     currentUserPath () {
       return '/users/' + this.currentUser.id
-    },
-    notificationsCount () {
-      return !this.notifications.length ? 0 : this.notifications.length
     }
   }
 }
