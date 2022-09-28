@@ -10,10 +10,10 @@ export const state = {
   followedPosts: [],
   // ---------- /posts/:id ----------
   post: {},
-  // ---------- /users/id/投稿 ----------
+  // ---------- /users/:id/投稿 ----------
   userPostsPage: 1,
   userPosts: [],
-  // ---------- /users/id/いいね ----------
+  // ---------- /users/:id/いいね ----------
   userLikesPage: 1,
   userLikes: [],
   // ---------- /home/検索 ----------
@@ -42,14 +42,14 @@ export const getters = {
   post (state) {
     return state.post
   },
-  // ---------- /users/id/投稿 ----------
+  // ---------- /users/:id/投稿 ----------
   userPostsPage (state) {
     return state.userPostsPage
   },
   userPosts (state) {
     return state.userPosts
   },
-  // ---------- /users/id/いいね ----------
+  // ---------- /users/:id/いいね ----------
   userLikes (state) {
     return state.userLikes
   },
@@ -103,14 +103,14 @@ export const mutations = {
   setPost (state, payload) {
     state.post = payload
   },
-  // ---------- /users/id/投稿 ----------
+  // ---------- /users/:id/投稿 ----------
   setUserPostsPage (state) {
     state.userPostsPage += 1
   },
   setUserPosts (state, payload) {
     state.userPosts.push(...payload)
   },
-  // ---------- /users/id/いいね ----------
+  // ---------- /users/:id/いいね ----------
   setUserLikesPage (state) {
     state.userLikesPage += 1
   },
@@ -162,6 +162,12 @@ export const mutations = {
   // いいねの即時反映
   // ==================================================
   reloadPostByLikePost (state, postObjAndLikeObj) {
+    // ---------- /posts/:id ----------
+    if (Object.keys(state.post).length) {
+      state.post.isLiked = true
+      state.post.likes.push(postObjAndLikeObj.likeObj)
+    }
+    // ---------- /home/* ----------
     const changeLiked = (postsContext) => {
       const idx = postsContext.findIndex((post) => {
         return post.id === postObjAndLikeObj.postObj.id
@@ -178,6 +184,14 @@ export const mutations = {
     changeLiked(state.userLikes)
   },
   reloadPostByUnLikePost (state, postObjAndLikeObj) {
+    // ---------- /posts/:id ----------
+    if (Object.keys(state.post).length) {
+      state.post.isLiked = false
+      state.post.likes = state.post.likes.filter((like) => {
+        return like.user_id !== postObjAndLikeObj.likeObj.user_id
+      })
+    }
+    // ---------- /home/* ----------
     const changeUnLiked = (postsContext) => {
       const idx = postsContext.findIndex((post) => {
         return post.id === postObjAndLikeObj.postObj.id
@@ -241,7 +255,7 @@ export const actions = {
     })
     commit('setFollowedPosts', postsArray)
   },
-  // ---------- /users/id/投稿 ----------
+  // ---------- /users/:id/投稿 ----------
   getUserPostsPage ({ commit }) {
     commit('setUserPostsPage')
   },
@@ -253,7 +267,7 @@ export const actions = {
     })
     commit('setUserPosts', postsArray)
   },
-  // ---------- /users/id/いいね ----------
+  // ---------- /users/:id/いいね ----------
   getUserLikesPage ({ commit }) {
     commit('setUserLikesPage')
   },
@@ -265,7 +279,7 @@ export const actions = {
     })
     commit('setUserLikes', postsArray)
   },
-  // ---------- /posts/id ----------
+  // ---------- /posts/:id ----------
   getPost ({ rootState, commit }, postObj) {
     postObj.isLiked = postObj.likes.map((like) => {
       return like.user_id

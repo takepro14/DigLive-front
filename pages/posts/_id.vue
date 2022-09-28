@@ -24,20 +24,22 @@
     </v-row>
     <v-row>
       <v-col
-        v-for="comment in post.comments"
-        :key="comment.id"
-        class="d-flex align-content-end flex-wrap"
+      >
+        <!-- class="d-flex align-content-end flex-wrap"
         cols="12"
         sm="12"
         md="6"
         lg="4"
-        xl="3"
-      >
-        <Comment
-          :comment="comment"
-          :currentUserId="currentUserId"
-          @destroyCommentEvent="destroyComment"
-        />
+        xl="3" -->
+        <v-timeline dense>
+          <Comment
+            v-for="comment in post.comments"
+            :key="comment.id"
+            :comment="comment"
+            :currentUserId="currentUserId"
+            @destroyCommentEvent="destroyComment"
+          />
+        </v-timeline>
       </v-col>
     </v-row>
   </v-container>

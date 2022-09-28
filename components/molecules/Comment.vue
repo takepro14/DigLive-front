@@ -1,64 +1,63 @@
 <template>
-  <v-card
-    class="my-1 mx-1 card-outter"
-    width="100%"
-    height="100%"
+  <v-timeline-item
+    large
   >
-    <v-container>
-      <!-- ヘッダー -->
-      <v-row>
-        <v-col>
-          <v-list-item
-            class="grow"
-            @click.stop="moveUserPage"
-          >
-            <v-list-item-avatar>
-              <v-img
-                class="elevation-6"
-                alt=""
-                :src="avatarUrl"
-              />
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title>
-                  {{ comment.user.name }}
-              </v-list-item-title>
-            </v-list-item-content>
-            <v-spacer />
-            <CommentDestroyDialog
-              v-if="isMyComment"
-              :comment="comment"
-              @destroyCommentEvent="destroyComment(comment.id)"
-            />
-          </v-list-item>
-        </v-col>
-      </v-row>
-      <!-- /ヘッダー -->
-      <!-- 本文 -->
-      <v-row>
-        <v-col>
-          <v-card-text class="text-h6 pb-12">
-            {{ comment.comment }}
-          </v-card-text>
-        </v-col>
-      </v-row>
-      <!-- /本文 -->
-      <!-- フッター -->
-      <v-card-actions
-        class="card-actions"
-      >
-        <v-row
-          align="center"
-          justify="end"
+    <!-- アイコン -->
+    <template #icon>
+      <v-avatar>
+        <img
+          :src="avatarUrl"
+          @click="moveUserPage"
         >
-          <v-card-text>
-            {{ $my.format(comment.created_at) }}
-          </v-card-text>
-        </v-row>
-      </v-card-actions>
-      <!-- /フッター -->
-    </v-container>
-  </v-card>
+      </v-avatar>
+    </template>
+    <!-- /アイコン -->
+    <!-- コメント -->
+    <v-card
+      class="my-1 mx-1 card-outter"
+      width="100%"
+      height="100%"
+    >
+      <v-container>
+        <!-- ヘッダー -->
+        <v-card-text>
+          <v-row>
+            <v-col>
+              {{ comment.user.name }}
+            </v-col>
+            <v-spacer />
+            <v-col
+              class="text-right"
+            >
+              <CommentDestroyDialog
+                v-if="isMyComment"
+                :comment="comment"
+                @destroyCommentEvent="destroyComment(comment.id)"
+              />
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <!-- /ヘッダー -->
+        <!-- 本文 -->
+        <v-card-title class="text-h6 pb-12">
+          {{ comment.comment }}
+        </v-card-title>
+        <!-- /本文 -->
+        <!-- フッター -->
+        <v-card-actions class="card-actions">
+            <v-row
+              align="center"
+              justify="end"
+            >
+              <v-card-text>
+                {{ $my.format(comment.created_at) }}
+              </v-card-text>
+          </v-row>
+        </v-card-actions>
+        <!-- /フッター -->
+      </v-container>
+    </v-card>
+  </v-timeline-item>
 </template>
 
 <script>
