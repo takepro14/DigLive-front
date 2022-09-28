@@ -8,7 +8,6 @@
           :currentUser="currentUser"
           @followEvent="follow"
           @unfollowEvent="unfollow"
-          @changeProfileEvent="changeProfile"
           :genres="genres"
         />
       </v-col>
@@ -21,10 +20,16 @@
           @tabClickEvent="tabClick"
         />
         <div v-if="userPostsTab">
-          <UserPosts />
+          <UserPosts
+            :user="user"
+            :currentUser="currentUser"
+          />
         </div>
         <div v-if="userLikesTab">
-          <UserLikes />
+          <UserLikes
+            :user="user"
+            :currentUser="currentUser"
+          />
         </div>
       </v-col>
     </v-row>
@@ -46,9 +51,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentUser: 'modules/user/currentUser',
       user: 'modules/user/user',
-      posts: 'modules/post/posts',
+      currentUser: 'modules/user/currentUser',
       genres: 'modules/genre/genres'
     }),
     userPostsTab () {
@@ -61,12 +65,11 @@ export default {
   methods: {
     ...mapActions({
       getCurrentUser: 'modules/user/getCurrentUser',
+      getGenres: 'modules/genre/getGenres',
       getUserClear: 'modules/user/getUserClear',
       getUserPostsClear: 'modules/post/getUserPostsClear',
       follow: 'modules/user/follow',
       unfollow: 'modules/user/unfollow',
-      changeProfile: 'modules/user/changeProfile',
-      getGenres: 'modules/genre/getGenres',
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost'
     }),

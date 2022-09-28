@@ -154,9 +154,6 @@ export default {
     moveSettingsPage () {
       this.$router.push('/account/settings')
     },
-    changeProfile ({ formData, config }) {
-      this.$emit('changeProfileEvent', { formData, config })
-    },
     follow (userIdRoute) {
       this.$emit('followEvent', userIdRoute)
     },

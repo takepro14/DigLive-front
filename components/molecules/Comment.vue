@@ -32,7 +32,7 @@
               <CommentDestroyDialog
                 v-if="isMyComment"
                 :comment="comment"
-                @destroyCommentEvent="destroyComment(comment.id)"
+                @destroyCommentEvent="destroyComment"
               />
             </v-col>
           </v-row>
@@ -81,8 +81,11 @@ export default {
     }
   },
   methods: {
-    destroyComment (commentId) {
-      this.$emit('destroyCommentEvent', commentId)
+    moveUserPage () {
+      this.$router.push(`/users/${this.comment.user_id}`)
+    },
+    destroyComment () {
+      this.$emit('destroyCommentEvent', this.comment.id)
     }
   }
 }

@@ -153,9 +153,9 @@ export default {
   },
   methods: {
     ...mapActions({
-      changeProfile: 'modules/user/changeProfile',
+      changeSettings: 'modules/user/changeSettings',
       getCurrentUser: 'modules/user/getCurrentUser',
-      getSettingsAccountDestroy: 'modules/user/getSettingsAccountDestroy'
+      destroyAccount: 'modules/user/destroyAccount'
     }),
     tabClick (tabName) {
       this.tab = tabName
@@ -254,14 +254,8 @@ export default {
           'content-type': 'multipart/form-data'
         }
       }
-      this.changeProfile({ formData, config })
+      this.changeSettings({ formData, config })
       this.formReset()
-    },
-    // ==================================================
-    // アカウントの削除
-    // ==================================================
-    destroyAccount () {
-      this.getSettingsAccountDestroy()
     }
   },
   // ==================================================

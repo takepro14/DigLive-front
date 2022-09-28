@@ -62,26 +62,26 @@ export const mutations = {
   // ==================================================
   // データロード
   // ==================================================
-  setCurrentUser (state, payload) {
-    state.currentUser = payload
+  setCurrentUser (state, userObj) {
+    state.currentUser = userObj
   },
   // ---------- /home/ユーザ/最新 ----------
   setPage (state) {
     state.page += 1
   },
-  setUsers (state, payload) {
-    state.users.push(...payload)
+  setUsers (state, usersArray) {
+    state.users.push(...usersArray)
   },
   // ---------- /home/ユーザ/フォロー ----------
   setFollowedPage (state) {
     state.followedPage += 1
   },
-  setFollowedUsers (state, payload) {
-    state.followedUsers.push(...payload)
+  setFollowedUsers (state, usersArray) {
+    state.followedUsers.push(...usersArray)
   },
   // ---------- /users/:id ----------
-  setUser (state, payload) {
-    state.user = payload
+  setUser (state, userObj) {
+    state.user = userObj
   },
   // ---------- /home/検索 ----------
   setFilteredUsers (state, usersArray) {
@@ -90,14 +90,6 @@ export const mutations = {
   // ---------- /home/検索(結果0件) ----------
   setFilteredUsersZero (state) {
     state.filteredusers = []
-  },
-  // ==================================================
-  // プロフィール変更の即時反映
-  // ==================================================
-  reloadUserBySetProfile (state, payload) {
-    state.currentUser.name = payload.name
-    state.currentUser.email = payload.email
-    state.currentUser.avatar.url = payload.avatar.url
   },
   // ==================================================
   // フォローの即時反映
@@ -127,9 +119,6 @@ export const mutations = {
     state.followedUsers = []
     state.followedPage = 1
   },
-  // ==================================================
-  // アンフォローの即時反映
-  // ==================================================
   reloadUserByUnfollow (state, userIdRouteCurrentId) {
     // ---------- /user/:id ----------
     if (userIdRouteCurrentId.route.includes('users')) {
@@ -163,6 +152,12 @@ export const mutations = {
     userUnFollow(state.users)
     userUnFollow(state.followedUsers)
     userUnFollow(state.filteredUsers)
+  },
+  // ==================================================
+  // 設定変更の即時反映
+  // ==================================================
+  reloadUserByChangeSettings (state, currentUserObj) {
+    state.currentUser = currentUserObj
   }
 }
 
@@ -182,9 +177,6 @@ export const actions = {
   // ==================================================
   // データロード
   // ==================================================
-  // getCurrentUser ({ commit }, userObj) {
-  //   commit('setCurrentUser', userObj)
-  // },
   async getCurrentUser ({ commit, rootState }) {
     await this.$axios.$get(`/api/v1/users/${rootState.user.current.id}`)
       .then((userObj) => {
@@ -260,9 +252,6 @@ export const actions = {
         })
       })
   },
-  // ==================================================
-  // アンフォロー
-  // ==================================================
   async unfollow ({ commit, rootState }, userIdRoute) {
     await this.$axios.$delete(`/api/v1/relationships/${userIdRoute.userId}`, {
       params: {
@@ -286,10 +275,10 @@ export const actions = {
   // ==================================================
   // 設定変更
   // ==================================================
-  async changeProfile ({ commit, rootState }, { formData, config }) {
+  async changeSettings ({ commit, rootState }, { formData, config }) {
     await this.$axios.$put(`/api/v1/users/${rootState.user.current.id}`, formData, config)
       .then((currentUserObj) => {
-        commit('reloadUserBySetProfile', currentUserObj)
+        commit('reloadUserByChangeSettings', currentUserObj)
       })
       .then(() => {
         this.dispatch('getToast', {
@@ -301,7 +290,7 @@ export const actions = {
   // ==================================================
   // アカウント削除
   // ==================================================
-  async getSettingsAccountDestroy ({ rootState }) {
+  async destroyAccount ({ rootState }) {
     await this.$axios.$delete(`/api/v1/users/${rootState.user.current.id}`)
       .then(() => {
         this.app.router.push('/logout')

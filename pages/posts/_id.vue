@@ -17,7 +17,6 @@
       <v-col>
         <CommentCreateDialog
           :post="post"
-          @addCommentEvent="addComment"
           @createCommentEvent="createComment"
         />
       </v-col>
@@ -71,10 +70,7 @@ export default {
       unLikePost: 'modules/post/unLikePost',
       createComment: 'modules/post/createComment',
       destroyComment: 'modules/post/destroyComment'
-    }),
-    addComment () {
-      this.$store.dispatch('modules/post/emitReloadComments', this.post_id)
-    }
+    })
   },
   async fetch ({ $axios, route, store }) {
     await $axios.$get(`/api/v1/posts/${route.params.id}`)

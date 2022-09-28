@@ -10,8 +10,10 @@
       v-for="(post, index) in userPosts"
       :key="`user-posts-${index}`"
       :post="post"
+      :currentUserId="currentUser.id"
       @likePostEvent="likePost"
       @unLikePostEvent="unLikePost"
+      @destroyPostEvent="destroyPost"
     />
     <VueInfiniteLoading
       ref="infiniteLoading"
@@ -24,6 +26,14 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
+  props: {
+    user: {
+      type: Object
+    },
+    currentUser: {
+      type: Object
+    }
+  },
   data () {
     return {
       isLoading: false
@@ -31,8 +41,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentUser: 'modules/user/currentUser',
-      user: 'modules/user/user',
       userPostsPage: 'modules/post/userPostsPage',
       userPosts: 'modules/post/userPosts'
     })

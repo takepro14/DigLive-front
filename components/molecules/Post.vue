@@ -38,7 +38,7 @@
               <PostDestroyDialog
                 v-if="isMyPost"
                 :post="post"
-                @destroyPostEvent="destroyPost(post.id)"
+                @destroyPostEvent="destroyPost"
               />
             </v-list-item-icon>
           </v-list-item>
@@ -109,7 +109,7 @@
                 <v-icon
                   class="ml-3 mr-1"
                   large
-                  @click.stop="unLikePost(post)"
+                  @click.stop="unLikePost"
                 >
                   mdi-heart
                 </v-icon>
@@ -118,7 +118,7 @@
                 <v-icon
                   class="ml-3 mr-1"
                   large
-                  @click.stop="likePost(post)"
+                  @click.stop="likePost"
                 >
                   mdi-heart-outline
                 </v-icon>
@@ -184,14 +184,14 @@ export default {
     }
   },
   methods: {
-    likePost (postObj) {
-      this.$emit('likePostEvent', postObj)
+    likePost () {
+      this.$emit('likePostEvent', this.post)
     },
-    unLikePost (postObj) {
-      this.$emit('unLikePostEvent', postObj)
+    unLikePost () {
+      this.$emit('unLikePostEvent', this.post)
     },
-    destroyPost (postId) {
-      this.$emit('destroyPostEvent', postId)
+    destroyPost () {
+      this.$emit('destroyPostEvent', { postId: this.post.id, route: this.$route.fullPath })
     },
     movePostPage () {
       this.$router.push(`/posts/${this.post.id}`)
