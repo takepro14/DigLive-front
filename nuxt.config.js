@@ -28,6 +28,7 @@ export default {
   plugins: [
     'plugins/auth',
     'plugins/axios',
+    'plugins/moment',
     'plugins/my-inject',
     'plugins/nuxt-client-init',
     { src: '~/plugins/vue-tags-input.js', ssr: false },

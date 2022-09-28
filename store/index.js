@@ -2,6 +2,9 @@
 // state
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const state = {
+  // ==================================================
+  // 認証
+  // ==================================================
   LoggedIn: {
     // 基本リダイレクト先
     homePath: {
@@ -19,7 +22,6 @@ export const state = {
       'login'
     ]
   },
-  // currentUserの認証情報周り情報
   user: {
     current: null
   },
@@ -28,22 +30,39 @@ export const state = {
     expires: 0,
     payload: {}
   },
+  // ==================================================
+  // ユーティリティ
+  // ==================================================
   toast: {
     msg: null,
     color: '',
     timeout: 2000
-  }
+  },
+  // ==================================================
+  // 通知
+  // ==================================================
+  notifications: []
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // getters
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-export const getters = {}
+export const getters = {
+  // ==================================================
+  // 通知
+  // ==================================================
+  notifications (state) {
+    return state.notifications
+  }
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // mutations
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const mutations = {
+  // ==================================================
+  // 認証
+  // ==================================================
   setCurrentUser (state, payload) {
     state.user.current = payload
   },
@@ -61,6 +80,12 @@ export const mutations = {
   },
   setRememberPath (state, payload) {
     state.LoggedIn.rememberPath = payload
+  },
+  // ==================================================
+  // 通知
+  // ==================================================
+  setNotifications (state, notifications) {
+    state.notifications = notifications
   }
 }
 
@@ -68,6 +93,9 @@ export const mutations = {
 // actions
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 export const actions = {
+  // ==================================================
+  // 認証
+  // ==================================================
   getCurrentUser ({ commit }, user) {
     commit('setCurrentUser', user)
   },
@@ -95,5 +123,62 @@ export const actions = {
     }
     params = params || {}
     commit('setRememberPath', { name, params })
+  },
+  // ==================================================
+  // 通知
+  // ==================================================
+  async getNotifications ({ commit }) {
+    await this.$axios.$get('api/v1/notifications/')
+      .then((notificationsArray) => {
+        notificationsArray.forEach((notificationObj) => {
+          // ユーザが削除済みの場合に文言を変更・ユーザ詳細へのリンクをスタブする
+          if (!notificationObj.visitor) {
+            notificationObj.visitor.name = '【削除されたユーザー】'
+            notificationObj.visitor.id = '#'
+          }
+          switch (notificationObj.action) {
+            case ('follow'): {
+              notificationObj.notiVisitor = `${notificationObj.visitor.name} さんが`
+              notificationObj.notiAction = 'あなたをフォローしました'
+              notificationObj.notiVisitorLink = `/users/${notificationObj.visitor.id}`
+              notificationObj.notiTime = this.$moment(notificationObj.created_at).format('YYYY年MM月DD日 HH時mm分')
+              break
+            }
+            case ('like'): {
+              // 投稿が削除済みの場合に投稿詳細へのリンクをスタブする
+              if (!notificationObj.post) {
+                notificationObj.post.id = '#'
+                notificationObj.post.content = '【削除された投稿】'
+              }
+              notificationObj.notiVisitor = `${notificationObj.visitor.name} さんが`
+              notificationObj.notiAction = 'あなたの投稿にいいねしました'
+              notificationObj.notiPostLink = `/posts/${notificationObj.post.id}`
+              notificationObj.notiPostContent = notificationObj.post.content
+              notificationObj.notiTime = this.$moment(notificationObj.created_at).format('YYYY年MM月DD日 HH時mm分')
+              break
+            }
+            case ('comment'): {
+              // 投稿が削除済みの場合に投稿詳細へのリンクをスタブする
+              if (!notificationObj.post) {
+                notificationObj.post.id = '#'
+                notificationObj.post.content = '【削除された投稿】'
+              }
+              notificationObj.notiVisitor = `${notificationObj.visitor.name} さんが`
+              notificationObj.notiAction = 'あなたの投稿にコメントしました'
+              notificationObj.notiPostLink = `/posts/${notificationObj.post.id}`
+              notificationObj.notiPostContent = notificationObj.post.content
+              const comment = notificationObj.post.comments.filter((comment) => { return comment.id === notificationObj.comment_id })
+              notificationObj.notiComment = comment.length ? comment[0].comment : '【削除されたコメント】'
+              notificationObj.notiTime = this.$moment(notificationObj.created_at).format('YYYY年MM月DD日 HH時mm分')
+              break
+            }
+          }
+        })
+        return notificationsArray
+      })
+      .then((notificationsArray) => {
+        console.log('notificationsArray: ' + JSON.stringify(notificationsArray))
+        commit('setNotifications', notificationsArray)
+      })
   }
 }

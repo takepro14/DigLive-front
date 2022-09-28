@@ -85,14 +85,17 @@ export default {
   },
   computed: {
     ...mapGetters({
+      currentUser: 'modules/user/currentUser',
       genres: 'modules/genre/genres',
       tags: 'modules/tag/tags'
     })
   },
   methods: {
     ...mapActions({
+      getCurrentUser: 'modules/user/getCurrentUser',
       getTags: 'modules/tag/getTags',
-      getGenres: 'modules/genre/getGenres'
+      getGenres: 'modules/genre/getGenres',
+      getNotifications: 'getNotifications'
     }),
     menuClick (value) {
       this.menu = value
@@ -114,9 +117,6 @@ export default {
     tabClick (value) {
       this.tab = value
     },
-    stopLoading () {
-      this.isLoading = false
-    },
     keywordChanged (value) {
       this.keyword = value
     },
@@ -127,10 +127,11 @@ export default {
       this.tag = value
     }
   },
-  async fetch () {
-    await this.getGenres()
-    await this.getTags()
-    await this.stopLoading()
+  fetch () {
+    this.getCurrentUser()
+    this.getNotifications()
+    this.getGenres()
+    this.getTags()
   }
 }
 </script>

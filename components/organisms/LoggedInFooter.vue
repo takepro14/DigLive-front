@@ -27,6 +27,7 @@
           color="button"
           text
         >
+        currentUser: {{ currentUser.name }}
           <v-icon>
             mdi-home
           </v-icon>
@@ -41,6 +42,13 @@
           color="button"
           text
         >
+            <v-badge
+              overlap
+              offset-x="-2"
+              offset-y="-10"
+              color="green"
+              :content="notificationsCount"
+            />
           <v-icon>
             mdi-bell
           </v-icon>
@@ -48,18 +56,18 @@
       </nuxt-link>
       <v-spacer />
     </v-bottom-navigation>
-    <v-responsive
+    <!-- <v-responsive
       id="hide-on-scroll-example"
       class="overflow-y-auto"
       max-height="600"
     >
       <v-responsive height="1500" />
-    </v-responsive>
+    </v-responsive> -->
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   props: {
     scrollTarget: {
@@ -69,19 +77,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentUser: 'modules/user/currentUser'
+      currentUser: 'modules/user/currentUser',
+      notifications: 'notifications'
     }),
     currentUserPath () {
       return '/users/' + this.currentUser.id
+    },
+    notificationsCount () {
+      return !this.notifications.length ? 0 : this.notifications.length
     }
-  },
-  methods: {
-    ...mapActions({
-      getCurrentUser: 'modules/user/getCurrentUser'
-    })
-  },
-  async fetch () {
-    await this.getCurrentUser()
   }
 }
 </script>
