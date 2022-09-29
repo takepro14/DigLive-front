@@ -201,6 +201,7 @@ export const actions = {
   async getNotificationsUnchecked ({ commit }) {
     await this.$axios.$get('/api/v1/notifications/count_all')
       .then((count) => {
+        console.log('未読数: ' + count)
         commit('setNotificationUnchecked', count)
       })
   },
