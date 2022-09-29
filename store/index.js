@@ -41,6 +41,7 @@ export const state = {
   // ==================================================
   // 通知
   // ==================================================
+  notificationsPage: 1,
   notifications: [],
   notificationsUncheckedCount: 0
 }
@@ -52,6 +53,9 @@ export const getters = {
   // ==================================================
   // 通知
   // ==================================================
+  notificationsPage (state) {
+    return state.notificationsPage
+  },
   notifications (state) {
     return state.notifications
   },
@@ -88,12 +92,17 @@ export const mutations = {
   // ==================================================
   // 通知
   // ==================================================
-  setNotifications (state, notifications) {
-    state.notifications = notifications
+  setNotificationsPage (state) {
+    state.notificationsPage += 1
   },
-  setNotificationsUncheckedCount (state, notificationsUncheckedCount) {
-    state.notificationsUncheckedCount = notificationsUncheckedCount
+  setNotifications (state, notificationsArray) {
+    state.notifications.push(...notificationsArray)
   },
+  // 未読数をSET
+  setNotificationUnchecked (state, notificationUncheckedCount) {
+    state.notificationsUncheckedCount = notificationUncheckedCount
+  },
+  // 未読数を0にSET
   setNotificationsChecked (state) {
     state.notifications.forEach((notification) => {
       notification.checked = true
@@ -140,66 +149,46 @@ export const actions = {
   // ==================================================
   // 通知
   // ==================================================
-  async getNotifications ({ commit }) {
-    await this.$axios.$get('api/v1/notifications/')
-      .then((notificationsArray) => {
-        notificationsArray.forEach((notificationObj) => {
-          // ユーザが削除済みの場合に文言を変更・ユーザ詳細へのリンクをスタブする
-          if (!notificationObj.visitor) {
-            notificationObj.visitor.name = '【削除されたユーザー】'
-            notificationObj.visitor.id = '#'
-          }
-          switch (notificationObj.action) {
-            case ('follow'): {
-              notificationObj.notiVisitor = `${notificationObj.visitor.name} さんが`
-              notificationObj.notiAction = 'あなたをフォローしました'
-              notificationObj.notiVisitorLink = `/users/${notificationObj.visitor.id}`
-              notificationObj.notiTime = this.$moment(notificationObj.created_at).format('YYYY年MM月DD日 HH時mm分')
-              break
-            }
-            case ('like'): {
-              // 投稿が削除済みの場合に投稿詳細へのリンクをスタブする
-              if (!notificationObj.post) {
-                notificationObj.post.id = '#'
-                notificationObj.post.content = '【削除された投稿】'
-              }
-              notificationObj.notiVisitor = `${notificationObj.visitor.name} さんが`
-              notificationObj.notiAction = 'あなたの投稿にいいねしました'
-              notificationObj.notiPostLink = `/posts/${notificationObj.post.id}`
-              notificationObj.notiPostContent = notificationObj.post.content
-              notificationObj.notiTime = this.$moment(notificationObj.created_at).format('YYYY年MM月DD日 HH時mm分')
-              break
-            }
-            case ('comment'): {
-              // 投稿が削除済みの場合に投稿詳細へのリンクをスタブする
-              if (!notificationObj.post) {
-                notificationObj.post.id = '#'
-                notificationObj.post.content = '【削除された投稿】'
-              }
-              notificationObj.notiVisitor = `${notificationObj.visitor.name} さんが`
-              notificationObj.notiAction = 'あなたの投稿にコメントしました'
-              notificationObj.notiPostLink = `/posts/${notificationObj.post.id}`
-              notificationObj.notiPostContent = notificationObj.post.content
-              const comment = notificationObj.post.comments.filter((comment) => { return comment.id === notificationObj.comment_id })
-              notificationObj.notiComment = comment.length ? comment[0].comment : '【削除されたコメント】'
-              notificationObj.notiTime = this.$moment(notificationObj.created_at).format('YYYY年MM月DD日 HH時mm分')
-              break
-            }
-          }
-        })
-        return notificationsArray
-      })
-      .then((notificationsArray) => {
-        commit('setNotifications', notificationsArray)
-        return notificationsArray
-      })
-      .then((notificationsArray) => {
-        const uncheckedNotifications = notificationsArray.filter((notification) => {
-          return notification.checked === false
-        })
-        commit('setNotificationsUncheckedCount', uncheckedNotifications.length)
+  getNotificationsPage ({ commit }) {
+    commit('setNotificationsPage')
+  },
+  async getNotifications ({ commit }, notiArray) {
+    // console.log('getしてるぜぃ')
+    await notiArray.forEach((notiObj) => {
+      // ---------- 共通処理 ----------
+      notiObj.notiVisitor = `${notiObj.visitor.name} さんが`
+      notiObj.notiTime = this.$moment(notiObj.created_at).format('YYYY年MM月DD日 HH時mm分')
+      // ---------- アクション別処理 ----------
+      switch (notiObj.action) {
+        case ('follow'):
+          notiObj.notiAction = 'あなたをフォローしました'
+          notiObj.notiLink = notiObj.visitor ? `/users/${notiObj.visitor.id}` : '/users/#'
+          break
+        case ('like'):
+          notiObj.notiAction = 'あなたの投稿にいいねしました'
+          notiObj.notiLink = `/posts/${notiObj.post.id}`
+          notiObj.notiPost = notiObj.post.content
+          break
+        case ('comment'): {
+          notiObj.notiAction = 'あなたの投稿にコメントしました'
+          notiObj.notiLink = `/posts/${notiObj.post.id}`
+          notiObj.notiPost = notiObj.post.content
+          const comment = notiObj.post.comments.filter((comment) => { return comment.id === notiObj.comment_id })
+          notiObj.notiComment = comment.length ? comment[0].comment : '削除されたコメント'
+          break
+        }
+      }
+    })
+    commit('setNotifications', notiArray)
+  },
+  // 未チェックの件数を取得する
+  async getNotificationsUnchecked ({ commit }) {
+    await this.$axios.$get('/api/v1/notifications/count_all')
+      .then((count) => {
+        commit('setNotificationUnchecked', count)
       })
   },
+  // すべてチェック済にする
   async getNotificationsChecked ({ commit }) {
     await this.$axios.$put('api/v1/notifications/update_all')
       .then(() => {

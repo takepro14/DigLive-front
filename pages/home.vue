@@ -95,7 +95,7 @@ export default {
       getCurrentUser: 'modules/user/getCurrentUser',
       getTags: 'modules/tag/getTags',
       getGenres: 'modules/genre/getGenres',
-      getNotifications: 'getNotifications'
+      getNotificationsUnchecked: 'getNotificationsUnchecked'
     }),
     menuClick (value) {
       this.menu = value
@@ -129,7 +129,7 @@ export default {
   },
   fetch () {
     this.getCurrentUser()
-    this.getNotifications()
+    this.getNotificationsUnchecked()
     this.getGenres()
     this.getTags()
   }

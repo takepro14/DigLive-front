@@ -18,13 +18,20 @@
               </v-toolbar-title>
               <v-spacer />
             </v-toolbar>
+            <!-- <v-list v-if="isLoading">
+              <template v-for="(n, index) in 10">
+                <div :key="`notiLoader-${index}`">
+                  <LoaderTypeCard />
+                </div>
+              </template>
+            </v-list> -->
             <v-list three-line>
-              <template v-for="notification in notifications">
-                <div :key="notification.id">
+              <template v-for="(notification, index) in notifications">
+                <div :key="`notification-${index}.id`">
                   <v-list-item>
                     <v-list-item-avatar>
                       <v-img
-                        @click.stop="moveUserPage(notification.visitor.id)"
+                        @click.stop="movePage(notification.notiLink)"
                         :src="'http://localhost:3000' + notification.visitor.avatar.url"
                       />
                     </v-list-item-avatar>
@@ -32,7 +39,7 @@
                       <!-- フォロー通知 -->
                       <div
                         v-if="notification.action === 'follow'"
-                        @click.stop="moveUserPage(notification.visitor.id)"
+                        @click.stop="movePage(notification.notiLink)"
                       >
                         <v-list-item-title
                           class="wrap-text"
@@ -45,7 +52,7 @@
                       <!-- いいね通知 -->
                       <div
                         v-else-if="notification.action === 'like'"
-                        @click.stop="movePostPage(notification.post.id)"
+                        @click.stop="movePage(notification.notiLink)"
                       >
                         <v-list-item-title
                           class="my-4 wrap-text"
@@ -54,14 +61,14 @@
                           {{ notification.notiVisitor }} {{ notification.notiAction }}
                         </v-list-item-title>
                         <v-list-item-subtitle class="my-4 wrap-text">
-                          > {{ notification.notiPostContent }}
+                          > {{ notification.notiPost }}
                         </v-list-item-subtitle>
                       </div>
                       <!-- /いいね通知 -->
                       <!-- コメント通知 -->
                       <div
                         v-else-if="notification.action === 'comment'"
-                        @click.stop="movePostPage(notification.post.id)"
+                        @click.stop="movePage(notification.notiLink)"
                       >
                         <v-list-item-title
                           class="my-4 wrap-text"
@@ -73,7 +80,7 @@
                           {{ notification.notiComment }}
                         </v-list-item-subtitle>
                         <v-list-item-subtitle class="my-4 wrap-text">
-                          > {{ notification.notiPostContent }}
+                          > {{ notification.notiPost }}
                         </v-list-item-subtitle>
                       </div>
                       <!-- /コメント通知 -->
@@ -84,21 +91,32 @@
               </template>
             </v-list>
           </v-card>
+          <VueInfiniteLoading
+            ref="infiniteLoading"
+            spinner="spiral"
+            @infinite="infiniteHandler"
+          />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   layout: 'logged-in',
   middleware: [
     'authentication'
   ],
+  data () {
+    return {
+      isLoading: false
+    }
+  },
   computed: {
     ...mapGetters({
       currentUser: 'modules/user/currentUser',
+      notificationsPage: 'notificationsPage',
       notifications: 'notifications'
     }),
     isChecked () {
@@ -108,18 +126,43 @@ export default {
     }
   },
   methods: {
-    moveUserPage (visitorId) {
-      this.$router.push(`/users/${visitorId}`)
+    ...mapActions({
+      getNotificationsPage: 'getNotificationsPage',
+      getNotifications: 'getNotifications'
+    }),
+    movePage (fullPath) {
+      this.$router.push(fullPath)
     },
-    movePostPage (postId) {
-      this.$router.push(`/posts/${postId}`)
+    async infiniteHandler ($state) {
+      if (!this.notifications.length) {
+        this.isLoading = true
+      }
+      await this.$axios.$get('api/v1/notifications/', {
+        params: {
+          page: this.notificationsPage
+        }
+      })
+        .then((data) => {
+          console.log('data.notifications: ' + JSON.stringify(data.notifications))
+          setTimeout(() => {
+            if (this.notificationsPage <= data.kaminari.pagination.pages) {
+              this.getNotificationsPage()
+              this.getNotifications(data.notifications)
+              $state.loaded()
+              this.isLoading = false
+            } else {
+              $state.complete()
+              this.isLoading = false
+            }
+          }, 1000)
+        })
+        .catch(() => {
+          $state.complete()
+        })
     }
   },
   async fetch ({ store }) {
     await store.dispatch('modules/user/getCurrentUser')
-      .then(() => {
-        store.dispatch('getNotifications')
-      })
   },
   destroyed () {
     this.$store.dispatch('getNotificationsChecked')
