@@ -38,8 +38,11 @@ class Authentication {
   }
 
   resetVuex () {
-    this.setAuth({ token: null, expires: 0, user: null })
-    this.store.dispatch('getCurrentUser', [])
+    this.store.dispatch('getDefaultState')
+    this.store.dispatch('modules/post/getDefaultState')
+    this.store.dispatch('modules/user/getDefaultState')
+    this.store.dispatch('modules/genre/getDefaultState')
+    this.store.dispatch('modules/tag/getDefaultState')
   }
 
   // axiosのレスポンス401を許容
