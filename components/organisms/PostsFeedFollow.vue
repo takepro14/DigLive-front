@@ -13,7 +13,7 @@
         <LoaderTypeCard />
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="mb-8">
       <v-col
         v-for="(post, index) in followedPosts"
         :key="`post-follow-${index}`"
@@ -36,7 +36,10 @@
       ref="infiniteLoading"
       spinner="spiral"
       @infinite="infiniteHandler"
-    />
+    >
+      <span slot="no-more">----- 投稿は以上です -----</span>
+      <span slot="no-results">----- 投稿は以上です -----</span>
+    </VueInfiniteLoading>
   </div>
 </template>
 

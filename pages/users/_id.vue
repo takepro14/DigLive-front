@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="pb-16">
     <HistoryBack class="py-4" />
     <v-row>
       <v-col>
@@ -12,7 +12,7 @@
         />
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="pb-16">
       <v-col>
         <UserTab
           :tabs="tabs"

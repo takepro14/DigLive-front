@@ -1,7 +1,7 @@
 <template>
   <v-container
     fluid
-    class="pa-8"
+    class="px-8 pt-8 pb-16"
   >
     <Toaster />
     <v-row>
@@ -25,28 +25,30 @@
         />
       </v-col>
       <v-col cols="12" sm="12" md="8" lg="8" xl="8">
-        <TabMenu
-          :menu="menu"
-          :mainTabs="mainTabs"
-          :searchTabs="searchTabs"
-          @tabClickEvent="tabClick"
-        />
-        <PostsFeed
-          :menu="menu"
-          :tab="tab"
-          :genres="genres"
-          :tags="tags"
-          :keyword="keyword"
-          :genre="genre"
-          :tag="tag"
-        />
-        <UsersFeed
-          :menu="menu"
-          :tab="tab"
-          :genres="genres"
-          :keyword="keyword"
-          :genre="genre"
-        />
+        <div class="pb-16">
+          <TabMenu
+            :menu="menu"
+            :mainTabs="mainTabs"
+            :searchTabs="searchTabs"
+            @tabClickEvent="tabClick"
+          />
+          <PostsFeed
+            :menu="menu"
+            :tab="tab"
+            :genres="genres"
+            :tags="tags"
+            :keyword="keyword"
+            :genre="genre"
+            :tag="tag"
+          />
+          <UsersFeed
+            :menu="menu"
+            :tab="tab"
+            :genres="genres"
+            :keyword="keyword"
+            :genre="genre"
+          />
+        </div>
       </v-col>
     </v-row>
   </v-container>

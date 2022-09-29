@@ -21,15 +21,8 @@
         />
       </v-col>
     </v-row>
-    <v-row>
-      <v-col
-      >
-        <!-- class="d-flex align-content-end flex-wrap"
-        cols="12"
-        sm="12"
-        md="6"
-        lg="4"
-        xl="3" -->
+    <v-row v-if="post.comments.length">
+      <v-col>
         <v-timeline dense>
           <Comment
             v-for="comment in post.comments"
@@ -57,10 +50,7 @@ export default {
   computed: {
     ...mapGetters({
       post: 'modules/post/post'
-    }),
-    isCommented () {
-      return !!this.post.comments
-    }
+    })
   },
   methods: {
     ...mapActions({

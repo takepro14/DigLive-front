@@ -1,12 +1,12 @@
 <template>
-  <v-container>
+  <v-container class="pb-16">
     <Toaster />
-    <v-row>
+    <v-row class="pb-16">
       <v-col>
         <HistoryBack class="py-4" />
           <v-card
             width="100%"
-            class="mx-auto"
+            class="mx-auto mb-8"
           >
             <v-toolbar
               color="header"
@@ -95,7 +95,10 @@
             ref="infiniteLoading"
             spinner="spiral"
             @infinite="infiniteHandler"
-          />
+          >
+            <span slot="no-more">----- 通知は以上です -----</span>
+            <span slot="no-results">----- 通知は以上です -----</span>
+          </VueInfiniteLoading>
       </v-col>
     </v-row>
   </v-container>
@@ -143,7 +146,6 @@ export default {
         }
       })
         .then((data) => {
-          console.log('data.notifications: ' + JSON.stringify(data.notifications))
           setTimeout(() => {
             if (this.notificationsPage <= data.kaminari.pagination.pages) {
               this.getNotificationsPage()

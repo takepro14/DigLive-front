@@ -13,7 +13,7 @@
         <LoaderTypeCard />
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="mb-8">
       <v-col
         v-for="(user, index) in followedUsersReactive"
         :key="`user-follow-${index}`"
@@ -37,7 +37,10 @@
       ref="infiniteLoading"
       spinner="spiral"
       @infinite="infiniteHandler"
-    />
+    >
+      <span slot="no-more">----- ユーザは以上です -----</span>
+      <span slot="no-results">----- ユーザは以上です -----</span>
+    </VueInfiniteLoading>
   </div>
 </template>
 
