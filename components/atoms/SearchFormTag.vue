@@ -7,7 +7,7 @@
         </h2>
       </v-card-text>
       <Tag
-        v-for="tag in tags"
+        v-for="tag in randomTags"
         :key="tag.tag_name"
         :tag="tag"
         @formTagCheckedEvent="formTagChecked"
@@ -31,6 +31,9 @@ export default {
     setTag: {
       get () { return this.tag },
       set (newVal) { return this.$emit('update:tag', newVal) }
+    },
+    randomTags () {
+      return this.getRandomTags(this.tags, 30)
     }
   },
   methods: {
@@ -39,6 +42,20 @@ export default {
     },
     formTagUnchecked () {
       this.$emit('formTagUncheckedEvent')
+    },
+    getRandomTags (array, num) {
+      const a = array
+      const t = []
+      const r = []
+      let l = a.length
+      let n = num < l ? num : l
+      while (n-- > 0) {
+        const i = Math.random() * l | 0
+        r[n] = t[i] || a[i]
+        --l
+        t[i] = t[l] || a[l]
+      }
+      return r
     }
   }
 }

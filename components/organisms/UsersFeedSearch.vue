@@ -4,7 +4,7 @@
     genre: {{ genre }} -->
     <!-- filteredUsers: {{ filteredUsers }} -->
     <h3 v-if="isSearching">
-      {{ keyword || genre }} の検索結果 ({{ filteredUsers.length }})
+      {{ keyword || genre }} の検索結果 {{ filteredUsers.length }}件
     </h3>
     <v-row v-if="isLoading">
       <v-col

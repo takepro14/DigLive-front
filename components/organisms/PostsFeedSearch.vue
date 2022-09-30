@@ -5,7 +5,7 @@
     tag: {{ tag }} -->
     <!-- resultPosts: {{ resultPosts }} -->
     <h3 v-if="isSearching">
-      {{ keyword || genre || tag }} の検索結果 ({{ filteredPosts.length }})
+      {{ keyword || genre || tag }} の検索結果 {{ filteredPosts.length }}件
     </h3>
     <v-row v-if="isLoading">
       <v-col
