@@ -16,6 +16,7 @@
     <v-row>
       <v-col>
         <CommentCreateDialog
+          class="mt-2"
           :post="post"
           @createCommentEvent="createComment"
         />
