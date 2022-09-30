@@ -3,7 +3,10 @@
     <v-container>
       <v-row>
         <v-col>
-          <v-form ref="form">
+          <v-form
+            ref="form"
+            v-model="isValid"
+          >
             <InputFormEmail
               :email.sync="setEmail"
             />
@@ -12,6 +15,7 @@
             />
             <div class="mt-6">
               <SettingsAccountChangeDialog
+                :isValid="isValid"
                 :email="email"
                 :password="password"
                 :changeTargetLists="changeTargetLists"
@@ -42,6 +46,11 @@ export default {
     },
     changeTargetLists: {
       type: Array
+    }
+  },
+  data () {
+    return {
+      isValid: false
     }
   },
   computed: {

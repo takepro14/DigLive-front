@@ -6,11 +6,11 @@
     <!--  変更確認ボタン -->
     <template #activator="{ on, attrs }">
       <v-btn
+        :disabled="!isValid"
         v-bind="attrs"
         v-on="on"
         block
-        dark
-        color="button"
+        color="button white--text"
         @click="changeTarget"
       >
         設定を変更する
@@ -96,6 +96,9 @@ export default {
     },
     changeTargetLists: {
       type: Array
+    },
+    isValid: {
+      type: Boolean
     }
   },
   data () {

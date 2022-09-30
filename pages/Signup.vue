@@ -1,33 +1,39 @@
 <template>
-  <InputForm>
-    <template #user-form-card-content>
-      <v-form
-        ref="form"
-        v-model="isValid"
-      >
-        <InputFormName
-          :name.sync="params.user.name"
-        />
-        <InputFormEmail
-          :email.sync="params.user.email"
-          placeholder
-        />
-        <InputFormPassword
-          :password.sync="params.user.password"
-          set-validation
-        />
-        <v-btn
-          :disabled="!isValid || loading"
-          :loading="loading"
-          block
-          color="button white--text"
-          @click="signup"
+  <v-container
+    fluid
+    class="px-8 pt-2"
+  >
+    <InputForm>
+      <template #user-form-card-content>
+        <v-form
+          ref="form"
+          v-model="isValid"
         >
-          新規登録する
-        </v-btn>
-      </v-form>
-    </template>
-  </InputForm>
+          <InputFormName
+            :name.sync="params.user.name"
+          />
+          <InputFormEmail
+            :email.sync="params.user.email"
+            placeholder
+          />
+          <InputFormPassword
+            :password.sync="params.user.password"
+            set-validation-signup
+          />
+          <v-btn
+            class="mt-8"
+            :disabled="!isValid || loading"
+            :loading="loading"
+            block
+            color="button white--text"
+            @click="signup"
+          >
+            新規登録する
+          </v-btn>
+        </v-form>
+      </template>
+    </InputForm>
+  </v-container>
 </template>
 
 <script>
@@ -40,9 +46,9 @@ export default {
       // TODO: activatedはメール認証にする
       params: {
         user: {
-          name: 'たけ',
-          email: 'test-user999@example.com',
-          password: 'password',
+          name: '',
+          email: '',
+          password: '',
           activated: true
         }
       }

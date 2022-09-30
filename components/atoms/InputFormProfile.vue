@@ -22,7 +22,7 @@ export default {
     return {
       max,
       rules: [
-        v => (this.max >= v.length) || `${this.max}文字以内で入力してください`
+        v => ((!v) || (!!v && max >= v.length)) || `${max}文字以内で入力してください`
       ]
     }
   },

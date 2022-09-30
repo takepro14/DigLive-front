@@ -3,7 +3,10 @@
     <v-container>
       <v-row>
         <v-col>
-          <v-form ref="form">
+          <v-form
+            ref="form"
+            v-model="isValid"
+          >
             <v-col class="text-center">
               <!-- プロフィール画像表示 -->
               <v-list-item-title class="font-weight-bold">
@@ -46,6 +49,7 @@
             </v-card-text>
             <!-- /設定入力 -->
             <SettingsProfileChangeDialog
+              :isValid="isValid"
               :name="name"
               :profile="profile"
               :avatar="avatar"
@@ -89,6 +93,11 @@ export default {
     displayCheckedGenres: {
       // なし、になる場合もあるため
       type: [Array, String]
+    }
+  },
+  data () {
+    return {
+      isValid: false
     }
   },
   computed: {

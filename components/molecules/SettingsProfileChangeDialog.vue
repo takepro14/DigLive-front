@@ -6,11 +6,11 @@
     <!--  変更確認ボタン -->
     <template #activator="{ on, attrs }">
       <v-btn
+        :disabled="!isValid"
         v-bind="attrs"
         v-on="on"
         block
-        dark
-        color="button"
+        color="button white--text"
         @click="changeTarget"
       >
         設定を変更する
@@ -119,6 +119,14 @@ export default {
     displayCheckedGenres: {
       // なし、になる場合もあるため
       type: [Array, String]
+    },
+    isValid: {
+      type: Boolean
+    }
+  },
+  data () {
+    return {
+      dialog: false
     }
   },
   computed: {
@@ -129,11 +137,6 @@ export default {
       return (target) => {
         return this.changeTargetLists.includes(target)
       }
-    }
-  },
-  data () {
-    return {
-      dialog: false
     }
   },
   methods: {

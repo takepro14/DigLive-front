@@ -21,9 +21,12 @@
         />
       </v-col>
     </v-row>
-    <v-row v-if="post.comments.length">
+    <v-row>
       <v-col>
-        <v-timeline dense>
+        <v-timeline
+          v-if="post.comments.length"
+          dense
+        >
           <Comment
             v-for="comment in post.comments"
             :key="comment.id"

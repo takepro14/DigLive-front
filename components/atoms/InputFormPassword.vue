@@ -5,8 +5,8 @@
     :hint="form.hint"
     label="パスワードを入力"
     :placeholder="form.placeholder"
-    :hide-details="!setValidation"
-    :counter="setValidation"
+    :hide-details="!setValidationSignup"
+    :counter="setValidationSignup"
     :append-icon="toggle.icon"
     :type="toggle.type"
     autocomplete="on"
@@ -22,7 +22,11 @@ export default {
       type: String,
       default: ''
     },
-    setValidation: {
+    setValidationSignup: {
+      type: Boolean,
+      default: false
+    },
+    setValidationLogin: {
       type: Boolean,
       default: false
     }
@@ -38,18 +42,18 @@ export default {
       set (newVal) { return this.$emit('update:password', newVal) }
     },
     form () {
-      // login => 入力必須
-      // signup => 入力必須, 8文字以上, 72文字以下, 書式チェック
-      // signup => setValidation(true), login => !setValidation(false)
       const min = '8文字以上'
       const msg = `${min}(半角英数字･ﾊｲﾌﾝ･ｱﾝﾀﾞｰﾊﾞｰ)`
       const required = v => !!v || ''
       const format = v => /^[\w-]{8,72}$/.test(v) || msg
 
-      const rules = this.setValidation ? [format] : [required]
-      const hint = this.setValidation ? msg : undefined
-      const placeholder = this.setValidation ? min : undefined
-
+      const rules = this.setValidationSignup
+        ? [format]
+        : this.setValidationLogin
+          ? [required]
+          : []
+      const hint = this.setValidationSignup ? msg : undefined
+      const placeholder = this.setValidationSignup ? min : undefined
       return { rules, hint, placeholder }
     },
     toggle () {

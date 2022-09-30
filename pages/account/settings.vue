@@ -36,7 +36,7 @@
       </v-col>
     </v-row>
     <!-- デバッグ用コード -->
-    <div>
+    <!-- <div>
       <v-card class="my-4" color="grey lighten-2">
         <v-card-title>changeTargetLists</v-card-title>
         <v-card-text>{{ changeTargetLists }}</v-card-text>
@@ -63,7 +63,7 @@
           <v-card-text>{{ accountParams }}</v-card-text>
         </div>
       </v-card>
-    </div>
+    </div> -->
   </v-container>
 </template>
 
@@ -135,9 +135,6 @@ export default {
       get () { return this.accountParams.user.password },
       set (value) { this.accountParams.user.password = value }
     },
-    isNoChanged () {
-      return !this.changeTargetLists.length
-    },
     isChanged () {
       return (target) => {
         return this.changeTargetLists.includes(target)
@@ -148,7 +145,6 @@ export default {
     tab () {
       // Profile, Accountでロジックを流用しているためタブが変わったらリセット
       this.changeTargetLists = []
-      // TODO: 入力内容もクリアするか？
     }
   },
   methods: {
