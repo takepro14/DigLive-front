@@ -167,7 +167,11 @@ export default {
     await store.dispatch('modules/user/getCurrentUser')
   },
   destroyed () {
-    this.$store.dispatch('getNotificationsChecked')
+    // 通知ページからログアウトした場合にcurrentUserがnullになるため回避対応
+    // (通知ページから遷移しない限り読み切ったと見做さない)
+    if (Object.keys(this.currentUser).length) {
+      this.$store.dispatch('getNotificationsChecked')
+    }
   }
 }
 </script>
