@@ -35,35 +35,6 @@
         />
       </v-col>
     </v-row>
-    <!-- デバッグ用コード -->
-    <!-- <div>
-      <v-card class="my-4" color="grey lighten-2">
-        <v-card-title>changeTargetLists</v-card-title>
-        <v-card-text>{{ changeTargetLists }}</v-card-text>
-        <div v-if="isProfileTab">
-          <v-card-title>params.user.name</v-card-title>
-          <v-card-text>{{ params.user.name }}</v-card-text>
-          <v-card-title>params.user.email</v-card-title>
-          <v-card-text>{{ params.user.email }}</v-card-text>
-          <v-card-title>params.user.profile</v-card-title>
-          <v-card-text>{{ params.user.profile }}</v-card-text>
-          <v-card-title>params.user.checkedGenres</v-card-title>
-          <v-card-text>{{ params.user.checkedGenres }}</v-card-text>
-          <v-card-title>params.user.avatar</v-card-title>
-          <v-card-text>{{ params.user.avatar }}</v-card-text>
-          <v-card-title>params(all)</v-card-title>
-          <v-card-text>{{ params }}</v-card-text>
-        </div>
-        <div v-else-if="isAccountTab">
-          <v-card-title>accountParams.user.email</v-card-title>
-          <v-card-text>{{ accountParams.user.email }}</v-card-text>
-          <v-card-title>accountParams.user.password</v-card-title>
-          <v-card-text>{{ accountParams.user.password }}</v-card-text>
-          <v-card-title>accountParams(all)</v-card-title>
-          <v-card-text>{{ accountParams }}</v-card-text>
-        </div>
-      </v-card>
-    </div> -->
   </v-container>
 </template>
 

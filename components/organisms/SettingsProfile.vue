@@ -101,9 +101,6 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters({
-    //   currentUser: 'modules/user/currentUser'
-    // }),
     userAvatar () {
       return 'http://localhost:3000' + this.currentUser.avatar.url
     },
