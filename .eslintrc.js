@@ -20,5 +20,7 @@ module.exports = {
     "spaced-comment": ["error", "always", { "exceptions": ["/", "-"] }],
     // Component name "xxx" should always be multi-word
     'vue/multi-word-component-names': 0,
-  }
+  },
+  // describe, testのWARNを回避
+  ignorePatterns: ["**/tests/**/**/*.js"]
 }
