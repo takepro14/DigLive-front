@@ -13,3 +13,13 @@ ENV HOME=/${WORKDIR} \
 RUN echo ${CONTAINER_PORT}
 
 WORKDIR ${HOME}
+# 追加
+RUN apk update && \
+    apk upgrade && \
+    npm install -g n && \
+    yarn install &&\
+    rm -rf /var/cache/apk/*
+ADD . ${HOME}
+EXPOSE 3000
+RUN yarn run build
+CMD ["yarn", "start"]
