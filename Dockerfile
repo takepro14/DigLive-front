@@ -10,8 +10,6 @@ ENV HOME=/${WORKDIR} \
     HOST=0.0.0.0 \
     API_URL=${API_URL}
 
-RUN echo ${CONTAINER_PORT}
-
 WORKDIR ${HOME}
 # 追加
 RUN apk update && \
