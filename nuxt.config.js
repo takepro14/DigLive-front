@@ -79,10 +79,10 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    // 環境変数API_URLでbaseURLは上書きされるので設定しても意味ない
-    // baseURL ... サーバ=>クライアントのURL  browserBaseURL ... クライアント=>サーバのURL
-    // baseURL: '/',
+    // 発行するAPIリクエストのベースURL(baseURL + /api/v1/...)
+    baseURL: process.env.NODE_ENV === 'production'
+      ? "http://dig-live.com"
+      : "http://localhost:3000",
     // クロスドメインで認証情報を共有する
     credentials: true
   },
