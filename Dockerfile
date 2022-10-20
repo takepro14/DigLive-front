@@ -1,15 +1,17 @@
 FROM node:16.16.0-alpine
 
 ARG WORKDIR
+ARG APP_NAME
 ARG API_URL
+ARG IMAGE_URL
 
-ENV HOME=/${WORKDIR} \
-    LANG=C.UTF-8 \
-    TZ=Asia/Tokyo \
-    HOST=0.0.0.0 \
-    API_URL=${API_URL}
+ENV APP_NAME      $APP_NAME
+ENV IMAGE_URL     $IMAGE_URL
+ENV LANG          C.UTF-8
+ENV TZ            Asia/Tokyo
+ENV HOST          0.0.0.0
 
-WORKDIR ${HOME}
+WORKDIR ${WORKDIR}
 
 COPY package*.json ./
 
@@ -21,4 +23,4 @@ RUN apk update && \
 
 COPY . ./
 
-EXPOSE 3000
+EXPOSE ${CONTAINER_PORT}
