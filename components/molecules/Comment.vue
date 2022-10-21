@@ -70,9 +70,9 @@ export default {
       type: Number
     }
   },
-  data () {
+  data ({ $config: { imageUrl } }) {
     return {
-      avatarUrl: 'http://localhost:3000' + this.comment.user.avatar.url
+      avatarUrl: imageUrl + this.comment.user.avatar.url
     }
   },
   computed: {

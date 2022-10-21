@@ -32,7 +32,7 @@
                     <v-list-item-avatar>
                       <v-img
                         @click.stop="movePage(notification.notiLink)"
-                        :src="'http://localhost:3000' + notification.visitor.avatar.url"
+                        :src="this.imageUrl + notification.visitor.avatar.url"
                       />
                     </v-list-item-avatar>
                     <v-list-item-content>
@@ -111,9 +111,10 @@ export default {
   middleware: [
     'authentication'
   ],
-  data () {
+  data ({ $config: { imageUrl } }) {
     return {
-      isLoading: false
+      isLoading: false,
+      imageUrl
     }
   },
   computed: {

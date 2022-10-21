@@ -130,6 +130,11 @@ export default {
       type: Array
     }
   },
+  data ({ $config: { imageUrl } }) {
+    return {
+      imageUrl
+    }
+  },
   computed: {
     isCurrentUser () {
       return this.user.id === this.currentUser.id
@@ -144,7 +149,7 @@ export default {
       return !this.user.active_relationships ? 0 : this.user.active_relationships.length
     },
     avatarUrl () {
-      return 'http://localhost:3000' + this.user.avatar.url
+      return this.imageUrl + this.user.avatar.url
     }
   },
   methods: {

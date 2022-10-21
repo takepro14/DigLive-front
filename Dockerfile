@@ -6,6 +6,7 @@ ARG API_URL
 ARG IMAGE_URL
 
 ENV APP_NAME      $APP_NAME
+ENV API_URL       $API_URL
 ENV IMAGE_URL     $IMAGE_URL
 ENV LANG          C.UTF-8
 ENV TZ            Asia/Tokyo

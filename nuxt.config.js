@@ -1,3 +1,6 @@
+// 環境変数(.env)の読み込みを可に
+require('dotenv').config()
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -24,13 +27,12 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  // front/plugins配下の.jsが読み込まれる
   plugins: [
-    'plugins/auth',
-    'plugins/axios',
-    'plugins/moment',
-    'plugins/my-inject',
-    'plugins/nuxt-client-init',
+    { src: '~/plugins/auth' },
+    { src: '~/plugins/axios' },
+    { src: '~/plugins/moment' },
+    { src: '~/plugins/my-inject' },
+    { src: '~/plugins/nuxt-client-init' },
     { src: '~/plugins/vue-tags-input.js', ssr: false },
     { src: '~/plugins/vue-infinite-loading.js', ssr: false },
     { src: '~/plugins/lodash.js' }
@@ -68,9 +70,10 @@ export default {
     'nuxt-i18n'
   ],
 
-  // front/.env読み込み
+  // Doc: https://nuxtjs.org/ja/docs/configuration-glossary/configuration-runtime-config#publicruntimeconfig
   publicRuntimeConfig: {
-    appName: process.env.APP_NAME
+    appName: process.env.APP_NAME,
+    imageUrl: process.env.IMAGE_URL
   },
 
   router: {
@@ -80,9 +83,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // 発行するAPIリクエストのベースURL(baseURL + /api/v1/...)
-    baseURL: process.env.NODE_ENV === 'production'
-      ? "http://dig-live.com"
-      : "http://localhost:3000",
+    baseURL: process.env.API_URL,
     // クロスドメインで認証情報を共有する
     credentials: true
   },
@@ -109,13 +110,10 @@ export default {
   build: {
   },
 
-  // 追加
   vuetify: {
-    // Doc: https://vuetifyjs.com/ja/features/sass-variables/#nuxt-3067306e30a430f330b930c830fc30eb
-    // カスタムCSSのファイルパス
-    customVariables: ['~/assets/sass/variables.scss'],
-    // カスタムCSS有効化フラグ
-    treeShake: true,
+    // Custom CSS: https://vuetifyjs.com/ja/features/sass-variables/#nuxt-3067306e30a430f330b930c830fc30eb
+    // customVariables: ['~/assets/sass/variables.scss'],
+    // treeShake: true,
     theme: {
       themes: {
         light: {

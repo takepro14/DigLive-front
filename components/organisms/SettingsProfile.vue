@@ -95,14 +95,15 @@ export default {
       type: [Array, String]
     }
   },
-  data () {
+  data ({ $config: { imageUrl } }) {
     return {
-      isValid: false
+      isValid: false,
+      imageUrl
     }
   },
   computed: {
     userAvatar () {
-      return 'http://localhost:3000' + this.currentUser.avatar.url
+      return this.imageUrl + this.currentUser.avatar.url
     },
     setName: {
       get () { return this.name },
