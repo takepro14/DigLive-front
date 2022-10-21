@@ -1,6 +1,3 @@
-// 環境変数(.env)の読み込みを可に
-require('dotenv').config()
-
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -72,8 +69,7 @@ export default {
 
   // Doc: https://nuxtjs.org/ja/docs/configuration-glossary/configuration-runtime-config#publicruntimeconfig
   publicRuntimeConfig: {
-    appName: process.env.APP_NAME,
-    imageUrl: process.env.IMAGE_URL
+    appName: process.env.APP_NAME
   },
 
   router: {

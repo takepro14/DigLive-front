@@ -166,11 +166,6 @@ export default {
       type: Number
     }
   },
-  data ({ $config: { imageUrl } }) {
-    return {
-      imageUrl
-    }
-  },
   computed: {
     commentLength () {
       return !this.post.comments ? 0 : this.post.comments.length
@@ -185,7 +180,7 @@ export default {
       return !!this.post.youtube_url
     },
     userAvatar () {
-      return this.imageUrl + this.post.user.avatar.url
+      return this.post.user.avatar.url
     }
   },
   methods: {
