@@ -46,7 +46,7 @@
       </v-row>
       <!-- /ヘッダー -->
       <!-- YouTube -->
-      <!-- <v-row
+      <v-row
         v-if="hasYoutubeUrl"
         justify="center"
       >
@@ -55,7 +55,7 @@
             :youtube_url="post.youtube_url"
           />
         </v-col>
-      </v-row> -->
+      </v-row>
       <!-- /YouTube -->
       <!-- 本文・ジャンル -->
       <v-row>
