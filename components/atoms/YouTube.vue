@@ -8,7 +8,6 @@
     fit-parent
     resize
     :start="start"
-    :playerVars="vars"
   />
 </template>
 
@@ -26,10 +25,7 @@ export default {
   },
   data () {
     return {
-      start: '',
-      vars: {
-        origin: 'http://localhost:8080'
-      }
+      start: ''
     }
   },
   computed: {
