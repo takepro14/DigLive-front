@@ -52,6 +52,10 @@ class Authentication {
   }
 
   async logout () {
+    // ゲストユーザーはログイン時に一時作成し、ログアウト時に削除するため
+    if (this.user.name === 'ゲストユーザー') {
+      this.store.dispatch('modules/user/destroyAccountGuest')
+    }
     await this.$axios.$delete(
       '/api/v1/auth_token',
       { validateStatus: status => this.resolveUnauthorized(status) }

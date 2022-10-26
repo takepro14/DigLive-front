@@ -26,6 +26,7 @@
         />
         <SettingsAccount
           v-else-if="isAccountTab"
+          :currentUser="currentUser"
           :email.sync="setEmail"
           :password.sync="setPassword"
           :changeTargetLists="changeTargetLists"

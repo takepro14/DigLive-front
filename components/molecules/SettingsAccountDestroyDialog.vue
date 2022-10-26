@@ -30,9 +30,9 @@
             <v-card-actions>
               <v-spacer />
               <v-btn
-                color="button"
-                dark
+                color="button white--text"
                 width="100%"
+                :disabled="isGuest"
                 @click="destroyAccount"
               >
                 削除する
@@ -59,9 +59,19 @@
 
 <script>
 export default {
+  props: {
+    currentUser: {
+      type: Object
+    }
+  },
   data () {
     return {
       dialog: false
+    }
+  },
+  computed: {
+    isGuest () {
+      return this.currentUser.isGuest
     }
   },
   methods: {

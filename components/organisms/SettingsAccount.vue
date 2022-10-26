@@ -19,12 +19,14 @@
                 :email="email"
                 :password="password"
                 :changeTargetLists="changeTargetLists"
+                :currentUser="currentUser"
                 @changeTargetEvent="changeTarget"
                 @submitChangedDataEvent="submitChangedData"
               />
             </div>
             <div class="mt-6">
               <SettingsAccountDestroyDialog
+                :currentUser="currentUser"
                 @destroyAccountEvent="destroyAccount"
               />
             </div>
@@ -38,6 +40,9 @@
 <script>
 export default {
   props: {
+    currentUser: {
+      type: Object
+    },
     email: {
       type: String
     },

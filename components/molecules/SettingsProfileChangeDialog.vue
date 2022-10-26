@@ -71,10 +71,10 @@
             <v-card-actions>
               <v-spacer />
               <v-btn
-                color="button"
-                dark
+                color="button white--text"
                 width="100%"
                 @click="submitChangedData"
+                :disabled="isGuest"
               >
                 変更を確定する
               </v-btn>
@@ -104,6 +104,9 @@
 <script>
 export default {
   props: {
+    currentUser: {
+      type: Object
+    },
     name: {
       type: String
     },
@@ -137,6 +140,9 @@ export default {
       return (target) => {
         return this.changeTargetLists.includes(target)
       }
+    },
+    isGuest () {
+      return this.currentUser.isGuest
     }
   },
   methods: {

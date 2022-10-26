@@ -55,6 +55,7 @@
               :avatar="avatar"
               :changeTargetLists="changeTargetLists"
               :displayCheckedGenres="displayCheckedGenres"
+              :currentUser="currentUser"
               @changeTargetEvent="changeTarget"
               @submitChangedDataEvent="submitChangedData"
             />

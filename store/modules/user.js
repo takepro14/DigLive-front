@@ -196,6 +196,9 @@ export const actions = {
   async getCurrentUser ({ commit, rootState }) {
     await this.$axios.$get(`/api/v1/users/${rootState.user.current.id}`)
       .then((userObj) => {
+        if (userObj.name === 'ゲストユーザー' && userObj.email.includes('@guest.com')) {
+          userObj.isGuest = true
+        }
         commit('setCurrentUser', userObj)
       })
   },
@@ -310,12 +313,21 @@ export const actions = {
     await this.$axios.$delete(`/api/v1/users/${rootState.user.current.id}`)
       .then(() => {
         this.app.router.push('/logout')
+        setTimeout(() => {
+          this.dispatch('getToast', {
+            msg: 'アカウントを削除しました',
+            color: 'info'
+          })
+        }, 500)
       })
+  },
+  // ==================================================
+  // アカウント削除(ゲストユーザー用)
+  // ==================================================
+  async destroyAccountGuest ({ rootState }) {
+    await this.$axios.$delete(`/api/v1/users/${rootState.user.current.id}`)
       .then(() => {
-        this.dispatch('getToast', {
-          msg: 'アカウントを削除しました',
-          color: 'info'
-        })
+        this.app.router.push('/logout')
       })
   }
 }
