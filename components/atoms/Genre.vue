@@ -1,5 +1,6 @@
 <template>
   <v-chip
+    small
     link
     filter
     label

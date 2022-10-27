@@ -34,6 +34,10 @@ export default {
     },
     formGenreUnchecked (value) {
       this.$emit('formGenreUncheckedEvent', value)
+    },
+    forceUpdate () {
+      console.log('forceUpdate')
+      this.$forceUpdate()
     }
   }
 }

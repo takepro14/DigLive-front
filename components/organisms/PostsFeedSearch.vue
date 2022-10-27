@@ -1,12 +1,15 @@
 <template>
   <div class="mx-auto">
-    <!-- keyword: {{ keyword }}
-    genre: {{ genre }}
-    tag: {{ tag }} -->
-    <!-- resultPosts: {{ resultPosts }} -->
-    <h3 v-if="isSearching">
-      {{ keyword || genre || tag }} の検索結果 {{ filteredPosts.length }}件
-    </h3>
+    <v-list-item v-if="isSearching">
+      <v-list-item-title>
+        <span>
+          {{ keyword || genre || tag }} の検索結果：
+        </span>
+        <span class="font-weight-bold">
+          {{ filteredPosts.length }}件
+        </span>
+      </v-list-item-title>
+    </v-list-item>
     <v-row v-if="isLoading">
       <v-col
         v-for="n in 10"
@@ -20,7 +23,7 @@
         <LoaderTypeCard />
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="mt-1 mb-8">
       <v-col
         v-for="post in filteredPosts"
         :key="post.id"

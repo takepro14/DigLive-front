@@ -6,8 +6,9 @@
         :key="n"
       />
     </div>
-    <div class="mb-8">
+    <div class="mt-1 mb-8">
       <Post
+        class="my-4"
         v-for="(post, index) in userLikes"
         :key="`user-likes-${index}`"
         :post="post"

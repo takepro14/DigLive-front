@@ -13,7 +13,7 @@
         <LoaderTypeCard />
       </v-col>
     </v-row>
-    <v-row class="mb-8">
+    <v-row class="mt-1 mb-8">
       <v-col
         v-for="(user, index) in followedUsersReactive"
         :key="`user-follow-${index}`"
@@ -27,7 +27,6 @@
           v-if="user.id !== currentUser.id"
           :user="user"
           :currentUser="currentUser"
-          class="my-6"
           @followEvent="follow"
           @unfollowEvent="unfollow"
         />

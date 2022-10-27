@@ -1,7 +1,7 @@
 <template>
   <v-textarea
     v-model="setProfile"
-    :counter="max"
+    :counter="maxLengthProfile"
     :rules="rules"
     label="プロフィール入力"
     placeholder="あなたのプロフィール"
@@ -18,11 +18,11 @@ export default {
     }
   },
   data () {
-    const max = 200
+    const maxLengthProfile = 200
     return {
-      max,
+      maxLengthProfile,
       rules: [
-        v => ((!v) || (!!v && max >= v.length)) || `${max}文字以内で入力してください`
+        v => ((!v) || (!!v && maxLengthProfile >= v.length)) || `${maxLengthProfile}文字以内で入力してください`
       ]
     }
   },

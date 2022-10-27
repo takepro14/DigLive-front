@@ -1,12 +1,9 @@
 <template>
   <youtube
     ref="youtube"
-    :video-id="getVideoId"
-    @playing="playing"
-    @paused="paused"
-    @ended="ended"
     fit-parent
     resize
+    :video-id="getVideoId"
     :start="start"
   />
 </template>
@@ -51,15 +48,6 @@ export default {
     },
     playVideo () {
       this.player.playVideo()
-    },
-    playing () {
-      console.log('we are watching!!!')
-    },
-    paused () {
-      console.log('paused')
-    },
-    ended () {
-      console.log('ended')
     }
   }
 }

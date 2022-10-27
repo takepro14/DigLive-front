@@ -9,8 +9,7 @@
             class="mx-auto mb-8"
           >
             <v-toolbar
-              color="header"
-              dark
+              color="header white--text"
               flat
             >
               <v-toolbar-title>

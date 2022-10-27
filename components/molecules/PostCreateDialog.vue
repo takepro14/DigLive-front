@@ -10,13 +10,12 @@
           fab
           bottom
           right
-          dark
-          color="button"
+          color="button white--text"
           v-bind="attrs"
           style="bottom:70px;right:40px"
           v-on="on"
         >
-          <v-icon dark>
+          <v-icon>
             mdi-plus
           </v-icon>
         </v-btn>
@@ -27,46 +26,52 @@
           ライブ映像をシェアする
         </v-card-title>
         <!-- {{ checkedGenres }} -->
-        <div class="ma-4">
-          <v-text-field
-            v-model="youtube_url"
-            label="YouTube URL"
-            placeholder="該当動画のURLをペーストしてください"
-            outlined
-          />
-          <v-textarea
-            v-model="content"
-            :rules="rules"
-            counter="300"
-            name="input-7-4"
-            label="コメント"
-            placeholder="Cメロのギターソロが最高！"
-            outlined
-          />
-          <v-card-text>
-            音楽ジャンル (任意・複数可)
-            <InputFormGenre
-              :genres="genres"
-              @formGenreCheckedEvent="formGenreChecked"
-              @formGenreUncheckedEvent="formGenreUnchecked"
-              ref="child"
+        <v-form
+          ref="form"
+          v-model="isValid"
+        >
+          <div class="ma-4">
+            <v-text-field
+              v-model="youtube_url"
+              :rules="rulesUrl"
+              label="YouTube URL (必須)"
+              placeholder="該当動画のURLをペースト"
+              outlined
             />
-          </v-card-text>
-          <v-card-text>
-            タグ (任意・複数可)
-            <InputFormTag
-              :tags="tags"
-              :init-tags="inputTags"
-              @changed-tags="inputTags = $event"
+            <v-textarea
+              v-model="content"
+              :rules="rulesContent"
+              :counter="maxLengthContent"
+              name="input-7-4"
+              label="コメント (必須)"
+              placeholder="おすすめしたいポイントは？"
+              outlined
             />
-          </v-card-text>
-        </div>
+            <v-card-text>
+              音楽ジャンル
+              <InputFormGenre
+                :genres="genres"
+                @formGenreCheckedEvent="formGenreChecked"
+                @formGenreUncheckedEvent="formGenreUnchecked"
+                ref="child"
+              />
+            </v-card-text>
+            <v-card-text>
+              タグ
+              <InputFormTag
+                :tags="tags"
+                :init-tags="inputTags"
+                @changed-tags="inputTags = $event"
+              />
+            </v-card-text>
+          </div>
+        </v-form>
         <v-card-actions>
           <v-spacer />
           <v-btn
-            color="button"
-            dark
+            color="button white--text"
             width="100%"
+            :disabled="!isValid"
             @click="createPost"
           >
             投稿する
@@ -99,12 +104,24 @@ export default {
     }
   },
   data ({ $store }) {
+    const maxLengthContent = 300
+    const allowDomain = ['https://www.youtube.com', 'https://youtu.be']
     return {
+      maxLengthContent,
+      allowDomain,
+      isValid: false,
       dialog: false,
       youtube_url: '',
-      content: 'テスト',
+      content: '',
       inputTags: [],
-      rules: [v => v.length <= 300 || '300文字以内で入力してください'],
+      rulesUrl: [
+        v => !!v || '',
+        v => (!!v && allowDomain.some(url => v.includes(url))) || 'URLが正しくありません'
+      ],
+      rulesContent: [
+        v => !!v || '',
+        v => (!!v && maxLengthContent >= v.length) || `${maxLengthContent}文字以内で入力してください`
+      ],
       user_id: $store.state.user.current.id,
       checkedGenres: []
     }
@@ -127,8 +144,15 @@ export default {
       })
       this.dialog = false
       this.$vuetify.goTo(0)
+      this.clearForm()
+    },
+    clearForm () {
+      this.youtube_url = ''
       this.content = ''
-      this.checkedGenres = []
+      this.checkedGenres.splice(0)
+      this.inputTags.splice(0)
+      this.$refs.form.reset()
+      this.$refs.child.forceUpdate()
     }
   }
 }

@@ -2,8 +2,7 @@
   <div>
     <v-footer
       absolute
-      dark
-      color="black"
+      color="black white--text"
       :height="height"
     >
       <v-col

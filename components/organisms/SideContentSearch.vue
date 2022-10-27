@@ -1,25 +1,26 @@
 <template>
-  <v-list>
-    <div class="px-4 py-2">
-      <SearchFormKeyword
-        :keyword.sync="keyword"
-        @formKeywordFocusInEvent="formKeywordFocusIn"
-      />
-      <SearchFormGenre
-        :genre.sync="genre"
-        :genres="genres"
-        @formGenreCheckedEvent="formGenreChecked"
-        @formGenreUncheckedEvent="formGenreUnchecked"
-      />
-      <SearchFormTag
-        v-if="isPostsTab"
-        :tag.sync="tag"
-        :tags="tags"
-        @formTagCheckedEvent="formTagChecked"
-        @formTagUncheckedEvent="formTagUnchecked"
-      />
-    </div>
-  </v-list>
+  <v-card class="pa-4">
+    <SearchFormKeyword
+      class="pt-2"
+      :keyword.sync="keyword"
+      @formKeywordFocusInEvent="formKeywordFocusIn"
+    />
+    <SearchFormGenre
+      class="pt-2"
+      :genre.sync="genre"
+      :genres="genres"
+      @formGenreCheckedEvent="formGenreChecked"
+      @formGenreUncheckedEvent="formGenreUnchecked"
+    />
+    <SearchFormTag
+      v-if="isPostsTab"
+      class="pt-2"
+      :tag.sync="tag"
+      :tags="tags"
+      @formTagCheckedEvent="formTagChecked"
+      @formTagUncheckedEvent="formTagUnchecked"
+    />
+  </v-card>
 </template>
 
 <script>

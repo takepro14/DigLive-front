@@ -9,8 +9,7 @@
         v-bind="attrs"
         v-on="on"
         block
-        dark
-        color="red"
+        color="red white--text"
       >
         アカウントを削除する
       </v-btn>

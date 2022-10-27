@@ -1,11 +1,15 @@
 <template>
   <div>
-    <!-- keyword: {{ keyword }}
-    genre: {{ genre }} -->
-    <!-- filteredUsers: {{ filteredUsers }} -->
-    <h3 v-if="isSearching">
-      {{ keyword || genre }} の検索結果 {{ filteredUsers.length }}件
-    </h3>
+    <v-list-item v-if="isSearching">
+      <v-list-item-title>
+        <span>
+          {{ keyword || genre }} の検索結果：
+        </span>
+        <span class="font-weight-bold">
+          {{ filteredUsers.length }}件
+        </span>
+      </v-list-item-title>
+    </v-list-item>
     <v-row v-if="isLoading">
       <v-col
         v-for="n in 10"
@@ -19,7 +23,7 @@
         <LoaderTypeCard />
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="mt-1 mb-8">
       <v-col
         v-for="user in filteredUsers"
         :key="user.id"
@@ -32,7 +36,6 @@
         <User
           :user="user"
           :currentUser="currentUser"
-          class="my-6"
           @followEvent="follow"
           @unfollowEvent="unfollow"
         />

@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="mx-auto my-4 card-outter"
+    class="mx-auto pa-4 card-outter"
     width="100%"
     height="100%"
     hover
@@ -22,17 +22,22 @@
               />
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title
+              <v-list-item-subtitle
                 v-if="$route.fullPath === '/home'"
-                class="wrap-text"
               >
-                {{ post.user.name }}・{{ post.created_at | moment }}
-              </v-list-item-title>
-              <v-list-item-title
+              <span class="font-weight-bold wrap-text">
+                {{ post.user.name }}
+              </span>
+              <span>
+                ・{{ post.created_at | moment }}
+              </span>
+              </v-list-item-subtitle>
+              <v-list-item-subtitle
                 v-else
+                class="font-weight-bold wrap-text"
               >
                 {{ post.user.name }}
-              </v-list-item-title>
+              </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-icon>
               <PostDestroyDialog
@@ -60,12 +65,12 @@
       <!-- 本文・ジャンル -->
       <v-row>
         <v-col>
-          <v-card-title>
+          <v-card-text>
             <div class="text--primary">
               {{ post.content }}
             </div>
-          </v-card-title>
-          <div class="px-4">
+          </v-card-text>
+          <div>
             <v-chip-group
               active-class="primary--text"
               column
@@ -73,6 +78,7 @@
               <v-chip
                 v-for="genre in post.genres"
                 :key="genre.genre_name"
+                small
                 label
                 link
                 color="genre"
@@ -82,6 +88,7 @@
               <v-chip
                 v-for="tag in post.tags"
                 :key="tag.tag_name"
+                small
                 link
                 color="tag"
               >
@@ -108,7 +115,6 @@
               <div v-if="post.isLiked">
                 <v-icon
                   class="ml-3 mr-1"
-                  large
                   @click.stop="unLikePost"
                 >
                   mdi-heart
@@ -117,7 +123,6 @@
               <div v-else>
                 <v-icon
                   class="ml-3 mr-1"
-                  large
                   @click.stop="likePost"
                 >
                   mdi-heart-outline
@@ -129,7 +134,6 @@
               <div>
                 <v-icon
                   class="ml-3 mr-1"
-                  large
                 >
                   mdi-comment-processing-outline
                 </v-icon>

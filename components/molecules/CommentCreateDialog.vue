@@ -15,9 +15,6 @@
           v-on="on"
         >
           <v-card-text>
-            <v-icon>
-              mdi-comment-multiple-outline
-            </v-icon>
             コメントする
           </v-card-text>
         </v-card>
@@ -28,15 +25,20 @@
           投稿にコメントする
         </v-card-title>
         <div class="ma-4">
-          <v-textarea
-            v-model="comment"
-            :rules="rules"
-            counter="300"
-            name="input-7-4"
-            label="コメントフォーム"
-            placeholder="素晴らしいパフォーマンス！"
-            outlined
-          />
+          <v-form
+            ref="form"
+            v-model="isValid"
+          >
+            <v-textarea
+              v-model="comment"
+              :rules="rules"
+              :counter="maxLengthComment"
+              name="input-7-4"
+              label="コメントフォーム"
+              placeholder="素晴らしいパフォーマンス！"
+              outlined
+            />
+          </v-form>
         </div>
         <v-card-actions>
           <v-spacer />
@@ -44,6 +46,7 @@
             @click="createComment"
             color="button white--text"
             width="100%"
+            :disabled="!isValid"
           >
             コメントする
           </v-btn>
@@ -72,11 +75,17 @@ export default {
     }
   },
   data ({ $store }) {
+    const maxLengthComment = 300
     return {
+      isValid: false,
+      maxLengthComment,
       dialog: false,
       comment: 'テストコメント投稿',
       tags: [],
-      rules: [v => v.length <= 300 || '300文字以内で入力してください'],
+      rules: [
+        v => !!v || '',
+        v => (!!v && maxLengthComment >= v.length) || `${maxLengthComment}文字以内で入力してください`
+      ],
       user_id: $store.state.user.current.id
     }
   },

@@ -1,11 +1,13 @@
 <template>
   <div>
     <v-chip-group column>
-      <v-card-text>
-        <h2 class="text-h6 text-center font-weight-bold">
+      <v-list-item>
+        <v-list-item-subtitle
+          class="text-h6 text-center font-weight-bold"
+        >
           シーンで検索
-        </h2>
-      </v-card-text>
+        </v-list-item-subtitle>
+      </v-list-item>
       <Tag
         v-for="tag in randomTags"
         :key="tag.tag_name"

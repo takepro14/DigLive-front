@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="mx-auto px-10 py-5 card-outter"
+    class="px-8 card-outter"
     width="100%"
     height="100%"
     @click="moveUserPage"
@@ -20,9 +20,11 @@
           xl="9"
           class="text-center"
         >
-          <v-list-item-title class="text-h5 text-left wrap-text" >
+        <v-list-item>
+          <v-list-item-subtitle class="font-weight-bold text-left wrap-text" >
             {{ user.name }}
-          </v-list-item-title>
+          </v-list-item-subtitle>
+        </v-list-item>
         </v-col>
         <v-col
           cols="12"
@@ -59,6 +61,7 @@
             <v-btn
               outlined
               rounded
+              small
               text
               @click.stop="unfollow({ userId: user.id, route: $route.fullPath })"
             >
@@ -69,6 +72,7 @@
             <v-btn
               outlined
               rounded
+              small
               color="blue"
               @click.stop="follow({ userId: user.id, route: $route.fullPath })"
             >
@@ -99,17 +103,26 @@
       </v-row>
       <!-- /プロフィール -->
       <!-- フッター -->
-      <v-row class="card-actions">
-        <div class="ml-3 mr-1">
-          <v-card-text>
-            {{ followingLength }} フォロー
-          </v-card-text>
-        </div>
-        <div class="ml-3 mr-1">
-          <v-card-text>
-            {{ followerLength }} フォロワー
-          </v-card-text>
-        </div>
+      <v-row>
+        <v-col>
+          <v-card-actions class="card-actions">
+            <v-row
+              align="center"
+              justify="end"
+            >
+              <div>
+                <v-card-text class="ml-3 mr-1">
+                  {{ followingLength }} フォロー
+                </v-card-text>
+              </div>
+              <div>
+                <v-card-text class="ml-3 mr-1">
+                  {{ followerLength }} フォロワー
+                </v-card-text>
+              </div>
+            </v-row>
+          </v-card-actions>
+        </v-col>
       </v-row>
       <!-- /フッター -->
     </v-container>

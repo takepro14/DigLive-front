@@ -2,8 +2,7 @@
   <div class="mb-16">
     <v-app-bar
       fixed
-      fab
-      top
+      flat
       color="header"
     >
       <nuxt-link

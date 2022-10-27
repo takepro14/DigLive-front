@@ -18,25 +18,23 @@
           />
           <v-btn
             class="mt-8"
+            color="button white--text"
             :disabled="!isValid || loading"
             :loading="loading"
             block
-            color="button white--text"
             @click="login"
           >
             ログインする
           </v-btn>
           <v-btn
             class="mt-8"
+            outline
             :disabled="!isValid || loading"
             :loading="loading"
             block
-            color="button white--text"
             @click="guestLogin"
-            height="60px"
           >
-            ゲストログインする<br>
-            ※採用担当者様向け
+            お試しログインする
           </v-btn>
         </v-form>
       </template>

@@ -1,11 +1,13 @@
 <template>
   <div>
     <v-chip-group column>
-      <v-card-text>
-        <h2 class="text-h6 text-center font-weight-bold">
+      <v-list-item>
+        <v-list-item-subtitle
+          class="text-h6 text-center font-weight-bold"
+        >
           音楽ジャンルで検索
-        </h2>
-      </v-card-text>
+        </v-list-item-subtitle>
+      </v-list-item>
       <Genre
         v-for="genre in genres"
         :key="genre.genre_name"
