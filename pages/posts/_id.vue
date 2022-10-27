@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="pb-16">
     <Toaster />
     <HistoryBack class="pb-4" />
     <v-row>
@@ -16,7 +16,6 @@
     <v-row>
       <v-col>
         <CommentCreateDialog
-          class="mt-2"
           :post="post"
           @createCommentEvent="createComment"
         />
