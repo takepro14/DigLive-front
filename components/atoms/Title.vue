@@ -21,7 +21,6 @@
 export default {
   data ({ $config: { appName } }) {
     return {
-      homePath: '/',
       appName
     }
   }

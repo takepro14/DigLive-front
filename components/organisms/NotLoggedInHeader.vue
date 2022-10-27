@@ -6,7 +6,12 @@
       top
       color="header"
     >
-      <Title />
+      <nuxt-link
+        :to="homePath"
+        class="text-decoration-none"
+      >
+        <Title />
+      </nuxt-link>
       <v-spacer />
       <v-btn
         outlined
@@ -27,3 +32,13 @@
     </v-app-bar>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      homePath: '/'
+    }
+  }
+}
+</script>
