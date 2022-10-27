@@ -211,10 +211,46 @@ export const mutations = {
   // コメントの即時反映
   // ==================================================
   reloadCommentsByCreateComment (state, commentObj) {
+    // ---------- /posts/:id ----------
     state.post.comments.push(commentObj)
+
+    // ---------- /home/* ----------
+    const pushComment = (postsContext) => {
+      const idx = postsContext.findIndex((post) => {
+        return post.id === commentObj.post_id
+      })
+      if (idx !== -1) {
+        postsContext[idx].comments.push(commentObj)
+      }
+    }
+    pushComment(state.posts)
+    pushComment(state.followedPosts)
+    pushComment(state.filteredPosts)
+    pushComment(state.userPosts)
+    pushComment(state.userLikes)
   },
-  reloadCommentsByDestroyComment (state, commentId) {
-    state.post.comments = state.post.comments.filter(comment => comment.id !== commentId)
+  reloadCommentsByDestroyComment (state, commentObj) {
+    // ---------- /posts/:id ----------
+    state.post.comments = state.post.comments.filter((comment) => {
+      return comment.id !== commentObj.data.id
+    })
+
+    // ---------- /home/* ----------
+    const remComment = (postsContext) => {
+      const idx = postsContext.findIndex((post) => {
+        return post.id === commentObj.data.post_id
+      })
+      if (idx !== -1) {
+        postsContext[idx].comments = postsContext[idx].comments.filter((comment) => {
+          return comment.id !== commentObj.data.id
+        })
+      }
+    }
+    remComment(state.posts)
+    remComment(state.followedPosts)
+    remComment(state.filteredPosts)
+    remComment(state.userPosts)
+    remComment(state.userLikes)
   }
 }
 
@@ -421,8 +457,8 @@ export const actions = {
   },
   async destroyComment ({ commit }, commentId) {
     await this.$axios.delete(`/api/v1/comments/${commentId}`, { data: { id: commentId } })
-      .then(() => {
-        commit('reloadCommentsByDestroyComment', commentId)
+      .then((commentObj) => {
+        commit('reloadCommentsByDestroyComment', commentObj)
       })
       .then(() => {
         this.dispatch('getToast', {
