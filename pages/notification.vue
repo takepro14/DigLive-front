@@ -3,7 +3,7 @@
     <Toaster />
     <v-row class="pb-16">
       <v-col>
-        <HistoryBack class="py-4" />
+        <HistoryBack class="pb-4" />
           <v-card
             width="100%"
             class="mx-auto mb-8"

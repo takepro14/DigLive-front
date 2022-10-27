@@ -1,6 +1,6 @@
 <template>
   <v-container class="pb-16">
-    <HistoryBack class="py-4" />
+    <HistoryBack class="pb-4" />
     <v-row>
       <v-col>
         <User

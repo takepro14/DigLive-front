@@ -2,8 +2,8 @@
   <v-icon
     x-large
     @click="historyBack"
-    >
-      mdi-keyboard-backspace
+  >
+    mdi-keyboard-backspace
   </v-icon>
 </template>
 

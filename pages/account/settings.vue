@@ -1,7 +1,7 @@
 <template>
-  <v-container class="pa-2">
+  <v-container class="pb-16">
     <Toaster />
-    <HistoryBack class="py-4" />
+    <HistoryBack class="pb-4" />
     <v-row>
       <v-col>
         <SettingsTabMenu
