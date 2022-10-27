@@ -56,13 +56,6 @@
       </nuxt-link>
       <v-spacer />
     </v-bottom-navigation>
-    <!-- <v-responsive
-      id="hide-on-scroll-example"
-      class="overflow-y-auto"
-      max-height="600"
-    >
-      <v-responsive height="1500" />
-    </v-responsive> -->
   </div>
 </template>
 

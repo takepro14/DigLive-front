@@ -1,7 +1,7 @@
 <template>
   <v-container
     fluid
-    class="px-2 pt-2 pb-16"
+    class="px-4 pt-4 pb-16"
   >
     <Toaster />
     <v-row>

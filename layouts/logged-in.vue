@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <LoggedInHeader />
-    <v-main>
+    <v-main class="overflow-hidden">
       <Nuxt />
     </v-main>
     <LoggedInFooter />
