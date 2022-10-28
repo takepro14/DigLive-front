@@ -20,12 +20,16 @@
     >
       <v-container>
         <!-- ヘッダー -->
-        <v-card-text>
-          <v-row>
+        <v-list-item>
+          <v-row class="d-flex justify-space-between">
             <v-col>
-              {{ comment.user.name }}
+              <v-list-item-subtitle
+                class="font-weight-bold text-left wrap-text"
+                @click="moveUserPage"
+              >
+                {{ comment.user.name }}
+              </v-list-item-subtitle>
             </v-col>
-            <v-spacer />
             <v-col
               class="text-right"
             >
@@ -36,25 +40,24 @@
               />
             </v-col>
           </v-row>
-        </v-card-text>
+        </v-list-item>
         <!-- /ヘッダー -->
         <!-- 本文 -->
-        <v-card-title class="text-h6 pb-12">
-          {{ comment.comment }}
-        </v-card-title>
-        <!-- /本文 -->
-        <!-- フッター -->
-        <v-card-actions class="card-actions">
-            <v-row
-              align="center"
-              justify="end"
-            >
+        <v-row>
+          <v-col>
+            <div>
               <v-card-text>
+                {{ comment.comment }}
+              </v-card-text>
+            </div>
+            <div>
+              <v-card-text class="text-right">
                 {{ $my.format(comment.created_at) }}
               </v-card-text>
-          </v-row>
-        </v-card-actions>
-        <!-- /フッター -->
+            </div>
+          </v-col>
+        </v-row>
+        <!-- /本文 -->
       </v-container>
     </v-card>
   </v-timeline-item>
@@ -92,6 +95,11 @@ export default {
 </script>
 
 <style scoped>
+/* テキストを省略せず折り返し */
+.wrap-text {
+  word-break: break-all;
+  white-space: normal;
+}
 /* フッターを最下部に固定 */
 .card-outter {
   position: relative;

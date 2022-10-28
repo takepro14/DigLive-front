@@ -1,11 +1,11 @@
 <template>
   <v-card
-    class="px-8 card-outter"
+    class="px-2 card-outter"
     width="100%"
     height="100%"
+    hover
     @click="moveUserPage"
   >
-    <Toaster />
     <v-container>
       <!-- ヘッダー -->
       <v-row
@@ -21,7 +21,10 @@
           class="text-center"
         >
         <v-list-item>
-          <v-list-item-subtitle class="font-weight-bold text-left wrap-text" >
+          <v-list-item-subtitle
+            class="font-weight-bold text-left wrap-text"
+            :class="isUserPage($route.fullPath)"
+          >
             {{ user.name }}
           </v-list-item-subtitle>
         </v-list-item>
@@ -44,9 +47,9 @@
       </v-row>
       <!-- /ヘッダー -->
       <!-- フォローフラグ・編集 -->
-      <v-row class="my-2" >
-        <v-spacer />
-        <div v-if="isCurrentUser">
+      <v-row>
+        <v-col align="end" justify="end">
+          <div v-if="isCurrentUser">
             <v-btn
               outlined
               rounded
@@ -55,43 +58,48 @@
             >
               編集
             </v-btn>
-        </div>
-        <div v-else>
-          <div v-if="isFollowed">
-            <v-btn
-              outlined
-              rounded
-              small
-              text
-              @click.stop="unfollow({ userId: user.id, route: $route.fullPath })"
-            >
-              フォロー中
-            </v-btn>
           </div>
-          <div v-else-if="!isFollowed">
-            <v-btn
-              outlined
-              rounded
-              small
-              color="blue"
-              @click.stop="follow({ userId: user.id, route: $route.fullPath })"
-            >
-              フォローする
-            </v-btn>
+          <div v-else>
+            <div v-if="isFollowed">
+              <v-btn
+                outlined
+                rounded
+                small
+                text
+                @click.stop="unfollow({ userId: user.id, route: $route.fullPath })"
+              >
+                フォロー中
+              </v-btn>
+            </div>
+            <div v-else-if="!isFollowed">
+              <v-btn
+                outlined
+                rounded
+                small
+                color="blue"
+                @click.stop="follow({ userId: user.id, route: $route.fullPath })"
+              >
+                フォローする
+              </v-btn>
+            </div>
           </div>
-        </div>
+        </v-col>
       </v-row>
       <!-- /フォローフラグ・編集 -->
       <!-- プロフィール -->
-      <v-row class="my-2">
-        <v-list-item-subtitle class="wrap-text">
-          {{ user.profile }}
-        </v-list-item-subtitle>
-        <v-list-item-subtitle>
+      <v-row>
+        <v-col>
+          <v-list-item-subtitle class="wrap-text">
+            {{ user.profile }}
+          </v-list-item-subtitle>
+        </v-col>
+      </v-row>
+      <!-- /プロフィール -->
+      <v-row>
+        <v-col>
           <v-chip-group
             column
             multiple
-            class="my-4"
           >
             <Genre
               v-for="genre in user.genres"
@@ -99,29 +107,21 @@
               :genre="genre"
             />
           </v-chip-group>
-        </v-list-item-subtitle>
+        </v-col>
       </v-row>
-      <!-- /プロフィール -->
       <!-- フッター -->
       <v-row>
-        <v-col>
-          <v-card-actions class="card-actions">
-            <v-row
-              align="center"
-              justify="end"
-            >
-              <div>
-                <v-card-text class="ml-3 mr-1">
-                  {{ followingLength }} フォロー
-                </v-card-text>
-              </div>
-              <div>
-                <v-card-text class="ml-3 mr-1">
-                  {{ followerLength }} フォロワー
-                </v-card-text>
-              </div>
-            </v-row>
-          </v-card-actions>
+        <v-col class="d-flex justify-end">
+          <div>
+            <v-card-text class="ml-3 mr-1">
+              {{ followingLength }} フォロー
+            </v-card-text>
+          </div>
+          <div>
+            <v-card-text class="ml-3 mr-1">
+              {{ followerLength }} フォロワー
+            </v-card-text>
+          </div>
         </v-col>
       </v-row>
       <!-- /フッター -->
@@ -158,6 +158,11 @@ export default {
     },
     avatarUrl () {
       return this.user.avatar.url
+    },
+    isUserPage () {
+      return (routeFullPath) => {
+        return routeFullPath.includes('users') ? 'text-h6' : ''
+      }
     }
   },
   methods: {

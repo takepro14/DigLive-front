@@ -177,7 +177,7 @@ export const actions = {
       switch (notiObj.action) {
         case ('follow'):
           notiObj.notiAction = 'あなたをフォローしました'
-          notiObj.notiLink = notiObj.visitor ? `/users/${notiObj.visitor.id}` : '/users/#'
+          notiObj.notiLink = `/users/${notiObj.visitor.id}`
           break
         case ('like'):
           notiObj.notiAction = 'あなたの投稿にいいねしました'

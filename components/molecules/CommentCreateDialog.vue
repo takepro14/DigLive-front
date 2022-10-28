@@ -21,7 +21,7 @@
       </template>
 
       <v-card>
-        <v-card-title class="headline header white--text">
+        <v-card-title class="headline header text-subtitle-1 white--text">
           投稿にコメントする
         </v-card-title>
         <div class="ma-4">

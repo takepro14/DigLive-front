@@ -22,7 +22,7 @@
       </template>
 
       <v-card>
-        <v-card-title class="headline header white--text">
+        <v-card-title class="headline header text-subtitle-1 white--text">
           ライブ映像をシェアする
         </v-card-title>
         <!-- {{ checkedGenres }} -->

@@ -16,7 +16,7 @@
         </v-btn>
       </template>
       <v-card>
-        <v-card-title class="headline header white--text">
+        <v-card-title class="headline header text-subtitle-1 white--text">
           投稿を削除する
         </v-card-title>
         <v-row class="text-center pt-6 pb-2">

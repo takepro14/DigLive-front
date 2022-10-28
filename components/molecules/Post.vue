@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="mx-auto pa-4 card-outter"
+    class="mx-auto pa-2 card-outter"
     width="100%"
     height="100%"
     hover
@@ -51,11 +51,8 @@
       </v-row>
       <!-- /ヘッダー -->
       <!-- YouTube -->
-      <v-row
-        v-if="hasYoutubeUrl"
-        justify="center"
-      >
-        <v-col cols="10">
+      <v-row>
+        <v-col class="d-flex align-center">
           <YouTube
             :youtube_url="post.youtube_url"
           />
@@ -66,22 +63,20 @@
       <v-row>
         <v-col>
           <v-card-text>
-            <div class="text--primary">
-              {{ post.content }}
-            </div>
+            {{ post.content }}
           </v-card-text>
           <div>
             <v-chip-group
-              active-class="primary--text"
               column
             >
+            <!-- link, filter抜き -->
               <v-chip
                 v-for="genre in post.genres"
                 :key="genre.genre_name"
                 small
                 label
-                link
                 color="genre"
+                text-color="header"
               >
                 {{ genre.genre_name }}
               </v-chip>
@@ -89,8 +84,9 @@
                 v-for="tag in post.tags"
                 :key="tag.tag_name"
                 small
-                link
+                label
                 color="tag"
+                text-color="button"
               >
                 {{ tag.tag_name }}
               </v-chip>
@@ -186,6 +182,11 @@ export default {
     userAvatar () {
       return this.post.user.avatar.url
     }
+    // isPostPage () {
+    //   return (routeFullPath) {
+    //     return routeFullPath.includes('posts') ? 'text-h6'
+    //   }
+    // }
   },
   methods: {
     likePost () {

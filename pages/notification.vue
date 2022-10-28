@@ -10,27 +10,23 @@
           >
             <v-toolbar
               color="header white--text"
+              dark
               flat
             >
-              <v-toolbar-title>
+              <v-toolbar-title
+                class="text-subtitle-1"
+              >
                 通知一覧
               </v-toolbar-title>
               <v-spacer />
             </v-toolbar>
-            <!-- <v-list v-if="isLoading">
-              <template v-for="(n, index) in 10">
-                <div :key="`notiLoader-${index}`">
-                  <LoaderTypeCard />
-                </div>
-              </template>
-            </v-list> -->
             <v-list three-line>
               <template v-for="(notification, index) in notifications">
                 <div :key="`notification-${index}.id`">
                   <v-list-item>
                     <v-list-item-avatar>
                       <v-img
-                        @click.stop="movePage(notification.notiLink)"
+                        @click.stop="movePage(`/users/${notification.visitor.id}`)"
                         :src="notification.visitor.avatar.url"
                       />
                     </v-list-item-avatar>

@@ -2,7 +2,7 @@
   <v-card >
     <v-container>
       <v-row>
-        <v-col>
+        <v-col class="mb-6">
           <v-form
             ref="form"
             v-model="isValid"

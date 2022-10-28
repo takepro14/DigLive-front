@@ -1,10 +1,11 @@
 <template>
   <v-chip
-    small
     link
     filter
+    small
     label
     color="genre"
+    text-color="header"
     @click="toggleGenre"
   >
     {{ genre.genre_name }}

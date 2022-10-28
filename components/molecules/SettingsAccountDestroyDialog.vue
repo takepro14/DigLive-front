@@ -17,19 +17,21 @@
     <!--  /削除確認ボタン -->
     <!--  削除確認モーダル -->
     <v-card>
-      <v-card-title class="headline header white--text">
+      <v-card-title class="headline header text-subtitle-1 white--text">
         アカウントを削除する
       </v-card-title>
       <div class="ma-4">
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="py-4">
-              アカウントを削除してもよろしいですか？
+              <span class="font-weight-bold">
+                本当にアカウントを削除しますか？
+              </span>
             </v-list-item-title>
             <v-card-actions>
               <v-spacer />
               <v-btn
-                color="button white--text"
+                color="red white--text"
                 width="100%"
                 :disabled="isGuest"
                 @click="destroyAccount"

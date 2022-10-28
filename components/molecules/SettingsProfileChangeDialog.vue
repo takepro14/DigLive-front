@@ -19,7 +19,7 @@
     <!--  /変更確認ボタン -->
     <!--  変更確認モーダル -->
     <v-card>
-      <v-card-title class="headline header white--text">
+      <v-card-title class="headline header text-subtitle-1 white--text">
         プロフィールを変更する
       </v-card-title>
       <div class="ma-4">

@@ -2,7 +2,7 @@
   <v-card>
     <v-container>
       <v-row>
-        <v-col>
+        <v-col class="mt-6">
           <v-form
             ref="form"
             v-model="isValid"
@@ -13,7 +13,7 @@
             <InputFormPassword
               :password.sync="setPassword"
             />
-            <div class="mt-6">
+            <div class="mt-10">
               <SettingsAccountChangeDialog
                 :isValid="isValid"
                 :email="email"
@@ -24,7 +24,7 @@
                 @submitChangedDataEvent="submitChangedData"
               />
             </div>
-            <div class="mt-6">
+            <div class="my-6">
               <SettingsAccountDestroyDialog
                 :currentUser="currentUser"
                 @destroyAccountEvent="destroyAccount"

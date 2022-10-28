@@ -4,7 +4,7 @@
     dark
     flat
   >
-    <v-toolbar-title class="mx-auto">
+    <v-toolbar-title class="mx-auto text-subtitle-1">
       設定
     </v-toolbar-title>
     <template #extension>

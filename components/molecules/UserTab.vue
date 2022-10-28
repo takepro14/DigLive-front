@@ -4,8 +4,10 @@
     dark
     flat
   >
-    <v-toolbar-title class="mx-auto">
-      {{ userName }} さんの活動
+    <v-toolbar-title
+      class="mx-auto text-subtitle-1"
+    >
+      最近のアクティビティ
     </v-toolbar-title>
     <template #extension>
       <v-tabs

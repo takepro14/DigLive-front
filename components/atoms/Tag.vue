@@ -1,9 +1,11 @@
 <template>
   <v-chip
-    small
     link
     filter
+    small
+    label
     color="tag"
+    text-color="button"
     @click="toggleTag"
   >
     {{ tag.tag_name }}

@@ -1,5 +1,6 @@
 <template>
   <v-container class="pb-16">
+    <Toaster />
     <HistoryBack class="pb-4" />
     <v-row>
       <v-col>
