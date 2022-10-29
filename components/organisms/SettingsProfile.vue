@@ -17,7 +17,7 @@
                 tile
               >
                 <v-img
-                  :src="userAvatar"
+                  :src="avatarUrl"
                   contain
                 />
               </v-avatar>
@@ -102,8 +102,8 @@ export default {
     }
   },
   computed: {
-    userAvatar () {
-      return this.currentUser.avatar.url
+    avatarUrl () {
+      return this.currentUser.avatar.url || require('@/static/image/default.png')
     },
     setName: {
       get () { return this.name },

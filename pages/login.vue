@@ -34,7 +34,7 @@
             block
             @click="guestLogin"
           >
-            お試しログインする
+            ゲストログインする
           </v-btn>
         </v-form>
       </template>

@@ -18,7 +18,7 @@
               <v-img
                 class="elevation-6"
                 alt=""
-                :src="userAvatar"
+                :src="avatarUrl"
               />
             </v-list-item-avatar>
             <v-list-item-content>
@@ -179,8 +179,8 @@ export default {
     hasYoutubeUrl () {
       return !!this.post.youtube_url
     },
-    userAvatar () {
-      return this.post.user.avatar.url
+    avatarUrl () {
+      return this.post.user.avatar.url || require('@/static/image/default.png')
     }
     // isPostPage () {
     //   return (routeFullPath) {

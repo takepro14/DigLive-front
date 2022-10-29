@@ -111,8 +111,10 @@ export default {
       allowDomain,
       isValid: false,
       dialog: false,
-      youtube_url: '',
-      content: '',
+      // TODO: 削除する
+      youtube_url: 'https://www.youtube.com/watch?v=0wF7P_UcETw&t=3978s',
+      // TODO: 削除する
+      content: 'テスト投稿',
       inputTags: [],
       rulesUrl: [
         v => !!v || '',

@@ -162,9 +162,7 @@ export default {
       }
     },
     avatarUrl () {
-      return this.user.avatar.url
-        ? this.user.avatar.url
-        : require('@/static/image/default.png')
+      return this.user.avatar.url || require('@/static/image/default.png')
     }
   },
   methods: {

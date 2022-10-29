@@ -78,9 +78,7 @@ export default {
       return this.comment.user_id === this.currentUserId
     },
     avatarUrl () {
-      return this.comment.user.avatar.url
-        ? this.comment.user.avatar.url
-        : require('@/static/image/default.png')
+      return this.comment.user.avatar.url || require('@/static/image/default.png')
     }
   },
   methods: {

@@ -27,7 +27,7 @@
                     <v-list-item-avatar>
                       <v-img
                         @click.stop="movePage(`/users/${notification.visitor.id}`)"
-                        :src="notification.visitor.avatar.url"
+                        :src="avatarUrl(notification.visitor.avatar.url)"
                       />
                     </v-list-item-avatar>
                     <v-list-item-content>
@@ -120,6 +120,11 @@ export default {
     isChecked () {
       return (notificationObj) => {
         return !notificationObj.checked ? 'font-weight-bold' : ''
+      }
+    },
+    avatarUrl () {
+      return (url) => {
+        return url || require('@/static/image/default.png')
       }
     }
   },
