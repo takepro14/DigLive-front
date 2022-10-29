@@ -156,13 +156,15 @@ export default {
     followingLength () {
       return !this.user.active_relationships ? 0 : this.user.active_relationships.length
     },
-    avatarUrl () {
-      return this.user.avatar.url
-    },
     isUserPage () {
       return (routeFullPath) => {
         return routeFullPath.includes('users') ? 'text-h6' : ''
       }
+    },
+    avatarUrl () {
+      return this.user.avatar.url
+        ? this.user.avatar.url
+        : require('@/static/image/default.png')
     }
   },
   methods: {

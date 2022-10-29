@@ -73,14 +73,14 @@ export default {
       type: Number
     }
   },
-  data () {
-    return {
-      avatarUrl: this.comment.user.avatar.url
-    }
-  },
   computed: {
     isMyComment () {
       return this.comment.user_id === this.currentUserId
+    },
+    avatarUrl () {
+      return this.comment.user.avatar.url
+        ? this.comment.user.avatar.url
+        : require('@/static/image/default.png')
     }
   },
   methods: {
