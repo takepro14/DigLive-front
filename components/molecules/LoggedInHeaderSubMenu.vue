@@ -62,7 +62,7 @@ export default {
   data () {
     return {
       menus: [
-        { name: 'account-settings', icon: 'mdi-account-cog', path: '/account/settings' },
+        { name: 'settings', icon: 'mdi-account-cog', path: '/settings' },
         { name: 'logout', icon: 'mdi-logout-variant', path: '/logout', divider: true }
       ]
     }

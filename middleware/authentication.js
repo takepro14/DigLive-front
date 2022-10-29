@@ -1,9 +1,9 @@
 export default async ({ $auth, store, route, redirect }) => {
   // リダイレクトを必要としないパス
-  const notRedirectPaths = ['account']
-  if (notRedirectPaths.includes(route.name)) {
-    return false
-  }
+  // const notRedirectPaths = ['account']
+  // if (notRedirectPaths.includes(route.name)) {
+  //   return false
+  // }
 
   // ログイン前ユーザー処理
   if (!$auth.loggedIn()) {

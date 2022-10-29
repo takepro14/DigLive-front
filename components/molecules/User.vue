@@ -46,17 +46,18 @@
         </v-col>
       </v-row>
       <!-- /ヘッダー -->
-      <!-- フォローフラグ・編集 -->
+      <!-- フォローフラグ・設定 -->
       <v-row>
-        <v-col align="end" justify="end">
+        <v-col class="d-flex justify-end">
           <div v-if="isCurrentUser">
             <v-btn
               outlined
               rounded
+              small
               text
               @click.stop="moveSettingsPage"
             >
-              編集
+              設定
             </v-btn>
           </div>
           <div v-else>
@@ -85,7 +86,7 @@
           </div>
         </v-col>
       </v-row>
-      <!-- /フォローフラグ・編集 -->
+      <!-- /フォローフラグ・設定 -->
       <!-- プロフィール -->
       <v-row>
         <v-col>
@@ -113,12 +114,12 @@
       <v-row>
         <v-col class="d-flex justify-end">
           <div>
-            <v-card-text class="ml-3 mr-1">
+            <v-card-text>
               {{ followingLength }} フォロー
             </v-card-text>
           </div>
           <div>
-            <v-card-text class="ml-3 mr-1">
+            <v-card-text class="ml-2">
               {{ followerLength }} フォロワー
             </v-card-text>
           </div>
@@ -170,7 +171,7 @@ export default {
       this.$router.push(`/users/${this.user.id}`)
     },
     moveSettingsPage () {
-      this.$router.push('/account/settings')
+      this.$router.push('/settings')
     },
     follow (userIdRoute) {
       this.$emit('followEvent', userIdRoute)

@@ -42,6 +42,10 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  layout: 'logged-in',
+  middleware: [
+    'authentication'
+  ],
   data () {
     return {
       tab: 'profileTab',

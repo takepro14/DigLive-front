@@ -1,13 +1,10 @@
 {
 	"pages": {
     "about": "サイトについて",
-		"Signup": "新規登録",
+		"signup": "新規登録",
 		"login": "ログイン",
     "logout": "ログアウト",
-    "account": {
-      "settings": "アカウント設定",
-      "password": "パスワード変更"
-    }
+    "settings": "設定"
 	},
   "error": {
     "Unauthorized": "認証に失敗しました",
