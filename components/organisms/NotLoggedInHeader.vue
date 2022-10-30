@@ -23,7 +23,7 @@
       <v-btn
         text
         dark
-        class="font-weight-bold"
+        class="font-weight-bold ml-3"
         to="/login"
       >
         {{ $my.pageTitle('login') }}
