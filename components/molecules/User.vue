@@ -15,9 +15,9 @@
         <v-col
           cols="12"
           sm="12"
-          md="9"
-          lg="9"
-          xl="9"
+          md="8"
+          lg="8"
+          xl="8"
           class="text-center"
         >
         <v-list-item>
@@ -32,9 +32,9 @@
         <v-col
           cols="12"
           sm="12"
-          md="3"
-          lg="3"
-          xl="3"
+          md="2"
+          lg="2"
+          xl="2"
           class="text-center"
         >
           <v-avatar
