@@ -1,10 +1,20 @@
 <template>
-  <v-container class="my-16">
+  <v-container
+    fluid
+  >
     <Toaster />
     <v-row>
       <v-col>
         <NotLoggedInHeader />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col class="pa-0">
         <NotLoggedInHome />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
         <NotLoggedInFooter />
       </v-col>
     </v-row>

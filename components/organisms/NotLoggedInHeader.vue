@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-16">
+  <div>
     <v-app-bar
       fixed
       flat
@@ -15,7 +15,7 @@
       <v-btn
         outlined
         color="button"
-        class="ml-2 font-weight-bold"
+        class="font-weight-bold"
         to="/signup"
       >
         {{ $my.pageTitle('signup') }}
@@ -23,7 +23,7 @@
       <v-btn
         text
         dark
-        class="ml-2 font-weight-bold"
+        class="font-weight-bold"
         to="/login"
       >
         {{ $my.pageTitle('login') }}
