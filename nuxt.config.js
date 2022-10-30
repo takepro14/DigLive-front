@@ -15,7 +15,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' },
     ]
   },
 
@@ -64,8 +64,14 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // Doc: https://www.npmjs.com/package/nuxt-i18n
-    'nuxt-i18n'
+    'nuxt-i18n',
+    'nuxt-webfontloader'
   ],
+  webfontloader: {
+    google: {
+      families: ['Audiowide']
+    },
+  },
 
   // Doc: https://nuxtjs.org/ja/docs/configuration-glossary/configuration-runtime-config#publicruntimeconfig
   publicRuntimeConfig: {

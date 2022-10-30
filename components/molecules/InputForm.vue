@@ -3,7 +3,7 @@
     <v-row>
       <v-col class="my-8 text-center">
         <h1 class="text-h5 font-weight-bold">
-          {{ appName }}に{{ pageTitle }}
+          {{ pageTitle }}
         </h1>
       </v-col>
       <v-card

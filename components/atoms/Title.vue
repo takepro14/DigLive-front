@@ -4,12 +4,11 @@
       <v-col class="d-flex align-center">
         <v-img
           src="favicon.ico"
-          class="mr-1"
           contain
           height="48px"
           width="48px"
         />
-        <span class="text-h5 white--text font-weight-bold">
+        <span class="text-h5 white--text font-weight-bold title">
           {{ appName }}
         </span>
       </v-col>
@@ -26,3 +25,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.title {
+  font-family: 'Audiowide', cursive !important;
+}
+</style>
