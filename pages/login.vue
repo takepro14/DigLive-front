@@ -82,19 +82,23 @@ export default {
       this.loading = true
       if (this.isValid) {
         await this.$axios.$post('/api/v1/auth_token', this.params, { withCredentials: true })
-          .then((response) => {
-            this.$store.dispatch('getToast', { msg: 'ログインしました' })
-            this.$auth.login(response)
-            this.$router.push(this.redirectPath)
-            this.$router.dispatch('getRememberPath', this.LoggedInHomePath)
-          })
-          .catch((error) => {
-            if (error && error.status === 404) {
-              return this.$store.dispatch('getToast', { msg: 'ユーザが見つかりません' })
-            }
-          })
+          .then(response => this.authSuccessful(response))
+          .catch(error => this.authFailure(error))
       }
       this.loading = false
+    },
+    authSuccessful (response) {
+      this.$store.dispatch('getToast', { msg: 'ログインしました' })
+      this.$auth.login(response)
+      this.$router.push(this.redirectPath)
+      this.$router.dispatch('getRememberPath', this.LoggedInHomePath)
+    },
+    authFailure ({ response }) {
+      console.log('response: ' + JSON.stringify(response))
+      if (response && response.status === 404) {
+        const msg = 'ユーザが見つかりません'
+        return this.$store.dispatch('getToast', { msg })
+      }
     },
     async guestLogin () {
       this.getGuestParams()
@@ -104,9 +108,9 @@ export default {
           .then(() => {
             this.setGuestParams()
             this.$axios.$post('/api/v1/auth_token', this.params, { withCredentials: true })
-              .then((userObj) => {
+              .then((response) => {
                 this.$store.dispatch('getToast', { msg: 'ゲストユーザーでログインしました' })
-                this.$auth.login(userObj)
+                this.$auth.login(response)
                 this.$router.push('/home')
               })
               .catch((error) => {
