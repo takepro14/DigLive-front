@@ -251,6 +251,17 @@ export const mutations = {
     remComment(state.filteredPosts)
     remComment(state.userPosts)
     remComment(state.userLikes)
+  },
+  // ==================================================
+  // 設定変更の即時反映
+  // ==================================================
+  reloadPostByChangeSettings (state, currentUserObj) {
+    const idx = state.posts.findIndex((post) => {
+      return post.user_id === currentUserObj.id
+    })
+    if (idx !== -1) {
+      state.posts[idx].user = currentUserObj
+    }
   }
 }
 
@@ -466,5 +477,11 @@ export const actions = {
           color: 'prymary'
         })
       })
+  },
+  // ==================================================
+  // 設定変更
+  // ==================================================
+  changeSettings ({ commit }, currentUserObj) {
+    commit('reloadPostByChangeSettings', currentUserObj)
   }
 }

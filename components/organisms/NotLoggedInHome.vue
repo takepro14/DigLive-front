@@ -26,7 +26,7 @@
             <div
               :style="{ letterSpacing: '2px' }"
             >
-              音源ではわからないアーティストの魅力をYouTubeのライブ映像で共有しよう
+              音源ではわからないアーティストの魅力をYouTubeのライブ映像で発掘しよう
             </div>
             <v-btn
               class="mt-8 font-weight-bold"
@@ -68,6 +68,7 @@
                 <v-list-item-content>
                   <div class="pb-6">
                     <v-img
+                      class="mx-auto"
                       height="300"
                       max-width="300"
                       :src="content.image"
@@ -75,12 +76,12 @@
                     />
                   </div>
                   <v-list-item-title
-                    class="text-h4 header--text font-weight-bold mb-4"
+                    class="text-h4 header--text font-weight-bold mb-4 text-center"
                   >
                     {{ content.title }}
                   </v-list-item-title>
                   <v-list-item-subtitle
-                    class="header--text"
+                    class="header--text text-center"
                   >
                     <div>
                       {{ content.subtitle1 }}

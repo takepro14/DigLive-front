@@ -14,6 +14,7 @@
       <v-spacer />
       <v-btn
         outlined
+        small
         color="button"
         class="font-weight-bold"
         to="/signup"
@@ -23,7 +24,8 @@
       <v-btn
         text
         dark
-        class="font-weight-bold ml-1"
+        small
+        class="font-weight-bold ml-2"
         to="/login"
       >
         {{ $my.pageTitle('login') }}

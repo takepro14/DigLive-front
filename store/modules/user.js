@@ -298,6 +298,7 @@ export const actions = {
     await this.$axios.$put(`/api/v1/users/${rootState.user.current.id}`, formData, config)
       .then((currentUserObj) => {
         commit('reloadUserByChangeSettings', currentUserObj)
+        this.dispatch('modules/post/changeSettings', currentUserObj)
       })
       .then(() => {
         this.dispatch('getToast', {
