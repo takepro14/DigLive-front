@@ -8,7 +8,7 @@
           height="48px"
           width="48px"
         />
-        <span class="text-h5 white--text font-weight-bold title">
+        <span class="text-h5 white--text title">
           {{ appName }}
         </span>
       </v-col>

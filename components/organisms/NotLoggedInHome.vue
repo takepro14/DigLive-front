@@ -1,91 +1,102 @@
 <template>
   <div>
-    <!-- セクション1 -->
-    <v-img
-      dark
-      src="image/top.png"
-      :height="imgHeight"
-    >
-      <v-row
-        class="d-flex align-center pb-16 px-4"
-        :style="{ height: `${imgHeight}px` }"
+    <!-- アイキャッチ画像 -->
+    <div>
+      <v-img
+        dark
+        src="image/top.png"
+        :height="imgHeight"
       >
-        <!-- コピー -->
-        <v-col
-          class="text-center pb-16"
+        <v-row
+          class="d-flex align-center pb-16 px-4"
+          :style="{ height: `${imgHeight}px` }"
         >
-          <h1 class="text-h2 font-weight-bold title mb-4">
-            {{ appName }}
-          </h1>
-          <h2
-            class="subheading mb-4"
-            :style="{ letterSpacing: '6px' }"
+          <v-col
+            class="text-center pb-16"
           >
-            ライブ映像共有型SNS
-          </h2>
-          <div
-            class="font-weight-bold"
-            :style="{ letterSpacing: '3px' }"
-          >
-            音源ではわからないアーティストの魅力をYouTubeのライブ映像で共有しよう
-          </div>
-          <!-- /コピー -->
-          <!-- ゲストログイン -->
-          <v-btn
-            class="mt-8 font-weight-bold"
-            color="button"
-            x-large
-            rounded
-            depressed
-            :disabled="loading"
-            :loading="loading"
-            @click="guestLogin"
-          >
-            お試しで使ってみる
-          </v-btn>
-          <!-- /ゲストログイン -->
-        </v-col>
-      </v-row>
-    </v-img>
-    <!-- /セクション1 -->
-    <!-- セクション2 -->
-    <div class="header--text">
-      <v-row align="center">
-        <v-col
-          cols="12"
-          sm="12"
-          md="12"
-          lg="12"
-          xl="4"
-          v-for="content in contents"
-          :key="content.id"
-        >
-          <v-list-item-content class="text-center">
-            <div class="pa-12">
-              <v-img
-                max-height="300px"
-                height="100%"
-                :src="content.image"
-                contain
-              />
+            <h1 class="text-h3 title mb-4">
+              {{ appName }}
+            </h1>
+            <h3
+              class="mb-4"
+              :style="{ letterSpacing: '6px' }"
+            >
+              ライブ映像共有型SNS
+            </h3>
+            <div
+              :style="{ letterSpacing: '2px' }"
+            >
+              音源ではわからないアーティストの魅力をYouTubeのライブ映像で共有しよう
             </div>
-            <v-list-item-title class="text-h4 font-weight-bold mb-4">
-              {{ content.title }}
-            </v-list-item-title>
-            <v-list-item-subtitle class="text-h6">
-              <small>
-                {{ content.subtitle1 }}
-              </small>
-              <br>
-              <small>
-                {{ content.subtitle2 }}
-              </small>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-col>
-      </v-row>
+            <v-btn
+              class="mt-8 font-weight-bold"
+              color="button"
+              x-large
+              rounded
+              depressed
+              :disabled="loading"
+              :loading="loading"
+              @click="guestLogin"
+            >
+              お試しで使ってみる
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-img>
     </div>
-    <!-- /セクション2 -->
+    <!-- 利用イメージ -->
+    <!-- アプリ紹介 -->
+    <div>
+      <v-container>
+        <v-row align="center">
+          <v-col
+            cols="12"
+            sm="12"
+            md="12"
+            lg="12"
+            xl="4"
+            class="mb-12"
+            v-for="content in contents"
+            :key="content.id"
+          >
+            <v-card
+              class="mx-auto wrap-text"
+              max-width="600"
+              flat
+            >
+              <v-list-item>
+                <v-list-item-content>
+                  <div class="pb-6">
+                    <v-img
+                      height="300"
+                      max-width="300"
+                      :src="content.image"
+                      contain
+                    />
+                  </div>
+                  <v-list-item-title
+                    class="text-h4 header--text font-weight-bold mb-4"
+                  >
+                    {{ content.title }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle
+                    class="header--text"
+                  >
+                    <div>
+                      {{ content.subtitle1 }}
+                    </div>
+                    <br>
+                    <div>
+                      {{ content.subtitle2 }}
+                    </div>
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>
 
@@ -166,6 +177,12 @@ export default {
 </script>
 
 <style scoped>
+/* テキストを省略せず折り返し */
+.wrap-text * {
+  word-break: break-all;
+  white-space: normal;
+}
+
 .title {
   font-family: 'Audiowide', cursive !important;
 }
