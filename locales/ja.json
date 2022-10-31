@@ -1,7 +1,7 @@
 {
 	"pages": {
     "about": "サイトについて",
-		"signup": "新規登録",
+		"Signup": "新規登録",
 		"login": "ログイン",
     "logout": "ログアウト",
     "settings": "設定"

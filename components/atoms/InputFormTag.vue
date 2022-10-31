@@ -5,6 +5,7 @@
     @tags-changed="newTags => inputTags = newTags"
     :autocomplete-items="filteredItems"
     :placeholder="displayPlaceholder"
+    class="custom"
   />
 </template>
 
@@ -36,7 +37,7 @@ export default {
     },
     // 未入力の場合にのみplaceholderを表示
     displayPlaceholder () {
-      return !this.inputTags.length ? '一体感、臨場感、ギターソロ...etc' : ''
+      return !this.inputTags.length ? '自由にタグを入力(改行で確定)' : ''
     }
   },
   watch: {
@@ -56,5 +57,9 @@ export default {
 .ti-tag {
   background-color: #FFF8E1 !important;
   color: black !important;
+}
+
+.custom {
+  font-size: 16px;
 }
 </style>

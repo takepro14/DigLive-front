@@ -1,6 +1,6 @@
 <template>
   <v-container
-    class="px-8 mt-16"
+    class="px-8 mt-8"
   >
     <InputForm>
       <template #user-form-card-content>
@@ -40,9 +40,8 @@ export default {
       loading: false,
       params: {
         auth: {
-          // ToDo: あとで値を削除する
-          email: 'test-user1@example.com',
-          password: 'password'
+          email: '',
+          password: ''
         }
       },
       redirectPath: $store.state.LoggedIn.rememberPath,

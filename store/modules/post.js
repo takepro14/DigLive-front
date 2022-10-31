@@ -255,13 +255,20 @@ export const mutations = {
   // ==================================================
   // 設定変更の即時反映
   // ==================================================
-  reloadPostByChangeSettings (state, currentUserObj) {
-    const idx = state.posts.findIndex((post) => {
-      return post.user_id === currentUserObj.id
-    })
-    if (idx !== -1) {
-      state.posts[idx].user = currentUserObj
+  reloadPostsByChangeSettings (state, currentUserObj) {
+    const updPosts = (postsContext) => {
+      const idx = postsContext.findIndex((post) => {
+        return post.user_id === currentUserObj.id
+      })
+      if (idx !== -1) {
+        postsContext[idx].user = currentUserObj
+      }
     }
+    updPosts(state.posts)
+    updPosts(state.followedPosts)
+    updPosts(state.userPosts)
+    updPosts(state.userLikes)
+    // followedPosts => 他人の投稿しかないので不要
   }
 }
 
@@ -482,6 +489,6 @@ export const actions = {
   // 設定変更
   // ==================================================
   changeSettings ({ commit }, currentUserObj) {
-    commit('reloadPostByChangeSettings', currentUserObj)
+    commit('reloadPostsByChangeSettings', currentUserObj)
   }
 }

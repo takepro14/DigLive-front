@@ -1,6 +1,6 @@
 <template>
   <v-container
-    class="px-8 mt-16"
+    class="px-8 mt-8"
   >
     <InputForm>
       <template #user-form-card-content>
