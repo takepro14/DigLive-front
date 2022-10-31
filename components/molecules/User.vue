@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="px-2 card-outter"
+    class="pa-2 card-outter"
     width="100%"
     height="100%"
     hover
@@ -9,15 +9,11 @@
     <v-container>
       <!-- ヘッダー -->
       <v-row
-        class="my-2 text-left"
+        class="text-left"
         align="center"
       >
         <v-col
-          cols="12"
-          sm="12"
-          md="8"
-          lg="8"
-          xl="8"
+          cols="8"
           class="text-center"
         >
         <v-list-item>
@@ -30,12 +26,8 @@
         </v-list-item>
         </v-col>
         <v-col
-          cols="12"
-          sm="12"
-          md="2"
-          lg="2"
-          xl="2"
-          class="text-center"
+          cols="4"
+          class="text-right"
         >
           <v-avatar
             size="100"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- アイキャッチ画像 -->
+    <!-- セクション1 -->
     <v-img
       dark
       src="image/top.png"
@@ -10,6 +10,7 @@
         class="d-flex align-center pb-16 px-4"
         :style="{ height: `${imgHeight}px` }"
       >
+        <!-- コピー -->
         <v-col
           class="text-center pb-16"
         >
@@ -28,6 +29,7 @@
           >
             音源ではわからないアーティストの魅力をYouTubeのライブ映像で共有しよう
           </div>
+          <!-- /コピー -->
           <!-- ゲストログイン -->
           <v-btn
             class="mt-8 font-weight-bold"
@@ -41,89 +43,87 @@
           >
             お試しで使ってみる
           </v-btn>
+          <!-- /ゲストログイン -->
         </v-col>
       </v-row>
     </v-img>
-    <!-- /アイキャッチ画像 -->
-    <!-- 説明 -->
+    <!-- /セクション1 -->
+    <!-- セクション2 -->
     <div class="header--text">
       <v-row align="center">
-        <v-col cols="12" sm="12" md="12" lg="6" xl="4">
-          <v-list-item-content class="pa-6">
-            <!-- <v-list-item-action> -->
+        <v-col cols="12" sm="12" md="12" lg="12" xl="4">
+          <v-list-item-content class="text-center">
+            <div class="pa-12">
               <v-img
-                height="500"
-                src="image/undraw_share_link_re_54rx.svg"
+                max-height="300px"
+                height="100%"
+                src="image/share.svg"
                 contain
               />
-            <!-- </v-list-item-action> -->
+            </div>
             <v-list-item-title class="text-h4 font-weight-bold mb-4">
               ライブ映像をシェアしよう
             </v-list-item-title>
             <v-list-item-subtitle class="text-h6">
               <small>
-                CD音源はピンと来なかったけど、ライブ映像を見てハマった。
+                CD音源はピンと来なかったけど、ライブ映像を見てハマった経験はありませんか？
               </small>
               <br>
               <small>
-                そんな経験はありませんか？
-              </small>
-              <br>
-              <small>
-                それはきっと、他の誰かにもハマるはず。
-              </small>
-              <br><br>
-              <small>
-                YouTubeから、最高のライブ映像をシェアしましよう！
+                そんな素晴らしいライブ映像を、YouTubeから手軽にシェアしましよう！
               </small>
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-col>
-        <v-col cols="12" sm="12" md="12" lg="6" xl="4">
-          <v-list-item-content class="pa-6">
-            <v-img
-              height="500"
-              src="image/undraw_audio_player_re_cl20.svg"
-              contain
-            />
+        <v-col cols="12" sm="12" md="12" lg="12" xl="4">
+          <v-list-item-content class="text-center">
+            <div class="pa-12">
+              <v-img
+                height="300"
+                src="image/dig.svg"
+                contain
+              />
+            </div>
             <v-list-item-title class="text-h4 font-weight-bold mb-4">
               ライブ映像を発掘しよう
             </v-list-item-title>
             <v-list-item-subtitle class="text-h6">
               <small>
-                みんなの投稿から、気になったライブ映像を視聴してみましょう！
+                みんなの投稿から、気になったライブ映像を視聴してみましょう。
               </small>
               <br>
               <small>
-                ハマれば、好きな音楽の幅が広がるかもしれません。
+                新しい音楽にハマるきっかけができるかもしれません。
               </small>
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-col>
-        <v-col cols="12" sm="12" md="12" lg="6" xl="4">
-          <v-list-item-content class="pa-6">
-            <v-img
-              height="500"
-              src="image/undraw_online_media_re_r9qv.svg"
-              contain
-            />
+        <v-col cols="12" sm="12" md="12" lg="12" xl="4">
+          <v-list-item-content class="text-center">
+            <div class="pa-12">
+              <v-img
+                height="300"
+                src="image/follow.svg"
+                contain
+              />
+            </div>
             <v-list-item-title class="text-h4 font-weight-bold mb-4">
               フォローして見つけよう
             </v-list-item-title>
             <v-list-item-subtitle class="text-h6">
               <small>
-                お気に入りのユーザーを見つけてフォローしましょう。
+                自分と同じ趣味の人は音楽ジャンルのタグで検索可能。
               </small>
               <br>
               <small>
-                すでに知っている音楽以外の新しい発見があるかもしれません。
+                その人がどんな音楽を聴いているか、チェックしてみましょう。
               </small>
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-col>
       </v-row>
     </div>
-    <!-- /説明 -->
+    <!-- /セクション2 -->
   </div>
 </template>
 
