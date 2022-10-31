@@ -51,72 +51,34 @@
     <!-- セクション2 -->
     <div class="header--text">
       <v-row align="center">
-        <v-col cols="12" sm="12" md="12" lg="12" xl="4">
+        <v-col
+          cols="12"
+          sm="12"
+          md="12"
+          lg="12"
+          xl="4"
+          v-for="content in contents"
+          :key="content.id"
+        >
           <v-list-item-content class="text-center">
             <div class="pa-12">
               <v-img
                 max-height="300px"
                 height="100%"
-                src="image/share.svg"
+                :src="content.image"
                 contain
               />
             </div>
             <v-list-item-title class="text-h4 font-weight-bold mb-4">
-              ライブ映像をシェアしよう
+              {{ content.title }}
             </v-list-item-title>
             <v-list-item-subtitle class="text-h6">
               <small>
-                CD音源はピンと来なかったけど、ライブ映像を見てハマった経験はありませんか？
+                {{ content.subtitle1 }}
               </small>
               <br>
               <small>
-                そんな素晴らしいライブ映像を、YouTubeから手軽にシェアしましよう！
-              </small>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-col>
-        <v-col cols="12" sm="12" md="12" lg="12" xl="4">
-          <v-list-item-content class="text-center">
-            <div class="pa-12">
-              <v-img
-                height="300"
-                src="image/dig.svg"
-                contain
-              />
-            </div>
-            <v-list-item-title class="text-h4 font-weight-bold mb-4">
-              ライブ映像を発掘しよう
-            </v-list-item-title>
-            <v-list-item-subtitle class="text-h6">
-              <small>
-                みんなの投稿から、気になったライブ映像を視聴してみましょう。
-              </small>
-              <br>
-              <small>
-                新しい音楽にハマるきっかけができるかもしれません。
-              </small>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-col>
-        <v-col cols="12" sm="12" md="12" lg="12" xl="4">
-          <v-list-item-content class="text-center">
-            <div class="pa-12">
-              <v-img
-                height="300"
-                src="image/follow.svg"
-                contain
-              />
-            </div>
-            <v-list-item-title class="text-h4 font-weight-bold mb-4">
-              フォローして見つけよう
-            </v-list-item-title>
-            <v-list-item-subtitle class="text-h6">
-              <small>
-                自分と同じ趣味の人は音楽ジャンルのタグで検索可能。
-              </small>
-              <br>
-              <small>
-                その人がどんな音楽を聴いているか、チェックしてみましょう。
+                {{ content.subtitle2 }}
               </small>
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -148,7 +110,27 @@ export default {
           password: '',
           activated: true
         }
-      }
+      },
+      contents: [
+        {
+          image: require('@/static/image/share.svg'),
+          title: 'ライブ映像をシェアしよう',
+          subtitle1: 'CD音源はピンと来なかったけど、ライブ映像を見てハマった経験はありませんか？',
+          subtitle2: 'そんな素晴らしいライブ映像を、YouTubeから手軽にシェアしましよう！'
+        },
+        {
+          image: require('@/static/image/dig.svg'),
+          title: 'ライブ映像を発掘しよう',
+          subtitle1: 'みんなの投稿から、気になったライブ映像を視聴してみましょう。',
+          subtitle2: '新しい音楽にハマるきっかけができるかもしれません。'
+        },
+        {
+          image: require('@/static/image/follow.svg'),
+          title: 'フォローして見つけよう',
+          subtitle1: '自分と同じ趣味の人は音楽ジャンルのタグで検索可能。',
+          subtitle2: 'その人がどんな音楽を聴いているか、チェックしてみましょう。'
+        }
+      ]
     }
   },
   methods: {
