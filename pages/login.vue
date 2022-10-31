@@ -17,23 +17,13 @@
           />
           <v-btn
             class="mt-8"
+            block
             color="button white--text"
             :disabled="!isValid || loading"
             :loading="loading"
-            block
             @click="login"
           >
             ログインする
-          </v-btn>
-          <v-btn
-            class="mt-8"
-            outline
-            :disabled="!isValid || loading"
-            :loading="loading"
-            block
-            @click="guestLogin"
-          >
-            ゲストログインする
           </v-btn>
         </v-form>
       </template>
@@ -55,28 +45,11 @@ export default {
           password: 'password'
         }
       },
-      guestParams: {
-        user: {
-          name: 'ゲストユーザー',
-          email: '',
-          password: '',
-          activated: true
-        }
-      },
       redirectPath: $store.state.LoggedIn.rememberPath,
       LoggedInHomePath: $store.state.LoggedIn.homePath
     }
   },
   methods: {
-    getGuestParams () {
-      const hex = Math.random().toString(16).slice(-8)
-      this.guestParams.user.email = hex + '@guest.com'
-      this.guestParams.user.password = hex
-    },
-    setGuestParams () {
-      this.params.auth.email = this.guestParams.user.email
-      this.params.auth.password = this.guestParams.user.password
-    },
     async login () {
       this.loading = true
       if (this.isValid) {
@@ -98,26 +71,6 @@ export default {
         const msg = 'ユーザが見つかりません'
         return this.$store.dispatch('getToast', { msg })
       }
-    },
-    async guestLogin () {
-      this.getGuestParams()
-      this.loading = true
-      if (this.isValid) {
-        await this.$axios.$post('/api/v1/users', this.guestParams, { withCredentials: true })
-          .then(() => {
-            this.setGuestParams()
-            this.$axios.$post('/api/v1/auth_token', this.params, { withCredentials: true })
-              .then((response) => {
-                this.$store.dispatch('getToast', { msg: 'ゲストユーザーでログインしました' })
-                this.$auth.login(response)
-                this.$router.push('/home')
-              })
-              .catch((error) => {
-                console.log(error)
-              })
-          })
-      }
-      this.loading = false
     }
   }
 }

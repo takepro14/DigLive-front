@@ -21,10 +21,10 @@
           />
           <v-btn
             class="mt-8"
-            :disabled="!isValid || loading"
-            :loading="loading"
             block
             color="button white--text"
+            :disabled="!isValid || loading"
+            :loading="loading"
             @click="signup"
           >
             新規登録する
