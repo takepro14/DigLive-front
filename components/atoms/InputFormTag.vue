@@ -60,6 +60,6 @@ export default {
 }
 
 .custom {
-  font-size: 16px;
+  font-size: 19px;
 }
 </style>

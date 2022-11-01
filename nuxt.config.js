@@ -16,9 +16,6 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' },
-    ],
-    script: [
-      { src: 'https://www.youtube.com/iframe_api', defer: true }
     ]
   },
 
@@ -78,7 +75,8 @@ export default {
 
   // Doc: https://nuxtjs.org/ja/docs/configuration-glossary/configuration-runtime-config#publicruntimeconfig
   publicRuntimeConfig: {
-    appName: process.env.APP_NAME
+    appName: process.env.APP_NAME,
+    frontUrl: process.env.FRONT_URL
   },
 
   router: {

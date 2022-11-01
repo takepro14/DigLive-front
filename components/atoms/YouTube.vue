@@ -5,6 +5,7 @@
     resize
     :video-id="getVideoId"
     :start="start"
+    :playerVars="vars"
   />
 </template>
 
@@ -20,9 +21,12 @@ export default {
       type: String
     }
   },
-  data () {
+  data ({ $config: { frontUrl } }) {
     return {
-      start: ''
+      start: '',
+      vars: {
+        origin: frontUrl
+      }
     }
   },
   computed: {

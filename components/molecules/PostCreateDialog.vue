@@ -49,6 +49,10 @@
             />
             <v-card-text>
               音楽ジャンル
+              <v-card-text class="text-center">
+                <div>【選択中】</div>
+                {{ displayCheckedGenres }}
+              </v-card-text>
               <InputFormGenre
                 :genres="genres"
                 @formGenreCheckedEvent="formGenreChecked"
@@ -124,6 +128,15 @@ export default {
       ],
       user_id: $store.state.user.current.id,
       checkedGenres: []
+    }
+  },
+  computed: {
+    displayCheckedGenres () {
+      if (this.checkedGenres.length) {
+        return this.checkedGenres.join('・')
+      } else {
+        return 'なし'
+      }
     }
   },
   methods: {
