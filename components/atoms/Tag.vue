@@ -27,10 +27,14 @@ export default {
   methods: {
     toggleTag () {
       this.isChecked = !this.isChecked
-      if (this.isChecked === true) {
-        this.$emit('formTagCheckedEvent', this.tag.tag_name)
-      } else {
-        this.$emit('formTagUncheckedEvent')
+      this.isChecked
+        ? this.$emit('formTagCheckedEvent', this.tag.tag_name)
+        : this.$emit('formTagUncheckedEvent')
+    },
+    // 他のタグが選ばれた時に自身をfalseにする
+    resetFormTag (nowCheckedTagName) {
+      if (this.tag.tag_name !== nowCheckedTagName) {
+        this.isChecked = false
       }
     }
   }

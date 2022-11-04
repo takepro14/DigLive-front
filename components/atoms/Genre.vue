@@ -32,8 +32,11 @@ export default {
         ? this.$emit('formGenreCheckedEvent', this.genre.genre_name)
         : this.$emit('formGenreUncheckedEvent', this.genre.genre_name)
     },
-    resetFormGenre () {
-      this.isChecked = false
+    // 他のジャンルが選ばれた時に自身をfalseにする
+    resetFormGenre (nowCheckedGenreName) {
+      if (this.genre.genre_name !== nowCheckedGenreName) {
+        this.isChecked = false
+      }
     }
   }
 }

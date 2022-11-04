@@ -14,6 +14,7 @@
         :tag="tag"
         @formTagCheckedEvent="formTagChecked"
         @formTagUncheckedEvent="formTagUnchecked"
+        ref="child"
       />
     </v-chip-group>
   </div>
@@ -40,6 +41,7 @@ export default {
   },
   methods: {
     formTagChecked (value) {
+      [...Array(this.randomTags.length)].map((_, i) => this.$refs.child[i].resetFormTag(value))
       this.$emit('formTagCheckedEvent', value)
     },
     formTagUnchecked () {

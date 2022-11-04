@@ -327,8 +327,8 @@ export const actions = {
   // ==================================================
   async destroyAccountGuest ({ rootState }) {
     await this.$axios.$delete(`/api/v1/users/${rootState.user.current.id}`)
-      .then(() => {
-        this.app.router.push('/logout')
-      })
+    // .then(() => {
+    //   this.app.router.push('/logout')
+    // })
   }
 }

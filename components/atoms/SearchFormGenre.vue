@@ -14,6 +14,7 @@
         :genre="genre"
         @formGenreCheckedEvent="formGenreChecked"
         @formGenreUncheckedEvent="formGenreUnchecked"
+        ref="child"
       />
     </v-chip-group>
   </div>
@@ -37,6 +38,7 @@ export default {
   },
   methods: {
     formGenreChecked (value) {
+      [...Array(this.genres.length)].map((_, i) => this.$refs.child[i].resetFormGenre(value))
       this.$emit('formGenreCheckedEvent', value)
     },
     formGenreUnchecked () {
