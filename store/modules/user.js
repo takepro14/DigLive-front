@@ -99,7 +99,7 @@ export const mutations = {
   },
   // ---------- /home/検索(結果0件) ----------
   setFilteredUsersZero (state) {
-    state.filteredusers = []
+    state.filteredUsers = []
   },
   // ==================================================
   // フォローの即時反映
