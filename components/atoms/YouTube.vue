@@ -25,7 +25,8 @@ export default {
     return {
       start: '',
       vars: {
-        origin: frontUrl
+        origin: frontUrl,
+        host: 'https://www.youtube.com'
       }
     }
   },

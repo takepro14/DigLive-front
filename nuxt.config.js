@@ -16,6 +16,11 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' },
+    ],
+    script: [
+      {
+        src: "https://www.youtube.com/iframe_api"
+      }
     ]
   },
 
