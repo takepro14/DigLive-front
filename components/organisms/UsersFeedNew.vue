@@ -24,7 +24,6 @@
         xl="4"
       >
         <User
-          v-if="user.id !== currentUser.id"
           :user="user"
           :currentUser="currentUser"
           @followEvent="follow"
