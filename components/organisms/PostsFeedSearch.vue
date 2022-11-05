@@ -1,5 +1,14 @@
 <template>
-  <div class="mx-auto">
+  <div>
+    <!-- 描画なし(scriptのみ) -->
+    <CommonSearch
+      :keyword="keyword"
+      :genre="genre"
+      :tag="tag"
+      @startSearchEvent="isLoading = true"
+      @stopSearchEvent="isLoading = false"
+    />
+    <!-- /描画なし(scriptのみ) -->
     <v-list-item v-if="isSearching">
       <v-list-item-title>
         <span>
@@ -46,7 +55,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
@@ -74,98 +82,12 @@ export default {
       return this.keyword || this.genre || this.tag
     }
   },
-  watch: {
-    keyword () {
-      if (this.keyword !== '') {
-        this.delaySearch()
-      } else {
-        this.getFilteredPostsClear()
-      }
-    },
-    genre () {
-      if (this.genre !== '') {
-        this.genreSearchPosts()
-      } else {
-        this.getFilteredPostsClear()
-      }
-    },
-    tag () {
-      if (this.tag !== '') {
-        this.tagSearchPosts()
-      } else {
-        this.getFilteredPostsClear()
-      }
-    }
-  },
   methods: {
     ...mapActions({
       likePost: 'modules/post/likePost',
       unLikePost: 'modules/post/unLikePost',
-      destroyPost: 'modules/post/destroyPost',
-      getFilteredPosts: 'modules/post/getFilteredPosts',
-      getFilteredPostsZero: 'modules/post/getFilteredPostsZero',
-      getFilteredPostsClear: 'modules/post/getFilteredPostsClear'
-    }),
-    keywordSearchPosts () {
-      this.isLoading = true
-      this.$axios.$get('api/v1/posts/search', {
-        params: {
-          post_keyword: this.keyword
-        }
-      })
-        .then((postsArray) => {
-          if (postsArray.length) {
-            this.getFilteredPosts(postsArray)
-          } else {
-            this.getFilteredPostsZero()
-          }
-          this.isLoading = false
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    },
-    genreSearchPosts () {
-      this.isLoading = true
-      this.$axios.$get('api/v1/posts/search', {
-        params: {
-          post_genre: this.genre
-        }
-      })
-        .then((postsArray) => {
-          if (postsArray.length) {
-            this.getFilteredPosts(postsArray)
-          } else {
-            this.getFilteredPostsZero()
-          }
-          this.isLoading = false
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    },
-    tagSearchPosts () {
-      this.isLoading = true
-      this.$axios.$get('api/v1/posts/search', {
-        params: {
-          post_tag: this.tag
-        }
-      })
-        .then((postsArray) => {
-          if (postsArray.length) {
-            this.getFilteredPosts(postsArray)
-          } else {
-            this.getFilteredPostsZero()
-          }
-          this.isLoading = false
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    }
-  },
-  created () {
-    this.delaySearch = _.debounce(this.keywordSearchPosts, 500)
+      destroyPost: 'modules/post/destroyPost'
+    })
   }
 }
 </script>
