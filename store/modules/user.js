@@ -188,6 +188,7 @@ export const actions = {
     commit('setUserClear')
   },
   getFilteredUsersClear ({ commit }) {
+    console.log('getFilteredUsersClear')
     commit('setFilteredUsersClear')
   },
   // ==================================================

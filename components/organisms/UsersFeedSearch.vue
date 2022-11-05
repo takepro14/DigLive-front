@@ -1,5 +1,13 @@
 <template>
   <div>
+    <!-- 描画なし(scriptのみ) -->
+    <CommonSearch
+      :keyword="keyword"
+      :genre="genre"
+      @startSearchEvent="isLoading = true"
+      @stopSearchEvent="isLoading = false"
+    />
+    <!-- /描画なし(scriptのみ) -->
     <v-list-item v-if="isSearching">
       <v-list-item-title>
         <span>
@@ -45,7 +53,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
@@ -70,71 +77,11 @@ export default {
       return this.keyword || this.genre
     }
   },
-  watch: {
-    keyword () {
-      if (this.keyword !== '' && this.keyword !== null) {
-        this.delaySearch()
-      } else {
-        this.getFilteredPostsClear()
-      }
-    },
-    genre () {
-      if (this.genre !== '') {
-        this.genreSearchUsers()
-      } else {
-        this.getFilteredPostsClear()
-      }
-    }
-  },
   methods: {
     ...mapActions({
       follow: 'modules/user/follow',
-      unfollow: 'modules/user/unfollow',
-      getFilteredUsers: 'modules/user/getFilteredUsers',
-      getFilteredUsersZero: 'modules/user/getFilteredUsersZero',
-      getFilteredPostsClear: 'modules/user/getFilteredUsersClear'
-    }),
-    keywordSearchUsers () {
-      this.isLoading = true
-      this.$axios.$get('api/v1/users/search', {
-        params: {
-          user_keyword: this.keyword
-        }
-      })
-        .then((usersArray) => {
-          if (usersArray.length) {
-            this.getFilteredUsers(usersArray)
-          } else {
-            this.getFilteredUsersZero()
-          }
-          this.isLoading = false
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    },
-    genreSearchUsers () {
-      this.isLoading = true
-      this.$axios.$get('api/v1/users/search', {
-        params: {
-          user_genre: this.genre
-        }
-      })
-        .then((usersArray) => {
-          if (usersArray.length) {
-            this.getFilteredUsers(usersArray)
-          } else {
-            this.getFilteredUsersZero()
-          }
-          this.isLoading = false
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    }
-  },
-  created () {
-    this.delaySearch = _.debounce(this.keywordSearchUsers, 500)
+      unfollow: 'modules/user/unfollow'
+    })
   }
 }
 </script>
