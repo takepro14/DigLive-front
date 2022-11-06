@@ -15,7 +15,7 @@
 export default {
   data () {
     return {
-      contactUrl: 'https://twitter.com/haribotake69'
+      contactUrl: 'https://twitter.com/takepro14'
     }
   },
   methods: {
