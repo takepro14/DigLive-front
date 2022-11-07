@@ -15,7 +15,7 @@
     </v-row>
     <v-row class="mt-1 mb-8">
       <v-col
-        v-for="(user,index) in signedUpUsers"
+        v-for="(user,index) in users"
         :key="`user-new-${index}`"
         cols="12"
         sm="12"
@@ -55,13 +55,7 @@ export default {
       currentUser: 'modules/user/currentUser',
       page: 'modules/user/page',
       users: 'modules/user/users'
-    }),
-    // ユーザ一覧(最新)ではゲスト以外のみ表示する(ビューが汚れる為)
-    signedUpUsers () {
-      return this.users.filter((user) => {
-        return user.name !== 'ゲストユーザー'
-      })
-    }
+    })
   },
   methods: {
     ...mapActions({
