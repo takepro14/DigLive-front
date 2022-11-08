@@ -215,6 +215,8 @@ export default {
             this.params.user.checkedGenres.forEach((genre) => {
               formData.append('user[genres][]', genre)
             })
+          } else {
+            formData.append('user[genres][]', '')
           }
         }
       } else if (this.isAccountTab) {
